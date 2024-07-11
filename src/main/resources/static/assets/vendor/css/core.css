@@ -15024,12 +15024,6 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   transition: opacity 0.3s ease-in-out;
 }
 
-.menu-sub {
-  display: none;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-}
 .menu:not(.menu-no-animation) .menu-sub {
   transition: background-color 0.3s;
 }
@@ -15066,9 +15060,12 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .menu-vertical {
   flex-direction: column;
 }
-.menu-vertical:not(.menu-no-animation) {
+
+/* [반응형] 사이드바 애니메이션 속성 제거 */
+/* .menu-vertical:not(.menu-no-animation) {
   transition: width 0.3s;
-}
+} */
+ 
 .menu-vertical,
 .menu-vertical .menu-block,
 .menu-vertical .menu-inner > .menu-item,

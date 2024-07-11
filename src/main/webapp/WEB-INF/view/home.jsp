@@ -10,13 +10,17 @@
     </head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   <body>
-    <div>
-      <jsp:include page="common/header.jsp"></jsp:include>
-      <jsp:include page="common/sidebar.jsp"></jsp:include>
-      <jsp:include page="common/sub-sidebar.jsp"></jsp:include>
-    </div>
-    <div class="workspace">
-      <h1>테스트</h1>
+    <div id="">
+      <div id="header-area">
+        <jsp:include page="common/header.jsp"></jsp:include>
+      </div>
+      <div id="sidebar_area">
+        <jsp:include page="common/sidebar.jsp"></jsp:include>
+        <jsp:include page="common/sub-sidebar.jsp"></jsp:include>
+      </div>
+      <div id="workspace-area" class="workspace">
+        <h1>테스트</h1>
+      </div>
     </div>
   </body>
 </html>
