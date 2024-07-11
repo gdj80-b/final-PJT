@@ -98,6 +98,5 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

@@ -649,20 +649,26 @@ a:hover {
 }
 
 .bg-menu-theme {
-  background-color: #fff !important;
+  background-color: rgba(105, 108, 255, 0.6) !important;
+  color: #fff;
+}
+
+.bg-sub-menu-theme {
+  background-color: #f5f5f9 !important;
   color: #697a8d;
 }
+
 .bg-menu-theme .menu-link,
 .bg-menu-theme .menu-horizontal-prev,
 .bg-menu-theme .menu-horizontal-next {
-  color: #697a8d;
+  color: #fff;
 }
 .bg-menu-theme .menu-link:hover, .bg-menu-theme .menu-link:focus,
 .bg-menu-theme .menu-horizontal-prev:hover,
 .bg-menu-theme .menu-horizontal-prev:focus,
 .bg-menu-theme .menu-horizontal-next:hover,
 .bg-menu-theme .menu-horizontal-next:focus {
-  color: #566a7f;
+  color: #fff;
 }
 .bg-menu-theme .menu-link.active,
 .bg-menu-theme .menu-horizontal-prev.active,
@@ -728,7 +734,7 @@ a:hover {
 }
 
 .bg-menu-theme .menu-header {
-  color: #a1acb8;
+  color: #fff;
 }
 .bg-menu-theme .menu-header:before {
   background-color: #a1acb8 !important;
@@ -739,10 +745,10 @@ a:hover {
 html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open > .menu-link, .layout-menu-hover.layout-menu-collapsed .bg-menu-theme .menu-inner .menu-item.open > .menu-link,
 html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item .menu-link:not(.active):hover,
 .layout-menu-hover.layout-menu-collapsed .bg-menu-theme .menu-inner .menu-item .menu-link:not(.active):hover {
-  background-color: rgba(67, 89, 113, 0.04);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .bg-menu-theme .menu-inner .menu-sub > .menu-item.active > .menu-link.menu-toggle {
-  background-color: rgba(67, 89, 113, 0.04);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .bg-menu-theme .menu-inner .menu-sub > .menu-item.active .menu-icon {
   color: #696cff;

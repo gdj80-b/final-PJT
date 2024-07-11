@@ -1,27 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-free">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>사이드바 - GAEnt.</title>
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/boxicons.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/demo.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/apex-charts/apex-charts.css" />
-    <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
+    <title>서브 사이드바 - GAEnt.</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sidebar.css" />
   </head>
   <body>
-    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme side-nav">
-      <div class="menu-inner-shadow"></div>
+    <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">
+    <div class="menu-inner-shadow"></div>
       <ul class="menu-inner py-3">
         <li class="menu-item">
           <a href="home" class="menu-link">
@@ -119,13 +107,5 @@
         </li>
       </ul>
     </aside>
-    <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>

@@ -15073,7 +15073,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .menu-vertical .menu-block,
 .menu-vertical .menu-inner > .menu-item,
 .menu-vertical .menu-inner > .menu-header {
-  width: 16.25rem;
+  width: 13rem;
 }
 .menu-vertical .menu-inner {
   flex-direction: column;
@@ -15402,6 +15402,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
     left: 0;
     margin-right: 0 !important;
     margin-left: 0 !important;
+    width: 13rem;
   }
 
   .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page,
@@ -15409,6 +15410,25 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
     padding-left: 16.25rem;
   }
 }
+
+@media (min-width: 1200px) {
+  .layout-menu-fixed .layout-sub-menu,
+.layout-menu-fixed-offcanvas .layout-sub-menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin-right: 0 !important;
+    margin-left: 13rem !important;
+    width: 16rem;
+  }
+
+  .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page,
+.layout-menu-fixed-offcanvas:not(.layout-menu-collapsed) .layout-page {
+    padding-left: 16.25rem;
+  }
+}
+
 html:not(.layout-navbar-fixed):not(.layout-menu-fixed):not(.layout-menu-fixed-offcanvas) .layout-page,
 html:not(.layout-navbar-fixed) .layout-content-navbar .layout-page {
   padding-top: 0 !important;

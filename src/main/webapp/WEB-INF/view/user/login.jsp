@@ -45,7 +45,7 @@
               <div class="app-brand justify-content-center">
                 <span class="app-brand-text demo text-body fw-bolder">GA Entertainment</span>
               </div>
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="/login" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -97,6 +97,5 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

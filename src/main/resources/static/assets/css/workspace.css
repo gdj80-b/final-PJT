@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.workspace {
+    height: 100%;
+    
+    margin-left: 29rem;
+    
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}

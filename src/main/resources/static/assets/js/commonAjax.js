@@ -10,7 +10,6 @@ function getAjax(url, callback) {
         // async : true,
         method: "GET",
         dataType: "json",
-        data: paramData,
         success: function(data, status, xr) {
             console.log(data);
             return callback(data);
