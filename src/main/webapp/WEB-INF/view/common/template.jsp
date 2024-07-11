@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>홈 - GAEnt.</title>
+    <title>제목 - GAEnt.</title>
     </head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   <body>
@@ -16,9 +16,10 @@
       </div>
       <div id="sidebar_area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/common/sub-sidebar.jsp"></jsp:include>
       </div>
-      <div id="workspace-area" class="sidebar-from-workspace">
-        <h1>작업공간</h1>
+      <div id="workspace-area" class="subsidebar-from-workspace">
+        <h1>서브사이드바 기준 작업공간</h1>
       </div>
     </div>
   </body>

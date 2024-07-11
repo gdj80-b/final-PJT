@@ -1,7 +1,38 @@
 @charset "UTF-8";
 
+/* 서브 사이드바가 없을 때의 작업공간 스타일 속성  */
 @media (max-width: 1199.98px) {
-  .workspace {
+  .sidebar-from-workspace {
+    top: 0 !important;
+    left: 0 !important;
+    
+    margin-right: 0 !important;
+    margin-left: 2.75rem !important;
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    
+    width: inherit;
+    height: 100% !important;
+    will-change: transform, -webkit-transform;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sidebar-from-workspace {
+    margin-left: 13rem;
+    
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* 서브 사이드바가 있을 때의 작업공간 스타일 속성 */
+@media (max-width: 1199.98px) {
+  .subsidebar-from-workspace {
     top: 0 !important;
     left: 0 !important;
     
@@ -19,7 +50,7 @@
 }
 
 @media (min-width: 1200px) {
-  .workspace {
+  .subsidebar-from-workspace {
     margin-left: 29rem;
     
     padding-top: 1.5rem;

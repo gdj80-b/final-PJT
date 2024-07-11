@@ -21,19 +21,4 @@ public class LoginController {
     public String resetPw() {
         return "user/resetPw";
     }
-    
-    @GetMapping("/home")
-    public String home() {
-        return "home";
-    }
-    
-    @GetMapping("/sidebar")
-    public String sidebar() {
-        return "common/sidebar";
-    }
-    
-    @GetMapping("/header")
-    public String header() {
-        return "common/header";
-    }
 }
