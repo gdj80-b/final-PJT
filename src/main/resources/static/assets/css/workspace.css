@@ -1,12 +1,30 @@
 @charset "UTF-8";
 
-.workspace {
-    height: 100%;
+@media (max-width: 1199.98px) {
+  .workspace {
+    top: 0 !important;
+    left: 0 !important;
     
+    margin-right: 0 !important;
+    margin-left: 18.75rem !important;
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    
+    width: inherit;
+    height: 100% !important;
+    will-change: transform, -webkit-transform;
+  }
+}
+
+@media (min-width: 1200px) {
+  .workspace {
     margin-left: 29rem;
     
     padding-top: 1.5rem;
     padding-right: 2rem;
     padding-left: 2rem;
     padding-bottom: 2rem;
+  }
 }
