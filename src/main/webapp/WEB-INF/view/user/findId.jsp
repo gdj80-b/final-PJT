@@ -3,21 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html
-  lang="en"
-  class="light-style customizer-hide"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="${pageContext.request.contextPath}/assets/"
-  data-template="vertical-menu-template-free"
->
+<html>
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-    <title>비밀번호 찾기 - GAEnt.</title>
+    <title>아이디 찾기 - GAEnt.</title>
     <meta name="description" content="" />
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,25 +32,13 @@
   <body>
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner py-4">
+        <div class="authentication-inner">
           <div class="card">
             <div class="card-body">
               <div class="app-brand justify-content-center">
                 <span class="app-brand-text demo text-body fw-bolder">GA Entertainment</span>
               </div>
-              <p class="mb-4">이메일과 이름 그리고 연락처를 입력해주세요.</p>
-              <form id="formAuthentication" class="mb-3" action="findPw" method="POST">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="이메일을 입력해주세요."
-                    autofocus
-                  />
-                </div>
+              <form id="formAuthentication" class="mb-3" action="findId" method="POST">
                 <div class="mb-3">
                   <label for="name" class="form-label">Name</label>
                   <input
@@ -69,18 +50,22 @@
                     autofocus
                   />
                 </div>
-                <div class="mb-3">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="phone"
-                    name="phone"
-                    placeholder="'-' 을 제외한 번호만 입력해주세요."
-                    autofocus
-                  />
+                <div class="mb-3 form-password-toggle">
+                  <label class="form-label" for="phone">Phone</label>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      name="phone"
+                      placeholder="'-' 을 제외한 번호만 입력해주세요."
+                      autofocus
+                    />
+                  </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100" type="submit">비밀번호 찾기</button>
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">아이디 찾기</button>
+                </div>
               </form>
               <div class="text-center">
                 <a href="login" class="d-flex align-items-center justify-content-center">
