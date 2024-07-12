@@ -6,6 +6,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    
     <title>받은쪽지함</title>
     </head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
@@ -26,6 +27,7 @@
       <div id="workspace-area" class="subsidebar-from-workspace">       
         <div class="card">            
             <h2 class="card-title" style="margin:30px">받은쪽지함</h2>
+            ${loginInfo.empCode}
             <div class="card-header">${loginInfo.email}</div>
             <div class="card-body">
                 <div>
@@ -33,7 +35,7 @@
                         <tr>
                             <td style="padding-left:100px">
                                 <span><a href="">읽음</a></span>
-                                <span><a href="">삭제</a></span>
+                                <span><button type="button" id="deleteButton" class="btn btn-danger btn-sm">삭제하기</button></span>
                             </td>
                         </tr>
                     </table>
@@ -50,7 +52,7 @@
                             <c:forEach var="m" items="${list}">
                                 <tr>
                                     <td class="msgCheck">
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td>${m.senderName}</td>
                                     <td>${m.msgTitle}</td>
@@ -63,16 +65,51 @@
             </div>
             <div class="card-footer">footer</div>
         </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-      
     </div>
   </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){      
+
+        // "삭제하기" 버튼 클릭 시 선택된 항목 삭제
+        $('#deleteButton').click(function(){
+            let checkedItems = $('input[name="msgNum"]:checked');
+            let count = checkedItems.length;
+            let empCode = "${loginInfo.empCode}";
+            if(count > 0){
+                if(confirm(count + '개 항목을 삭제하시겠습니까?')){
+                    let ids = [];
+                     checkedItems.each(function(){
+                        ids.push($(this).val());
+                        });                     
+                     $.ajax({
+                         url: '/gaent/msg/modifyMsgStatus', // 서버에 삭제 요청을 보낼 URL
+                         type: 'POST',
+                         traditional: true, // 배열을 전송할 수 있도록 설정
+                            data: { 
+                                msgNums: ids,
+                                empCode: empCode,
+                                request: 1
+                            },
+                            success: function(result){
+                            if(result == 0) {
+                                alert('삭제되지 않은 항목이 있습니다.');
+                            } else {
+                                 alert('선택된 항목이 삭제되었습니다.');
+                                    location.reload(); // 페이지 새로 고침
+                            }                              
+                        },
+                        error: function(){
+                             alert('항목 삭제에 실패했습니다.');
+                        }
+                    });
+                }
+            } else {
+                alert('삭제할 항목을 선택하세요.');
+            }
+        });
+    });
+
+</script>
+  
 </html>

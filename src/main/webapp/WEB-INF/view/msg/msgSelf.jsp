@@ -25,13 +25,14 @@
       </div>
       <div id="workspace-area" class="subsidebar-from-workspace">       
         <div class="card">            
-            <h2 class="card-title" style="margin:30px">보낸쪽지함</h2>
+            <h2 class="card-title" style="margin:30px">내게쓴쪽지함</h2>
             <div class="card-header">${loginInfo.email}</div>
             <div class="card-body">
                 <div>
                     <table class="table table-bordered">
                         <tr>
                             <td style="padding-left:100px">
+                                <span><a href="">읽음</a></span>
                                 <span><a href="">삭제</a></span>
                             </td>
                         </tr>
@@ -40,7 +41,7 @@
                         <thead>
                             <tr>
                                 <td style="width:80px">선택</td>
-                                <td>받는사람</td>
+                                <td>보낸사람</td>
                                 <td>제목</td>
                                 <td>시간</td>
                             </tr>
@@ -51,7 +52,7 @@
                                     <td class="msgCheck">
                                         <input type="checkbox">
                                     </td>
-                                    <td>${m.receiverName}</td>
+                                    <td>${m.senderName}</td>
                                     <td>${m.msgTitle}</td>
                                     <td>${m.sendTime}</td>
                                 </tr>
@@ -62,7 +63,7 @@
             </div>
             <div class="card-footer">footer</div>
         </div>
-
+      
     </div>
   </body>
 </html>

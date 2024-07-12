@@ -10,9 +10,9 @@
             re.emp_kor_name receiverName,
             m.msg_title msgTitle,
             m.file_name msgFileName,
-            m.msg_content msgContent,
-            m.msg_send_time sendTime,
-            m.msg_read_time readTime, 
+            m.msg_content msgContent,            
+            DATE_FORMAT(m.msg_send_time, '%y/%m/%d %H시%i분') AS sendTime,
+   	        DATE_FORMAT(m.msg_read_time, '%y/%m/%d %H시%i분') AS readTime,
             m.msg_send_del_status sendDelStatus,
             m.msg_receive_del_status receiveDelStatus
         FROM 
@@ -25,7 +25,7 @@
             <when test="request == 0">  <!-- 0번요청: 전체 -->
                (
                     m.msg_sender = #{empCode} AND 
-                    m.send_del_status = 'N'
+                    m.msg_send_del_status = 'N'
                 OR
                     m.msg_receiver = #{empCode} AND 
                     m.msg_receive_del_status = 'N'
@@ -38,8 +38,12 @@
             <when test="request == 2 ">  <!-- 2번요청: 보낸거 -->
                 m.msg_sender = #{empCode} AND
                 m.msg_send_del_status = 'N'
-            </when>            
-            <when test="request == 3 "> <!--3번요청: 휴지통 -->
+            </when>
+            <when test="request == 3 ">  <!-- 3번요청: 내게쓰기 -->
+                m.msg_sender = #{empCode} AND
+                m.msg_receiver = #{empCode}
+            </when>
+            <when test="request == 4 "> <!--4번요청: 휴지통 -->
                 (
                     m.msg_sender = #{empCode} AND
                     m.msg_send_del_status = 'Y'
@@ -56,9 +60,37 @@
     <!-- 쪽지쓰기 -->
     <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
         INSERT INTO
-	       msg(sender,receiver,title,content)
-        VALUES (#{sender},#{receiver},#{title},#{content})
+	       msg(msg_sender,msg_receiver,msg_title,msg_content)
+        VALUES (#{sender},#{receiver},#{msgTitle},#{msgContent})
     </insert>
+    
+    <update id="updateMsgStatus" parameterType="map">
+        UPDATE msg
+        SET
+            msg_receive_del_status = CASE                   <!--수신자삭제상태변경 -->
+                WHEN msg_receiver = #{empCode} THEN         <!-- 수신자가 '나'이면 -->
+                    CASE 
+                        WHEN #{request} = 1 THEN 'Y'        <!-- req가 1이면 삭제상태로  -->
+                        WHEN #{request} = 2 THEN 'N'        <!-- req가 2이면 복구상태로  -->
+                        WHEN #{request} = 3 THEN 'D'        <!-- req가 3이면 완전삭제로  -->
+                        ELSE msg_receive_del_status         <!-- req가 그 외에는 그대로-->
+                    END
+                ELSE msg_receive_del_status                 <!-- 수신자가 내가 아닐 시 그대로 -->
+            END,
+            msg_send_del_status = CASE                      <!--발신자삭제상태변경 -->
+                WHEN msg_sender = #{empCode} THEN           <!-- 발신자가 '나'이면 -->
+                    CASE 
+                        WHEN #{request} = 1 THEN 'Y'        <!-- req가 1이면 삭제상태로  -->
+                        WHEN #{request} = 2 THEN 'N'        <!-- req가 2이면 복구상태로  -->
+                        WHEN #{request} = 3 THEN 'D'        <!-- req가 3이면 완전삭제로  -->
+                        ELSE msg_send_del_status            <!-- req가 그 외에는 그대로-->
+                    END
+                ELSE msg_send_del_status                    <!-- 발신자가 내가 아닐 시 그대로 -->
+            END
+        WHERE
+            msg_num = #{msgNum}
+            AND (msg_receiver = #{empCode} OR msg_sender = #{empCode})
+    </update>
     
     
     

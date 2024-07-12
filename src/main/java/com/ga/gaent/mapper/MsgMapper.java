@@ -20,7 +20,7 @@ public interface MsgMapper {
   // 쪽지 영구 삭제
   int eliminateMsg();
   
-  // 쪽지상태변경
+  // 쪽지상태변경-삭제및복구
   int updateMsgStatus(Map<String,Object>m);
   
   // 쪽지상세 

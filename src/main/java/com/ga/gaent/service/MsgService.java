@@ -27,10 +27,19 @@ public class MsgService {
         return msgMapper.selectMsgList(m);
     }
     
+    // 쪽지 보내기
     public int sendMsg(MsgVO m) {
         
         int success = msgMapper.sendMsg(m);
-        log.debug(TeamColor.RED + "입력성공여부: " + success + TeamColor.RESET );
+        log.debug(TeamColor.RED + "Service입력성공여부: " + success + TeamColor.RESET );
         return success;
     }
+    
+    // 쪽지 상태 처리
+    public int modifyMsgState(Map<String,Object>m) {
+        int success = msgMapper.updateMsgStatus(m);
+        log.debug(TeamColor.RED + "Service삭제성공여부: " + success + TeamColor.RESET );
+        return success;
+    }
+    
 }
