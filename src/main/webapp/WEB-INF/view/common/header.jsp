@@ -26,7 +26,7 @@
           </div>
           <!-- 로그아웃 -->
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="logout" class="menu-link">
               <i class="menu-icon tf-icons bx bx-log-out"></i>
               <span>로그아웃</span>
             </a>

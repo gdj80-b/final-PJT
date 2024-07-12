@@ -1,10 +1,14 @@
 package com.ga.gaent.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginRequestDTO {
 
-    private String empId;
-    private String empPw;
+    private String email;
+    private String password;
 }

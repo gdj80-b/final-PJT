@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.LoginMapper">
+
+    <select id="selectLoginCheck" parameterType="Map" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            emp_code empCode,
+            team_code teamCode,
+            rank_code rankCode,
+            emp_profile profile,
+            emp_id empId,
+            emp_kor_name korName,
+            emp_eng_name engName,
+            emp_reg_no regNo,
+            emp_gender gender,
+            emp_phone phone,
+            emergency_phone_relation emergencyPhoneRelation,
+            emergency_phone emergencyPhone,
+            post_code postCode,
+            address address,
+            detail_address detailAddress,
+            total_leave totalLeave,
+            use_leave useLeave,
+            emp_ext ext,
+            emp_hire_date hireDate,
+            emp_resign_date resignDate,
+            emp_update_date updateDate,
+            final_modifier finalModifier
+        FROM
+            emp
+        WHERE
+            emp_id = #{email} AND
+            emp_pw = #{password}
+    </select>
+
+</mapper>

@@ -45,14 +45,14 @@
               <div class="app-brand justify-content-center">
                 <span class="app-brand-text demo text-body fw-bolder">GA Entertainment</span>
               </div>
-              <form id="formAuthentication" class="mb-3" action="/login" method="POST">
+              <form id="formAuthentication" class="mb-3" action="login" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="text"
                     class="form-control"
                     id="email"
-                    name="email-username"
+                    name="email"
                     placeholder="이메일을 입력해주세요."
                     autofocus
                   />
