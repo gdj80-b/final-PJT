@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.MsgMapper">
+    <select id="selectMsgList" parameterType="map" resultType="com.ga.gaent.vo.MsgVO">
+        SELECT
+            m.msg_num msgNum,
+            m.msg_sender sender,
+            se.emp_kor_name senderName,
+            m.msg_receiver receiver,
+            re.emp_kor_name receiverName,
+            m.msg_title msgTitle,
+            m.file_name msgFileName,
+            m.msg_content msgContent,
+            m.msg_send_time sendTime,
+            m.msg_read_time readTime, 
+            m.msg_send_del_status sendDelStatus,
+            m.msg_receive_del_status receiveDelStatus
+        FROM 
+            msg m 
+                JOIN emp re ON m.msg_receiver = re.emp_code
+                JOIN emp se ON m.msg_sender = se.emp_code 
+        WHERE
+            1=1 AND 
+        <choose>
+            <when test="request == 0">  <!-- 0번요청: 전체 -->
+               (
+                    m.msg_sender = #{empCode} AND 
+                    m.send_del_status = 'N'
+                OR
+                    m.msg_receiver = #{empCode} AND 
+                    m.msg_receive_del_status = 'N'
+                )
+            </when>
+           <when test="request == 1 ">  <!--1번요청: 받은거 -->
+                m.msg_receiver = #{empCode} AND 
+                m.msg_receive_del_status = 'N'
+            </when>
+            <when test="request == 2 ">  <!-- 2번요청: 보낸거 -->
+                m.msg_sender = #{empCode} AND
+                m.msg_send_del_status = 'N'
+            </when>            
+            <when test="request == 3 "> <!--3번요청: 휴지통 -->
+                (
+                    m.msg_sender = #{empCode} AND
+                    m.msg_send_del_status = 'Y'
+                OR
+                    m.msg_receiver = #{empCode} AND
+                    m.msg_receive_del_status = 'Y'
+                )
+            </when>
+        </choose>
+        ORDER BY
+            msg_send_time DESC  
+    </select>
+    
+    <!-- 쪽지쓰기 -->
+    <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
+        INSERT INTO
+	       msg(sender,receiver,title,content)
+        VALUES (#{sender},#{receiver},#{title},#{content})
+    </insert>
+    
+    
+    
+</mapper>
