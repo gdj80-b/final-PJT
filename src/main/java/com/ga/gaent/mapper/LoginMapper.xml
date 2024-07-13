@@ -2,35 +2,73 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.LoginMapper">
 
-    <select id="selectLoginCheck" parameterType="Map" resultType="com.ga.gaent.vo.EmpVO">
+    <!--
+        @author : 정건희
+        @since : 2024. 07. 12.
+        Description : 로그인
+    -->
+    <select id="selectLoginCheck" parameterType="com.ga.gaent.dto.LoginRequestDTO" resultType="com.ga.gaent.vo.EmpVO">
         SELECT
             emp_code empCode,
             team_code teamCode,
             rank_code rankCode,
-            emp_profile profile,
             emp_id empId,
             emp_kor_name korName,
-            emp_eng_name engName,
-            emp_reg_no regNo,
-            emp_gender gender,
-            emp_phone phone,
-            emergency_phone_relation emergencyPhoneRelation,
-            emergency_phone emergencyPhone,
-            post_code postCode,
-            address address,
-            detail_address detailAddress,
             total_leave totalLeave,
-            use_leave useLeave,
-            emp_ext ext,
-            emp_hire_date hireDate,
-            emp_resign_date resignDate,
-            emp_update_date updateDate,
-            final_modifier finalModifier
+            use_leave useLeave
         FROM
             emp
         WHERE
             emp_id = #{email} AND
             emp_pw = #{password}
     </select>
+    
+    <!--
+        @author : 정건희
+        @since : 2024. 07. 12.
+        Description : 아이디 찾기
+    -->
+    <select id="selectEmpId" parameterType="com.ga.gaent.dto.LoginRequestDTO" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            emp_id empId
+        FROM
+            emp
+        WHERE
+            emp_kor_name = #{name} AND
+            emp_phone = #{phone}
+    </select>
+    
+    <!--
+        @author : 정건희
+        @since : 2024. 07. 12.
+        Description : 비밀번호 찾기
+    -->
+    <select id="selectEmpPw" parameterType="com.ga.gaent.dto.LoginRequestDTO" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            emp_id empId,
+            emp_pw empPw,
+            emp_kor_name korName
+        FROM
+            emp
+        WHERE
+            emp_id = #{email} AND
+            emp_kor_name = #{name} AND
+            emp_phone = #{phone}
+    </select>
+    
+    <!--
+        @author : 정건희
+        @since : 2024. 07. 12.
+        Description : 비밀번호 재설정
+    -->
+    <update id="updateEmpPw" parameterType="com.ga.gaent.dto.LoginRequestDTO">
+        UPDATE
+            emp
+        SET
+            emp_pw = #{password}
+        WHERE
+            emp_id = #{email} AND
+            emp_kor_name = #{name}
+    </update>
 
 </mapper>
