@@ -43,31 +43,6 @@
     </div>
 </body>
 <script>
-		$(document).ready(function(){
-			// "쪽지쓰기" 버튼 클릭 시 모달 표시
-            $('#writeMessageBtn').click(function(){
-            	$('#messageModal').modal('show');
-            });
-            // 폼 제출 시 AJAX 요청으로 쪽지 보내기
-            $('#messageForm').submit(function(event){
-                event.preventDefault(); 			// 1. 폼의 기본 제출 동작을 중단
-                let formData = $(this).serialize(); // 2. 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
-                
-                $.ajax({
-                    url: '/test/sendMessage', // 서버에 쪽지를 보낼 URL
-                    type: 'POST',
-                    data: formData,
-                    success: function(response){
-                        alert('쪽지가 성공적으로 보내졌습니다.');
-                        $('#messageModal').modal('hide');
-                        $('#messageForm')[0].reset(); // 폼 초기화
-                        location.reload(); // 페이지 새로 고j
-                    },
-                    error: function(){
-                        alert('쪽지 보내기에 실패했습니다.');
-                    }
-                });
-            });
-		});
+
 </script>
 </html>

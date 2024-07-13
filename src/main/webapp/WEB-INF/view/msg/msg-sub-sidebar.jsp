@@ -3,10 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sidebar.css"/>
-<%
-    Map<String,Object> loginInfo = (Map<String,Object>)(session.getAttribute("loginInfo"));    
-    loginInfo.put("empCode", "20110004");
-%>
 <style>
     .button-container {
         display: flex;
@@ -54,19 +50,19 @@
                 </a>
             </li>
             <!-- 보낸쪽지함 -->
-           <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSendList')}">active</c:if>">
+            <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSendList')}">active</c:if>">
                 <a href="/gaent/msg/2" class="menu-link">
                     <span>보낸쪽지함</span>
                 </a>
             </li>
             <!-- 내게쓴쪽지함 -->
-           <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSelf')}">active</c:if>">
+            <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSelf')}">active</c:if>">
                 <a href="/gaent/msg/3" class="menu-link">
                     <span>내게쓴쪽지함</span>
                 </a>
             </li>
             <!-- 휴지통 -->
-	       <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgBin')}">active</c:if>">
+	        <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgBin')}">active</c:if>">
                 <a href="/gaent/msg/4" class="menu-link">                  
                     <span>휴지통</span>
                 </a>
@@ -75,17 +71,17 @@
     </aside>
         
     <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">                
                     <h5 class="modal-title" id="messageModalLabel">쪽지쓰기</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                     <!-- 쪽지쓰기 폼 -->
-                    <form id="messageForm">
+	               <!-- 쪽지쓰기 폼 -->                    
+                <form id="messageForm">
+                    <div class="modal-body">
                         <!-- 숨겨진 필드에 로그인한 사용자의 ID -->
-                        <input type="text" name="sender" value="${loginInfo.empCode}">
+                        <input type="hidden" name="sender" value="${loginInfo.empCode}">
                         <div class="mb-3">
                             <label for="receiver" class="form-label">받는이</label>
                             <input type="text" class="form-control" id="receiver" name="receiver" required>
@@ -97,13 +93,16 @@
                         <div class="mb-3">
                             <!-- 첨부파일 관련 필드 -->
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-6">
                             <label for="content" class="form-label">내용</label>
-                            <textarea class="form-control" id="msgContent" name="msgContent" rows="3" required></textarea>
+                            <textarea class="form-control" id="msgContent" name="msgContent" rows="6" required></textarea>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
                         <button type="submit" class="btn btn-primary">보내기</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -137,7 +136,7 @@
                     alert('쪽지가 성공적으로 보내졌습니다.');
                     $('#messageModal').modal('hide');
                     $('#messageForm')[0].reset(); // 폼 초기화
-                    window.location.href = '/gaent/msg/2'; // home.jsp로 이동
+                    window.location.href = '/gaent/msg/2'; // 보낸쪽지함으로 이동
                 },
                 error: function(){
                     alert('쪽지 보내기에 실패했습니다.');

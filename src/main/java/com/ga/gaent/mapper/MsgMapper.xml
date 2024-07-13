@@ -20,42 +20,102 @@
                 JOIN emp re ON m.msg_receiver = re.emp_code
                 JOIN emp se ON m.msg_sender = se.emp_code 
         WHERE
-            1=1 AND 
-        <choose>
-            <when test="request == 0">  <!-- 0번요청: 전체 -->
-               (
-                    m.msg_sender = #{empCode} AND 
-                    m.msg_send_del_status = 'N'
-                OR
+            1=1 AND
+                <if test="searchMsg != null ">
+                    ( m.msg_content LIKE CONCAT('%', #{searchMsg}, '%') OR
+                    se.emp_kor_name LIKE CONCAT('%', #{searchMsg}, '%') OR
+                    re.emp_kor_name LIKE CONCAT('%', #{searchMsg}, '%') ) AND                
+                </if>
+            <choose>
+                <when test="request == 0">  <!-- 0번요청: 전체 -->
+                   (
+                        m.msg_sender = #{empCode} AND 
+                        m.msg_send_del_status = 'N'
+                    OR
+                        m.msg_receiver = #{empCode} AND 
+                        m.msg_receive_del_status = 'N'
+                    )
+                </when>
+               <when test="request == 1 ">  <!--1번요청: 받은거 -->
                     m.msg_receiver = #{empCode} AND 
                     m.msg_receive_del_status = 'N'
-                )
-            </when>
-           <when test="request == 1 ">  <!--1번요청: 받은거 -->
-                m.msg_receiver = #{empCode} AND 
-                m.msg_receive_del_status = 'N'
-            </when>
-            <when test="request == 2 ">  <!-- 2번요청: 보낸거 -->
-                m.msg_sender = #{empCode} AND
-                m.msg_send_del_status = 'N'
-            </when>
-            <when test="request == 3 ">  <!-- 3번요청: 내게쓰기 -->
-                m.msg_sender = #{empCode} AND
-                m.msg_receiver = #{empCode}
-            </when>
-            <when test="request == 4 "> <!--4번요청: 휴지통 -->
-                (
+                </when>
+                <when test="request == 2 ">  <!-- 2번요청: 보낸거 -->
                     m.msg_sender = #{empCode} AND
-                    m.msg_send_del_status = 'Y'
-                OR
-                    m.msg_receiver = #{empCode} AND
-                    m.msg_receive_del_status = 'Y'
-                )
-            </when>
-        </choose>
+                    m.msg_send_del_status = 'N'
+                </when>
+                <when test="request == 3 ">  <!-- 3번요청: 내게쓰기 -->
+                    m.msg_sender = #{empCode} AND
+                    m.msg_receiver = #{empCode}
+                </when>
+                <when test="request == 4 "> <!--4번요청: 휴지통 -->
+                    (
+                        m.msg_sender = #{empCode} AND
+                        m.msg_send_del_status = 'Y'
+                    OR
+                        m.msg_receiver = #{empCode} AND
+                        m.msg_receive_del_status = 'Y'
+                    )
+                </when>
+            </choose>
         ORDER BY
-            msg_send_time DESC  
+            msg_send_time DESC
+        LIMIT #{startRow}, 10
     </select>
+    <!-- 쪽지수 -->
+    <select id="msgCnt" resultType="int" parameterType="map">
+            SELECT COUNT(*)
+            FROM (
+                SELECT
+                    m.msg_num msgNum
+                FROM 
+                    msg m 
+                        JOIN emp re ON m.msg_receiver = re.emp_code
+                        JOIN emp se ON m.msg_sender = se.emp_code 
+                WHERE
+                    1=1 AND
+                    <if test="searchMsg != null ">
+                        (m.msg_content LIKE CONCAT('%', #{searchMsg}, '%') OR
+                        se.emp_kor_name LIKE CONCAT('%', #{searchMsg}, '%') OR
+                        re.emp_kor_name LIKE CONCAT('%', #{searchMsg}, '%') ) AND                
+                    </if>
+                    <choose>
+                        <when test="request == 0">  <!-- 0번요청: 전체 -->
+                       (
+                            m.msg_sender = #{empCode} AND 
+                            m.msg_send_del_status = 'N'
+                        OR
+                            m.msg_receiver = #{empCode} AND 
+                            m.msg_receive_del_status = 'N'
+                        )
+                        </when>
+                        <when test="request == 1 ">  <!--1번요청: 받은거 -->
+                            m.msg_receiver = #{empCode} AND
+                            m.msg_sender != m.msg_receiver AND
+                            m.msg_receive_del_status = 'N'
+                        </when>
+                        <when test="request == 2 ">  <!-- 2번요청: 보낸거 -->
+                            m.msg_sender = #{empCode} AND
+                            m.msg_sender != m.msg_receiver AND
+                            m.msg_send_del_status = 'N'
+                        </when>
+                        <when test="request == 3 ">  <!-- 3번요청: 내게쓰기 -->
+                            m.msg_sender = #{empCode} AND
+                            m.msg_receiver = #{empCode}
+                        </when>
+                        <when test="request == 4 "> <!--4번요청: 휴지통 -->
+                            (
+                                m.msg_sender = #{empCode} AND
+                                m.msg_send_del_status = 'Y'
+                            OR
+                                m.msg_receiver = #{empCode} AND
+                                m.msg_receive_del_status = 'Y'
+                            )
+                        </when>
+                    </choose>
+                )subQeury
+    </select>
+    
     
     <!-- 쪽지쓰기 -->
     <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
@@ -63,7 +123,7 @@
 	       msg(msg_sender,msg_receiver,msg_title,msg_content)
         VALUES (#{sender},#{receiver},#{msgTitle},#{msgContent})
     </insert>
-    
+    <!-- 메시지 삭제,복구 상태변경 -->
     <update id="updateMsgStatus" parameterType="map">
         UPDATE msg
         SET
@@ -92,6 +152,57 @@
             AND (msg_receiver = #{empCode} OR msg_sender = #{empCode})
     </update>
     
+    <!-- 쪽지상세 -->
+    <select id="msgDetail" parameterType="String" resultType="com.ga.gaent.vo.MsgVO">
+        SELECT
+            m.msg_num msgNum,
+            m.msg_sender sender,
+            se.emp_kor_name senderName,
+            m.msg_receiver receiver,
+            re.emp_kor_name receiverName,
+            m.msg_title msgTitle,
+            m.file_name msgFileName,
+            m.msg_content msgContent,            
+            DATE_FORMAT(m.msg_send_time, '%y/%m/%d %H시%i분') AS sendTime,
+            DATE_FORMAT(m.msg_read_time, '%y/%m/%d %H시%i분') AS readTime
+        FROM 
+            msg m 
+                JOIN emp re ON m.msg_receiver = re.emp_code
+                JOIN emp se ON m.msg_sender = se.emp_code 
+        WHERE
+            m.msg_num = #{msgNum}
+    </select>
     
+    <!-- 쪽지읽기처리 -->
+    <update id="readMsg" parameterType="map">
+        UPDATE msg
+        SET 
+            msg_read_time = NOW()
+        WHERE
+            msg_num = #{msgNum} AND
+            msg_read_time IS NULL AND
+            msg_receiver = #{empCode}
+    </update>
     
+    <!-- 쪽지 열람 권한 -->
+    <select id="checkMsgOpen" parameterType="map" resultType="String">
+        SELECT 
+            msg_num
+        FROM msg
+        WHERE 
+            msg_num = #{msgNum} AND
+            (
+            msg_sender = #{empCode} OR
+            msg_receiver = #{empCode}
+            )
+    </select>
+    
+    <!-- 안읽은쪽지수 -->
+    <select id="msgNotReadCnt" parameterType="String">
+        SELECT COUNT(*)
+        FROM msg
+        WHERE 
+            msg_read_time IS NULL AND 
+            msg_receiver = #{empCode}
+    </select>
 </mapper>

@@ -8,8 +8,8 @@ import com.ga.gaent.vo.MsgVO;
 @Mapper
 public interface MsgMapper {
   
-  // 받은 쪽지수 
-  int msgReceive(String id);
+  // 쪽지수 
+  int msgCnt(Map<String,Object>m);
     
   // 쪽지리스트
   List<MsgVO> selectMsgList(Map<String,Object>m);
@@ -24,5 +24,14 @@ public interface MsgMapper {
   int updateMsgStatus(Map<String,Object>m);
   
   // 쪽지상세 
-  MsgVO readMsg(Map<String,Object>m);
+  MsgVO msgDetail(Map<String,Object>m);
+  
+  // 쪽지읽기
+  int readMsg(Map<String,Object>m);
+  
+  // 쪽지 열람 권한 조회
+  String checkMsgOpen(Map<String,Object>m);
+  
+  // 안읽은 쪽지수
+  int msgNotReadCnt(String empCode);
 }
