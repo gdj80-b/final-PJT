@@ -13,7 +13,8 @@ public class EmpVO {
     private String teamCode;
     private String rankCode;
     private String profile;
-    private String email;
+    private String empId;
+    private String empPw;
     private String korName;
     private String engName;
     private String regNo;

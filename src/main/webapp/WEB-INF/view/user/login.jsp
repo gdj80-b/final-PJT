@@ -47,15 +47,35 @@
               </div>
               <form id="formAuthentication" class="mb-3" action="login" method="POST">
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="이메일을 입력해주세요."
-                    autofocus
-                  />
+                  <div class="d-flex justify-content-between">
+                    <label for="email" class="form-label">Email</label>
+                    <a href="findId">
+                      <small>아이디 찾기</small>
+                    </a>
+                  </div>
+                  <c:choose>
+                    <c:when test="${!empty loginInfo}">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="이메일을 입력해주세요."
+                        value="${loginInfo.empId}"
+                        autofocus
+                      />
+                    </c:when>
+                    <c:otherwise>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="이메일을 입력해주세요."
+                        autofocus
+                      />
+                    </c:otherwise>
+                  </c:choose>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">

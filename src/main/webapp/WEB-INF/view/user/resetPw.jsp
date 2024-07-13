@@ -46,7 +46,9 @@
                 <span class="app-brand-text demo text-body fw-bolder">GA Entertainment</span>
               </div>
               <p class="mb-4">변경할 비밀번호를 새로 입력해주세요.</p>
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="resetPw" method="POST">
+                <input type="hidden" name="email" value="${loginInfo.empId}"/>
+                <input type="hidden" name="name" value="${loginInfo.korName}"/>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
@@ -65,21 +67,21 @@
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Password Confirm</label>
+                    <label class="form-label" for="passwordCheck">Password Check</label>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
-                      id="password"
+                      id="passwordCheck"
                       class="form-control"
-                      name="password"
+                      name="passwordCheck"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100">비밀번호 재설정</button>
+                <button class="btn btn-primary d-grid w-100" type="submit">비밀번호 재설정</button>
               </form>
               <div class="text-center">
                 <a href="login" class="d-flex align-items-center justify-content-center">
