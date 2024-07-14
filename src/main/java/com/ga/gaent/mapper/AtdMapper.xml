@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.AtdMapper">
+
+    <!-- 출퇴근확인 -->
+    <select id="checkAtdStatus" parameterType="String" resultType="com.ga.gaent.vo.AtdVO">
+        SELECT 
+            atd_num atdNum,
+            emp_code empCode,
+            TIME(atd_in_time) inTime,
+            TIME(atd_out_time) outTime
+        FROM 
+            attendance
+        WHERE
+            emp_code = #{empCode} AND
+            DATE(atd_in_time) = CURDATE()
+        ORDER BY 
+            atd_in_time DESC    
+    </select>
+    
+    <!-- 출근하기 -->
+    <insert id="atdIn" parameterType="String">
+        INSERT INTO 
+            attendance
+            ( emp_code, atd_in_time )
+        VALUES( 
+            #{empCode}, NOW() )
+    </insert>
+    
+    <!-- 퇴근하기 -->
+    <update id="atdOut" parameterType="String">
+        UPDATE 
+            attendance
+        SET 
+            atd_out_time = NOW()
+        WHERE
+            emp_code = #{empCode} AND
+            atd_in_Time IS NOT NULL
+    </update>
+    
+    <!-- 출퇴근이력 -->
+    <select id="selectAtdHistory" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
+        SELECT 
+			atd_num atdNum,
+			emp_code empCode,
+			DATE_FORMAT(atd_in_time, '%H시%i분%s초') AS  inTime,
+			DATE_FORMAT(atd_out_time, '%H시%i분%s초') AS  outTime,
+            DATE_FORMAT(atd_in_time, '%Y') as year,
+            DATE_FORMAT(atd_in_time, '%m') as month,
+            DATE_FORMAT(atd_in_time, '%d') as day            
+		FROM 
+			attendance
+		WHERE
+			emp_code = #{empCode}
+    </select>
+</mapper>
