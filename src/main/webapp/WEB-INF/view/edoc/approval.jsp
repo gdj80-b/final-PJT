@@ -7,6 +7,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>전자결재 - GAEnt.</title>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
   </head>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
   <body>
