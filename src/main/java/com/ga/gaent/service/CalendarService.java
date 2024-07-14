@@ -15,7 +15,7 @@ public class CalendarService {
     @Autowired
     CalendarMapper calendarMapper;
     
-    // 일정 등록
+    // 일정등록
     public int insertEvent(CalendarVO calendar) {
         
         int addEvent = calendarMapper.insertEvent(calendar);
@@ -28,11 +28,19 @@ public class CalendarService {
         return addEvent;
     }
     
-    // 일정 조회
+    // 일정조회
     public List<Map<String, Object>> selectEventList() {
 
         List<Map<String, Object>> eventList = calendarMapper.selectEventList();
         
         return eventList;
+    }
+    
+    // 일정상세
+    public List<String> selectEventOne(int calNum){
+        
+        List<String> eventOne = calendarMapper.selectEventOne(calNum);
+        
+        return eventOne;
     }
 }

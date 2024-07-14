@@ -35,4 +35,22 @@
         FROM
         	calendar
     </select>
+    
+    <select id="selectEventOne" parameterType="int" resultType="com.ga.gaent.vo.CalendarVO">
+        SELECT
+            cal_no calNum,
+            cal_writer calWriter,
+            cal_type calType,
+            cal_target_type calTargetType,
+            cal_title calTitle,
+            cal_content calContent,
+            cal_start_date calStartDate,
+            cal_end_date calEndDate,
+            cal_create_date calCreateDate,
+            cal_update_date calUpdateDate
+        FROM
+            calendar
+        WHERE
+            cal_num = ${calNum}
+    </select>
 </mapper>

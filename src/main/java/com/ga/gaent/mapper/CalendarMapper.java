@@ -13,4 +13,7 @@ public interface CalendarMapper {
     
     // 일정조회
     List<Map<String, Object>> selectEventList();
+    
+    // 일정상세
+    List<String> selectEventOne(int calNum);
 }
