@@ -21,17 +21,10 @@
       <div id="workspace-area" class="subsidebar-from-workspace">
         <h1>전제쪽지함</h1>
         
-        <div>${loginInfo.email}</div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        <div>
+            @@받은쪽지함 먼저 구현@@
+        </div>
+            
       </div>
     </div>
   </body>
