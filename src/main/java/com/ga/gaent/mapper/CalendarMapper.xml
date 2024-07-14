@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.CalendarMapper">
+    
+    <!-- 일정 등록 -->
+    <insert id="insertEvent" parameterType="com.ga.gaent.vo.CalendarVO">
+        INSERT INTO calendar(
+            cal_writer,
+            cal_type,
+            cal_target_type,
+            cal_title,
+            cal_content,
+            cal_start_date,
+            cal_end_date,
+            cal_create_date,
+            cal_update_date
+            )
+        VALUES(
+            #{calType},
+            #{calTargetType},
+            #{calWriter},
+            #{calTitle},
+            #{calContent},
+            #{calStartDate},
+            #{calEndDate},
+            NOW(),
+            NOW()
+            )
+    </insert>
+    
+    <!-- 일정 조회 -->
+    <select id="selectEventList" resultType="Map">
+        SELECT
+        	cal_num id, cal_title title, cal_start_date start, cal_end_date end
+        FROM
+        	calendar
+    </select>
+</mapper>
