@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.CalendarMapper">
     
-    <!-- 일정 등록 -->
+    <!-- 일정등록 -->
     <insert id="insertEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         INSERT INTO calendar(
             cal_writer,
@@ -28,7 +28,7 @@
             )
     </insert>
     
-    <!-- 일정 조회 -->
+    <!-- 일정조회 -->
     <select id="selectEventList" resultType="Map">
         SELECT
         	cal_num id, cal_title title, cal_start_date start, cal_end_date end
@@ -36,9 +36,10 @@
         	calendar
     </select>
     
+    <!-- 일정상세 -->
     <select id="selectEventOne" parameterType="int" resultType="com.ga.gaent.vo.CalendarVO">
         SELECT
-            cal_no calNum,
+            cal_num calNum,
             cal_writer calWriter,
             cal_type calType,
             cal_target_type calTargetType,
@@ -53,4 +54,12 @@
         WHERE
             cal_num = ${calNum}
     </select>
+    
+    <!-- 일정삭제 -->
+    <delete id="deleteEvent" parameterType="int">
+        DELETE FROM
+            calendar
+        WHERE
+            cal_num = ${calNum}
+    </delete>
 </mapper>

@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>일정관리</title>
+  <title>캘린더 - GAEnt.</title>
   <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <!-- jquery CDN -->
@@ -16,27 +19,42 @@
   <!-- Bootstrap 스크립트 추가 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  <!-- 공통 헤더, 사이드바 스타일시트 -->
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   <style>
   /* body 스타일 */
   html, body {
     overflow: hidden;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
   }
   /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
   .fc-header-toolbar {
-    padding-top: 1em;
+    
     padding-left: 1em;
     padding-right: 1em;
+  }
+  
+  #calendar {
+    width: 1000px; /* 원하는 너비로 설정 */
+    height: 500px; /* 원하는 높이로 설정 */
   }
 </style>
 </head>
 <body>
-	<body style="padding:30px;">
-  <!-- calendar 태그 -->
-  <div id='calendar-container'>
+	<!-- <body style="padding:30px;"> -->
+	<div id="">
+      <div id="header-area">
+        <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+      </div>
+      <div id="sidebar_area">
+        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/common/sub-sidebar.jsp"></jsp:include>
+      </div>
+      <div id="workspace-area" class="subsidebar-from-workspace">
+        <!-- 작업공간 시작 -->
+        	<!-- calendar 태그 -->
     <div id='calendar'></div>
-  </div>
   
   <!-- 부트스트랩 modal 부분 시작 -->
     <!-- 일정 상세 모달 -->
@@ -71,10 +89,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/calendar/addEvent" method="post" id="addEventForm">
+      <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
       <div class="modal-body">
 		<!-- 작성자 --> 
-		<input type="hidden" name="calWriter" value="형호">
+		<input type="hidden" name="calWriter">
 	    일정타입 : 
 	    <input type="radio" name="calType" value="private" /> 개인
 	    <input type="radio" name="calType" value="team" /> 팀
@@ -100,6 +118,9 @@
   </div>
 </div>
     <!-- 부트스트랩 modal 부분 끝 -->
+        <!-- 작은공간 끝 -->
+      </div>
+    </div>
 </body>
 <script>
 	//calendar element 취득
@@ -119,7 +140,7 @@
         	addEventButton:{
         		text:"일정등록",
         		click : function(){
-        			window.location.href = '/calendar/addEvent';
+        			window.location.href = '/gaent/calendar/addEvent';
         		}
         	}
         },
@@ -155,18 +176,18 @@
             $('#saveEventBtn').on('click', function() {
                 
                 var eventObj = {
-                        calWriter: '형호', // 작성자 정보는 직접 설정하거나 다른 방식으로 가져올 수 있음
+                        calWriter: $('input[name="calWriter"]:checked').val(), // 작성자 정보는 직접 설정하거나 다른 방식으로 가져올 수 있음
                         calType: $('input[name="calType"]:checked').val(),
                         calTitle: $('input[name="calTitle"]').val(),
                         calContent: $('input[name="calContent"]').val(),
                         calStartDate: $('input[name="calStartDate"]').val(),
                         calEndDate: $('input[name="calEndDate"]').val(),
-                        calOpen: $('input[name="calOpen"]:checked').val()
+                        calTargetType: $('input[name="calTargetType"]:checked').val()
                     };
 
                     // 서버로 데이터 전송
                     $.ajax({
-                        url: '/calendar/addEvent',
+                        url: '/gaent/calendar/addEvent',
                         method: 'post',
                         contentType: 'application/json',
                         data: JSON.stringify(eventObj),
@@ -195,10 +216,10 @@
         eventClick: function(info) {
 
             $.ajax({
-                url: '/calendar/eventOne',
+                url: '/gaent/calendar/eventOne',
                 method: 'GET',
                 data: {
-                  calNo: info.event.id
+                  calNum: info.event.id
                 },
                 success: function(response) {
                   $('#eventDetails').html(response);

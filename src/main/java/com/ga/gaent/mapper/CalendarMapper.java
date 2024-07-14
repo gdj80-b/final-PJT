@@ -16,4 +16,7 @@ public interface CalendarMapper {
     
     // 일정상세
     List<String> selectEventOne(int calNum);
+    
+    // 일정삭제
+    int deleteEvent(int calNum);
 }

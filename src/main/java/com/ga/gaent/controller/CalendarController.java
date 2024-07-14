@@ -65,4 +65,16 @@ public class CalendarController {
         
         return "calendar/eventOne";
     }
+    
+    // 일정삭제
+    @GetMapping("/removeEvent")
+    public String removeEvent(int calNum) {
+        
+        int removeEvent = calendarService.deleteEvent(calNum);
+        if(removeEvent == 1) {
+            return "redirect:/calendar";
+        }else {
+            return "redirect:/calendar/eventOne?calNum=" + calNum;
+        }
+    }
 }

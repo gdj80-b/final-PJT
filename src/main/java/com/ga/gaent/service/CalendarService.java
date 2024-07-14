@@ -43,4 +43,16 @@ public class CalendarService {
         
         return eventOne;
     }
+    
+    // 일정삭제
+    public int deleteEvent(int calNum) {
+        
+        int deleteEvent = calendarMapper.deleteEvent(calNum);
+        if(deleteEvent == 1) {
+            log.debug("일정 삭제 성공");
+        }else {
+            log.debug("일정 삭제 실패");
+        }
+        return deleteEvent;
+    }
 }
