@@ -24,7 +24,7 @@ public class MsgService {
         Map<String,Object>m = new HashMap<>();
         m.put("empCode", empCode);
         m.put("request", request);
-        m.put("startRow", (currentPage-1)*1); // 10은 rowPerPage
+        m.put("startRow", (currentPage-1)*10); // 10은 rowPerPage
         m.put("searchMsg", searchMsg);
         
         return msgMapper.selectMsgList(m);
@@ -40,6 +40,7 @@ public class MsgService {
         
         
         int totalRow = msgMapper.msgCnt(m);  // 전체 row수
+        log.debug(TeamColor.RED + "result: " + totalRow + TeamColor.RESET );
         
         PagingVO v = new PagingVO();
         Map<String,Object> pagingMap = v.Paging(currentPage ,totalRow );
@@ -94,7 +95,7 @@ public class MsgService {
         m.put("msgNum",msgNum);
         
         if(msgMapper.checkMsgOpen(m) == null) {
-            return 0;
+            // return 0;
         }
         
         return msgMapper.readMsg(m);

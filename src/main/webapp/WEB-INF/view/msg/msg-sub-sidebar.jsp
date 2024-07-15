@@ -23,6 +23,9 @@
     .btn-Msg-sidebar:hover {
         background-color: #218838; /* 버튼 호버 시 색상 변경 */
     }
+    a{
+        display:block;
+    }
 </style>
 <body>
     <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">

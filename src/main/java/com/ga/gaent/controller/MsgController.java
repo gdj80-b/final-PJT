@@ -106,8 +106,7 @@ public class MsgController {
     // 메시지 상세
     @GetMapping("/msgDetail/{msgNum}")
     public String msgDetail(
-            HttpSession session,
-            Model model,
+            HttpSession session, Model model,
             @PathVariable(name= "msgNum", required = false) String msgNum ){
         
         Map<String,Object> loginInfo = (Map<String,Object>)(session.getAttribute("loginInfo"));
@@ -124,6 +123,29 @@ public class MsgController {
     @ResponseBody
     public int msgNotReadCnt(@RequestParam String empCode) { 
         return msgService.msgNotReadCnt(empCode);
+    }
+    
+    
+ // 삭제,복원
+    @PostMapping("/readMsg")
+    @ResponseBody
+    public int readMsg(
+                @RequestParam(name="empCode") String empCode,
+                @RequestParam(name="msgNums", required=false) String[] msgNums) {
+        // 배열의 내용을 보기 위해 Arrays.toString()을 사용합니다.
+        log.debug(YELLOW + "(컨)번호: " + Arrays.toString(msgNums) + RESET); 
+        log.debug(YELLOW + "개수 " + msgNums.length + RESET); 
+        
+        int result = 0;
+        for (String no : msgNums) {
+            result = result + msgService.readMsg(empCode,no);
+        }
+        
+        log.debug(RED + "result: " + result + RESET );
+       
+        return result;
+        
+        
     }
     
     
