@@ -19,6 +19,9 @@
       </div>
       <div id="workspace-area" class="sidebar-from-workspace">
         <h1>작업공간</h1>
+            <div id="" style="width:600px;">
+                <jsp:include page="/WEB-INF/view/news/naverNewsSearch.jsp"></jsp:include>
+            </div>
       </div>
     </div>
   </body>
