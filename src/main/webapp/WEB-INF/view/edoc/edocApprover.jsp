@@ -37,6 +37,6 @@
       </tr>
     </tbody>
   </table>
-  <input type="hidden" name="edocApprover" id="hiddenEdocApprover">
-  <input type="hidden" name="edocApprover" id="hiddenEdocApproverOrder">
+  <input type="hidden" name="approver" id="hiddenEdocApprover">
+  <input type="hidden" name="apprOrder" id="hiddenEdocApproverOrder">
 </div>

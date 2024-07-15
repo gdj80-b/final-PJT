@@ -71,7 +71,7 @@
             <div class="d-flex mb-3">
               <span class="display-6 fw-semibold me-3">기안하기</span>
               <div class="edoc-type-select-box">
-                <select id="edoc-type" class="form-select form-select-sm" name="edocFormType">
+                <select id="edoc-type" class="form-select form-select-sm" name="edocType">
                   <option value="">양식을 선택해주세요.</option>
                 </select>
               </div>
@@ -91,6 +91,7 @@
                           <th class="text-center">기안서</th>
                           <td class="small">
                             <input name="edocKorName" value="${loginInfo.korName}" readonly />
+                            <input type="hidden" name="edocWriter" value="${loginInfo.empCode}" readonly />
                           </td>
                         </tr>
                         <tr>
@@ -107,9 +108,7 @@
                         </tr>
                         <tr>
                           <th class="text-center">문서번호</th>
-                          <td class="small">
-                            <input name="edocNum" value="" readonly />
-                          </td>
+                          <td class="small"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -147,19 +146,6 @@
       </div>
     </div>
     <script>
-      $(document).ready(function () {
-        // Date 객체를 사용하여 오늘의 날짜를 구합니다.
-        let today = new Date();
-        // 날짜 형식을 YYYY-MM-DD로 변환합니다.
-        let year = today.getFullYear();
-        // 월은 0부터 시작하므로 +1 필요
-        let month = ('0' + (today.getMonth() + 1)).slice(-2);
-        let day = ('0' + today.getDate()).slice(-2);
-        let formattedDate = year + '-' + month + '-' + day;
-        // 구한 날짜를 #today-date 요소에 표시합니다.
-        $('#today-date').text(formattedDate);
-      });
-
       $.ajax({
         url: '/gaent/edocType',
         method: 'GET',

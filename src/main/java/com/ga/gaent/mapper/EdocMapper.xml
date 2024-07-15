@@ -23,31 +23,40 @@
             emp
     </select>
     
-    <insert id="insertEdoc" parameterType="Map">
+    <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
         INSERT INTO
             edoc(
                 edoc_type,
                 edoc_writer,
-                edoc_title,
                 edoc_enroll_date
             ) VALUES(
                 #{edocType},
                 #{edocWriter},
-                #{edocTitle},
-                NOW(),
+                NOW()
             )
     </insert>
     
-    <insert id="insertEdocDraft" parameterType="Map">
-        <selectKey order="AFTER" keyProperty="edocNum" resultType="int">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
+    <insert id="insertEdocFile" parameterType="Map">
+        INSERT INTO
+            edoc_file(
+                file_name,
+                original_file_name,
+                file_type,
+                file_size,
+            ) VALUES(
+                #{fileName},
+                #{orginalFileName},
+                #{fileType},
+                #{fileSize}
+            )
+    </insert>
     
+    <insert id="insertEdocDraft" parameterType="com.ga.gaent.dto.EdocRequestDTO">
         INSERT INTO
             edoc_draft(
                 edoc_num,
                 prop_start_date,
-                prop_end_date
+                prop_end_date,
                 prop_title,
                 prop_content
             ) VALUES(
@@ -65,13 +74,11 @@
                 edoc_num,
                 approver,
                 appr_order,
-                appr_reason,
                 appr_date
             ) VALUES(
                 #{edocNum},
                 #{approver},
                 #{apprOrder},
-                #{apprReason},
                 NOW()
             )
     </insert>

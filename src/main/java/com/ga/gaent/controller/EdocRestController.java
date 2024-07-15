@@ -12,6 +12,11 @@ public class EdocRestController {
 
     @Autowired EdocService edocService;
     
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 14.
+     * Description : 전자결재 양식 호출
+     */
     @GetMapping("/edocType")
     public List<EdocFormTypeVO> getEdocType() {
         return edocService.selectEdocType();
