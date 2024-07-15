@@ -20,7 +20,7 @@
         
     }
     .card-atd {
-        background-color: #FBF8A7;  
+/*         background-color: #FBF8A7;   */
         border-radius: 5px;
 /*         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
     }
@@ -30,7 +30,7 @@
         font-weight: 400;
     }
     
-    .card-text {        
+    .card-text {
         font-size: 14px;
     }
     .atd-year-month {
@@ -39,7 +39,7 @@
     
     .time-display {
         margin: 8px 1px 6px 4px; 
-        font-size: 20px;
+        font-size: 35px;
         font-weight: bold;
         color: purple;
     }
@@ -59,9 +59,6 @@
         display: flex;
         justify-content: space-around;
     }
-    .btn {
-/*         width: 100px; */
-    }
     .atd-time-gray {
        color:black;
     }
@@ -71,100 +68,60 @@
         <div class="menu-inner-shadow"></div>
         <div style="width:200px;">
 <%--              <jsp:include page="/WEB-INF/view/atd/atd-Regi.jsp"></jsp:include> --%>
-<div class="card-container-atd">
-      <div class="card card-atd">
-        <div class="card-body">
-          <div class="atd-setting-letter">근태관리</div>
-          <div id="date" class="card-text atd-year-month"></div>
-          <div id="time" class="card-text time-display"></div>          
-        
-          <div class="details">
-              <div>
-                  <span>출근시간</span>              
-                  <span id="checkInTime" class="atd-time-gray"></span>
-              </div>
-              <div>
-                  <span>퇴근시간</span>              
-                  <span id="checkOutTime" class="atd-time-gray"></span>
-              </div>
-              <div>
-                  <span>주간 누적 근무시간</span>              
-                  <span class="atd-time-gray">11h 11m 48s</span>
-              </div>
-          </div>
-        </div> 
-        <div class="btn-container">
-          <button id="checkInBtn" class="btn btn-success btn-sm">출근하기</button>
-          <button id="checkOutBtn" class="btn btn-danger btn-sm">퇴근하기</button>
-        </div>
-        <br>
-      </div>
-    </div>
+            <div class="card-container-atd">
+                <div class="card card-atd">
+                    <div class="card-body">
+                        <div class="atd-setting-letter">근태관리</div>
+                        <div id="date" class="card-text atd-year-month"></div>
+                        <div id="time" class="card-text time-display"></div>                        
+                          <div class="details">
+                              <div>
+                                  <span>출근시간</span>              
+                                  <span id="checkInTime" class="atd-time-gray"></span>
+                              </div>
+                              <div>
+                                  <span>퇴근시간</span>              
+                                  <span id="checkOutTime" class="atd-time-gray"></span>
+                              </div>
+                              <div>
+                                  <span>주간 누적 근무시간</span>              
+                                  <span class="atd-time-gray">11h 11m 48s</span>
+                              </div>
+                          </div>
+                    </div> 
+                    <div class="btn-container">
+                      <button id="checkInBtn" class="btn btn-outline-primary btn-sm">출근하기</button>
+                      <button id="checkOutBtn" class="btn btn-outline-danger btn-sm">퇴근하기</button>
+                    </div><br>
+                </div>
+            </div>
         </div>
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'atdHistory')}">active</c:if>">
                 <a href="/gaent/atd/atdHistory" class="menu-link"> 
                     <span>근태관리</span>
                 </a>
-            </li>            
+            </li>
         </ul>
     </aside>
-        
-    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">                
-                    <h5 class="modal-title" id="messageModalLabel">쪽지쓰기</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-	               <!-- 쪽지쓰기 폼 -->                    
-                <form id="messageForm">
-                    <div class="modal-body">
-                        <!-- 숨겨진 필드에 로그인한 사용자의 ID -->
-                        <input type="hidden" name="sender" value="${loginInfo.empCode}">
-                        <div class="mb-3">
-                            <label for="receiver" class="form-label">받는이</label>
-                            <input type="text" class="form-control" id="receiver" name="receiver" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">제목</label>
-                            <input type="text" class="form-control" id="msgTitle" name="msgTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <!-- 첨부파일 관련 필드 -->
-                        </div>
-                        <div class="mb-6">
-                            <label for="content" class="form-label">내용</label>
-                            <textarea class="form-control" id="msgContent" name="msgContent" rows="6" required></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
-                        <button type="submit" class="btn btn-primary">보내기</button>
-                    </div>
-                </form>
+                <div class="modal-body">
+                    현재시간은 '<span id="currentTime"></span>' 입니다. <span id="actionText"></span>하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="confirmActionBtn">확인</button>
+                </div>
             </div>
         </div>
     </div>
-    
-    
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                현재시간은 '<span id="currentTime"></span>' 입니다. <span id="actionText"></span>하시겠습니까?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="confirmActionBtn">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 <script>
     $(document).ready(function() { 
@@ -216,9 +173,10 @@
                     $("#checkOutBtn").prop("disabled", true); // 퇴근 버튼 비활성화
                     $("#checkInBtn").prop("disabled", false); // 출근 버튼 활성화
                     
-                } else if(data.outTime == null) { // 퇴근을 아직 안한 상태
+                } else if(data.outTime == null) { // 출근만 한 상태 
                     $("#checkOutBtn").prop("disabled", false); // 퇴근 버튼 활성화
                     $("#checkInBtn").prop("disabled", true); // 출근 버튼 비활성화
+                    // $("#checkInBtn").prop("btn-dark", true); // 출근 버튼 비활성화
                     $("#checkInTime").text(data.inTime); // 출근 시간 표시
                 } else { // 이미 출근 및 퇴근을 모두 완료한 상태
                     $("#checkOutBtn").prop("disabled", true); // 퇴근 버튼 비활성화
@@ -242,7 +200,7 @@
             data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
             dataType: "json", 
             success: function(attendTime) { 
-                alert("출근 처리가 완료되었습니다.");
+                // alert("출근 처리가 완료되었습니다.");
                 $('#confirmationModal').modal('hide'); // 모달 닫기
                 commuteCheck(); // 출근 후 버튼 상태 업데이트
             },
@@ -261,7 +219,7 @@
             data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
             dataType: "json", 
             success: function(getOffTime) { 
-                alert("퇴근 처리가 완료되었습니다.");
+                // alert("퇴근 처리가 완료되었습니다.");
                 $('#confirmationModal').modal('hide'); // 모달 닫기
                 commuteCheck(); // 퇴근 후 버튼 상태 업데이트
             },

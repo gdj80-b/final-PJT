@@ -15,7 +15,7 @@
             emp_code = #{empCode} AND
             DATE(atd_in_time) = CURDATE()
         ORDER BY 
-            atd_in_time DESC    
+            atd_in_time DESC
     </select>
     
     <!-- 출근하기 -->
