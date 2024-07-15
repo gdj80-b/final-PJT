@@ -21,4 +21,12 @@ public class EdocService {
     public List<EmpVO> selectApprover() {
         return edocMapper.selectApprover();
     }
+    
+    public int insertDraft() {
+        return 0;
+    }
+    
+    public int insertEdocFile() {
+        return 0;
+    }
 }

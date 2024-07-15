@@ -23,20 +23,20 @@
     <tbody>
       <tr>
         <th class="text-center typeDraftThTag">시작일자</th>
-        <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date"></td>
+        <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propStartDate"></td>
         <th class="text-center typeDraftThTag">종료일자</th>
-        <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date"></td>
+        <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propEndDate"></td>
       </tr>
       <tr>
         <th class="text-center typeDraftThTag">제목</th>
-        <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text"></td>
+        <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="propTitle"></td>
       </tr>
       <tr>
-        <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12"></textarea></td>
+        <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="propContent"></textarea></td>
       </tr>
       <tr>
         <th class="text-center typeDraftThTag">파일첨부</th>
-        <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" multiple=""></td>
+        <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" multiple="" name="edocFileName"></td>
       </tr>
     </tbody>
   </table>

@@ -22,5 +22,58 @@
         FROM
             emp
     </select>
+    
+    <insert id="insertEdoc" parameterType="Map">
+        INSERT INTO
+            edoc(
+                edoc_type,
+                edoc_writer,
+                edoc_title,
+                edoc_enroll_date
+            ) VALUES(
+                #{edocType},
+                #{edocWriter},
+                #{edocTitle},
+                NOW(),
+            )
+    </insert>
+    
+    <insert id="insertEdocDraft" parameterType="Map">
+        <selectKey order="AFTER" keyProperty="edocNum" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    
+        INSERT INTO
+            edoc_draft(
+                edoc_num,
+                prop_start_date,
+                prop_end_date
+                prop_title,
+                prop_content
+            ) VALUES(
+                #{edocNum},
+                #{propStartDate},
+                #{propEndDate},
+                #{propTitle},
+                #{propContent}
+            )
+    </insert>
+    
+    <insert id="insertApprover" parameterType="Map">
+        INSERT INTO
+            edoc_approval(
+                edoc_num,
+                approver,
+                appr_order,
+                appr_reason,
+                appr_date
+            ) VALUES(
+                #{edocNum},
+                #{approver},
+                #{apprOrder},
+                #{apprReason},
+                NOW()
+            )
+    </insert>
 
 </mapper>

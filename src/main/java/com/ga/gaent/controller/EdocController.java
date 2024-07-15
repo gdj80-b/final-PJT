@@ -1,13 +1,14 @@
 package com.ga.gaent.controller;
 
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EmpVO;
@@ -25,7 +26,15 @@ public class EdocController {
     }
     
     @GetMapping("/edoc")
-    public String edocFrom() {
+    public String edocFrom(Model model) {
+        
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day = now.get(Calendar.DATE);
+        
+        model.addAttribute("date", year + "-" + (month + 1) + "-" + day);
+        
         return "edoc/edoc";
     }
     
@@ -52,17 +61,19 @@ public class EdocController {
         
         List<EmpVO> approverList = edocService.selectApprover();
         
-        /*
-         * Map<String, String> approver = new HashMap<>();
-         * 
-         * for(EmpVO vo: approverList) { approver.put("empCode", vo.getEmpCode()); approver.put("teamCode",
-         * vo.getTeamCode()); approver.put("rankCode", vo.getRankCode()); approver.put("korName",
-         * vo.getKorName()); }
-         */
-        
         model.addAttribute("approverList", approverList);
-        log.debug(TeamColor.BLUE_BG + "approverList: " + approverList + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "approverList: " + approverList + TeamColor.RESET);
         
         return "edoc/edocApproverModal";
+    }
+    
+    @GetMapping("/approver")
+    public String getEdocApprover() {
+        return "edoc/edocApprover";
+    }
+    
+    @PostMapping("/approver/edoc")
+    public String approvalRequest(EdocRequestDTO edocRequestDTO) {
+        return "redirect:edoc/edocDetail";
     }
 }

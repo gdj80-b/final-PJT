@@ -26,15 +26,17 @@
   <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
     <tbody>
       <tr>
-        <th class="text-center approverThTag" rowspan="3">접 수</th>
-        <td class="small text-center approverTdTag">직위</td>
+        <th id="edocApproverOrder" class="text-center approverThTag" rowspan="3">접 수</th>
+        <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
       </tr>
       <tr>
-        <td class="small text-center">결재자</td>
+        <td id="edocKorName" class="small text-center">결재자</td>
       </tr>
       <tr>
-        <td class="small text-center approverTdTag">결재일</td>
+        <td id="edocApprovalDate" class="small text-center approverTdTag">결재일</td>
       </tr>
     </tbody>
   </table>
+  <input type="hidden" name="edocApprover" id="hiddenEdocApprover">
+  <input type="hidden" name="edocApprover" id="hiddenEdocApproverOrder">
 </div>

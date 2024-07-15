@@ -7,10 +7,42 @@
   <head>
     <meta charset="UTF-8" />
     <title>전자결재 - GAEnt.</title>
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/js/commonAjax.js"/>
     <style>
+      .edoc {
+        max-width: 100%;
+        width: 880px;
+        height: 780px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .edoc-type-select-box {
+        width: 200px;
+      }
+
+      .edoc-form-info {
+        width: 300px;
+      }
+
+      .edoc-form-info-table {
+        background-color: #fff;
+        margin-bottom: 0rem !important;
+      }
+
+      .edoc-form-info-table > tbody > tr > th {
+        width: 80px;
+        color: #fff !important;
+        background-color: rgba(105, 108, 255, 0.6);
+      }
+
+      .edoc-form-info-table > tbody > tr > td > input {
+        border: none;
+        outline: none;
+      }
+
       .edoc-form-area {
         background-color: #fff;
         height: 440px;
@@ -18,8 +50,8 @@
         align-items: center;
         justify-content: center;
       }
-    
-      .btn-me{
+
+      .btn-me {
         margin-right: -1rem !important;
       }
     </style>
@@ -34,56 +66,65 @@
         <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
       </div>
       <div id="workspace-area" class="subsidebar-from-workspace">
-        <div style="max-width: 100%; width: 880px; height: 780px; overflow-x: hidden; overflow-y: auto">
-          <div class="d-flex mb-3">
-            <span class="display-6 fw-semibold me-3">기안하기</span>
-            <div style="width: 200px;">
-              <select id="edoc-type" class="form-select form-select-sm">
-                <option value="">양식을 선택해주세요.</option>
-              </select>
+        <div class="edoc">
+          <form method="post" action="approver/edoc">
+            <div class="d-flex mb-3">
+              <span class="display-6 fw-semibold me-3">기안하기</span>
+              <div class="edoc-type-select-box">
+                <select id="edoc-type" class="form-select form-select-sm" name="edocFormType">
+                  <option value="">양식을 선택해주세요.</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <hr />
-          <div>
-            <div class="mb-3">
-              <span class="display-6 fw-semibold mb-0">전자문서양식</span>
-            </div>
-            <div class="d-flex justify-content-between">
-              <!-- 문서정보 -->
-              <div style="width: 300px;">
-                <div class="table-responsive text-nowrap">
-                  <table class="table table-bordered table-sm" style="background-color: #fff; margin-bottom: 0rem !important">
-                    <tbody>
-                      <tr>
-                        <th class="text-center" style="width: 80px; color: #fff; background-color: rgba(105, 108, 255, 0.6);">기안서</th>
-                        <td class="small">${loginInfo.korName}</td>
-                      </tr>
-                      <tr>
-                        <th class="text-center" style="width: 80px; color: #fff; background-color: rgba(105, 108, 255, 0.6);">소속</th>
-                        <td class="small">${loginInfo.rankCode}</td>
-                      </tr>
-                      <tr>
-                        <th class="text-center" style="width: 80px; color: #fff; background-color: rgba(105, 108, 255, 0.6);">기안일</th>
-                        <td class="small"></td>
-                      </tr>
-                      <tr>
-                        <th class="text-center" style="width: 80px; color: #fff; background-color: rgba(105, 108, 255, 0.6);">문서번호</th>
-                        <td class="small"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+            <hr />
+            <div>
+              <div class="mb-3">
+                <span id="edoc-form-title" class="display-6 fw-semibold mb-0">전자문서양식</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <!-- 문서정보 -->
+                <div class="edoc-form-info">
+                  <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered table-sm edoc-form-info-table">
+                      <tbody>
+                        <tr>
+                          <th class="text-center">기안서</th>
+                          <td class="small">
+                            <input name="edocKorName" value="${loginInfo.korName}" readonly />
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">소속</th>
+                          <td class="small">
+                            <input name="edocRankCode" value="${loginInfo.rankCode}" readonly />
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">기안일</th>
+                          <td class="small">
+                            <input name="edocDate" value="${date}" readonly />
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center">문서번호</th>
+                          <td class="small">
+                            <input name="edocNum" value="" readonly />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- 결재선 -->
+                <div class="d-flex">
+                  <div id="edoc-approver-one" class="me-2"></div>
+                  <div id="edoc-approver-two"></div>
                 </div>
               </div>
-              <!-- 결재선 -->
-              <div>
-                <jsp:include page="/WEB-INF/view/edoc/edocApprover.jsp"></jsp:include>
-              </div>
             </div>
-          </div>
-          <hr />
-          <!-- 기안서 양식 -->
-          <div>
-            <form method="post" action="approval/edoc/${edocType}">
+            <hr />
+            <!-- 기안서 양식 -->
+            <div>
               <div id="edoc-form-type">
                 <div class="edoc-form-area">양식을 선택해주세요.</div>
               </div>
@@ -100,60 +141,78 @@
                   <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
                 </a>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <!-- 기안서 양식 -->
     <script>
-        $.ajax({
-          url: '/gaent/edocType',
-          method: 'GET',
-          success: function(data) {
-            // console.log(data);
-            data.forEach(function(el) {
-              // console.log(el);
-              $('#edoc-type').append('<option value="' + el.edocType + '">' + el.edocFormTitle + '</option>');
-            });
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
-        
-        $('#edoc-type').change(function() {
-          if($('#edoc-type').val() == '') {
-            $('#edoc-form-type').empty();
-            $('#edoc-form-type').append('<div class="edoc-form-area">양식을 선택해주세요.</div>');
-            return;
-          } else if($('#edoc-type').val() == '0') {
-            $.ajax({
-              url: '/gaent/edoc/0',
-              method: 'GET',
-              success: function(data) {
-                $('#edoc-form-type').empty();
-                $('#edoc-form-type').append(data);
-              },
-              error: function(error) {
-                console.log(error);
-              }
-            });
-          }
-        });
-        
-        $.ajax({
-          url: '/gaent/getApprover',
-          method: 'GET',
-          success: function(data) {
-            $('#approver-modal').empty();
-            $('#approver-modal').append(data);
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
+      $(document).ready(function () {
+        // Date 객체를 사용하여 오늘의 날짜를 구합니다.
+        let today = new Date();
+        // 날짜 형식을 YYYY-MM-DD로 변환합니다.
+        let year = today.getFullYear();
+        // 월은 0부터 시작하므로 +1 필요
+        let month = ('0' + (today.getMonth() + 1)).slice(-2);
+        let day = ('0' + today.getDate()).slice(-2);
+        let formattedDate = year + '-' + month + '-' + day;
+        // 구한 날짜를 #today-date 요소에 표시합니다.
+        $('#today-date').text(formattedDate);
+      });
+
+      $.ajax({
+        url: '/gaent/edocType',
+        method: 'GET',
+        success: function (data) {
+          // console.log(data);
+          data.forEach(function (el) {
+            // console.log(el);
+            $('#edoc-type').append('<option value="' + el.edocType + '">' + el.edocFormTitle + '</option>');
+          });
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+
+      $('#edoc-type').change(function () {
+        if ($('#edoc-type').val() == '') {
+          $('#edoc-form-type').empty();
+          $('#edoc-form-type').append(
+            '<div class="edoc-form-area">양식을 선택해주세요.</div>'
+          );
+          return;
+        } else if ($('#edoc-type').val() == '0') {
+          $.ajax({
+            url: '/gaent/edoc/0',
+            method: 'GET',
+            success: function (data) {
+              console.log(data);
+              $('#edoc-form-title').empty();
+              $('#edoc-form-title').append('기안서');
+              $('#edoc-form-type').empty();
+              $('#edoc-form-type').append(data);
+            },
+            error: function (error) {
+              console.log(error);
+            },
+          });
+        }
+      });
+
+      $.ajax({
+        url: '/gaent/getApprover',
+        method: 'GET',
+        success: function (data) {
+          $('#approver-modal').empty();
+          $('#approver-modal').append(data);
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
     </script>
+    <!-- 모달 -->
     <div id="approver-modal"></div>
   </body>
 </html>

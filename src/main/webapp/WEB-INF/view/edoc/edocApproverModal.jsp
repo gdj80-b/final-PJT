@@ -26,20 +26,20 @@
               <tbody class="table-border-bottom-0">
                 <c:forEach var="vo" items="${approverList}">
                   <c:if test="${vo.rankCode > 2}">
-                  <tr>
-                    <td><input class="form-check-input" type="checkbox" value="${vo.empCode}" id="defaultCheck3" name="approval"></td>
-                    <td>${vo.empCode}</td>
-                    <td>${vo.teamCode}</td>
-                    <td>${vo.rankCode}</td>
-                    <td>${vo.korName}</td>
-                    <td>
-                      <select id="smallSelect" class="form-select form-select-sm" name="approvalRank">
-                        <option value="0">차수</option>
-                        <option value="1">1차</option>
-                        <option value="2">2차</option>
-                      </select>
-                    </td>
-                  </tr>
+                    <tr>
+                      <td><input class="form-check-input" type="checkbox" value="${vo.empCode}" id="approver" name="approver"></td>
+                      <td>${vo.empCode}</td>
+                      <td>${vo.teamCode}</td>
+                      <td id="rankCode">${vo.rankCode}</td>
+                      <td id="korName">${vo.korName}</td>
+                      <td>
+                        <select class="form-select form-select-sm" id="approverOrder"  name="approvalRank">
+                          <option value="0">차수</option>
+                          <option value="1">1차</option>
+                          <option value="2">2차</option>
+                        </select>
+                      </td>
+                    </tr>
                   </c:if>
                 </c:forEach>
               </tbody>
@@ -48,9 +48,64 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="">Save changes</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" onclick="addApprover()" data-bs-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
 </div>
+<script>
+  function addApprover() {
+    $('#edoc-approver-one').empty();
+    $('#edoc-approver-two').empty();
+
+    $('input[name="approver"]:checked').each(function() {
+      let approver = $(this).val();
+      let approverOrder = $(this).closest('tr').find('#approverOrder').val();
+      let approverRank = $(this).closest('tr').find('#rankCode').text();
+      let approverName = $(this).closest('tr').find('#korName').text();
+      
+      let approverData = {
+        approver: approver,
+        approverOrder: approverOrder,
+        approverRank: approverRank,
+        approverName: approverName
+      }
+      
+      console.log(approverData);
+      
+      if(approverData.approverOrder === '1' && approverData.approverOrder !== '2') {
+        $('#edoc-approver-one').empty();
+        fetchApproverData('#edoc-approver-one', approverOrder, approver, approverOrder, approverRank, approverName);
+      }
+      
+      if(approverData.approverOrder === '2' && approverData.approverOrder !== '1') {
+        $('#edoc-approver-two').empty();
+        fetchApproverData('#edoc-approver-two', approverOrder, approver, approverOrder, approverRank, approverName);
+      }
+      
+      function fetchApproverData(elementId, approverOrder, approver, approverOrder, approverRank, approverName) {
+        $.ajax({
+          url: '/gaent/approver',
+          method: 'GET',
+          success: function(data) {
+            // console.log(data);
+            $(elementId).append(data);
+            $('#edocApproverOrder').empty();
+            $('#edocRankCode').empty();
+            $('#edocKorName').empty();
+            $('#edocApprovalDate').empty();
+            $('#edocApproverOrder').append(approverOrder);
+            $('#hiddenEdocApprover').val(approver);
+            $('#hiddenEdocApproverOrder').val(approverOrder);
+            $('#edocRankCode').append(approverRank);
+            $('#edocKorName').append(approverName);
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+      }
+    });
+  }
+</script>

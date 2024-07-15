@@ -10,4 +10,8 @@ public interface EdocMapper {
 
     List<EdocFormTypeVO> selectEdocType();
     List<EmpVO> selectApprover();
+    int insertEdoc();
+    int insertEdocFile();
+    int insertEdocDraft();
+    int insertApprover();
 }
