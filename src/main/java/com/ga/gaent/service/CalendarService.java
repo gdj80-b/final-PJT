@@ -55,4 +55,16 @@ public class CalendarService {
         }
         return deleteEvent;
     }
+    
+    // 일정수정
+    public int updateEvent(CalendarVO calendar) {
+        
+        int updateEvent = calendarMapper.updateEvent(calendar);
+        if(updateEvent == 1) {
+            log.debug("일정 수정 성공");
+        }else {
+            log.debug("일정 수정 실패");
+        }
+        return updateEvent;
+    }
 }

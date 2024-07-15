@@ -77,4 +77,18 @@ public class CalendarController {
             return "redirect:/calendar/eventOne?calNum=" + calNum;
         }
     }
+    
+    // 일정수정
+    @PostMapping("/modifyEvent")
+    public String modifyEvent(CalendarVO calendar) {
+        
+        calendar.formatDate(calendar.getCalStartDate(), calendar.getCalEndDate());
+        
+        int modifyEvent = calendarService.updateEvent(calendar);
+        if(modifyEvent == 1) {
+            return "redirect:/calendar";
+        }else {
+            return "redirect:/calendar";
+        }
+    }
 }

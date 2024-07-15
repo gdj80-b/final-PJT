@@ -19,7 +19,6 @@
   <!-- Bootstrap 스크립트 추가 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-  <!-- 공통 헤더, 사이드바 스타일시트 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   <style>
   /* body 스타일 */
@@ -35,25 +34,17 @@
     padding-right: 1em;
   }
   
-  #calendar {
-    width: 1000px; /* 원하는 너비로 설정 */
-    height: 500px; /* 원하는 높이로 설정 */
-  }
+  
 </style>
 </head>
 <body>
-	<!-- <body style="padding:30px;"> -->
-	<div id="">
-      <div id="header-area">
+	<!-- 헤더 -->
+	<div id="header-area">
         <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-      </div>
-      <div id="sidebar_area">
-        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/common/sub-sidebar.jsp"></jsp:include>
-      </div>
-      <div id="workspace-area" class="subsidebar-from-workspace">
-        <!-- 작업공간 시작 -->
-        	<!-- calendar 태그 -->
+    </div>
+    
+<div id="workspace-area" class="subsidebar-from-workspace">
+	<!-- calendar 태그 -->
     <div id='calendar'></div>
   
   <!-- 부트스트랩 modal 부분 시작 -->
@@ -92,22 +83,34 @@
       <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
       <div class="modal-body">
 		<!-- 작성자 --> 
-		<input type="hidden" name="calWriter">
-	    일정타입 : 
-	    <input type="radio" name="calType" value="private" /> 개인
-	    <input type="radio" name="calType" value="team" /> 팀
-	    <input type="radio" name="calType" value="dept" /> 부서
-	    <input type="radio" name="calType" value="corp" /> 전사
-	    <input type="radio" name="calType" value="artist" /> 아티스트<br />
+		<input type="hidden" name="calWriter" value="">
+	    일정타입 : <select name="calType">
+					    <option value="public">개인(공개)</option>
+					    <option value="private">개인(제한)</option>
+					    <option value="tpublic">팀(공개)</option>
+					    <option value="tprivate">팀(제한)</option>
+					    <option value="corp">전사(전체)</option>
+					    <option value="artist">아티스트(전체)</option>
+					</select>
+					<br />
 	    제목 : <input type="text" name="calTitle" /><br />
         내용 : <input type="text" name="calContent" /><br />
         시작시간 : <input type="datetime-local" name="calStartDate" /> <br />
         종료시간 : <input type="datetime-local" name="calEndDate" /><br />
-        공개범위 : 
-        	<input type="radio" name="calOpen" value="all" /> 전체
-			<input type="radio" name="calOpen" value="private" /> 개인
-			<input type="radio" name="calOpen" value="team" /> 팀
-			<input type="radio" name="calOpen" value="dept" /> 부서<br />
+        일정분류 : <select name="calTargetType">
+					    <option value="emp">개인</option>
+					    <option value="110">인사팀</option>
+					    <option value="210">경영팀</option>
+					    <option value="220">회계팀</option>
+					    <option value="310">기획팀</option>
+					    <option value="320">제작팀</option>
+					    <option value="410">홍보팀</option>
+					    <option value="420">영업팀</option>
+					    <option value="510">매니지먼트팀</option>
+					    <option value="520">스타일팀</option>
+					    <option value="corp">전사</option>
+					    <option value="artist">아티스트</option>
+					</select>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
@@ -118,8 +121,6 @@
   </div>
 </div>
     <!-- 부트스트랩 modal 부분 끝 -->
-        <!-- 작은공간 끝 -->
-      </div>
     </div>
 </body>
 <script>

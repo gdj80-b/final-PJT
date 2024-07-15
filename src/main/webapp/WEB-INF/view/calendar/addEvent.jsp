@@ -21,24 +21,33 @@
         <h1>일정등록</h1>
 	<form action="/gaent/calendar/addEvent" method="post">
 		<!-- 작성자 --> 
-		<input type="hidden" name="calWriter">
+		<input type="hidden" name="calWriter" value="">
 	    일정타입 : <select name="calType">
-					    <option value="private">개인</option>
-					    <option value="team">팀</option>
-					    <option value="dept">부서</option>
-					    <option value="corp">전사</option>
-					    <option value="artist">아티스트</option>
+					    <option value="public">개인(공개)</option>
+					    <option value="private">개인(제한)</option>
+					    <option value="tpublic">팀(공개)</option>
+					    <option value="tprivate">팀(제한)</option>
+					    <option value="corp">전사(전체)</option>
+					    <option value="artist">아티스트(전체)</option>
 					</select>
 					<br />
 	    제목 : <input type="text" name="calTitle" /><br />
         내용 : <input type="text" name="calContent" /><br />
         시작시간 : <input type="datetime-local" name="calStartDate" /> <br />
         종료시간 : <input type="datetime-local" name="calEndDate" /><br />
-        공개범위 : <select name="calTargetType">
-					    <option value="all">전체</option>
-					    <option value="private">개인</option>
-					    <option value="team">팀</option>
-					    <option value="dept">부서</option>
+        일정분류 : <select name="calTargetType">
+					    <option value="emp">개인</option>
+					    <option value="110">인사팀</option>
+					    <option value="210">경영팀</option>
+					    <option value="220">회계팀</option>
+					    <option value="310">기획팀</option>
+					    <option value="320">제작팀</option>
+					    <option value="410">홍보팀</option>
+					    <option value="420">영업팀</option>
+					    <option value="510">매니지먼트팀</option>
+					    <option value="520">스타일팀</option>
+					    <option value="corp">전사</option>
+					    <option value="artist">아티스트</option>
 					</select>
         <button type="submit" class="btn btn-primary">등록</button>
         <button type="button" class="btn btn-secondary">취소</button>

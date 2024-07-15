@@ -19,4 +19,7 @@ public interface CalendarMapper {
     
     // 일정삭제
     int deleteEvent(int calNum);
+    
+    // 일정수정
+    int updateEvent(CalendarVO calendar);
 }
