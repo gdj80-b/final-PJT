@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.CalendarMapper">
+    
+    <!-- 일정등록 -->
+    <insert id="insertEvent" parameterType="com.ga.gaent.vo.CalendarVO">
+        INSERT INTO calendar(
+            cal_writer,
+            cal_type,
+            cal_target_type,
+            cal_title,
+            cal_content,
+            cal_start_date,
+            cal_end_date,
+            cal_create_date,
+            cal_update_date
+            )
+        VALUES(
+            #{calType},
+            #{calTargetType},
+            #{calWriter},
+            #{calTitle},
+            #{calContent},
+            #{calStartDate},
+            #{calEndDate},
+            NOW(),
+            NOW()
+            )
+    </insert>
+    
+    <!-- 일정조회 -->
+    <select id="selectEventList" resultType="Map">
+        SELECT
+        	cal_num id, cal_title title, cal_start_date start, cal_end_date end
+        FROM
+        	calendar
+    </select>
+    
+    <!-- 일정상세 -->
+    <select id="selectEventOne" parameterType="int" resultType="com.ga.gaent.vo.CalendarVO">
+        SELECT
+            cal_num calNum,
+            cal_writer calWriter,
+            cal_type calType,
+            cal_target_type calTargetType,
+            cal_title calTitle,
+            cal_content calContent,
+            cal_start_date calStartDate,
+            cal_end_date calEndDate,
+            cal_create_date calCreateDate,
+            cal_update_date calUpdateDate
+        FROM
+            calendar
+        WHERE
+            cal_num = ${calNum}
+    </select>
+    
+    <!-- 일정삭제 -->
+    <delete id="deleteEvent" parameterType="int">
+        DELETE FROM
+            calendar
+        WHERE
+            cal_num = ${calNum}
+    </delete>
+    
+    <!-- 일정삭제 -->
+    <update id="updateEvent" parameterType="com.ga.gaent.vo.CalendarVO">
+        UPDATE
+            calendar
+        SET
+            cal_type = #{calType},
+            cal_target_type = #{calTargetType},
+            cal_title = #{calTitle},
+            cal_content = #{calContent},
+            cal_start_date = #{calStartDate},
+            cal_end_date = #{calEndDate},
+            cal_update_date = NOW()
+        WHERE
+            cal_num = ${calNum}
+    </update>
+</mapper>
