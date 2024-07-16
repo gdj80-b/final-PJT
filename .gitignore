@@ -48,6 +48,7 @@ local.properties
 .loadpath
 .recommenders
 application-db.properties
+application-API-KEY.properties
 google.json
 
 # External tool builders

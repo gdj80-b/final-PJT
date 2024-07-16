@@ -28,8 +28,8 @@
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         <div class="mb-3">
-<!--                            <label for="title" class="form-label">첨부파일</label> -->
-<!--                            <input type="file" class="form-control" id="file" name="file" required> -->
+                           <label for="title" class="form-label">첨부파일</label>
+                           <input type="file" class="form-control" id="file" name="file" required>
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">내용</label>

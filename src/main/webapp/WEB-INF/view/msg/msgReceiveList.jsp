@@ -13,14 +13,11 @@
             font-family: Arial, sans-serif;
         }
         .inbox-container {
-            width: 100%;
-            margin: 0 auto;
             margin-top: 20px;
         }
         .inbox-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
         }
@@ -42,18 +39,26 @@
         .inbox-table tr:hover {
             background-color: #f1f1f1;
         }
-        .inbox-table .checkbox {
+        .checkbox {
             text-align: center;
             width: 60px;
         }
         .msg-sub-size {
-            width: 160px;
+            width: 140px;
             text-align: center;
         }
         .msg-time-size {
             width: 200px;
             text-align: right;
         }
+        .msg-sh-btn{
+            text-decoration: none;   /* 링크의 기본 밑줄 제거 */
+            padding: 5px 5px;      /* 버튼의 패딩 조정 */
+            color: white;            /* 버튼의 텍스트 색상 */
+            border-radius: 5px;      /* 버튼의 모서리 둥글게 */
+            display: inline-block;   /* 버튼이 줄바꿈 없이 나란히 위치하도록 설정 */
+        }
+        
     </style>
 </head>
 <body>
@@ -73,16 +78,18 @@
                         <thead>
                             <tr>
                                 <th colspan="2">
-                                    <span id="notReadCnt"></span>개 / ${pg.totalRow}개
+                                    <span id="notReadCnt"></span>개 / ${pg.lastRow}개
                                 </th>
                                 <th style="padding-left:80px">
                                     <form class="d-flex align-items-center" action="/gaent/msg/1">
-                                        <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg" style="max-width:80%">
-                                        <button class="btn btn-secondary" type="submit">검색</button>
+                                        <span style="width:600px">
+                                        <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg">
+                                        </span>
+                                        <button class="btn btn-secondary msg-sh-btn" type="submit">검색</button>
                                     </form>
                                 </th>
                                 <th style="text-align:right">
-                                    <button type="button" id="deleteButton" class="btn btn-success">읽음</button>
+                                    <button type="button" id="readButton" class="btn btn-success">읽음</button>
                                     <button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
                                 </th>
                             </tr>
@@ -104,7 +111,7 @@
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
-                                    <td class="msg-sender-size">${m.senderName}</td>
+                                    <td class="msg-sub-size">${m.senderName}</td>
                                     <td class="msg-title-size">
                                         <a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}">
                                             ${m.msgTitle}
@@ -153,7 +160,14 @@
     <script>
         $(document).ready(function() {
             checkNotReadMsg();
-
+            
+            
+            // 한번에 체크
+            $('#selectAll').click(function() {
+                $('input[name="msgNum"]').prop('checked', this.checked);
+            });
+            
+			<!-- 삭제버튼-->
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
                 let count = checkedItems.length;
@@ -190,11 +204,46 @@
                     alert('삭제할 항목을 선택하세요.');
                 }
             });
-
-            // 한번에 체크
-            $('#selectAll').click(function() {
-                $('input[name="msgNum"]').prop('checked', this.checked);
+            
+            
+            
+            			<!-- 읽기버튼-->
+            $('#readButton').click(function() {
+                let checkedItems = $('input[name="msgNum"]:checked');
+                let count = checkedItems.length;
+                let empCode = "${loginInfo.empCode}";
+                if (count > 0) {
+                    if (confirm(count + '개 항목을 읽음처리하시겠습니까?')) {
+                        let ids = [];
+                        checkedItems.each(function() {
+                            ids.push($(this).val());
+                        });
+                        $.ajax({
+                            url: '/gaent/msg/readMsg',
+                            type: 'POST',
+                            traditional: true,
+                            data: {
+                                msgNums: ids,
+                                empCode: empCode
+                            },
+                            success: function(result) {
+                                //if (result != 0) {
+                                
+                                    alert( result + '개가 읽음처리되었습니다');
+                                    location.reload();
+                                
+                            },
+                            error: function() {
+                                alert('항목 읽음처리에 실패했습니다.');
+                            }
+                        });
+                    }
+                } else {
+                    alert('읽기처리할 항목을 선택하세요.');
+                }
             });
+
+            
 
             function checkNotReadMsg() {
                 $.ajax({
