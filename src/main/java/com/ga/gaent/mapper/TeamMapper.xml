@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.TeamMapper">
+    
+    <select id="selectTreeInfo" resultType="Map">
+        SELECT
+            team_code  id,
+            parent_team_code parent,
+            team_name text
+        FROM
+            team
+        
+        UNION ALL
+
+        SELECT
+            emp_code id,
+            team_code parent,
+            emp_kor_name text
+        FROM
+            emp
+        ORDER BY
+            parent, id, text
+    </select>
+</mapper>
