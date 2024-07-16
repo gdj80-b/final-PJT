@@ -653,8 +653,15 @@ a:hover {
   color: #fff;
 }
 
+/* 2024-07-11 서브 사이드바 추가 */
 .bg-sub-menu-theme {
   background-color: #fff !important;
+  color: #697a8d;
+}
+
+/* 2024-07-16 채팅방 목록 사이드바 추가 */
+.bg-content-menu-theme {
+  background-color: #f5f5f9 !important;
   color: #697a8d;
 }
 
