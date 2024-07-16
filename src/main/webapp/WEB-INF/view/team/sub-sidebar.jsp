@@ -14,7 +14,9 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-3">
     <li class="menu-item">
-    	<h3><span>인사관리</span></h3>
+    	<div class="menu-link">
+    	<span class="display-6 fw-semibold mb-0">인사관리</span>
+    	</div>
     </li>
     <li class="menu-item">
     	<div class="menu-link">
@@ -31,6 +33,7 @@
     	</div>
       </li>
       <li class="menu-item">
+      	<div class="menu-link">
         <!-- 조직도 시작 -->
         <div id="orgChart"></div>
         
@@ -71,6 +74,7 @@
 	        });
     	</script>
         <!-- 조직도 끝 -->
+        </div>
       </li>
     </ul>
   </aside>

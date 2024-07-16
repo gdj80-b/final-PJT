@@ -5,9 +5,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.TeamService;
+import com.ga.gaent.vo.TeamVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -35,5 +37,18 @@ public class TeamController {
     @GetMapping("/addTeam")
     public String addTeamForm() {
         return "team/addTeam";
+    }
+    
+    // 팀 등록 액션
+    @PostMapping("/addTeam")
+    public String addTeamAction(TeamVO team) {
+        
+        int addTeam = teamService.insertTeam(team);
+        if(addTeam == 1) {
+            return "redirect:/gaent/team";
+        }else {
+            return "redirect:/gaent/addTeam";
+        }
+        
     }
 }
