@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.PaymentMapper">
+
+    <insert id="payPrd" parameterType="com.ga.gaent.vo.PaymentVO">
+        INSERT INTO
+            payment(
+	           prod_code,
+               emp_code,
+               pay_type,
+               pay_amount,
+               pay_price,
+               pay_time
+               )
+            VALUES  (
+               #{prodCode},
+               #{empCode},
+               #{payType},
+               #{payAmount},
+               #{payPrice},
+               #{payTime}
+            )
+    </insert>
+
+
+    <select id="getPaymentList" parameterType="String" resultType="com.ga.gaent.vo.PaymentVO">
+        SELECT 
+            prod_code,
+            emp_code,
+            pay_type,
+            pay_amount,
+            pay_price,
+            pay_time
+        FROM 
+            payment
+        WHERE
+            emp_code=#{empCode}
+    </select>
+
+</mapper>
