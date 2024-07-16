@@ -3,7 +3,7 @@ package com.ga.gaent.mapper;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
-import com.ga.gaent.vo.MsgVO;
+import com.ga.gaent.dto.MsgDTO;
 
 @Mapper
 public interface MsgMapper {
@@ -12,10 +12,10 @@ public interface MsgMapper {
   int msgCnt(Map<String,Object>m);
     
   // 쪽지리스트
-  List<MsgVO> selectMsgList(Map<String,Object>m);
+  List<MsgDTO> selectMsgList(Map<String,Object>m);
   
   // 쪽지쓰기
-  int sendMsg(MsgVO m);
+  int sendMsg(MsgDTO m);
   
   // 쪽지 영구 삭제
   int eliminateMsg();
@@ -24,7 +24,7 @@ public interface MsgMapper {
   int updateMsgStatus(Map<String,Object>m);
   
   // 쪽지상세 
-  MsgVO msgDetail(Map<String,Object>m);
+  MsgDTO msgDetail(Map<String,Object>m);
   
   // 쪽지읽기
   int readMsg(Map<String,Object>m);
