@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.MsgMapper">
-    <select id="selectMsgList" parameterType="map" resultType="com.ga.gaent.vo.MsgVO">
+    <select id="selectMsgList" parameterType="map" resultType="com.ga.gaent.dto.MsgDTO">
         SELECT
             m.msg_num msgNum,
             m.msg_sender sender,
@@ -113,20 +113,23 @@
     
     
     <!-- 쪽지쓰기 -->
-    <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
+    <insert id="sendMsg" parameterType="com.ga.gaent.dto.MsgDTO">
         INSERT INTO
 	       msg(
                msg_sender,
                msg_receiver,
                msg_title,
-               msg_content
+               msg_content,
+               file_name
            ) VALUES(
                #{sender},
                #{receiver},
                #{msgTitle},
-               #{msgContent}
+               #{msgContent},
+               #{msgFileName}
            )
     </insert>
+
     <!-- 메시지 삭제,복구 상태변경 -->
     <update id="updateMsgStatus" parameterType="map">
         UPDATE msg
@@ -157,7 +160,7 @@
     </update>
     
     <!-- 쪽지상세 -->
-    <select id="msgDetail" parameterType="String" resultType="com.ga.gaent.vo.MsgVO">
+    <select id="msgDetail" parameterType="String" resultType="com.ga.gaent.dto.MsgDTO">
         SELECT
             m.msg_num msgNum,
             m.msg_sender sender,

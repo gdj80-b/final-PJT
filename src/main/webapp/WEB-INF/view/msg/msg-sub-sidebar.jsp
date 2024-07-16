@@ -37,37 +37,34 @@
             <a href="#" class="btn btn-success btn-lg btn-Msg-sidebar" id="writeMessageBtn2">내게쓰기</a>
         </div>
         <hr>
-        <div>
-            여백
-        </div>
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgList')}">active</c:if>">
                 <a href="/gaent/msg/0" class="menu-link"> 
-                    <span>전체쪽지함</span>
+                    <span class="fs-5 mb-2">전체쪽지함</span>
                 </a>
             </li>
             <!-- 받은쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgReceive')}">active</c:if>">
                 <a href="/gaent/msg/1" class="menu-link"> 
-                    <span>받은쪽지함</span>
+                    <span class="fs-5 mb-2">받은쪽지함</span>
                 </a>
             </li>
             <!-- 보낸쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSendList')}">active</c:if>">
                 <a href="/gaent/msg/2" class="menu-link">
-                    <span>보낸쪽지함</span>
+                    <span class="fs-5 mb-2">보낸쪽지함</span>
                 </a>
             </li>
             <!-- 내게쓴쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSelf')}">active</c:if>">
                 <a href="/gaent/msg/3" class="menu-link">
-                    <span>내게쓴쪽지함</span>
+                    <span class="fs-5 mb-2">내게쓴쪽지함</span>
                 </a>
             </li>
             <!-- 휴지통 -->
 	        <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgBin')}">active</c:if>">
                 <a href="/gaent/msg/4" class="menu-link">                  
-                    <span>휴지통</span>
+                    <span class="fs-5 mb-2">휴지통</span>
                 </a>
 	       </li>
         </ul>
@@ -81,10 +78,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 	               <!-- 쪽지쓰기 폼 -->                    
-                <form id="messageForm">
+                <form id="messageForm" enctype="multipart/form-data">
                     <div class="modal-body">
                         <!-- 숨겨진 필드에 로그인한 사용자의 ID -->
-                        <input type="hidden" name="sender" value="${loginInfo.empCode}">
+                        <input type="hidden" id="sender" name="sender" value="${loginInfo.empCode}">
                         <div class="mb-3">
                             <label for="receiver" class="form-label">받는이</label>
                             <input type="text" class="form-control" id="receiver" name="receiver" required>
@@ -94,7 +91,9 @@
                             <input type="text" class="form-control" id="msgTitle" name="msgTitle" required>
                         </div>
                         <div class="mb-3">
-                            <!-- 첨부파일 관련 필드 -->
+                           <label for="file" class="form-label">첨부파일</label>
+                           <input type="file" class="form-control" id="file" name="gaFile" accept="image/*"> 
+                          
                         </div>
                         <div class="mb-6">
                             <label for="content" class="form-label">내용</label>
@@ -110,6 +109,7 @@
         </div>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         // "쪽지쓰기" 버튼 클릭 시 모달 표시
@@ -129,12 +129,15 @@
         // 폼 제출 시 AJAX 요청으로 쪽지 보내기
         $('#messageForm').submit(function(event){
             event.preventDefault(); // 폼의 기본 제출 동작을 중단
-            let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+            // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+            let formData = new FormData($('#messageForm')[0]);
             
             $.ajax({
                 url: '/gaent/msg/sendMessage', // 서버에 쪽지를 보낼 URL
                 type: 'POST',
                 data: formData,
+                contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
+                processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
                 success: function(response){
                     alert('쪽지가 성공적으로 보내졌습니다.');
                     $('#messageModal').modal('hide');

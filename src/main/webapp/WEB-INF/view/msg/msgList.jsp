@@ -78,7 +78,7 @@
         <div class="card">
             <h2 class="card-title" style="margin:50px 0px 0px 30px">전체쪽지함</h2>            
             <div class="card-body inbox-container">            
-                <div class="care-body" style="height:600px; position: relative;">
+                <div class="care-body" style="height:700px; position: relative;">
                     <table class="inbox-table">
                         <thead>
                             <tr>
@@ -109,7 +109,7 @@
                         <tbody>
                             <c:if test="${empty list}">
                                 <tr>
-                                    <td colspan="4" style="text-align:center">쪽지가 없습니다</td>
+                                    <td colspan="5" style="text-align:center">쪽지가 없습니다</td>
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
@@ -122,7 +122,7 @@
                                          (m.receiver == loginInfo.empCode ? '<span style="color:purple">수신</span>'
                                          : '<span style="color:orange">발신</span>') }
                                      </td>                                    
-                                    <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.receiverName : m.senderName) }</td>
+                                    <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.senderName : m.receiverName) }</td>
                                     <td class="msg-title-size">
                                         <a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}">
                                             ${m.msgTitle}

@@ -109,7 +109,7 @@
                         <tbody>
                             <c:if test="${empty list}">
                                 <tr>
-                                    <td colspan="4" style="text-align:center">쪽지가 없습니다</td>
+                                    <td colspan="5" style="text-align:center">쪽지가 없습니다</td>
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
