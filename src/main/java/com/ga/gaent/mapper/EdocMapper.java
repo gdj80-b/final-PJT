@@ -51,4 +51,18 @@ public interface EdocMapper {
      * Description : 전자결재 결재선 데이터 입력
      */
     int insertApprover(Map<String, Object> edocMap);
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 결재 대기 문서 조회
+     */
+    List<Map<String, String>> selectToDo(int currentPage, int rowPerPage);
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 전자결재 문서 상세 조회
+     */
+    Map<String, Object> selectEdocDetail(int edocNum);
 }

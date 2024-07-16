@@ -18,7 +18,7 @@
         <h5 class="fs-4 fw-semibold mb-2">결재하기</h5>
         <ul class="menu-item">
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/toDo" class="menu-link">
               <span>결재 대기 문서</span>
             </a>
           </div>

@@ -2,6 +2,7 @@ package com.ga.gaent.controller;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.tags.shaded.org.apache.xpath.objects.XNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
+import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EmpVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -123,5 +126,44 @@ public class EdocController {
         
         redirectAttributes.addFlashAttribute("message", pass);
         return "redirect:edoc/edocDetail";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 결재대기문서 리스트 조회
+     */
+    @GetMapping("/approval/toDo")
+    public String getToDo(
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage,
+            Model model
+            ) {
+        
+        List<Map<String, String>> toDoList = edocService.selectToDo(currentPage, rowPerPage);
+        /* log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET); */
+        
+        model.addAttribute("toDoList", toDoList);
+        
+        return "edoc/toDo";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 전자결재 문서 상세보기
+     */
+    @GetMapping("/edocDetail/{edocNum}")
+    public String getEdocDetail(
+            @PathVariable(name = "edocNum") Integer edocNum,
+            Model model
+            ) {
+        
+        Map<String, Object> edocDetail = edocService.selectEdocDetail(edocNum);
+        log.debug(TeamColor.BLUE_BG + "edocDetail: " + edocDetail + TeamColor.RESET);
+        
+        model.addAttribute("edocDetail", edocDetail);
+        
+        return "edoc/edocDetail";
     }
 }

@@ -9,7 +9,6 @@
     <title>전자결재 - GAEnt.</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/js/commonAjax.js"/>
     <style>
       .edoc {
         max-width: 100%;
@@ -88,7 +87,7 @@
                     <table class="table table-bordered table-sm edoc-form-info-table">
                       <tbody>
                         <tr>
-                          <th class="text-center">기안서</th>
+                          <th class="text-center">기안자</th>
                           <td class="small">
                             <input name="edocKorName" value="${loginInfo.korName}" readonly />
                             <input type="hidden" name="edocWriter" value="${loginInfo.empCode}" readonly />

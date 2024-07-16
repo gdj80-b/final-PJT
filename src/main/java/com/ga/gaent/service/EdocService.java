@@ -92,4 +92,22 @@ public class EdocService {
         
         return edocMapper.insertEdocFile(insertFile);
     }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 결재대기문서 리스트 호출
+     */
+    public List<Map<String, String>> selectToDo(int currentPage, int rowPerPage) {
+        return edocMapper.selectToDo(currentPage, rowPerPage);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 전자결재 문서 상세보기
+     */
+    public Map<String, Object> selectEdocDetail(int edocNum) {
+        return edocMapper.selectEdocDetail(edocNum);
+    }
 }
