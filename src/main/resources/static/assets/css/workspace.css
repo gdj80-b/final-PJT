@@ -59,3 +59,33 @@
     padding-bottom: 2rem;
   }
 }
+
+/* 컨텐츠 사이드바가 있을 때의 작업공간 스타일 속성 */
+@media (max-width: 1199.98px) {
+  .content-from-workspace {
+    top: 0 !important;
+    left: 0 !important;
+    
+    margin-right: 0 !important;
+    margin-left: 38.75rem !important;
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    
+    width: inherit;
+    height: 100% !important;
+    will-change: transform, -webkit-transform;
+  }
+}
+
+@media (min-width: 1200px) {
+  .content-from-workspace {
+    margin-left: 49rem;
+    
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+  }
+}
