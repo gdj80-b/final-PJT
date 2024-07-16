@@ -3894,6 +3894,22 @@ textarea.form-control-lg {
   background-color: transparent;
   border-bottom: 0 solid #d9dee3;
 }
+
+/* 2024-07-13 전자결재 */
+.card-header-edoc {
+  padding: 1rem 1rem 0 1rem;
+  margin-bottom: 0;
+  background-color: transparent;
+  border-bottom: 0 solid #d9dee3;
+  font-weight: 600;
+}
+
+/* 2024-07-13 전자결재 */
+.card-body-edoc {
+  flex: 1 1 auto;
+  padding: 1rem 1rem;
+}
+
 .card-header:first-child {
   border-radius: 0.5rem 0.5rem 0 0;
 }
@@ -14976,7 +14992,9 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   transition: height 0.3s ease-in-out;
 }
 
+/* 2024-07-13 전자결재 */
 .menu-item,
+.menu-item-edoc,
 .menu-header,
 .menu-divider,
 .menu-block {
@@ -15065,13 +15083,14 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 /* .menu-vertical:not(.menu-no-animation) {
   transition: width 0.3s;
 } */
- 
+
 .menu-vertical,
 .menu-vertical .menu-block,
 .menu-vertical .menu-inner > .menu-item,
 .menu-vertical .menu-inner > .menu-header {
   width: 13rem;
 }
+
 .menu-vertical .menu-inner {
   flex-direction: column;
   flex: 1 1 auto;
@@ -15079,6 +15098,13 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .menu-vertical .menu-inner > .menu-item {
   margin: 0.0625rem 0;
 }
+
+/* 2024-07-13 전자결재 */
+.menu-vertical .menu-inner > .menu-item-edoc {
+  margin: 0.0625rem 0;
+  padding: 0.625rem 2rem 0.625rem 2rem;
+}
+
 .menu-vertical .menu-inner > .menu-item .menu-link {
   margin: 0rem 1rem;
 }
