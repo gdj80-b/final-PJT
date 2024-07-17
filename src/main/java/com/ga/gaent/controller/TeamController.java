@@ -33,13 +33,13 @@ public class TeamController {
         return teamService.selectTreeInfo();
     }
     
-    // 팀 등록 폼
+    // 부서 등록 폼
     @GetMapping("/addTeam")
     public String addTeamForm() {
         return "team/addTeam";
     }
     
-    // 팀 등록 액션
+    // 부서 등록 액션
     @PostMapping("/addTeam")
     public String addTeamAction(TeamVO team) {
         
@@ -49,6 +49,17 @@ public class TeamController {
         }else {
             return "redirect:/gaent/addTeam";
         }
+    }
+    
+    // 부서 삭제
+    @GetMapping("/removeTeam")
+    public String removeTeam(int teamCode) {
         
+        int removeTeam = teamService.deleteTeam(teamCode);
+        if(removeTeam == 1) {
+            return "redirect:/gaent/team";
+        }else {
+            return "redirect:/geant/team";
+        }
     }
 }

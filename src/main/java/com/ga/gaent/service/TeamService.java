@@ -28,7 +28,7 @@ public class TeamService {
             return list;
         }
     
-    // 팀 등록
+    // 부서 등록
     public int insertTeam(TeamVO team) {
         
         int insertTeam = teamMapper.insertTeam(team);
@@ -38,5 +38,17 @@ public class TeamService {
             log.debug("팀 등록 실패");
         }
         return insertTeam;
+    }
+    
+    // 부서 삭제
+    public int deleteTeam(int teamCode) {
+        
+        int deleteTeam = teamMapper.deleteTeam(teamCode);
+        if(deleteTeam == 1) {
+            log.debug("부서 삭제 성공");
+        }else {
+            log.debug("부서 삭제 실패");
+        }
+        return deleteTeam;
     }
 }

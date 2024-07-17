@@ -23,7 +23,7 @@
             parent, id, text
     </select>
     
-    <!--  팀 등록 -->
+    <!--  부서 등록 -->
     <insert id="insertTeam" parameterType="com.ga.gaent.vo.TeamVO">
         INSERT INTO team(
             team_code,
@@ -41,4 +41,20 @@
             NOW()
         )
     </insert>
+    
+    <!-- 부서 삭제 -->
+    <delete id="deleteTeam" parameterType="int">
+        DELETE FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+        <!-- 부서원이 1명이라도 존재할 경우 삭제 취소 -->
+        AND NOT EXISTS (
+            SELECT
+                1
+            FROM
+                emp
+            WHERE team_code = #{teamCode}
+        )
+    </delete>
 </mapper>
