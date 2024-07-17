@@ -56,7 +56,7 @@
             </li>
             <!-- 전자결재 -->
             <li class="menu-item">
-                <a href="/gaent/home" class="menu-link"> 
+                <a href="/gaent/approval" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-briefcase"></i> <span>전자결재</span>
                 </a>
             </li>

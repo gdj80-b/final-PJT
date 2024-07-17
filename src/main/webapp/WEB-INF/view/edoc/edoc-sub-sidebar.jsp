@@ -11,7 +11,7 @@
       </li>
       <li class="menu-item">
         <div class="menu-link">
-          <button class="btn btn-primary btn-lg" onclick="location.href='edoc'">새 결재 진행</button>
+          <button class="btn btn-primary btn-lg" onclick="location.href='/gaent/edoc'">새 결재 진행</button>
         </div>
       </li>
       <li class="menu-item-edoc">
@@ -23,12 +23,12 @@
             </a>
           </div>
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/upComing" class="menu-link">
               <span>결재 진행 문서</span>
             </a>
           </div>
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/history" class="menu-link">
               <span>결재 내역</span>
             </a>
           </div>
@@ -38,17 +38,17 @@
         <h5 class="fs-4 fw-semibold mb-2">개인 문서함</h5>
         <ul class="menu-item">
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/draft" class="menu-link">
               <span>기안 문서함</span>
             </a>
           </div>
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/approve" class="menu-link">
               <span>승인 문서함</span>
             </a>
           </div>
           <div class="">
-            <a href="/" class="menu-link">
+            <a href="/gaent/approval/reject" class="menu-link">
               <span>반려 문서함</span>
             </a>
           </div>

@@ -95,11 +95,31 @@ public class EdocService {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 17.
+     * Description : 결재대기문서 리스트 호출(전자결재 홈)
+     */
+    public List<Map<String, String>> selectToDo(String empCode) {
+        
+        Map<String, Object> toDoMap = new HashMap<>();
+        
+        toDoMap.put("empCode", empCode);
+        
+        return edocMapper.selectToDo(toDoMap);
+    }
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 16.
      * Description : 결재대기문서 리스트 호출
      */
-    public List<Map<String, String>> selectToDo(int currentPage, int rowPerPage) {
-        return edocMapper.selectToDo(currentPage, rowPerPage);
+    public List<Map<String, String>> selectToDo(int currentPage, int rowPerPage, String empCode) {
+        
+        Map<String, Object> toDoMap = new HashMap<>();
+        
+        toDoMap.put("empCode", empCode);
+        toDoMap.put("startRow", (currentPage - 1) * rowPerPage);
+        
+        return edocMapper.selectToDo(toDoMap);
     }
     
     /*

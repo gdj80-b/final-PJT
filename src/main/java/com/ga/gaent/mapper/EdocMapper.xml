@@ -83,26 +83,54 @@
             )
     </insert>
     
-    <select id="selectToDo" parameterType="int" resultType="Map">
+    <select id="selectToDo" parameterType="Map" resultType="Map">
         SELECT
             e.edoc_num edocNum,
             e.edoc_enroll_date edocEnrollDate,
             eft.edoc_form_title edocFormTitle,
             ed.prop_title propTitle,
             ef.file_name fileName,
-            emp.emp_kor_name korName
+            emp.emp_kor_name korName,
+            e.edoc_status edocStatus
         FROM
             edoc e
                 LEFT OUTER JOIN emp emp ON e.edoc_writer = emp.emp_code
                 LEFT OUTER JOIN edoc_draft ed ON e.edoc_num = ed.edoc_num
                 LEFT OUTER JOIN edoc_file ef ON e.file_name = ef.file_name
                 LEFT OUTER JOIN edoc_form_type eft ON e.edoc_type = eft.edoc_type
+                LEFT OUTER JOIN (
+                    SELECT 
+                        ea.edoc_num,
+                        ea.approver empCode,
+                        emp2.emp_kor_name approver,
+                        ea.appr_order,
+                        ea.appr_status,
+                        ea.appr_date,
+                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                    FROM
+                        edoc_approval ea
+                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                ) ea1 ON e.edoc_num = ea1.edoc_num AND ea1.row_num = 1 LEFT OUTER JOIN (
+                    SELECT 
+                        ea.edoc_num,
+                        ea.approver empCode,
+                        emp2.emp_kor_name approver,
+                        ea.appr_order,
+                        ea.appr_status,
+                        ea.appr_date,
+                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                    FROM
+                        edoc_approval ea
+                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
         WHERE
-            e.edoc_status = '0'
+            e.edoc_status = '0' AND (ea1.empCode = #{empCode} OR ea2.empCode = #{empCode})
         ORDER BY
             e.edoc_enroll_date DESC
-        LIMIT
-            #{currentPage}, #{rowPerPage}
+        <if test="startRow != null">
+            LIMIT
+                #{startRow}, 10
+        </if>
     </select>
     
     <select id="selectEdocDetail" parameterType="int" resultType="Map">
@@ -157,7 +185,7 @@
                             LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
                 ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
         WHERE
-            e.edoc_num = 3;
+            e.edoc_num = #{edocNum};
     </select>
 
 </mapper>

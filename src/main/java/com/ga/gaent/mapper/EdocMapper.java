@@ -57,7 +57,7 @@ public interface EdocMapper {
      * @since : 2024. 07. 16.
      * Description : 결재 대기 문서 조회
      */
-    List<Map<String, String>> selectToDo(int currentPage, int rowPerPage);
+    List<Map<String, String>> selectToDo(Map<String, Object> todoMap);
     
     /*
      * @author : 정건희

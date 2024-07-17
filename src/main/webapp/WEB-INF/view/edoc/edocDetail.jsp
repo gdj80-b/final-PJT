@@ -193,7 +193,7 @@
             <button class="btn btn-link btn-me" data-bs-toggle="modal" data-bs-target="#modalScrollable" type="button">
               <i class="menu-icon bx bx-exit"></i>반려
             </button>
-            <a href="approval" class="btn btn-link btn-me">
+            <a href="javascript:history.back()" class="btn btn-link btn-me">
               <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
             </a>
           </div>

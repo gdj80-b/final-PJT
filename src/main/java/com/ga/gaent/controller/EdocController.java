@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
+import com.ga.gaent.vo.EdocFormTypeVO;
 import com.ga.gaent.vo.EmpVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +26,16 @@ import lombok.extern.slf4j.Slf4j;
 public class EdocController {
     
     @Autowired EdocService edocService;
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 16.
+     * Description : 로그인 사용자 정보 세션에서 꺼내기(공통코드)
+     */
+    private String getEmpCode(HttpSession session) {
+        Map<String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo"));
+        return (String) loginInfo.get("empCode");
+    }
 
     /*
      * @author : 정건희
@@ -30,7 +43,16 @@ public class EdocController {
      * Description : 전자결재 페이지
      */
     @GetMapping("/approval")
-    public String approval() {
+    public String approval(HttpSession session, Model model) {
+        
+        String empCode = getEmpCode(session);
+        
+        // 전자결재 페이지에서 보이는 카드(결재대기문서)
+        List<Map<String, String>> toDoList = edocService.selectToDo(empCode);
+        log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET);
+        
+        model.addAttribute("toDoList", toDoList);
+        
         return "edoc/approval";
     }
     
@@ -50,6 +72,12 @@ public class EdocController {
         model.addAttribute("date", year + "-" + (month + 1) + "-" + day);
         
         return "edoc/edoc";
+    }
+    
+    @GetMapping("/edocType")
+    @ResponseBody
+    public List<EdocFormTypeVO> getEdocType() {
+        return edocService.selectEdocType();
     }
     
     /*
@@ -135,12 +163,14 @@ public class EdocController {
      */
     @GetMapping("/approval/toDo")
     public String getToDo(
+            HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage,
-            Model model
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage
             ) {
         
-        List<Map<String, String>> toDoList = edocService.selectToDo(currentPage, rowPerPage);
+        String empCode = getEmpCode(session);
+        
+        List<Map<String, String>> toDoList = edocService.selectToDo(currentPage, rowPerPage, empCode);
         /* log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET); */
         
         model.addAttribute("toDoList", toDoList);
@@ -165,5 +195,60 @@ public class EdocController {
         model.addAttribute("edocDetail", edocDetail);
         
         return "edoc/edocDetail";
+    }
+    
+    /*
+     * @author : 홍길동
+     * @since : 2024. 07. 00.
+     * Description : 결재진행문서 리스트 조회
+     */
+    @GetMapping("/approval/upComing")
+    public String getUpComing(HttpSession session, Model model) {
+        String empCode = getEmpCode(session);
+        return "edoc/upComing";
+    }
+    
+    /*
+     * @author : 홍길동
+     * @since : 2024. 07. 00.
+     * Description : 결재내역 리스트 조회
+     */
+    @GetMapping("/approval/history")
+    public String getHistory(HttpSession session, Model model) {
+        String empCode = getEmpCode(session);
+        return "edoc/history";
+    }
+    
+    /*
+     * @author : 홍길동
+     * @since : 2024. 07. 00.
+     * Description : 기안문서 리스트 조회
+     */
+    @GetMapping("/approval/draft")
+    public String getDraft(HttpSession session, Model model) {
+        String empCode = getEmpCode(session);
+        return "edoc/draft";
+    }
+    
+    /*
+     * @author : 홍길동
+     * @since : 2024. 07. 00.
+     * Description : 승인문서 리스트 조회
+     */
+    @GetMapping("/approval/approve")
+    public String getApprove(HttpSession session, Model model) {
+        String empCode = getEmpCode(session);
+        return "edoc/approve";
+    }
+    
+    /*
+     * @author : 홍길동
+     * @since : 2024. 07. 00.
+     * Description : 반려문서 리스트 조회
+     */
+    @GetMapping("/approval/reject")
+    public String getReject(HttpSession session, Model model) {
+        String empCode = getEmpCode(session);
+        return "edoc/reject";
     }
 }

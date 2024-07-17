@@ -25,7 +25,7 @@
             <span class="display-6 fw-semibold mb-0">승인 문서함</span>
           </div>
           <div>
-            <jsp:include page="/WEB-INF/view/edoc/edocToDoTable.jsp"></jsp:include>
+            <h1>작업공간</h1>
           </div>
         </div>
       </div>
