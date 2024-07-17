@@ -19,12 +19,14 @@
       <div id="sidebar-area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
         <jsp:include page="/WEB-INF/view/chat/chat-sub-sidebar.jsp"></jsp:include>
-        <div id="content-sidebar-area" class="content-sidebar-from-workspace">
+      </div>
+      <div id="workspace-area" class="d-flex">
+        <div class="chat-list-from-workspace">
           <jsp:include page="/WEB-INF/view/chat/chatRoomList.jsp"></jsp:include>
         </div>
-      </div>
-      <div id="workspace-area" class="content-from-workspace d-flex align-items-center justify-content-center">
-        <jsp:include page="/WEB-INF/view/chat/chatHistory.jsp"></jsp:include>
+        <div class="chat-history-from-workspace">
+          <jsp:include page="/WEB-INF/view/chat/chatHistory.jsp"></jsp:include>
+        </div>
       </div>
     </div>
   </body>
