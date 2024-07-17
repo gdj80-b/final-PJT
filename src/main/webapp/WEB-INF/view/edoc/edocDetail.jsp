@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -134,7 +135,7 @@
                     <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                       <tbody>
                         <tr>
-                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="3">접 수</th>
+                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
                           <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
                         </tr>
                         <tr>
@@ -142,6 +143,9 @@
                         </tr>
                         <tr>
                           <td id="edocApprovalDate" class="small text-center approverTdTag">결재일</td>
+                        </tr>
+                        <tr>
+                          <td id="edocApprovalDate" class="small text-center approverTdTag">${edocDetail.apprDate1}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -154,7 +158,7 @@
                     <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                       <tbody>
                         <tr>
-                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="3">접 수</th>
+                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
                           <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
                         </tr>
                         <tr>
@@ -162,6 +166,9 @@
                         </tr>
                         <tr>
                           <td id="edocApprovalDate" class="small text-center approverTdTag">결재일</td>
+                        </tr>
+                        <tr>
+                          <td id="edocApprovalDate" class="small text-center approverTdTag">${edocDetail.apprDate2}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -174,32 +181,125 @@
         <hr />
         <!-- 기안서 양식 -->
         <div>
-          <div id="edoc-form-type">
-            <c:choose>
-              <c:when test="${edocDetail.edocType == 0}">
-                <jsp:include page="/WEB-INF/view/edoc/edocFormTypeDraft.jsp"></jsp:include>
-              </c:when>
-              <c:otherwise>
-                <div class="edoc-form-area">양식을 선택해주세요.</div>
-              </c:otherwise>
-            </c:choose>
-          </div>
-          <hr />
-          <!-- 버튼 -->
-          <div class="text-end">
-            <button class="btn btn-link btn-me" type="submit">
-              <i class="menu-icon bx bx-check-square"></i>결재
-            </button>
-            <button class="btn btn-link btn-me" data-bs-toggle="modal" data-bs-target="#modalScrollable" type="button">
-              <i class="menu-icon bx bx-exit"></i>반려
-            </button>
-            <a href="javascript:history.back()" class="btn btn-link btn-me">
-              <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
-            </a>
-          </div>
+            <div id="edoc-form-type">
+                <c:choose>
+                    <c:when test="${edocDetail.edocType == 0}">
+                        <jsp:include page="/WEB-INF/view/edoc/edocFormType/draftForm.jsp"></jsp:include>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="edoc-form-area">양식을 선택해주세요.</div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <hr />
+            <!-- 버튼 -->
+            <div class="text-end">
+                <button id="approveBtn" class="btn btn-link btn-me" type="button">
+                    <i class="menu-icon bx bx-check-square"></i>결재
+                </button>
+                <button id="rejectBtn" class="btn btn-link btn-me" type="button">
+                    <i class="menu-icon bx bx-exit"></i>반려                    
+                </button>
+                <a href="javascript:history.back()" class="btn btn-link btn-me"> <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
+                </a>
+            </div>
         </div>
-        </div>
+            </div>
       </div>
     </div>
+    
+    <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="approvalModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <form id="approvalForm">
+                    <div class="modal-body">
+                        <!-- 쪽지 작성 폼 -->
+                        <input type="hidden" name="empCode" value="${loginInfo.empCode}"> 
+                        <input type="hidden" name="edocNum" value="${edocDetail.edocNum}">
+                        <div class="mb-3">
+                            <label for="edocReason" class="form-label">의견</label>
+                            <textarea class="form-control" id="edocReason" name="edocReason" rows="3" placeholder="의견을 작성해 주세요"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span id="modalInBtn"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    
   </body>
+<script>
+$(document).ready(function() {
+    // 1차 승인자인 경우
+    if (${loginInfo.empCode == edocDetail.approverCode1}) {
+        console.log('1차승인자입니다');
+        $('#approveBtn').click(function() {
+            $('#approvalModalLabel').text('결재하기');
+            $('#modalInBtn').text('승인');
+            $('#approvalForm').data('request', 1); // request 값 설정
+            $('#approvalModal').modal('show');
+        });
+
+        $('#rejectBtn').click(function() {
+            $('#approvalModalLabel').text('반려하기');
+            $('#modalInBtn').text('반려');
+            $('#approvalForm').data('request', -1); // request 값 설정
+            $('#approvalModal').modal('show');
+        });
+    } 
+    // 2차 승인자인 경우
+    else if (${loginInfo.empCode == edocDetail.approverCode2}) {
+        console.log('2차승인자입니다');
+        $('#approveBtn').click(function() {
+            $('#approvalModalLabel').text('결재하기');
+            $('#modalInBtn').text('승인');
+            $('#approvalForm').data('request', 2); // request 값 설정
+            $('#approvalModal').modal('show');
+        });
+
+        $('#rejectBtn').click(function() {
+            $('#approvalModalLabel').text('반려하기');
+            $('#modalInBtn').text('반려');
+            $('#approvalForm').data('request', -2); // request 값 설정
+            $('#approvalModal').modal('show');
+        });
+    }
+
+    // 폼 제출 시 AJAX 요청으로 쪽지 보내기
+    $('#approvalForm').submit(function(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작을 중단
+        
+        let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+        let request = $(this).data('request'); // 저장된 request 값 가져오기
+
+        $.ajax({
+            url: '/gaent/edoc/updateEdocProcess',
+            type: 'POST',
+            data: formData + '&request=' + request,
+            success: function(response) {
+                alert('처리가 완료되었습니다.');
+                $('#approvalModal').modal('hide');
+                $('#approvalForm')[0].reset(); // 폼 초기화
+                window.location.reload(); // 현재 페이지 새로고침
+            },
+            error: function() {
+                alert('처리에 실패했습니다.');
+            }
+        });
+    });
+});
+
+</script>
 </html>
+

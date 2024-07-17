@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
@@ -89,15 +90,17 @@ public class EdocController {
     public String getEdocType(@PathVariable(name = "request", required = false) Integer request) {
         
         if(request == 0) {
-            return "edoc/edocFormTypeDraft";
+            return "edoc/edocFormType/draftForm";
         } else if (request == 1){
-            return "edoc/휴가신청서";
+            return "edoc/edocFormType/vacationForm";
         } else if (request == 2){
-            return "edoc/지출결의서";
+            return "edoc/edocFormType/projectForm";
         } else if (request == 3){
-            return "edoc/경조사지출결의서";
+            return "edoc/edocFormType/eventForm";
         } else if (request == 4) {
-            return "edoc/차량이용신청서";
+            return "edoc/edocFormType/carForm";
+        } else if (request == 5) {
+            return "edoc/edocFormType/reportForm";
         } else {
             return "edoc/보고서";
         }
@@ -135,9 +138,12 @@ public class EdocController {
      * Description : 전자결재 데이터 입력
      */
     @PostMapping("/approver/edoc")
-    public String approvalRequest(EdocRequestDTO edocRequestDTO, RedirectAttributes redirectAttributes) {
+    public String approvalRequest(
+            EdocRequestDTO edocRequestDTO,
+            EdocFormTypeDTO edocFormTypeDTO,
+            RedirectAttributes redirectAttributes) {
         
-        int draftResult = edocService.insertDraft(edocRequestDTO);
+        int result = edocService.insertEdoc(edocRequestDTO, edocFormTypeDTO);
         int edocFileResult = -1;
         
         if(edocRequestDTO.getFileName() != null) {
@@ -147,13 +153,13 @@ public class EdocController {
         String fail = "결재 요청에 실패하셨습니다.";
         String pass = "결재 요청에 성공하셨습니다.";
         
-        if(draftResult != 1) {
+        if(result != 1) {
             redirectAttributes.addFlashAttribute("message", fail);
             return "redirect:edoc/approval";
         }
         
         redirectAttributes.addFlashAttribute("message", pass);
-        return "redirect:edoc/edocDetail";
+        return "redirect:/approval/draft";
     }
     
     /*
@@ -250,5 +256,29 @@ public class EdocController {
     public String getReject(HttpSession session, Model model) {
         String empCode = getEmpCode(session);
         return "edoc/reject";
+    }
+    
+    // 결재,반려처리
+    @PostMapping("/edoc/updateEdocProcess")
+    @ResponseBody
+    public int updateEdocProcess(
+            @RequestParam(name = "empCode") int empCode,
+            @RequestParam(name = "edocNum") String edocNum,
+            @RequestParam(name = "edocReason", defaultValue = "") String edocReason,
+            @RequestParam(name = "request") Integer request
+            ) {
+        System.out.println("승인들어옴");
+        System.out.println("request: " + request);
+        
+        edocService.updateEdocProcess(empCode,edocNum,edocReason,request);
+        
+        return 1;
+    }
+    
+    
+    
+    @GetMapping("/a/test")
+    public String aa() {
+        return "redirect:/approval/draft";
     }
 }
