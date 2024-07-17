@@ -6,19 +6,5 @@
 
 .subside-nav {
   margin-top: 58px;
-  box-shadow: 0 0 1rem 0 rgba(67, 89, 113, 0.1);
-}
-
-.chat-subside-nav {
-  margin-top: 58px;
-  box-shadow: 0 0 0.325rem 0 rgba(67, 89, 113, 0.1);
-  z-index: 1;
-}
-
-.content-side-nav {
-  margin-top: 58px;
-  box-shadow: 0 0 0.2rem 0 rgba(67, 89, 113, 0.1);
-
-  width: inherit;
-  height: 100% !important;
+  box-shadow: 0 0 0.125rem 0 rgba(67, 89, 113, 0.1);
 }

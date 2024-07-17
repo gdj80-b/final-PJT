@@ -3,6 +3,13 @@
   height: calc(100vh - 11.3rem)
 }
 
+/* 2024-07-17 채팅방 목록 */
+.app-chat-room {
+  position: relative;
+  height: calc(100vh - 11.3rem);
+  width: 18rem !important;
+}
+
 .layout-navbar-hidden .app-chat {
   height: calc(100vh - 6.5rem)
 }
@@ -13,7 +20,7 @@
   }
 }
 
-@media(max-width: 992px) {
+@media(max-width: 1199.98px) {
   .app-chat .app-sidebar {
       z-index:4
   }
@@ -44,13 +51,28 @@
   position: absolute;
   left: calc(-21rem - 1rem);
   height: calc(100vh - 11.3rem);
-  width: 21rem;
+  width: 18rem;
+  flex-basis: 21rem;
+  transition: all .25s ease
+}
+
+/* 2024-07-17 채팅방 목록 */
+.app-chat-room .app-chat-contacts {
+  position: absolute;
+  left: calc(1rem - 1rem);
+  height: calc(100vh - 11.3rem);
+  width: 18rem;
   flex-basis: 21rem;
   transition: all .25s ease
 }
 
 .app-chat .app-chat-contacts .sidebar-header {
   height: 4.75rem
+}
+
+/* 2024-07-17 채팅방 목록 */
+.app-chat-room .app-chat-contacts .sidebar-header {
+  height: 3.9rem
 }
 
 .layout-navbar-hidden .app-chat .app-chat-contacts {
@@ -63,7 +85,7 @@
   }
 }
 
-@media(min-width: 992px) {
+@media(min-width: 1199.98px) {
   .app-chat .app-chat-contacts {
       position:static
   }
@@ -73,8 +95,9 @@
   left: 0rem
 }
 
+/* 2024-07-17 채팅방 목록 4.7 -> 3.925 수정 */
 .app-chat .app-chat-contacts .sidebar-body {
-  height: calc(calc(100vh - 11.3rem) - 4.7rem)
+  height: calc(calc(100vh - 11.3rem) - 3.925rem)
 }
 
 .layout-navbar-hidden .app-chat .app-chat-contacts .sidebar-body {
@@ -207,8 +230,10 @@
   justify-content: flex-end
 }
 
+/* 2024-07-17 채팅방 목록 배경 컬러 추가 */
 .app-chat .app-chat-history .chat-history-body .chat-history .chat-message.chat-message-right .chat-message-text {
-  border-top-right-radius: 0
+  border-top-right-radius: 0;
+  background-color: #696cff !important;
 }
 
 .app-chat .app-chat-history .chat-history-body .chat-history .chat-message.chat-message-right .user-avatar {
@@ -306,6 +331,11 @@
 }
 
 .light-style .app-chat .app-chat-history {
+  background-color: #f7f8f8
+}
+
+/* 2024-07-17 채팅방 */
+.light-style .app-chat .app-chat-contacts .sidebar-bg {
   background-color: #f7f8f8
 }
 
@@ -434,29 +464,32 @@
   border-top-right-radius: .375rem !important
 }
 
+/* 2024-07-16 채팅 스크롤바 */
 .scroll-container {
   position: relative;
   overflow: hidden;
 }
 
+/* 2024-07-16 채팅 스크롤바 */
 .scroll-content {
   overflow: hidden;
 }
 
+/* Perfect Scrollbar custom styles */
 .ps__rail-y {
-display: none;
-opacity: 0;
-transition: background-color 0.2s linear, opacity 0.2s linear;
--webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
-width: 15px;
-right: 0;
-position: absolute;
+  display: none;
+  opacity: 0;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  width: 15px;
+  right: 0;
+  position: absolute;
 }
 
 .ps--active-x > .ps__rail-x,
 .ps--active-y > .ps__rail-y {
-display: block;
-background-color: transparent;
+  display: block;
+  background-color: transparent;
 }
 
 .ps:hover > .ps__rail-x,
@@ -465,7 +498,7 @@ background-color: transparent;
 .ps--focus > .ps__rail-y,
 .ps--scrolling-x > .ps__rail-x,
 .ps--scrolling-y > .ps__rail-y {
-opacity: 0.6;
+  opacity: 0.6;
 }
 
 .ps .ps__rail-x:hover,
@@ -474,40 +507,40 @@ opacity: 0.6;
 .ps .ps__rail-y:focus,
 .ps .ps__rail-x.ps--clicking,
 .ps .ps__rail-y.ps--clicking {
-background-color: #eee;
-opacity: 0.9;
+  background-color: #eee;
+  opacity: 0.9;
 }
 
 .ps__thumb-x {
-background-color: #aaa;
-border-radius: 6px;
-transition: background-color 0.2s linear, height 0.2s ease-in-out;
--webkit-transition: background-color 0.2s linear, height 0.2s ease-in-out;
-height: 6px;
-bottom: 2px;
-position: absolute;
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color 0.2s linear, height 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, height 0.2s ease-in-out;
+  height: 6px;
+  bottom: 2px;
+  position: absolute;
 }
 
 .ps__thumb-y {
-background-color: #aaa;
-border-radius: 6px;
-transition: background-color 0.2s linear, width 0.2s ease-in-out;
--webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
-width: 6px;
-right: 2px;
-position: absolute;
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  width: 6px;
+  right: 2px;
+  position: absolute;
 }
 
 .ps__rail-x:hover > .ps__thumb-x,
 .ps__rail-x:focus > .ps__thumb-x,
 .ps__rail-x.ps--clicking .ps__thumb-x {
-background-color: #999;
-height: 11px;
+  background-color: #999;
+  height: 11px;
 }
 
 .ps__rail-y:hover > .ps__thumb-y,
 .ps__rail-y:focus > .ps__thumb-y,
 .ps__rail-y.ps--clicking .ps__thumb-y {
-background-color: #999;
-width: 11px;
+  background-color: #999;
+  width: 11px;
 }
