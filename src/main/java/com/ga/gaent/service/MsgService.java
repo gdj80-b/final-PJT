@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +32,10 @@ public class MsgService {
     @Autowired
     FileMapper fileMapper;
 
-    // 쪽지리스트
+    /* @author : 조인환
+     * @since : 2024. 07. 12.
+     * Description : 모든 쪽지 리스트 호출
+     */
     public List<MsgDTO> getMsgList(String empCode, int request, int currentPage, String searchMsg) {
 
         Map<String, Object> m = new HashMap<>();
@@ -43,7 +47,10 @@ public class MsgService {
         return msgMapper.selectMsgList(m);
     }
 
-    // 페이징을 위한 쪽지 수
+    /* @author : 조인환
+     * @since : 2024. 07. 14
+     * Description : 쪽지리스트 출력 페이징을 위한 매서드
+     */
     public Map<String, Object> getPagingIdx(String empCode, int request, int currentPage, String searchMsg) {
 
         Map<String, Object> m = new HashMap<>();
@@ -62,12 +69,9 @@ public class MsgService {
         return pagingMap;
     }
 
-
-    // 쪽지 보내기
-    /*
-     * @author : 조인환, 정건희
-     * 
-     * @since : 2024. 07. 16. Description : 결재대기문서 리스트 조회
+    /* @author : 조인환 / 조인환, 정건희
+     * @since : 2024. 07. 13. / 2024. 07. 16.(파일전송추가)
+     * @Description : 쪽지보내기
      */
     public String sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
         
@@ -95,13 +99,14 @@ public class MsgService {
             if (row != 1) {
                 throw new RuntimeException("데이터베이스 입려을 실패하였습니다.");
             }
-            
+            int success = msgMapper.sendMsg(m);
+            log.debug(TeamColor.RED + "Service메시지전송여부: " + success + TeamColor.RESET);
             return newFileName;
         }
 
 
         int success = msgMapper.sendMsg(m);
-        log.debug(TeamColor.RED + "Service입력성공여부: " + success + TeamColor.RESET);
+        log.debug(TeamColor.RED + "Service메시지전송여부: " + success + TeamColor.RESET);
 
         if (success != 1) {
             throw new RuntimeException("데이터베이스 입려을 실패하였습니다.");
@@ -117,8 +122,20 @@ public class MsgService {
 
         return "empty";
     }
+    
+    // 파일저장
+    private String getFileExtension(String filename) {
+        int lastIndex = filename.lastIndexOf('.');
+        if (lastIndex == -1) {
+            return "";
+        }
+        return filename.substring(lastIndex);
+    }
 
-    // 쪽지 삭제,복구 처리
+    /* @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : Ajax를 이용해 메시지 상태 변경
+     */
     public int modifyMsgState(Map<String, Object> m) {
         int success = msgMapper.updateMsgStatus(m);
         // int success = 1;
@@ -126,7 +143,10 @@ public class MsgService {
         return success;
     }
 
-    // 쪽지 상세
+    /* @author : 조인환
+     * @since : 2024. 07. 15
+     * Description : 메시지 상세보기
+     */
     public MsgDTO msgDetail(String msgNum, String empCode) {
         Map<String, Object> m = new HashMap<>();
         m.put("empCode", empCode);
@@ -140,7 +160,10 @@ public class MsgService {
         return msgMapper.msgDetail(m);
     }
 
-    // 쪽지 읽기처리
+    /* @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : Ajax를 이용해 메시지 읽기 처리
+     */
     public int readMsg(String empCode, String msgNum) {
         Map<String, Object> m = new HashMap<>();
         m.put("empCode", empCode);
@@ -153,16 +176,26 @@ public class MsgService {
         return msgMapper.readMsg(m);
     }
 
-    // 안읽은 쪽지수
+    /* @author : 조인환
+     * @since : 2024. 07. 14.
+     * Description : Ajax를 이용해 안읽은 메시지 수 확인
+     */
     public int msgNotReadCnt(String empCode) {
         return msgMapper.msgNotReadCnt(empCode);
+    }    
+    
+    /* @author : 조인환
+     * @since : 2024. 07. 17.
+     * Description : 스케줄러를 이용해 메시지 delete
+     */
+    @Scheduled(cron = "0 */12 * * *")   //매일 12시간마다
+    void eliminateMsg() {
+        int deleteMsg = msgMapper.eliminateMsg();
+        int deleteMsgFile = msgMapper.eliminateMsgFile();
+        log.debug(RED + "스케쥴러 이용 msg테이블 삭제처리 행 수 : " + deleteMsg + "msgFile테이블 삭제처리 행 수 : " + deleteMsgFile + RESET );
+       
     }
-
-    private String getFileExtension(String filename) {
-        int lastIndex = filename.lastIndexOf('.');
-        if (lastIndex == -1) {
-            return "";
-        }
-        return filename.substring(lastIndex);
-    }
+    
+ 
+    
 }

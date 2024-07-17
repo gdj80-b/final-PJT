@@ -85,7 +85,7 @@
                                 <th colspan="3">
                                     전체 : ${pg.lastRow}개
                                 </th>
-                                <th style="padding-left:80px">
+                                <th style="padding-left:50px">
                                     <form class="d-flex align-items-center" action="/gaent/msg/0">
                                         <span style="width:600px">
                                         <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg">
@@ -113,12 +113,12 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td class="msg-state-size">
-                                        ${m.receiver == m.sender ? '<span style="color:skyblue">자신</span>' :
+                                        ${m.receiver == m.sender ? '<span style="color:skyblue">나</span>' :
                                          (m.receiver == loginInfo.empCode ? '<span style="color:purple">수신</span>'
                                          : '<span style="color:orange">발신</span>') }
                                      </td>                                    

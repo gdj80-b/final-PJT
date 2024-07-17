@@ -17,8 +17,7 @@ public interface MsgMapper {
   // 쪽지쓰기
   int sendMsg(MsgDTO m);
   
-  // 쪽지 영구 삭제
-  int eliminateMsg();
+ 
   
   // 쪽지상태변경-삭제및복구
   int updateMsgStatus(Map<String,Object>m);
@@ -34,4 +33,9 @@ public interface MsgMapper {
   
   // 안읽은 쪽지수
   int msgNotReadCnt(String empCode);
+  
+  // 쪽지 영구 삭제
+  int eliminateMsg();
+  // 쪽지테이블에서삭제
+  int eliminateMsgFile();
 }

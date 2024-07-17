@@ -38,19 +38,17 @@ public class MsgController {
         return (String) loginInfo.get("empCode");
     }
 
-    // 리스트출력
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 12.
+     * Description : 모든 쪽지 리스트 호출
+     */
     @GetMapping("/{request}")
     String selectMsgList(
             HttpSession session, Model model,
             @PathVariable(name = "request", required = false) Integer request, 
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "searchMsg", defaultValue = "") String searchMsg) {
-        
-        // 세션에서 로그인한사람의 empCode추출
-        /*
-         * Map<String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo")); String
-         * empCode = (String) loginInfo.get("empCode");
-         */
+            @RequestParam(name = "searchMsg", defaultValue = "") String searchMsg) {      
         
         String empCode = getEmpCode(session);
         
@@ -76,7 +74,11 @@ public class MsgController {
         }
     }
 
-    // 발송
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : Ajax를 이용해 메시지 전송
+     */
     @PostMapping("/sendMessage")
     @ResponseBody
     public int sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
@@ -104,7 +106,11 @@ public class MsgController {
         return result;
     }
 
-    // 삭제,복원
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : Ajax를 이용해 메시지 상태 변경
+     */
     @PostMapping("/modifyMsgStatus")
     @ResponseBody
     public int modifyMsgStatus(
@@ -134,7 +140,11 @@ public class MsgController {
 
     }
 
-    // 메시지 상세
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15
+     * Description : 메시지 상세보기
+     */
     @GetMapping("/msgDetail/{msgNum}")
     public String msgDetail(
             HttpSession session, Model model, 
@@ -148,7 +158,11 @@ public class MsgController {
         return "/msg/msgDetail";
     }
 
-    // 안읽은 쪽지 수
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 14.
+     * Description : Ajax를 이용해 안읽은 메시지 수 확인
+     */
     @GetMapping("/msgNotReadCnt")
     @ResponseBody
     public int msgNotReadCnt(@RequestParam String empCode) {
@@ -156,7 +170,11 @@ public class MsgController {
     }
 
 
-    // 삭제,복원
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : Ajax를 이용해 메시지 읽기 처리
+     */
     @PostMapping("/readMsg")
     @ResponseBody
     public int readMsg(

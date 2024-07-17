@@ -49,7 +49,7 @@
         }
         .msg-time-size {
             width: 200px;
-            text-align: right;
+            text-align: right;            
         }
         .msg-sh-btn{
             text-decoration: none;   /* 링크의 기본 밑줄 제거 */
@@ -58,7 +58,6 @@
             border-radius: 5px;      /* 버튼의 모서리 둥글게 */
             display: inline-block;   /* 버튼이 줄바꿈 없이 나란히 위치하도록 설정 */
         }
-        
     </style>
 </head>
 <body>
@@ -107,7 +106,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>

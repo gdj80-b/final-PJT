@@ -103,7 +103,7 @@
                                     </td>
                                     <td class="msg-sender-size">${m.receiverName}</td>
                                     <td class="msg-title-size">
-                                        <a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}">
+                                        <a href="/gaent/msg/msgDetail/${m.msgNum}">
                                             ${m.msgTitle}
                                         </a>
                                     </td>
