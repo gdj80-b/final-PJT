@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.EdocMapper">
 
+    /*
+     * @author : 정건희
+     * Description : 새 결재 진행에서 select로 선택하는 기안서 양식 정보
+     */
     <select id="selectEdocType" resultType="com.ga.gaent.vo.EdocFormTypeVO">
         SELECT
             edoc_type edocType,
@@ -12,7 +16,11 @@
         FROM
             edoc_form_type
     </select>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 새 결재 진행에서 결재선에 들어갈 직원에 대한 정보 
+     */
     <select id="selectApprover" resultType="com.ga.gaent.vo.EmpVO">
         SELECT
             emp_code empCode,
@@ -22,7 +30,11 @@
         FROM
             emp
     </select>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
+     */
     <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
         INSERT INTO
             edoc(
@@ -35,7 +47,11 @@
                 NOW()
             )
     </insert>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 전자결재문서 작성 후 등록할 때 입력되는 첨부파일의 정보
+     */
     <insert id="insertEdocFile" parameterType="Map">
         INSERT INTO
             edoc_file(
@@ -50,7 +66,11 @@
                 #{fileSize}
             )
     </insert>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 전자결재문서 작성 후 등록할 때 입력되는 기안서 양식의 정보
+     */
     <insert id="insertEdocDraft" parameterType="com.ga.gaent.dto.EdocRequestDTO">
         INSERT INTO
             edoc_draft(
@@ -67,7 +87,11 @@
                 #{propContent}
             )
     </insert>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 전자결재문서 작성 후 등록할 때 입력되는 결재선(1차, 2차)의 정보
+     */
     <insert id="insertApprover" parameterType="Map">
         INSERT INTO
             edoc_approval(
@@ -82,7 +106,11 @@
                 NOW()
             )
     </insert>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 내가 결재(승인, 반려)해야 할 대기 문서의 정보
+     */
     <select id="selectToDo" parameterType="Map" resultType="Map">
         SELECT
             e.edoc_num edocNum,
@@ -132,7 +160,11 @@
                 #{startRow}, 10
         </if>
     </select>
-    
+
+    /*
+     * @author : 정건희
+     * Description : 내가 결재(승인, 반려)해야 할 대기 문서의 상세 정보
+     */
     <select id="selectEdocDetail" parameterType="int" resultType="Map">
         SELECT
             e.edoc_num edocNum,
