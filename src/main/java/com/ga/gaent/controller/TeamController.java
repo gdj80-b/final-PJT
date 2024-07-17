@@ -47,9 +47,21 @@ public class TeamController {
         
         int addTeam = teamService.insertTeam(team);
         if(addTeam == 1) {
-            return "redirect:/gaent/team";
+            return "redirect:/gaent/team/teamList";
         }else {
             return "redirect:/gaent/addTeam";
+        }
+    }
+    
+    // 부서 수정
+    @PostMapping("/modifyTeam")
+    public String modifyTeam(TeamVO team) {
+        
+        int modifyTeam = teamService.updateTeam(team);
+        if(modifyTeam == 1) {
+            return "redirect:/gaent/team/teamList";
+        }else {
+            return "redirect:/gaent/team/teamList";
         }
     }
     
@@ -59,9 +71,9 @@ public class TeamController {
         
         int removeTeam = teamService.deleteTeam(teamCode);
         if(removeTeam == 1) {
-            return "redirect:/gaent/team";
+            return "redirect:/gaent/team/teamList";
         }else {
-            return "redirect:/geant/team";
+            return "redirect:/geant/team/teamList";
         }
     }
     

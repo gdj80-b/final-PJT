@@ -61,7 +61,7 @@
           <td>${vo.teamCreateDate}</td>
           <td>${vo.teamUpdateDate}</td>
           <td><b><a href="#modifyModal${vo.teamCode}" data-toggle="modal" data-target="#modifyModal${vo.teamCode}" style="color: blue;">수정</a></b></td>
-          <td><b><a href="" style="color: red;">삭제</a></b></td>
+          <td><b><a href="/gaent/team/teamList" style="color: red;">삭제</a></b></td>
         </tr>
         </c:forEach>
       </tbody>
@@ -128,42 +128,45 @@
                 <h5 class="modal-title" id="exampleModalLabel2">부서수정</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
               </div>
+              <form action="/gaent/team/modifyTeam" method="post">
               <div class="modal-body">
                 <div class="row">
                   <div class="col mb-3">
-                    <label for="nameSmall" class="form-label">부서명</label><br />
-                    <input type="text" name="teamName" id="nameSmall" class="form-control" placeholder="부서명을 입력하세요.">
+                    <label for="teamName" class="form-label">부서명</label><br />
+                    <input type="text" name="teamName" id="teamName" class="form-control" placeholder="부서명을 입력하세요." value="${vo.teamName}">
                   </div>
                 </div>
                 <div class="row g-2">
                   <div class="col mb-0">
-                    <label class="form-label" for="codeSmall">부서코드</label><br />
-                    <input type="text" name="teamCode" class="form-control" id="codeSmall" placeholder="3자리 숫자 ex) 110" maxlength="3">
+                    <label class="form-label" for="teamCode">부서코드</label><br />
+                    <input type="text" name="teamCode" class="form-control" id="teamCode" placeholder="3자리 숫자 ex) 110" maxlength="3" value="${vo.teamCode}" readonly="readonly">
                   </div>
                   <div class="col mb-0">
-                    <label for="parentSmall" class="form-label">소속부서</label><br />
-                    <select name="parentTeamCode" id="parentSmall">
-					    <c:forEach var="team" items="${teamList}">
-					        <c:choose>
-					            <c:when test="${fn:length(team.parentTeamCode) == 3 && fn:substring(team.parentTeamCode, 1, 1) eq '0'}">
-					                <option value="10">대표이사</option>
-					                <option value="${team.teamCode}">${team.teamName}</option>
-					            </c:when>
-					        </c:choose>
-					    </c:forEach>
-					</select>
+                    <label for="parentTeamCode" class="form-label">소속부서</label><br />
+                    
+                    <select name="parentTeamCode" id="parentSmall" class="form-select color-dropdown">
+			          <option value="10">대표이사</option>
+					  <option value="100">인사부</option>
+					  <option value="200">경영부</option>
+					  <option value="300">기획부</option>
+					  <option value="400">홍보부</option>
+					  <option value="500">매니지먼트부</option>
+			        </select>
+			         
                   </div>
                 </div><br />
                 <div class="row">
                   <div class="col mb-3">
                     <label for="desSmall" class="form-label">부서설명</label><br />
-                    <input type="text" name="teamDes" id="desSmall" class="form-control" placeholder="부서명을 입력하세요.">
+                    <input type="text" name="teamDes" id="desSmall" class="form-control" placeholder="부서설명을 입력하세요." value="${vo.teamDes}">
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">수정</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">닫기</button>
               </div>
+              </form>
             </div>
           </div>
         </div>

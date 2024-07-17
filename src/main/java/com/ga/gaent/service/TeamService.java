@@ -34,11 +34,23 @@ public class TeamService {
         
         int insertTeam = teamMapper.insertTeam(team);
         if(insertTeam == 1) {
-            log.debug(yellow + "팀 등록 성공" + yellow);
+            log.debug(yellow + "부서 등록 성공" + yellow);
         }else {
-            log.debug(yellow + "팀 등록 실패" + yellow);
+            log.debug(yellow + "부서 등록 실패" + yellow);
         }
         return insertTeam;
+    }
+    
+    // 부서 수정
+    public int updateTeam(TeamVO team) {
+        
+        int updateTeam = teamMapper.updateTeam(team);
+        if(updateTeam == 1) {
+            log.debug(yellow + "부서 수정 성공" + yellow);
+        }else {
+            log.debug(yellow + "부서 수정 실패" + yellow);
+        }
+        return updateTeam;
     }
     
     // 부서 삭제

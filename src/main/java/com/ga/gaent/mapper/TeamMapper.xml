@@ -42,6 +42,19 @@
         )
     </insert>
     
+    <!-- 부서 수정 -->
+    <update id="updateTeam" parameterType="com.ga.gaent.vo.TeamVO">
+        UPDATE
+            team
+        SET
+            team_name = #{teamName},
+            team_des = #{teamDes},
+            parent_team_code = #{parentTeamCode},
+            team_update_date = NOW()
+        WHERE
+            team_code = #{teamCode}
+    </update>
+    
     <!-- 부서 삭제 -->
     <delete id="deleteTeam" parameterType="int">
         DELETE FROM

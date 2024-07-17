@@ -14,6 +14,9 @@ public interface TeamMapper {
     // 부서 등록
     public int insertTeam(TeamVO team);
     
+    // 부서 수정
+    public int updateTeam(TeamVO team);
+    
     // 부서 삭제
     public int deleteTeam(int teamCode);
     
