@@ -16,4 +16,10 @@ public interface TeamMapper {
     
     // 부서 삭제
     public int deleteTeam(int teamCode);
+    
+    // 부서 리스트 조회
+    public List<TeamVO> selectTeamList(Map<String, Integer> map);
+    
+    // 부서 리스트 카운트
+    public int selectTeamCount();
 }

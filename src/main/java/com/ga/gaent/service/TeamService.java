@@ -1,5 +1,6 @@
 package com.ga.gaent.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class TeamService {
         
         int insertTeam = teamMapper.insertTeam(team);
         if(insertTeam == 1) {
-            log.debug("팀 등록 성공");
+            log.debug(yellow + "팀 등록 성공" + yellow);
         }else {
-            log.debug("팀 등록 실패");
+            log.debug(yellow + "팀 등록 실패" + yellow);
         }
         return insertTeam;
     }
@@ -45,10 +46,34 @@ public class TeamService {
         
         int deleteTeam = teamMapper.deleteTeam(teamCode);
         if(deleteTeam == 1) {
-            log.debug("부서 삭제 성공");
+            log.debug(yellow + "부서 삭제 성공" + yellow);
         }else {
-            log.debug("부서 삭제 실패");
+            log.debug(yellow + "부서 삭제 실패" + yellow);
         }
         return deleteTeam;
+    }
+    
+    // 부서 리스트 조회
+    public List<TeamVO> selectTeamList(int currentPage, int rowPerPage){
+        
+        int startRow = (currentPage - 1) * rowPerPage;
+        
+        Map<String, Integer> map = new HashMap<>();
+        map.put("startRow", startRow);
+        map.put("rowPerPage", rowPerPage);
+        
+        List<TeamVO> teamList = teamMapper.selectTeamList(map);
+        log.debug(yellow + "teamList : " + teamList + yellow);
+        
+        return teamList;
+    }
+    
+    // 부서 리스트 카운트
+    public int selectTeamCount() {
+        
+        int teamCount = teamMapper.selectTeamCount();
+        log.debug(yellow + "teamCount : " + teamCount + yellow);
+        
+        return teamCount;
     }
 }

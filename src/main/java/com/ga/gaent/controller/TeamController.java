@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.TeamService;
 import com.ga.gaent.vo.TeamVO;
@@ -61,5 +63,27 @@ public class TeamController {
         }else {
             return "redirect:/geant/team";
         }
+    }
+    
+    // 부서 리스트 조회
+    // 페이징 기능 적용
+    @GetMapping("/teamList")
+    public String getTeamList(Model model,
+                            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+                            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage) {
+        
+        List<TeamVO> teamList = teamService.selectTeamList(currentPage, rowPerPage);
+        
+        int lastPage = teamService.selectTeamCount() / rowPerPage;
+        if(lastPage % rowPerPage != 0) {
+            lastPage++;
+        }
+        
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
+        
+        return "team/teamList";
     }
 }

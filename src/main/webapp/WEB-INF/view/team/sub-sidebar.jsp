@@ -33,6 +33,21 @@
     	</div>
       </li>
       <li class="menu-item">
+        <a href="home" class="menu-link">
+          <span>인사현황</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="home" class="menu-link">
+          <span>부서현황</span>
+        </a>
+      </li>
+      <li class="menu-item">
+      	<div class="menu-link">
+          <span>조직도</span>
+      	</div>
+      </li>
+      <li class="menu-item">
       	<div class="menu-link">
         <!-- 조직도 시작 -->
         <div id="orgChart"></div>
