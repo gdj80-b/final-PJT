@@ -7,6 +7,7 @@
   <head>
     <meta charset="UTF-8">
     <title>팀 등록 - GAEnt.</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     <style>
 	  .edocForm {
@@ -53,14 +54,14 @@
 		      <tr>
 		        <th class="text-center typeDraftThTag">팀 이름</th>
 		        <td class="typeDraftTdTag">
-		              <input class="form-control form-control-sm" type="text" name="teamName" placeholder="팀 이름을 입력해주세요.">
+		              <input class="form-control form-control-sm" type="text" id="teamName" name="teamName" placeholder="팀 이름을 입력해주세요.">
 		        </td>
 		      </tr>
 		      <tr>
 		      	<th class="text-center typeDraftThTag">팀 코드</th>
 		        <td class="typeDraftTdTag">
-		        	<input id="teamCode" class="form-control form-control-sm d-inline" type="text" name="teamCode" placeholder="팀 코드를 입력해주세요.">
-		            <button class="btn btn-primary" onclick="">중복검사</button>
+		        	<input id="teamCode" class="form-control form-control-sm d-inline" type="text" id="teamCode" name="teamCode" placeholder="팀 코드를 입력해주세요.">
+		            <button class="btn btn-primary">중복검사</button>
 		        </td>
 		        <th class="text-center typeDraftThTag">소속 그룹</th>
 		        <td class="typeDraftTdTag">

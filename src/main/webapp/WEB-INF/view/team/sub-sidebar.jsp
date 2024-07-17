@@ -20,7 +20,7 @@
     </li>
     <li class="menu-item">
     	<div class="menu-link">
-        <a href="home" class="btn btn-primary">
+        <a href="/gaent/team/addTeam" class="btn btn-primary">
           <span>부서등록</span>
         </a>
     	</div>

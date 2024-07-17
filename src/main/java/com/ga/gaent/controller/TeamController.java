@@ -47,9 +47,9 @@ public class TeamController {
         
         int addTeam = teamService.insertTeam(team);
         if(addTeam == 1) {
-            return "redirect:/gaent/team/teamList";
+            return "redirect:/team/teamList";
         }else {
-            return "redirect:/gaent/addTeam";
+            return "redirect:/team/addTeam";
         }
     }
     
@@ -59,9 +59,9 @@ public class TeamController {
         
         int modifyTeam = teamService.updateTeam(team);
         if(modifyTeam == 1) {
-            return "redirect:/gaent/team/teamList";
+            return "redirect:/team/teamList";
         }else {
-            return "redirect:/gaent/team/teamList";
+            return "redirect:/team/teamList";
         }
     }
     
@@ -71,9 +71,9 @@ public class TeamController {
         
         int removeTeam = teamService.deleteTeam(teamCode);
         if(removeTeam == 1) {
-            return "redirect:/gaent/team/teamList";
+            return "redirect:/team/teamList";
         }else {
-            return "redirect:/geant/team/teamList";
+            return "redirect:/team/teamList";
         }
     }
     
