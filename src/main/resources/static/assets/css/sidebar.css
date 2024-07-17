@@ -18,4 +18,7 @@
 .content-side-nav {
   margin-top: 58px;
   box-shadow: 0 0 0.2rem 0 rgba(67, 89, 113, 0.1);
+
+  width: inherit;
+  height: 100% !important;
 }
