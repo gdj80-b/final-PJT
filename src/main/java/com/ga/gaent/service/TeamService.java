@@ -88,4 +88,19 @@ public class TeamService {
         
         return teamCount;
     }
+    
+    // 부서 등록 부서코드 유효성 검사
+    public int checkTeamCode(String teamCode) {
+        
+        int result = 0;
+        
+        int checkTeamCode = teamMapper.checkTeamCode(teamCode);
+        log.debug(yellow + "checkTeamCode : " + checkTeamCode + yellow);
+        if(checkTeamCode > 0) {
+            result = 1;
+        }
+        log.debug(yellow + "result : " + result + yellow);
+        
+        return result;
+    }
 }

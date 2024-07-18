@@ -31,7 +31,6 @@ public class TeamController {
     // 조직도 정보 조회
     @GetMapping("/tree")
     public @ResponseBody List<Map<String, Object>> orgChart(){
-       
         return teamService.selectTreeInfo();
     }
     
@@ -97,5 +96,12 @@ public class TeamController {
         model.addAttribute("lastPage", lastPage);
         
         return "team/teamList";
+    }
+    
+    // 부서 등록 부서코드 유효성 검사
+    @ResponseBody
+    @GetMapping("/checkTeamCode")
+    public int checkTeamCode(@RequestParam(value="teamCode") String teamCode) {
+        return teamService.checkTeamCode(teamCode);
     }
 }

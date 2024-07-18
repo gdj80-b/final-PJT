@@ -26,4 +26,7 @@ public interface TeamMapper {
     
     // 부서 리스트 카운트
     public int selectTeamCount();
+    
+    // 부서 등록 부서코드 유효성 체크
+    public int checkTeamCode(String teamCode);
 }

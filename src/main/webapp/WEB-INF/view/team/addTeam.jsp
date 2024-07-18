@@ -7,7 +7,6 @@
   <head>
     <meta charset="UTF-8">
     <title>팀 등록 - GAEnt.</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     <style>
 	  .edocForm {
@@ -32,6 +31,49 @@
 	  	width: 80%;
 	  }
 	</style>
+	
+	<!-- 부서코드 중복 검사 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+    	if(${!empty msgType}){
+     		$("#messageType").attr("class", "modal-content panel-warning");
+    		$("#myMessage").modal("show");
+    	}
+    });
+    function checkTeamCode(){
+    	
+    	var teamCode=$("#teamCode").val();
+    
+		 // 정규 표현식을 사용하여 숫자 3자리인지 검사
+		    var pattern = /^[0-9]{3}$/;
+		    
+		    if (!pattern.test(teamCode)) {
+		        alert("부서 코드는 3자리 숫자여야 합니다.");
+		        return; // 검사에 실패하면 함수 종료
+		    }
+    
+    	$.ajax({
+    		url: "/gaent/team/checkTeamCode",
+    		method: "get",
+    		data: {"teamCode" : teamCode},
+    		success: function(result){
+    		   // 중복유무 출력(result=1 : 사용할 수 없는 부서코드, 0 : 사용할 수 있는 부서코드)
+    			if(result==1){
+    				alert("이미 존재하는 부서코드입니다.");
+    				$("#checkMessage").html("이미 존재하는 부서코드입니다.");
+    				$("#checkType").attr("class","modal-content panel-success");
+    			}else{
+    				alert("사용할 수 있는 부서코드입니다.");
+    				$("#checkMessage").html("사용할 수 있는 부서코드입니다."); 
+    				$("#checkType").attr("class","modal-content panel-warning");
+    			}
+    			$("#myModal").modal("show");
+			},    	   
+			error : function(){ alert("작성되지 않은 항목이 있습니다."); }
+    	});    	
+    }  
+	</script>
   </head>
     
   <body>
@@ -54,14 +96,14 @@
 		      <tr>
 		        <th class="text-center typeDraftThTag">팀 이름</th>
 		        <td class="typeDraftTdTag">
-		              <input class="form-control form-control-sm" type="text" id="teamName" name="teamName" placeholder="팀 이름을 입력해주세요.">
+		              <input class="form-control form-control-sm" type="text" id="teamName" name="teamName" placeholder="팀 이름을 입력해주세요." required="required">
 		        </td>
 		      </tr>
 		      <tr>
 		      	<th class="text-center typeDraftThTag">팀 코드</th>
 		        <td class="typeDraftTdTag">
-		        	<input id="teamCode" class="form-control form-control-sm d-inline" type="text" id="teamCode" name="teamCode" placeholder="팀 코드를 입력해주세요.">
-		            <button class="btn btn-primary">중복검사</button>
+		        	<input id="teamCode" class="form-control form-control-sm d-inline" type="text" name="teamCode" placeholder="팀 코드를 입력해주세요." maxlength="3" pattern="[0-9]{3}">
+		            <button type="button" class="btn btn-primary" onclick="checkTeamCode()">중복검사</button>
 		        </td>
 		        <th class="text-center typeDraftThTag">소속 그룹</th>
 		        <td class="typeDraftTdTag">

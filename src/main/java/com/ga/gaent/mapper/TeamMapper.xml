@@ -97,4 +97,14 @@
         WHERE
             team_code != 10
     </select>
+    
+    <!-- 부서 등록 부서코드 유효성 검사 -->
+    <select id="checkTeamCode" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+    </select>
 </mapper>
