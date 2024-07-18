@@ -2,6 +2,7 @@ package com.ga.gaent.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.AtdDTO;
@@ -16,21 +17,23 @@ public class AtdService {
     @Autowired AtdMapper atdMapper;
     
     // 출퇴근여부
-    public AtdVO checkAtd(String empCode) {
+    public AtdDTO checkAtd(String empCode) {
         
-        AtdVO check = atdMapper.checkAtdStatus(empCode);
-                
-        AtdVO v =   new AtdVO();
+        AtdDTO check = atdMapper.checkAtdStatus(empCode);
+        
+        AtdDTO v =   new AtdDTO();
         v.setEmpCode(empCode);
+
         
         if(check!=null) {
            v.setInTime(check.getInTime());
+           v.setWeeklyWorkTime(check.getWeeklyWorkTime());
            if(check.getOutTime()!= null) {
                v.setOutTime(check.getOutTime());
            }
         }
         
-        return v ;        
+        return v ;
     }
     
   //출근 등록
@@ -47,5 +50,24 @@ public class AtdService {
     public List<AtdDTO> getAtdHistory(String empCode){
         
         return atdMapper.selectAtdHistory(empCode);
+    }
+    
+    
+    @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
+    void eliminateMsg() {
+        String empCode = "20110004";
+        int daily = atdMapper.dailyWorkMinutes(empCode);
+        int weekly = atdMapper.weeklyWorkMinutes(empCode);
+        int montly = atdMapper.monthlyWorkMinutes(empCode);
+        
+        
+        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
+        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
+        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;
+        
+        System.out.println(dailyWorkTime);
+        System.out.println(weeklyWorkTime);
+        System.out.println(montlyWorkTime);
+        
     }
 }

@@ -15,4 +15,8 @@ public class AtdDTO {
     String year;
     String month;
     String day;
+    
+    String dailyWorkTime;
+    String weeklyWorkTime;
+    String monthlyWorkTime;
 }

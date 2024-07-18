@@ -37,7 +37,7 @@ public class AtdController {
     //출퇴근 여부
     @GetMapping("/checkAtd")
     @ResponseBody
-    public AtdVO checkAtd(@RequestParam String empCode) {
+    public AtdDTO checkAtd(@RequestParam String empCode) {
         
         return atdService.checkAtd(empCode);
     }
@@ -74,4 +74,22 @@ public class AtdController {
 
         return "/atd/atdHistory";
     }
+    
+    // 퇴근등록
+    @GetMapping("/ccc")
+    public String ccc(Model model,HttpSession session,
+            @RequestParam(name="year", required=false) String year,
+            @RequestParam(name="month", required=false) String month) {
+        Map<String, Object> target = atdHistory.makeCalendar(year, month);
+        
+        
+        Map<String,Object> loginInfo = (Map<String,Object>)(session.getAttribute("loginInfo"));
+        String empCode = (String)loginInfo.get("empCode"); // 세션에서 로그인한사람의 empCode추출
+        
+        List<AtdDTO>list = atdService.getAtdHistory(empCode);
+        model.addAttribute("list", list);
+        model.addAttribute("c", target);
+        return "/atd/ccc";
+    }
+    
 }

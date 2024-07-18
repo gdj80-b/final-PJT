@@ -85,7 +85,7 @@
                               </div>
                               <div>
                                   <span>주간 누적 근무시간</span>              
-                                  <span class="atd-time-gray">11h 11m 48s</span>
+                                  <span id="weeklyWorkTime" class="atd-time-gray"></span>
                               </div>
                           </div>
                     </div> 
@@ -168,7 +168,8 @@
             data: {'empCode': '${loginInfo.empCode}'}, // id 값을 문자열로 전달
             dataType: "json", // 데이터 타입은 JSON
             success: function(data) { // 요청이 성공하면 실행
-                console.log('ardData: ', data);           
+                console.log('출퇴근확인: ', data);
+                $("#weeklyWorkTime").text(data.weeklyWorkTime); // 주간누적근무시간 표시
                 if(data.inTime == null) { // 출근을 아직 안한 상태
                     $("#checkOutBtn").prop("disabled", true); // 퇴근 버튼 비활성화
                     $("#checkInBtn").prop("disabled", false); // 출근 버튼 활성화
