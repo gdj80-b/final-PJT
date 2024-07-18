@@ -10,6 +10,10 @@
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/app-chat.css" class="template-customizer-app-chat-css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.2/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/scrollbar.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/websocket.js"></script>
   </head>
   <body>
     <div id="">
@@ -25,6 +29,8 @@
           <jsp:include page="/WEB-INF/view/chat/chatRoomList.jsp"></jsp:include>
         </div>
         <div class="chat-history-from-workspace">
+          <input type="hidden" id="sessionEmpCode" value="${loginInfo.empCode}">
+          <input type="hidden" id="sessionKorName" value="${loginInfo.korName}">
           <jsp:include page="/WEB-INF/view/chat/chatHistory.jsp"></jsp:include>
         </div>
       </div>

@@ -37,7 +37,7 @@
     }
 
     function connect() {
-        var socket = new SockJS('/ws');
+        var socket = new SockJS('/gaent/ws');
         stompClient = Stomp.over(socket);
         // console.log('stompClient -> ', stompClient);
         stompClient.connect({}, onConnected, onError);

@@ -22,20 +22,3 @@
   </div>
 </div>
 <script src="https://unpkg.com/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const scrollContainers = document.querySelectorAll('.scroll-container');
-
-    scrollContainers.forEach(function(container) {
-      const ps = new PerfectScrollbar(container);
-
-      container.addEventListener('mouseenter', function() {
-        container.classList.add('ps--focus');
-      });
-
-      container.addEventListener('mouseleave', function() {
-        container.classList.remove('ps--focus');
-      });
-    });
-  });
-</script>
