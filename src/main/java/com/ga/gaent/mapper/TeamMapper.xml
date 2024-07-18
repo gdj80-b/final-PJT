@@ -5,22 +5,33 @@
     <!-- 조직도 정보 조회 -->
     <select id="selectTreeInfo" resultType="Map">
         SELECT
-            team_code  id,
-            parent_team_code parent,
-            team_name text
+            team_code AS id,
+            parent_team_code AS parent,
+            team_name AS text,
+            org_icon AS icon,
+            999 AS rankCode
         FROM
             team
         
         UNION ALL
-
+        
         SELECT
-            emp_code id,
-            team_code parent,
-            emp_kor_name text
+            emp_code AS id,
+            team_code AS parent,
+            CASE 
+                WHEN rank_code = 1 THEN CONCAT(emp_kor_name, ' 대표')
+                WHEN rank_code = 2 THEN CONCAT(emp_kor_name, ' 부장')
+                WHEN rank_code = 3 THEN CONCAT(emp_kor_name, ' 팀장')
+                WHEN rank_code = 4 THEN CONCAT(emp_kor_name, ' 대리')
+                WHEN rank_code = 5 THEN CONCAT(emp_kor_name, ' 사원')
+                ELSE emp_kor_name
+            END AS text,
+            org_icon AS icon,
+            NULLIF(rank_code, '') AS rankCode
         FROM
             emp
         ORDER BY
-            parent, id, text
+            parent, rankCode, text;
     </select>
     
     <!--  부서 등록 -->

@@ -1,11 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sidebar.css" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
 <!-- 조직도 관련 CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-
+<style>
+	.scroll{
+	    width: 16rem !important;
+		height: 20rem !important;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+</style>
 <body>
   <aside
     id="layout-menu"
@@ -38,22 +45,15 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="home" class="menu-link">
+        <a href="/gaent/team/teamList" class="menu-link">
           <span>부서현황</span>
         </a>
       </li>
-      <li class="menu-item">
-      	<div class="menu-link">
-          <span>조직도</span>
-      	</div>
-      </li>
-      <li class="menu-item">
-      	<div class="menu-link">
+      <li class="menu-item scroll">
+      	<div class="menu-link ">
         <!-- 조직도 시작 -->
         <div id="orgChart"></div>
         
-        
-	    
 	    <script type="text/javascript">
 	        $(function() {
 	            // jstree 초기화
@@ -64,14 +64,19 @@
 	                        'dataType': 'json'
 	                        
 	                    },
-	                    
+	                    'themes': {
+	                        'icons': true,  // 아이콘 사용 여부
+	                        'dots': true,    // 점 표시 사용 여부
+	                        'responsive': true
+	                    },
 	                    'expand_all': true, // 모든 노드를 초기에 확장
 	                },
-	                'plugins': ['json_data']
-	            });
+	                'plugins': ['themes', 'json_data', 'state']
+	            })
 	            
 	         // 항목 클릭 시 모달창 열기
 	            $('#orgChart').on('select_node.jstree', function(e, data) {
+	                
 	                var node = data.node;
 	                $('#nodeId').text(node.id);
 	                $('#nodeName').text(node.text);
@@ -83,9 +88,22 @@
 	                } else {
 	                    $('#parentNode').text('없음');
 	                }
-	                
 	                $('#nodeModal').modal('show');
 	            });
+	            
+			         // 외부 클릭 시 처리
+		            $(document).on('click', function(event) {
+		                // 클릭된 요소가 orgChart 내의 요소인지 확인
+		                if (!$(event.target).closest('#orgChart').length) {
+		                    // 클릭된 요소가 orgChart 내의 요소가 아니면 선택 해제
+		                    deselectNode();
+		                }
+		            });
+		
+		            // 선택 해제 함수
+		            function deselectNode() {
+		                $('#orgChart').jstree(true).deselect_all();
+		            }
 	        });
     	</script>
         <!-- 조직도 끝 -->

@@ -45,7 +45,6 @@
                     'data': {
                         'url': '/gaent/team/tree',
                         'dataType': 'json'
-                        
                     },
                     
                     'expand_all': true // 모든 노드를 초기에 확장
