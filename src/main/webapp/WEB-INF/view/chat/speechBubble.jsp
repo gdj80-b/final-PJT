@@ -2,7 +2,7 @@
 <div class="d-flex overflow-hidden">
   <div class="user-avatar flex-shrink-0 ${message.sender === username ? 'ms-4' : 'me-4'}">
     <div class="avatar avatar-sm">
-      <img src="/path/to/avatar.png" alt="Avatar" class="rounded-circle"/>
+      <img src="${pageContext.request.contextPath}/assets/img/avatars/default.png" alt="Avatar" class="rounded-circle"/>
     </div>
   </div>
   <div class="chat-message-wrapper flex-grow-1">
