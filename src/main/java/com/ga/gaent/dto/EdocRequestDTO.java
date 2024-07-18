@@ -17,7 +17,8 @@ public class EdocRequestDTO {
     private MultipartFile fileName;
     private String[] approver;
     private String[] apprOrder;
-
+    private String edocTitle;
+    
 }
 
 

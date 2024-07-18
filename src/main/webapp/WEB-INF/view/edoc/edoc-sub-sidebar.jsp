@@ -38,8 +38,8 @@
         <h5 class="fs-4 fw-semibold mb-2">개인 문서함</h5>
         <ul class="menu-item">
           <div class="">
-            <a href="/gaent/approval/draft" class="menu-link">
-              <span>기안 문서함</span>
+            <a href="/gaent/approval/wait" class="menu-link">
+              <span>대기 문서함</span>
             </a>
           </div>
           <div class="">

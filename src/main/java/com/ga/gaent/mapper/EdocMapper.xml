@@ -38,10 +38,12 @@
     <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
         INSERT INTO
             edoc(
+                edoc_title,
                 edoc_type,
                 edoc_writer,
                 edoc_enroll_date
             ) VALUES(
+                #{edocTitle},
                 #{edocType},
                 #{edocWriter},
                 NOW()
@@ -182,6 +184,7 @@
             ea2.appr_date apprDate2,
             eft.edoc_type edocType,
             eft.edoc_form_title edocFormTitle,
+            
             ed.prop_start_date propStartDate,
             ed.prop_end_date propEndDate,
             ed.prop_title propTitle,
@@ -257,12 +260,10 @@
         INSERT INTO
             edoc_project(
                 edoc_num,
-                project_title,
                 project_content,
                 project_estimate
             ) VALUES(
                 #{edocNum},
-                #{projectTitle},
                 #{projectContent},
                 #{projectEstimate}
             )
@@ -313,12 +314,10 @@
             edoc_report(
                 edoc_num,
                 report_type,
-                report_title,
                 report_content
             ) VALUES(
                 #{edocNum},
                 #{reportType},
-                #{reportTitle},
                 #{reportContent}
             )
     </insert>
@@ -348,5 +347,35 @@
             edoc_num = #{edocNum} 
     </update>
     
-    
+    <!-- 내 결재 대기,진행,완료문서   -->
+    <select id="selectMyEdocSubmitList" parameterType="map" resultType="com.ga.gaent.vo.EdocVO">
+        SELECT 
+             edoc_num edocNum,
+             edoc_title edocTitle,
+             edoc_type edocType,
+             file_name edocFileName,
+             edoc_done_date edocDoneDate,
+             edoc_enroll_date edocEnrollDate,
+             edoc_status edocStatus
+        FROM
+            edoc
+        WHERE 
+            edoc_writer = #{empCode} 
+            <choose>
+                <when test="request == 0">  <!-- 결재대기문서 -->
+                </when>
+                <when test="request == 1"> <!-- 결재진행문서 -->
+                    AND(edoc_status = '1' OR
+                    edoc_status = '2'
+                    )
+                </when>
+                <when test="request == 2"> <!-- 결재완료문서 -->
+                    AND(edoc_status = '-1' OR
+                    edoc_status = '-2'
+                    )
+                </when>
+            </choose>
+        ORDER BY
+            edoc_enroll_date DESC
+    </select>
 </mapper>

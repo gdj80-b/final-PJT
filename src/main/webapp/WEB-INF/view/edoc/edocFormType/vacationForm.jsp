@@ -25,6 +25,12 @@
     <table class="table table-bordered edocForm">
         <tbody>
             <tr>
+                <th class="text-center typeDraftThTag">제목</th>
+                <td class="typeDraftTdTag" colspan="3">
+                    <input class="form-control form-control-sm" type="text" name="edocTitle" required>
+                </td>
+            </tr>
+            <tr>
                 <th class="text-center typeDraftThTag">시작일자</th>
                 <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacStartDate" required></td>
                 <th class="text-center typeDraftThTag">종료일자</th>

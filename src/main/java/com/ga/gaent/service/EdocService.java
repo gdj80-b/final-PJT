@@ -12,6 +12,7 @@ import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.mapper.EdocMapper;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EdocFormTypeVO;
+import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
 import ch.qos.logback.core.pattern.color.MagentaCompositeConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -165,13 +166,13 @@ public class EdocService {
     }
     
     //  결재,반려처리
-    public int updateEdocProcess(int empCode,String edocNum,String edocReason, int request) {
+    public int updateEdocProcess(int empCode,String edocNum,String apprReason, int request) {
         
         String requestEnum =  String.valueOf(request);
         Map<String,Object>map = new HashMap<>();
         map.put("empCode", empCode);
         map.put("edocNum", edocNum);
-        map.put("edocReason", edocReason);
+        map.put("apprReason", apprReason);
         map.put("request", requestEnum);
         
         if(request < 0) {
@@ -187,4 +188,16 @@ public class EdocService {
         log.debug(TeamColor.YELLOW + "공통" + s2 + TeamColor.RESET);
         return 1;
     }
+    
+    // 개인이 제출한 대기,진행,반려문서
+    public List<EdocVO>selectMyEdocSubmitList(String empCode, int request){
+        Map<String,Object>map = new HashMap<>();
+        map.put("empCode", empCode);
+        map.put("request", request);
+        
+        
+        List<EdocVO>list = edocMapper.selectMyEdocSubmitList(map);
+        
+        return list;
+    };
 }

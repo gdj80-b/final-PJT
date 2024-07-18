@@ -120,7 +120,7 @@
                 </div>
               </div>
             </div>
-            <hr />
+            <hr /> 
             <!-- 기안서 양식 -->
             <div>
               <div id="edoc-form-type">

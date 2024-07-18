@@ -18,6 +18,7 @@ import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EdocFormTypeVO;
+import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -159,7 +160,7 @@ public class EdocController {
         }
         
         redirectAttributes.addFlashAttribute("message", pass);
-        return "redirect:/approval/draft";
+        return "redirect:/approval/wait";
     }
     
     /*
@@ -226,36 +227,49 @@ public class EdocController {
     }
     
     /*
-     * @author : 홍길동
-     * @since : 2024. 07. 00.
+     * @author : 조인환
+     * @since : 2024. 07. 18.
      * Description : 기안문서 리스트 조회
      */
-    @GetMapping("/approval/draft")
+    @GetMapping("/approval/wait")
     public String getDraft(HttpSession session, Model model) {
         String empCode = getEmpCode(session);
-        return "edoc/draft";
+        int request = 0;
+        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        
+        model.addAttribute("list",list);
+        
+        return "edoc/edocPersonal/wait";
     }
     
     /*
-     * @author : 홍길동
-     * @since : 2024. 07. 00.
+     * @author : 조인환
+     * @since : 2024. 07. 18.
      * Description : 승인문서 리스트 조회
      */
     @GetMapping("/approval/approve")
     public String getApprove(HttpSession session, Model model) {
         String empCode = getEmpCode(session);
-        return "edoc/approve";
+        int request = 1;
+        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        
+        model.addAttribute("list",list);
+        return "edoc/edocPersonal/approve";
     }
     
     /*
-     * @author : 홍길동
-     * @since : 2024. 07. 00.
+     * @author : 조인환
+     * @since : 2024. 07. 18.
      * Description : 반려문서 리스트 조회
      */
     @GetMapping("/approval/reject")
     public String getReject(HttpSession session, Model model) {
         String empCode = getEmpCode(session);
-        return "edoc/reject";
+        int request = 2;
+        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        
+        model.addAttribute("list",list);
+        return "edoc/edocPersonal/reject";
     }
     
     // 결재,반려처리
@@ -264,13 +278,13 @@ public class EdocController {
     public int updateEdocProcess(
             @RequestParam(name = "empCode") int empCode,
             @RequestParam(name = "edocNum") String edocNum,
-            @RequestParam(name = "edocReason", defaultValue = "") String edocReason,
+            @RequestParam(name = "apprReason", defaultValue = "") String apprReason,
             @RequestParam(name = "request") Integer request
             ) {
         System.out.println("승인들어옴");
         System.out.println("request: " + request);
         
-        edocService.updateEdocProcess(empCode,edocNum,edocReason,request);
+        edocService.updateEdocProcess(empCode,edocNum,apprReason,request);
         
         return 1;
     }

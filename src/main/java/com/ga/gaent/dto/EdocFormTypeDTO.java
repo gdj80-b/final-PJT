@@ -21,7 +21,6 @@ public class EdocFormTypeDTO {
     private String vacReason;
     
     // 지출결의서
-    private String projectTitle;
     private String projectContent;
     private String projectEstimate;
     
@@ -42,7 +41,6 @@ public class EdocFormTypeDTO {
     
     // 보고서
     private String reportType;
-    private String reportTitle;
     private String reportContent;
 
 }

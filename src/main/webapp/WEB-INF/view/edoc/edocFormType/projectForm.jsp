@@ -3,26 +3,30 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <style>
-  .edocForm {
-    margin-bottom: 0rem !important;
-  }
-  
-  .typeDraftThTag {
-    color: #fff !important;
-    background-color: rgba(105, 108, 255, 0.6) !important;
-    padding: 0.1rem !important;
-  }
-  
-  .typeDraftTdTag {
-    background-color: rgba(255, 255, 255, 1) !important;
-  }
-  
-  .typeDraftTdTag textarea {
-    resize: none;
-  }
+.edocForm {
+	margin-bottom: 0rem !important;
+}
+
+.typeDraftThTag {
+	color: #fff !important;
+	background-color: rgba(105, 108, 255, 0.6) !important;
+	padding: 0.1rem !important;
+}
+
+.typeDraftTdTag {
+	background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.typeDraftTdTag textarea {
+	resize: none;
+}
 </style>
 <div class="table-responsive text-nowrap">
     <table class="table table-bordered edocForm">
+        <tr>
+            <th class="text-center typeDraftThTag">제목</th>
+            <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="ecodTitle" required></td>
+        </tr>
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">프로젝트 이름</th>

@@ -78,151 +78,141 @@
       }
     </style>
   </head>
-  <body>
+<body>
     <div id="">
-      <div id="header-area">
-        <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-      </div>
-      <div id="sidebar_area">
-        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
-      </div>
-      <div id="workspace-area" class="subsidebar-from-workspace">
-        <div class="edoc">
-        <div>
-          <div class="mb-3">
-            <span id="edoc-form-title" class="display-6 fw-semibold mb-0">${edocDetail.edocFormTitle}</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <!-- 문서정보 -->
-            <div class="edoc-form-info">
-              <div class="table-responsive text-nowrap">
-                <table class="table table-bordered table-sm edoc-form-info-table">
-                  <tbody>
-                    <tr>
-                      <th class="text-center">기안자</th>
-                      <td class="small">
-                        <input name="edocKorName" value="${edocDetail.edocWriter}" readonly />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th class="text-center">소속</th>
-                      <td class="small">
-                        <input name="edocRankCode" value="${edocDetail.teamCode}" readonly />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th class="text-center">기안일</th>
-                      <td class="small">
-                        <input name="edocDate" value="${edocDetail.edocEnrollDate}" readonly />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th class="text-center">문서번호</th>
-                      <td class="small">
-                        <input name="edocDate" value="${edocDetail.edocNum}" readonly />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- 결재선 -->
-            <div class="d-flex">
-              <c:choose>
-                <c:when test="${edocDetail.apprOrder2 == 2}">
-                  <div class="table-responsive text-nowrap approverForm">
-                    <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
-                      <tbody>
-                        <tr>
-                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
-                          <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
-                        </tr>
-                        <tr>
-                          <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
-                        </tr>
-                        <tr>
-                          <td id="edocApprovalDate" class="small text-center approverTdTag">결재일</td>
-                        </tr>
-                        <tr>
-                          <td id="edocApprovalDate" class="small text-center approverTdTag">${edocDetail.apprDate1}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </c:when>
-              </c:choose>
-              <c:choose>
-                <c:when test="${edocDetail.apprOrder1 == 1}">
-                  <div class="table-responsive text-nowrap approverForm">
-                    <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
-                      <tbody>
-                        <tr>
-                          <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
-                          <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
-                        </tr>
-                        <tr>
-                          <td id="edocKorName" class="small text-center">${edocDetail.approver1}</td>
-                        </tr>
-                        <tr>
-                          <td id="edocApprovalDate" class="small text-center approverTdTag">결재일</td>
-                        </tr>
-                        <tr>
-                          <td id="edocApprovalDate" class="small text-center approverTdTag">${edocDetail.apprDate2}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </c:when>
-              </c:choose>
-            </div>
-          </div>
+        <div id="header-area">
+            <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
         </div>
-        <hr />
-        <!-- 기안서 양식 -->
-        <div>
-            <div id="edoc-form-type">
-                <c:choose>
-                    <c:when test="${edocDetail.edocType == 0}">
-                        <jsp:include page="/WEB-INF/view/edoc/edocFormType/draftForm.jsp"></jsp:include>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="edoc-form-area">양식을 선택해주세요.</div>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-            <hr />
-            <!-- 버튼 -->
-            <div class="text-end">
-                <button id="approveBtn" class="btn btn-link btn-me" type="button">
-                    <i class="menu-icon bx bx-check-square"></i>결재
-                </button>
-                <button id="rejectBtn" class="btn btn-link btn-me" type="button">
-                    <i class="menu-icon bx bx-exit"></i>반려                    
-                </button>
-                <a href="javascript:history.back()" class="btn btn-link btn-me"> <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
-                </a>
+        <div id="sidebar_area">
+            <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+            <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
+        </div>
+        <div id="workspace-area" class="subsidebar-from-workspace">
+            <div class="edoc">
+                <div>
+                    <div class="mb-3">
+                        <span id="edoc-form-title" class="display-6 fw-semibold mb-0">${edocDetail.edocFormTitle}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <!-- 문서정보 -->
+                        <div class="edoc-form-info">
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-bordered table-sm edoc-form-info-table">
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center">기안자</th>
+                                            <td class="small"><input name="edocKorName" value="${edocDetail.edocWriter}" readonly /></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">소속</th>
+                                            <td class="small"><input name="edocRankCode" value="${edocDetail.teamCode}" readonly /></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">기안일</th>
+                                            <td class="small"><input name="edocDate" value="${edocDetail.edocEnrollDate}" readonly /></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">문서번호</th>
+                                            <td class="small"><input name="edocDate" value="${edocDetail.edocNum}" readonly /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 결재선 -->
+                        <div class="d-flex">
+                            <c:choose>
+                                <c:when test="${edocDetail.apprOrder2 == 2}">
+                                    <div class="table-responsive text-nowrap approverForm">
+                                        <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
+                                            <tbody>
+                                                <tr>
+                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                    <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocApprovalDate" class="small text-center approverTdTag">
+                                                        ${edocDetail.apprDate1 == null ? '결재일' :edocDetail.apprDate1 }
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${edocDetail.apprOrder1 == 1}">
+                                    <div class="table-responsive text-nowrap approverForm">
+                                        <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
+                                            <tbody>
+                                                <tr>
+                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                    <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver1}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocApprovalDate" class="small text-center approverTdTag">
+                                                        ${edocDetail.apprDate2 == null ? '결재일' : edocDetail.apprDate2 }
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:when>
+                            </c:choose>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <!-- 기안서 양식 -->
+                <div>
+                    <div id="edoc-form-type">
+                        <c:choose>
+                            <c:when test="${edocDetail.edocType == 0}">
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormType/draftForm.jsp"></jsp:include>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="edoc-form-area">양식을 선택해주세요.</div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <hr />
+                    <!-- 버튼 -->
+                    <div class="text-end">
+                        <button id="approveBtn" class="btn btn-link btn-me" type="button">
+                            <i class="menu-icon bx bx-check-square"></i>결재
+                        </button>
+                        <button id="rejectBtn" class="btn btn-link btn-me" type="button">
+                            <i class="menu-icon bx bx-exit"></i>반려
+                        </button>
+                        <a href="javascript:history.back()" class="btn btn-link btn-me"> 
+                            <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-            </div>
-      </div>
     </div>
-    
+
     <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="approvalModalLabel"></h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approvalModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form id="approvalForm">
                     <div class="modal-body">
                         <!-- 쪽지 작성 폼 -->
-                        <input type="hidden" name="empCode" value="${loginInfo.empCode}"> 
-                        <input type="hidden" name="edocNum" value="${edocDetail.edocNum}">
+                        <input type="hidden" name="empCode" value="${loginInfo.empCode}"> <input type="hidden" name="edocNum" value="${edocDetail.edocNum}">
                         <div class="mb-3">
-                            <label for="edocReason" class="form-label">의견</label>
-                            <textarea class="form-control" id="edocReason" name="edocReason" rows="3" placeholder="의견을 작성해 주세요"></textarea>
+                            <label for="apprReason" class="form-label">의견</label>
+                            <textarea class="form-control" id="apprReason" name="apprReason" rows="3" placeholder="의견을 작성해 주세요"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -235,10 +225,7 @@
             </div>
         </div>
     </div>
-    
-    
-    
-  </body>
+</body>
 <script>
 $(document).ready(function() {
     // 1차 승인자인 경우
@@ -291,7 +278,8 @@ $(document).ready(function() {
                 alert('처리가 완료되었습니다.');
                 $('#approvalModal').modal('hide');
                 $('#approvalForm')[0].reset(); // 폼 초기화
-                window.location.reload(); // 현재 페이지 새로고침
+                 window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
+                 // window.location.reload(); // 현재 페이지 새로고침
             },
             error: function() {
                 alert('처리에 실패했습니다.');

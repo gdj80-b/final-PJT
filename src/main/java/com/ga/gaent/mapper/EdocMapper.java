@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.vo.EdocFormTypeVO;
+import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
 
 @Mapper
@@ -90,4 +91,7 @@ public interface EdocMapper {
     int updateEdocApprovalStatus(Map<String,Object>m);
     // edoc테이블에서의 상태수정
     int updateEdocStatus(Map<String,Object>m);
+    
+    
+    List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
 }
