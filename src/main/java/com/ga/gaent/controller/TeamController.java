@@ -23,7 +23,7 @@ public class TeamController {
     TeamService teamService;
     
     // 조직도 기본 페이지 표시
-    @RequestMapping
+    @GetMapping("/")
     public String viewOrgChart() {
         return "team/sub-sidebar";
     }
