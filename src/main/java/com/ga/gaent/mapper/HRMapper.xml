@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ga.gaent.mapper.TeamMapper">
+<mapper namespace="com.ga.gaent.mapper.HRMapper">
     
     <!-- 조직도 정보 조회 -->
     <select id="selectTreeInfo" resultType="Map">
@@ -32,6 +32,56 @@
             emp
         ORDER BY
             parent, rankCode, text;
+    </select>
+    
+    <!-- 직원 리스트 조회 -->
+    <select id="selectEmpList" parameterType="Map" resultType="Map">
+        SELECT
+            e.emp_code empCode,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.parent_team_code parentTeamCode,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_kor_name korName,
+            e.emp_phone phone,
+            e.emp_ext ext,
+            e.emp_hire_date hireDate
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
+        WHERE
+            e.emp_code != #{empCode}
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 직원 상세 조회 -->
+    <select id="selectEmpDetail" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            e.emp_code empCode,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.parent_team_code parentTeamCode,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_kor_name korName,
+            e.emp_eng_name engName,
+            e.emp_reg_no regNo,
+            e.emp_gender gender,
+            e.emp_phone phone,
+            e.emp_ext ext,
+            e.emp_hire_date hireDate,
+            e.emp_resign_date resignDate,
+            e.emp_update_date updateDate,
+            e.final_modifier modifier
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
+        WHERE
+            e.emp_code == #{empCode}
     </select>
     
     <!--  부서 등록 -->
