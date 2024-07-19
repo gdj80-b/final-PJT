@@ -43,7 +43,7 @@
           <!-- 채팅 메세지 입력 폼 -->
           <div class="chat-history-footer shadow-xs">
             <form class="form-send-message d-flex justify-content-between align-items-center chat-form">
-              <input id="message" class="form-control message-input border-0 me-4 shadow-none" placeholder="메세지를 입력해주세요."/>
+              <input id="messageInput" class="form-control message-input border-0 me-4 shadow-none" placeholder="메세지를 입력해주세요."/>
               <div class="message-actions d-flex">
                 <button id="send" class="btn btn-primary d-flex align-items-center justify-content-center send-msg-btn chat-form-botton">
                   <i class="bx bx-paper-plane bx-sm"></i>

@@ -23,27 +23,6 @@ public class ChatController {
         return "chat/chat";
     }
 
-    @GetMapping("/bubble")
-    public String speechBubble() {
-        return "chat/speechBubble";
-    }
-
-    /*
-     * @MessageMapping("/chat.sendMessage")
-     * 
-     * @SendToUser("/queue/messages") public void sendMessage(@Payload ChatDTO chatDTO) { if
-     * (chatDTO.getType() == MessageType.CHAT) { log.debug(TeamColor.BLUE_BG + "CHAT.TYPE: " + chatDTO +
-     * TeamColor.RESET); simpMessagingTemplate.convertAndSendToUser(chatDTO.getReceiver(),
-     * "/queue/messages", chatDTO); } else if (chatDTO.getType() == MessageType.JOIN) {
-     * log.debug(TeamColor.PURPLE_BG + "JOIN.TYPE: " + chatDTO + TeamColor.RESET);
-     * chatDTO.setMessage(chatDTO.getSender() + " joined the chat");
-     * simpMessagingTemplate.convertAndSendToUser(chatDTO.getReceiver(), "/queue/messages", chatDTO); }
-     * else if (chatDTO.getType() == MessageType.LEAVE) { log.debug(TeamColor.RED_BG + "LEAVE.TYPE: " +
-     * chatDTO + TeamColor.RESET); chatDTO.setMessage(chatDTO.getSender() + " left the chat");
-     * simpMessagingTemplate.convertAndSendToUser(chatDTO.getReceiver(), "/queue/messages", chatDTO); }
-     * }
-     */
-
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload ChatDTO chatDTO) {
         if (chatDTO.getType() == MessageType.CHAT) {
@@ -51,11 +30,11 @@ public class ChatController {
             simpMessagingTemplate.convertAndSend("/queue/messages", chatDTO);
         } else if (chatDTO.getType() == MessageType.JOIN) {
             log.debug(TeamColor.PURPLE_BG + "JOIN.TYPE: " + chatDTO + TeamColor.RESET);
-            chatDTO.setMessage(chatDTO.getSender() + " joined the chat");
+            chatDTO.setMessage(chatDTO.getSender() + " 채팅에 입장하셨습니다.");
             simpMessagingTemplate.convertAndSend("/queue/messages", chatDTO);
         } else if (chatDTO.getType() == MessageType.LEAVE) {
             log.debug(TeamColor.RED_BG + "LEAVE.TYPE: " + chatDTO + TeamColor.RESET);
-            chatDTO.setMessage(chatDTO.getSender() + " left the chat");
+            chatDTO.setMessage(chatDTO.getSender() + " 채팅에 떠나셨습니다.");
             simpMessagingTemplate.convertAndSend("/queue/messages", chatDTO);
         }
     }
