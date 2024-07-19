@@ -58,7 +58,7 @@
     </select>
     
     <!-- 직원 상세 조회 -->
-    <select id="selectEmpDetail" resultType="com.ga.gaent.vo.EmpVO">
+    <select id="selectEmpDetail" parameterType="String" resultType="com.ga.gaent.vo.EmpVO">
         SELECT
             e.emp_code empCode,
             t.team_code teamCode,
@@ -67,21 +67,27 @@
             e.rank_code rankCode,
             e.emp_profile profile,
             e.emp_id empId,
+            e.emp_pw empPw,
             e.emp_kor_name korName,
             e.emp_eng_name engName,
             e.emp_reg_no regNo,
             e.emp_gender gender,
             e.emp_phone phone,
+            e.emergency_phone_relation emergencyPhoneRelation,
+            e.emergency_phone emergencyPhone,
+            e.post_code postCode,
+            e.address address,
+            e.detail_address detailAddress,
             e.emp_ext ext,
             e.emp_hire_date hireDate,
             e.emp_resign_date resignDate,
             e.emp_update_date updateDate,
-            e.final_modifier modifier
+            e.final_modifier finalModifier
         FROM
             emp e
                 LEFT OUTER JOIN team t ON e.team_code = t.team_code
         WHERE
-            e.emp_code == #{empCode}
+            e.emp_code = #{empCode}
     </select>
     
     <!--  부서 등록 -->

@@ -39,7 +39,7 @@
               <c:forEach var="el" items="${empList}">
                 <tr>
                   <td>${el.profile}</td>
-                  <td><b><a href="#empModal${el.empCode}" data-toggle="modal" data-target="#empModal${el.empCode}">${el.korName}</a></b></td>
+                  <td><b><a href="/gaent/hr/empDetail/${el.empCode}">${el.korName}</a></b></td>
                   <td>${el.rankCode}</td>
                   <td>${el.phone}</td>
                   <td>${el.empId}</td>

@@ -29,7 +29,7 @@ public interface HRMapper {
      * @since : 2024. 07. 19.
      * Description : 직원 상세 조회
      */
-    public int selectEmpDetail(String empCode);
+    public EmpVO selectEmpDetail(String empCode);
     
     /*
      * @author : 정건희

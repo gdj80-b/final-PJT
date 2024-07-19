@@ -6,15 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.HRService;
+import com.ga.gaent.util.TeamColor;
+import com.ga.gaent.vo.EmpVO;
 import com.ga.gaent.vo.TeamVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/hr")
 public class HRController {
@@ -80,6 +84,23 @@ public class HRController {
         model.addAttribute("lastPage", lastPage);
         
         return "hr/emp/empList";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 19.
+     * Description : 직원 상세 조회
+     */
+    @GetMapping("/empDetail/{empCode}")
+    public String getEmpDetail(@PathVariable(name = "empCode") String empCode, Model model) {
+        
+        log.debug(TeamColor.PURPLE_BG + "empCode: " + empCode + TeamColor.RESET);
+        
+        EmpVO empDetail = hrService.selectEmpDetail(empCode);
+        
+        model.addAttribute("empDetail", empDetail);
+        
+        return "hr/emp/empDetail";
     }
     
     /*

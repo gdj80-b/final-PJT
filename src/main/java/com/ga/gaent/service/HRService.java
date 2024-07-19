@@ -53,6 +53,19 @@ public class HRService {
 
         return empList;
     }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 19.
+     * Description : 직원 리스트 조회
+     */
+    public EmpVO selectEmpDetail(String empCode) {
+
+        EmpVO empDetail = hrMapper.selectEmpDetail(empCode);
+        log.debug(TeamColor.PURPLE_BG + "empDetail: " + empDetail + TeamColor.RESET);
+
+        return empDetail;
+    }
 
     /*
      * @author : 김형호
