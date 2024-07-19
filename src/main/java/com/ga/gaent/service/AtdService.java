@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.mapper.AtdMapper;
-import com.ga.gaent.vo.AtdVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,18 +55,18 @@ public class AtdService {
     @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
     void eliminateMsg() {
         String empCode = "20110004";
-        int daily = atdMapper.dailyWorkMinutes(empCode);
-        int weekly = atdMapper.weeklyWorkMinutes(empCode);
-        int montly = atdMapper.monthlyWorkMinutes(empCode);
-        
-        
-        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
-        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
-        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;
-        
-        System.out.println(dailyWorkTime);
-        System.out.println(weeklyWorkTime);
-        System.out.println(montlyWorkTime);
+//        int daily = atdMapper.dailyWorkMinutes(empCode);
+//        int weekly = atdMapper.weeklyWorkMinutes(empCode);
+//        int montly = atdMapper.monthlyWorkMinutes(empCode);
+//        
+//        
+//        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
+//        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
+//        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;
+//        
+//        System.out.println(dailyWorkTime);
+//        System.out.println(weeklyWorkTime);
+//        System.out.println(montlyWorkTime);
         
     }
 }

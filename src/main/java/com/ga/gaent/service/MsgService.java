@@ -12,9 +12,9 @@ import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
 import com.ga.gaent.mapper.FileMapper;
 import com.ga.gaent.mapper.MsgMapper;
+import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.FileVO;
-import com.ga.gaent.vo.PagingVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -55,7 +55,7 @@ public class MsgService {
         int totalRow = msgMapper.msgCnt(m); // 전체 row수
         log.debug(TeamColor.RED + "result: " + totalRow + TeamColor.RESET);
 
-        PagingVO v = new PagingVO();
+        Paging v = new Paging();
         Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
 
 

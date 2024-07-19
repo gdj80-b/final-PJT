@@ -1,4 +1,4 @@
-package com.ga.gaent.vo.atdCalender;
+package com.ga.gaent.util.atdCalender;
 
 import java.util.Calendar;
 import java.util.Map;

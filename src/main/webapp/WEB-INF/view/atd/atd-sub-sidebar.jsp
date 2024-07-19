@@ -98,8 +98,13 @@
         </div>
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'atdHistory')}">active</c:if>">
-                <a href="/gaent/atd/atdHistory" class="menu-link"> 
+                <a href="/gaent/atd" class="menu-link"> 
                     <span>근태관리</span>
+                </a>
+            </li>
+            <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'vacHistory')}">active</c:if>">
+                <a href="/gaent/atd/vacation" class="menu-link"> 
+                    <span>휴가내역</span>
                 </a>
             </li>
         </ul>

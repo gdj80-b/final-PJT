@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.service.AtdService;
 import com.ga.gaent.util.TeamColor;
-import com.ga.gaent.vo.AtdVO;
-import com.ga.gaent.vo.atdCalender.AtdHistory;
+import com.ga.gaent.util.atdCalender.AtdHistory;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +24,7 @@ public class AtdController {
     @Autowired AtdHistory atdHistory;
     
     
-    @GetMapping("/")
+    @GetMapping("")
     public String atdCalendar(Model model,HttpSession session,
                @RequestParam(name="year", required=false) String year,
                @RequestParam(name="month", required=false) String month) {
@@ -71,8 +70,8 @@ public class AtdController {
         log.debug(TeamColor.RED + "확인1 : " + empCode + TeamColor.RESET);
         log.debug(TeamColor.RED + "확인2 : " + inputDateTime + TeamColor.RESET);
        //  System.out.println(inputDateTime);
-        return 1;
-        // return atdService.atdIn(empCode);
+        // return 1;
+         return atdService.atdIn(empCode);
     }
     
     // 퇴근등록

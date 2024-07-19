@@ -40,16 +40,16 @@
     <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
     <div>
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">근태내역</h2>       
+            <h2 class="card-title" style="margin:50px 0px 0px 30px">근태내역</h2>
 <%--             tgYear: ${c.tgYear}년 (원하는 연도 ) / tgMonth : ${c.tgMonth}월 (원하는 월 )/ tgDay: ${c.tgDay}일 (원하는 일 )/ tgYoil: ${c.tgYoil}요일 (해당일의 요일 )--%>
 <%--     <br> tgWeek: ${c.tgWeek}번째주 (원하는 일이 달에 몇번째 주인지 )/ tgFullWeek : ${c.tgFullWeek}번째주 (원하는 일이 연에 몇번째 주인지 )/ 마지막일 tgLastDate: ${c.tgLastDate}일 (원하는 일의 달의 마지막일 )--%>
 <%--     <br> preBlank: ${c.preBlank} / totalDiv: ${c.totalDiv} / afterBlank: ${c.afterBlank}      --%>
            
                 <div class="card-body" style="height:; positions: relative;">                    
                     <div style="text-align:center">
-                        <a href="/gaent/atd/atdCalendar?year=${c.prevYear}&month=${c.prevMonth}">이전달</a>
+                        <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">이전달</a>
                         ${c.tgYear}년 ${c.tgMonth}월
-                        <a href="/gaent/atd/atdCalendar?year=${c.nextYear}&month=${c.nextMonth}">다음달</a>
+                        <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">다음달</a>
                     </div>
                     
                     <div  class="card-body" style="padding:0em 12em;">
@@ -138,12 +138,12 @@
             </div>
         </div>
         </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            
-        });
-    </script>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        
+    });
+</script>
 </body>
 </html>
