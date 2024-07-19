@@ -23,7 +23,6 @@ function onConnected() {
     console.log('Connected');
 
     stompClient.subscribe('/queue/messages', function(chatMessage) {
-        console.log('Message:' + chatMessage);
         console.log('Message received:' + chatMessage.body);
         showMessage(JSON.parse(chatMessage.body));
     });
@@ -36,19 +35,18 @@ function onError(error) {
 }
 
 function sendMessage() {
-    const messageContent = document.getElementById('message').value;
-    console.log('MessageContent: ' + messageContent);
+    const messageContent = document.getElementById('messageInput').value;
     const receiver = '20110006';
 
-    if (messageContent && stompClient) {
+    if (messageContent) {
         const chatMessage = {
             sender: usercode,
-            content: messageContent,
-            recipient: receiver,
+            message: messageContent,
+            receiver: receiver,
             type: 'CHAT'
         };
         stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage));
-        document.getElementById('message').value = '';
+        document.getElementById('messageInput').value = '';
     }
 
     stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage));
@@ -63,8 +61,8 @@ function sendSystemMessage(type) {
     if (receiver && stompClient) {
         const chatMessage = {
             sender: usercode,
-            content: '',
-            recipient: receiver,
+            message: '',
+            receiver: receiver,
             type: type
         };
         stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage));
@@ -103,25 +101,6 @@ function showMessage(message) {
     chatHistory.appendChild(messageElement);
 }
 
-// MutationObserver로 DOM 변화를 감지하여 스크롤 설정
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('send').addEventListener('click', function(event) {
-        event.preventDefault();
-        sendMessage();
-    });
-
-    const chatHistory = document.getElementById('chat-history');
-    const observer = new MutationObserver(() => {
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-    });
-
-    observer.observe(chatHistory, { childList: true });
-
-    connect();
-});
-
-observer.observe(chatHistory, { childList: true });
-
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('send').addEventListener('click', function(e) {
         e.preventDefault();
@@ -137,25 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function chatClose() {
     sendSystemMessage('LEAVE');
 }
-
-/*function chatBubble() {
-    fetch('/gaent/bubble')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.text(); // 서버에서 HTML 템플릿을 반환한다고 가정
-        })
-        .then(data => {
-            const messageElement = document.createElement('li');
-            messageElement.innerHTML = data;
-            chatHistory.appendChild(messageElement);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        })
-        .catch(error => {
-            console.log('There has been a problem with your fetch operation: ' + error);
-        });
-}*/
 
 /*document.getElementById('close').addEventListener('click', function(e) {
     e.preventDefault();
