@@ -57,17 +57,17 @@
     <!-- 출퇴근이력 -->
     <select id="selectAtdHistory" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
         SELECT 
-			atd_num atdNum,
-			emp_code empCode,
-			DATE_FORMAT(atd_in_time, '%H시%i분%s초') AS  inTime,
-			DATE_FORMAT(atd_out_time, '%H시%i분%s초') AS  outTime,
+            atd_num atdNum,
+            emp_code empCode,
+            DATE_FORMAT(atd_in_time, '%H시%i분%s초') AS  inTime,
+            DATE_FORMAT(atd_out_time, '%H시%i분%s초') AS  outTime,
             DATE_FORMAT(atd_in_time, '%Y') as year,
             DATE_FORMAT(atd_in_time, '%m') as month,
             DATE_FORMAT(atd_in_time, '%d') as day            
-		FROM 
-			attendance
-		WHERE
-			emp_code = #{empCode}
+        FROM 
+            attendance
+        WHERE
+            emp_code = #{empCode}
     </select>
     
     <!-- 일간 근무 시간 계산 -->

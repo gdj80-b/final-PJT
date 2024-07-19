@@ -165,7 +165,7 @@
         $.ajax({
             url: "/gaent/atd/checkAtd", // 데이터를 가져올 URL
             type: "GET", // GET 메서드를 사용
-            data: {'empCode': '${loginInfo.empCode}'}, // id 값을 문자열로 전달
+            data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
             dataType: "json", // 데이터 타입은 JSON
             success: function(data) { // 요청이 성공하면 실행
                 console.log('출퇴근확인: ', data);
@@ -193,12 +193,33 @@
         });
     }
     
+    let inputDateTime = null;
+    
+ 	// 현재 시간을 설정하는 함수
+    function setClock() {
+        let dateInfo = new Date()
+        let hour = modifyNumber(dateInfo.getHours());
+        let min = modifyNumber(dateInfo.getMinutes());
+        let sec = modifyNumber(dateInfo.getSeconds());
+        let year = dateInfo.getFullYear();
+        let month = dateInfo.getMonth() + 1; // monthIndex를 반환해주기 때문에 1을 더해준다.
+        let date = dateInfo.getDate();
+        inputDateTime = dateInfo.toISOString().slice(0, 19).replace('T', ' '); // YYYY-MM-DD HH:MM:SS 형식        
+        // 시간 및 날짜 표시 업데이트
+        $("#time").text(hour + ":" + min + ":" + sec);
+        $("#date").text(year + "년 " + month + "월 " + date + "일");
+        return inputDateTime;
+    }
+    
     // 출근을 처리하는 함수
     function attend() {
         $.ajax({
             url: "/gaent/atd/atdIn", // 데이터를 가져올 URL
             type: "GET", // GET 메서드를 사용
-            data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
+            data: {
+				'empCode': '${loginInfo.empCode}', // empCode 값을 문자열로 전달
+            	'inputDateTime': inputDateTime
+            },
             dataType: "json", 
             success: function(attendTime) { 
                 // alert("출근 처리가 완료되었습니다.");
@@ -230,22 +251,7 @@
             }
         });   
     }
-    
-    // 현재 시간을 설정하는 함수
-    function setClock() {
-        let dateInfo = new Date();
-        let hour = modifyNumber(dateInfo.getHours());
-        let min = modifyNumber(dateInfo.getMinutes());
-        let sec = modifyNumber(dateInfo.getSeconds());
-        let year = dateInfo.getFullYear();
-        let month = dateInfo.getMonth() + 1; // monthIndex를 반환해주기 때문에 1을 더해준다.
-        let date = dateInfo.getDate();
-        
-        // 시간 및 날짜 표시 업데이트
-        $("#time").text(hour + ":" + min + ":" + sec);
-        $("#date").text(year + "년 " + month + "월 " + date + "일");
-    }
-    
+ 
     // 숫자가 한 자리일 경우 앞에 0을 추가하는 함수
     function modifyNumber(time) {
         return (parseInt(time) < 10) ? "0" + time : time;

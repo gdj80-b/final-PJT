@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.service.AtdService;
+import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.AtdVO;
 import com.ga.gaent.vo.atdCalender.AtdHistory;
 import jakarta.servlet.http.HttpSession;
@@ -23,42 +24,8 @@ public class AtdController {
     @Autowired AtdService atdService;
     @Autowired AtdHistory atdHistory;
     
-    @GetMapping("/atdHistory")
-    public String atdHistory() {
-        return "/atd/atdHistory";
-    }
     
-    @GetMapping("/atd2") //
-    public String atd2() { 
-        return "/atd/atd-Regi";
-    }
-    
-    
-    //출퇴근 여부
-    @GetMapping("/checkAtd")
-    @ResponseBody
-    public AtdDTO checkAtd(@RequestParam String empCode) {
-        
-        return atdService.checkAtd(empCode);
-    }
-    
-    // 출근등록
-    @GetMapping("/atdIn")
-    @ResponseBody
-    public int atdIn(@RequestParam String empCode) {
-        
-        return atdService.atdIn(empCode);
-    }
-    
-    // 퇴근등록
-    @GetMapping("/atdOut")
-    @ResponseBody
-    public int atdOut(@RequestParam String empCode) {
-        
-        return atdService.atdOut(empCode);
-    }
-    
-    @GetMapping("/atdCalendar")
+    @GetMapping("/")
     public String atdCalendar(Model model,HttpSession session,
                @RequestParam(name="year", required=false) String year,
                @RequestParam(name="month", required=false) String month) {
@@ -74,6 +41,49 @@ public class AtdController {
 
         return "/atd/atdHistory";
     }
+    
+    @GetMapping("/atdHistory")
+    public String atdHistory() {
+        return "/atd/atdHistory";
+    }
+    
+    @GetMapping("/atd2") //
+    public String atd2() { 
+        return "/atd/atd-register";
+    }
+    
+    
+    //출퇴근 여부
+    @GetMapping("/checkAtd")
+    @ResponseBody
+    public AtdDTO checkAtd(@RequestParam String empCode) {
+        
+        return atdService.checkAtd(empCode);
+    }
+    
+    // 출근등록
+    @GetMapping("/atdIn")
+    @ResponseBody
+    public int atdIn(@RequestParam String empCode,
+            @RequestParam String inputDateTime
+            )             {
+        
+        log.debug(TeamColor.RED + "확인1 : " + empCode + TeamColor.RESET);
+        log.debug(TeamColor.RED + "확인2 : " + inputDateTime + TeamColor.RESET);
+       //  System.out.println(inputDateTime);
+        return 1;
+        // return atdService.atdIn(empCode);
+    }
+    
+    // 퇴근등록
+    @GetMapping("/atdOut")
+    @ResponseBody
+    public int atdOut(@RequestParam String empCode) {
+        
+        return atdService.atdOut(empCode);
+    }
+    
+
     
     // 퇴근등록
     @GetMapping("/ccc")
