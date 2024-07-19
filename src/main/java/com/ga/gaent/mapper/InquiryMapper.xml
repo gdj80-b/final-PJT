@@ -52,4 +52,32 @@
         FROM
             emp
     </select>
+    
+    <!-- 그룹 리스트 정보 조회 -->
+    <select id="selectTeamList" resultType="com.ga.gaent.vo.TeamVO">
+        SELECT
+            team_code teamCode,
+            team_name teamName,
+            team_des teamDes,
+            parent_team_code parentTeamCode,
+            team_create_date teamCreateDate,
+            team_update_date teamUpdateDate
+        FROM
+            team
+        WHERE
+            team_code != 10
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 그룹 리스트 카운트 -->
+    <select id="selectTeamCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code != 10
+    </select>
+    
 </mapper>

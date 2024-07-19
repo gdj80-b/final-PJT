@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>제목 - GAEnt.</title>
+    <title>직원조회 - GAEnt.</title>
     <!-- 부트스트랩 JS 및 jQuery (필수) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -27,8 +27,8 @@
         <h5 class="fs-4 fw-semibold mb-2">직원조회</h5>
         <hr />
         <div class="table-responsive text-nowrap">
-		    <table class="table table-hover">
-		      <thead>
+		    <table class="table table-hover table-striped">
+		      <thead class="table-light">
 		        <tr>
 		          <th>이름</th>
 		          <th>직위</th>
@@ -39,7 +39,7 @@
 		          <th>최종수정자</th>
 		        </tr>
 		      </thead>
-		      <tbody class="table-border-bottom-0">
+		      <tbody class="table-border-bottom-0 table-light striped"">
 		      <c:forEach var="vo" items="${empList}">
 		        <tr>
 		          <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td>

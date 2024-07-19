@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-3">
       <li class="menu-item">
-        <a href="/gaent/inquiry/teamChart" class="menu-link">
+        <a href="/gaent/inquiry/teamList" class="menu-link">
           <span>그룹조회</span>
         </a>
       </li>

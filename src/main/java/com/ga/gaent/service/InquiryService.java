@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.mapper.InquiryMapper;
 import com.ga.gaent.vo.EmpVO;
+import com.ga.gaent.vo.TeamVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -42,5 +43,29 @@ public class InquiryService {
         log.debug(yellow + "empCount : " + empCount + yellow);
         
         return empCount;
+    }
+    
+    // 그룹 리스트 정보 조회
+    public List<TeamVO> selectTeamList(int currentPage, int rowPerPage){
+       
+        int startRow = (currentPage - 1) * rowPerPage;
+        
+        Map<String, Integer> map = new HashMap<>();
+        map.put("startRow", startRow);
+        map.put("rowPerPage", rowPerPage);
+        
+        List<TeamVO> teamList = inquiryMapper.selectTeamList(map);
+        log.debug(yellow + "teamList : " + teamList + yellow);
+        
+        return teamList;
+    }
+    
+    // 그룹 리스트 카운트
+    public int selectTeamCount() {
+        
+        int teamCount = inquiryMapper.selectTeamCount();
+        log.debug(yellow + "teamCount : " + teamCount + yellow);
+        
+        return teamCount;
     }
 }
