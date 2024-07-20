@@ -44,4 +44,10 @@ public class EmpVO {
     private String resignDate;
     private String updateDate;
     private String finalModifier;
+    
+    // 직원 정보 리스트 조회에 필요한 컬럼
+    private String rankName;
+    private String teamName;
+    private String parentTeamCode;
+    private String parentTeamName;
 }

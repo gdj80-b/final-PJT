@@ -31,7 +31,10 @@
     <!-- 일정조회 -->
     <select id="selectEventList" resultType="Map">
         SELECT
-        	cal_num id, cal_title title, cal_start_date start, cal_end_date end
+        	cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end
         FROM
         	calendar
     </select>

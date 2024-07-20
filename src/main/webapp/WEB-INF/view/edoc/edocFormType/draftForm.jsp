@@ -29,7 +29,7 @@
         <td class="typeDraftTdTag">
           <c:choose>
             <c:when test="${edocDetail.propStartDate != null}">
-              <input class="form-control form-control-sm" type="text" name="propStartDate" value="${edocDetail.propStartDate}">
+              ${edocDetail.propStartDate}
             </c:when>
             <c:otherwise>
               <input class="form-control form-control-sm" type="date" name="propStartDate">
@@ -40,7 +40,7 @@
         <td class="typeDraftTdTag">
           <c:choose>
             <c:when test="${edocDetail.propEndDate != null}">
-              <input class="form-control form-control-sm" type="text" name="propEndDate" value="${edocDetail.propEndDate}">
+              ${edocDetail.propEndDate}
             </c:when>
             <c:otherwise>
               <input class="form-control form-control-sm" type="date" name="propEndDate">
@@ -53,7 +53,7 @@
         <td class="typeDraftTdTag" colspan="3">
           <c:choose>
             <c:when test="${edocDetail.propTitle != null}">
-              <input class="form-control form-control-sm" type="text" name="propTitle" value="${edocDetail.propTitle}">
+                ${edocDetail.propTitle}
             </c:when>
             <c:otherwise>
               <input class="form-control form-control-sm" type="text" name="propTitle">
@@ -65,7 +65,7 @@
         <td class="typeDraftTdTag" colspan="4">
           <c:choose>
             <c:when test="${edocDetail.propContent != null}">
-              <textarea class="form-control" rows="12" name="propContent">${edocDetail.propContent}</textarea>
+              <textarea class="form-control" rows="12" name="propContent" readonly>${edocDetail.propContent}</textarea>
             </c:when>
             <c:otherwise>
               <textarea class="form-control" rows="12" name="propContent"></textarea>

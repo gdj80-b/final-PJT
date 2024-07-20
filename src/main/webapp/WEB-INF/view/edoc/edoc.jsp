@@ -120,7 +120,7 @@
                 </div>
               </div>
             </div>
-            <hr />
+            <hr /> 
             <!-- 기안서 양식 -->
             <div>
               <div id="edoc-form-type">
@@ -161,29 +161,51 @@
       });
 
       $('#edoc-type').change(function () {
-        if ($('#edoc-type').val() == '') {
-          $('#edoc-form-type').empty();
-          $('#edoc-form-type').append(
-            '<div class="edoc-form-area">양식을 선택해주세요.</div>'
-          );
-          return;
-        } else if ($('#edoc-type').val() == '0') {
+          let edocType = $('#edoc-type').val();
+          
+          if (edocType == '') {
+            $('#edoc-form-type').empty().append('<div class="edoc-form-area">양식을 선택해주세요.</div>');
+            return;
+          }
+
+          let url = '/gaent/edoc/' + edocType;
+          let title = '';
+          
+          switch (edocType) {
+            case '0':
+              title = '기안서';
+              break;
+            case '1':
+              title = '휴가신청서';
+              break;
+            case '2':
+              title = '지출결의서';
+              break;
+            case '3':
+              title = '경조사 지출결의서';
+                break;
+            case '4':
+              title = '차량 이용 신청서';
+                break;
+            case '5':
+              title = '보고서';
+                break;
+          }
+          
           $.ajax({
-            url: '/gaent/edoc/0',
+            url: url,
             method: 'GET',
             success: function (data) {
               console.log(data);
-              $('#edoc-form-title').empty();
-              $('#edoc-form-title').append('기안서');
-              $('#edoc-form-type').empty();
-              $('#edoc-form-type').append(data);
+              $('#edoc-form-title').text(title);
+              $('#edoc-form-type').empty().append(data);
             },
             error: function (error) {
               console.log(error);
             },
           });
-        }
-      });
+        });
+
 
       $.ajax({
         url: '/gaent/getApprover',

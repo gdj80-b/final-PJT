@@ -19,61 +19,61 @@
     <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme side-nav">
         <div class="menu-inner-shadow"></div>
         <ul class="menu-inner py-3">
-            <li class="menu-item">
-                <a href="home" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/home') ? 'active' : '' }">
+                <a href="/gaent/home" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-home-circle"></i> <span>홈</span>
                 </a>
             </li>
             <!-- 쪽지함 -->
-            <li class="menu-item">
-                <a href="msg/1" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/msg') ? 'active' : '' }">
+                <a href="/gaent/msg/1" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-envelope"></i> <span>쪽지함</span>
                 </a>
             </li>
             <!-- 채팅 -->
-            <li class="menu-item">
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/chat') ? 'active' : '' }">
                 <a href="/gaent/chat" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-message"></i> <span>채팅</span>
                 </a>
             </li>
             <!-- 캘린더 -->
-            <li class="menu-item">
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/calendar') ? 'active' : '' }">
                 <a href="/gaent/calendar" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-calendar"></i> <span>캘린더</span>
                 </a>
             </li>
             <!-- 근태관리 -->
-            <li class="menu-item">
-                <a href="/gaent/atd/atdCalendar" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/atd') ? 'active' : '' }">
+                <a href="/gaent/atd" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i> <span>근태관리</span>
                 </a>
             </li>
             <!-- 직원조회 -->
-            <li class="menu-item">
-                <a href="/" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team') ? 'active' : '' }">
+                <a href="/gaent/team/teamList" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-archive"></i> <span>직원조회</span>
                 </a>
             </li>
             <!-- 전자결재 -->
-            <li class="menu-item">
-                <a href="/gaent/home" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/edoc') ? 'active' : '' }">
+                <a href="/gaent/approval" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-briefcase"></i> <span>전자결재</span>
                 </a>
             </li>
             <!-- 공지사항 -->
-            <li class="menu-item">
-                <a href="/" class="menu-link"> 
+            <li class="menu-item  ${fn:contains(pageContext.request.requestURI, '/notice') ? 'active' : '' }">
+                <a href="/gaent/notice/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-spreadsheet"></i> <span>공지사항</span>
                 </a>
             </li>
             <!-- 커뮤니티 -->
-            <li class="menu-item">
-                <a href="/" class="menu-link"> 
+            <li class="menu-item  ${fn:contains(pageContext.request.requestURI, '/comm') ? 'active' : '' }">
+                <a href="/gaent/community/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-conversation"></i> <span>커뮤니티</span>
                 </a>
             </li>
             <!-- 사내구매 -->
-            <li class="menu-item">
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/prd') ? 'active' : '' }">
                 <a href="/gaent/prd/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-cart"></i> <span>사내구매</span>
                 </a>
