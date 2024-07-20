@@ -44,7 +44,7 @@
             </li>
             <!-- 근태관리 -->
             <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/atd') ? 'active' : '' }">
-                <a href="/gaent/atd/" class="menu-link"> 
+                <a href="/gaent/atd" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i> <span>근태관리</span>
                 </a>
             </li>

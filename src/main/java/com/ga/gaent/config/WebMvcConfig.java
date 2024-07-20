@@ -1,8 +1,13 @@
 package com.ga.gaent.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import com.ga.gaent.util.LoginInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -40,5 +45,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/scss/**")
                 .addResourceLocations("classpath:/static/scss/")
                 .setCachePeriod(60 * 60 * 24 * 365);
+    }
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 19.
+     * Description : 로그인 인증 분기 인터셉터
+     */
+    @Autowired LoginInterceptor loginInterceptor;
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns("/login","/notLogin","/findId","/findPw","/resetPw");
+        WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

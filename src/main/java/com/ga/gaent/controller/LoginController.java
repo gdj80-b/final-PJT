@@ -32,21 +32,29 @@ public class LoginController {
     @PostMapping("/login")
     public String loginCheck(LoginRequestDTO loginRequestDTO, HttpSession session, RedirectAttributes redirectAttributes) {
         
-        log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + TeamColor.RESET);
-
         Map<String, Object> loginInfo = loginService.selectLoginCheck(loginRequestDTO);
-        log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
-        
-        if(loginInfo != null) {
+        if( loginInfo != null) {
+            
+            log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + TeamColor.RESET);
+            log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
+            
             session.setAttribute("loginInfo", loginInfo);
             return "redirect:/home";
         }
-        
-        redirectAttributes.addFlashAttribute("messageType", "false");
-        redirectAttributes.addFlashAttribute("message", "아이디와 비밀번호를 확인해주세요.");
-        
-        return "login";
+        return "redirect:/notLogin";
     }
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 12.
+     * Description : 로그인 되지 않았을시 메시지를 담아 로그인 페이지로 보냄
+     */
+    @GetMapping("/notLogin") 
+    public String notLogin(RedirectAttributes rattr) {
+        rattr.addFlashAttribute("message", "로그인 실패 메시지");
+        rattr.addFlashAttribute("checkLoginMsg", "아이디 또는 비밀번호를 확인해주세요.");
+        return "redirect:/login";
+    };
 
     /*
      * @author : 정건희
@@ -58,7 +66,7 @@ public class LoginController {
         
         session.invalidate();
         
-        redirectAttributes.addFlashAttribute("message", "로그아웃 완료.");
+        redirectAttributes.addFlashAttribute("message", "로그아웃 되었습니다");
         
         return "redirect:/login";
     }
@@ -150,4 +158,5 @@ public class LoginController {
         
         return "redirect:/login";
     }
+    
 }
