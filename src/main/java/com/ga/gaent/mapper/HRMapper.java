@@ -33,6 +33,13 @@ public interface HRMapper {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 20.
+     * Description : 직원 정보 수정
+     */
+    public int updateEmp(String empCode, EmpVO empVO);
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 19.
      * Description : 직원 등록
      */

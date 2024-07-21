@@ -12,8 +12,6 @@ public class EmpVO {
 
     private String empCode;
     private String teamCode;
-    private String teamName;
-    private String parentTeamCode;
     private String rankCode;
     private String profile;
     private String empId;
@@ -21,15 +19,8 @@ public class EmpVO {
     private String korName;
     private String engName;
     private String regNo;
+    private String birth;
     private int age;
-    
-    void calAge() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int birth = Integer.parseInt(this.regNo.substring(0, 1));
-        this.age = year - birth;
-    }
-    
     private String gender;
     private String phone;
     private String emergencyPhoneRelation;

@@ -1,5 +1,6 @@
 package com.ga.gaent.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class HRService {
     public List<Map<String, Object>> selectTreeInfo() {
 
         List<Map<String, Object>> list = hrMapper.selectTreeInfo();
-        log.debug(yellow + "list : " + list + yellow);
+        // log.debug(yellow + "list : " + list + yellow);
 
         return list;
     }
@@ -49,7 +50,7 @@ public class HRService {
         map.put("rowPerPage", rowPerPage);
 
         List<Map<String, Object>> empList = hrMapper.selectEmpList(map);
-        log.debug(TeamColor.PURPLE_BG + "empList: " + empList + TeamColor.RESET);
+        // log.debug(TeamColor.PURPLE_BG + "empList: " + empList + TeamColor.RESET);
 
         return empList;
     }
@@ -62,9 +63,42 @@ public class HRService {
     public EmpVO selectEmpDetail(String empCode) {
 
         EmpVO empDetail = hrMapper.selectEmpDetail(empCode);
-        log.debug(TeamColor.PURPLE_BG + "empDetail: " + empDetail + TeamColor.RESET);
-
+        // log.debug(TeamColor.PURPLE_BG + "empDetail: " + empDetail + TeamColor.RESET);
+        
+        String regNo = empDetail.getRegNo();
+        Calendar cal = Calendar.getInstance();
+        
+        int year = cal.get(Calendar.YEAR);
+        int age = 0;
+        String birth = "";
+        String birthYear = "";
+        
+        if((regNo.substring(6, 7)).equals("1") || (regNo.substring(6, 7)).equals("2")) {
+            birthYear = "19" + regNo.substring(0, 2);
+        } else {
+            birthYear = "20" + regNo.substring(0, 2);
+        }
+        
+        birth = regNo.substring(0, 6);
+        
+        age = year - Integer.parseInt(birthYear);
+        // log.debug(TeamColor.PURPLE_BG + "age: " + age + TeamColor.RESET);
+        // log.debug(TeamColor.PURPLE_BG + "birth: " + birth + TeamColor.RESET);
+        
+        empDetail.setAge(age);
+        empDetail.setBirth(birth);
+        
         return empDetail;
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 20.
+     * Description : 직원 정보 수정
+     */
+    public int updateEmp(String empCode, EmpVO empVO) {
+        int result = hrMapper.updateEmp(empCode, empVO);
+        return result;
     }
 
     /*
@@ -141,7 +175,7 @@ public class HRService {
     }
 
     /*
-     * @author : 정건희
+     * @author : 김형호
      * @since : 2024. 07. 00.
      * Description : 부서 리스트 카운트
      */
@@ -154,8 +188,8 @@ public class HRService {
     }
 
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 19.
+     * @author : 김형호
+     * @since : 2024. 07. 00.
      * Description : 부서 등록 부서코드 유효성 검사
      */
     public int checkTeamCode(String teamCode) {

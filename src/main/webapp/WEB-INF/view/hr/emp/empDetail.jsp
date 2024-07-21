@@ -7,7 +7,15 @@
   <head>
     <meta charset="UTF-8">
     <title>인사관리 - GAEnt.</title>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
+    <style>
+      .img-box {
+        width: 120px;
+        height: 160px;
+        background-color: rgba(105, 108, 255, 0.6);
+      }
+    </style>
   </head>
   <body>
     <div id="">
@@ -19,23 +27,116 @@
         <jsp:include page="/WEB-INF/view/hr/hr-sub-sidebar.jsp"></jsp:include>
       </div>
       <div id="workspace-area" class="subsidebar-from-workspace">
-        <h5 class="fs-4 fw-semibold mb-2">인사정보</h5>
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="fs-4 fw-semibold mb-2">인사정보</h5>
+          <div>
+            <a href="/gaent/hr/modifyEmp/${empDetail.empCode}" class="btn btn-outline-primary">수정</a>
+            <a class="btn btn-outline-danger">삭제</a>
+          </div>
+        </div>
         <hr />
-        <div class="table-responsive text-nowrap">
-          <div>${empDetail.empCode}</div>
-          <div>${empDetail.teamCode}</div>
-          <div>${empDetail.teamName}</div>
-          <div>${empDetail.rankCode}</div>
-          <div>${empDetail.profile}</div>
-          <div>${empDetail.empId}</div>
-          <div>${empDetail.korName}</div>
-          <div>${empDetail.engName}</div>
-          <div>${empDetail.age}</div>
-          <div>${empDetail.gender}</div>
-          <div>${empDetail.phone}</div>
-          <div>${empDetail.ext}</div>
-          <div>${empDetail.hireDate}</div>
-          <div>${empDetail.resignDate}</div>
+        <!-- 인사정보 -->
+        <div class="card mb-3">
+          <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+              <tr>
+                <td rowspan="6">
+                  <div class="img-box mx-auto"><img alt="" src=""></div>
+                </td>
+              </tr>
+              <tr>
+                <th>이름(국문)</th>
+                <td><span>${empDetail.korName}</span></td>
+                <th>이름(영문)</th>
+                <td><span>${empDetail.engName}</span></td>
+              </tr>
+              <tr>
+                <th>소속</th>
+                <td colspan="3"><span>${empDetail.teamName}(${empDetail.teamCode})</span></td>
+              </tr>
+              <tr>
+                <th>사번</th>
+                <td><span>${empDetail.empCode}</span></td>
+                <th>내선번호</th>
+                <td><span>${empDetail.ext}</span></td>
+              </tr>
+              <tr>
+                <th>이메일</th>
+                <td><span>${empDetail.empId}</span></td>
+                <th>휴대번호</th>
+                <td><span>${empDetail.phone}</span></td>
+              </tr>
+              <tr>
+                <th>직위 / 직책</th>
+                <td><span>${empDetail.rankCode}</span></td>
+                <th>대표전화</th>
+                <td><span></span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- 기타 개인정보 -->
+        <div class="card mb-3">
+          <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+              <tr>
+                <th>생년월일</th>
+                <td><span>${empDetail.birth}</span></td>
+                <th>나이</th>
+                <td><span>${empDetail.age}</span></td>
+                <th>성별</th>
+                <td><span>${empDetail.gender}</span></td>
+              </tr>
+              <tr>
+                <th>입사일</th>
+                <td><span>${empDetail.hireDate}</span></td>
+                <th>퇴사일</th>
+                <td><span>${empDetail.resignDate}</span></td>
+                <th>상태</th>
+                <td><span></span></td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+                <th>&nbsp;</th>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

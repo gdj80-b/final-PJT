@@ -94,13 +94,29 @@ public class HRController {
     @GetMapping("/empDetail/{empCode}")
     public String getEmpDetail(@PathVariable(name = "empCode") String empCode, Model model) {
         
-        log.debug(TeamColor.PURPLE_BG + "empCode: " + empCode + TeamColor.RESET);
+        // log.debug(TeamColor.PURPLE_BG + "get-empCode: " + empCode + TeamColor.RESET);
         
         EmpVO empDetail = hrService.selectEmpDetail(empCode);
-        
         model.addAttribute("empDetail", empDetail);
         
         return "hr/emp/empDetail";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 19.
+     * Description : 직원 정보 수정 폼
+     */
+    @GetMapping("/modifyEmp/{empCode}")
+    public String modifyEmp(@PathVariable(name = "empCode") String empCode, Model model) {
+        
+        // log.debug(TeamColor.PURPLE_BG + "modify-empCode: " + empCode + TeamColor.RESET);
+        
+        EmpVO empDetail = hrService.selectEmpDetail(empCode);
+        model.addAttribute("type", "modify");
+        model.addAttribute("empDetail", empDetail);
+        
+        return "redirect:/hr/addEmp";
     }
     
     /*
