@@ -94,6 +94,8 @@ public class NoticeService {
     // 공지사항 상세보기
     public List<Map<String, Object>> selectNoticeOne(int noticeNum) {
         List<Map<String, Object>> noticeOne = noticeMapper.selectNoticeOne(noticeNum);
+        // 조회수
+        noticeMapper.noticeCount(noticeNum);
         return noticeOne;
     }
   
