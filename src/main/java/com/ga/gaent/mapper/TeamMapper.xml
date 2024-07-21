@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.TeamMapper">
+    
+    <!-- 조직도 정보 조회 -->
+    <select id="selectTreeInfo" resultType="Map">
+        SELECT
+            team_code AS id,
+            parent_team_code AS parent,
+            team_name AS text,
+            org_icon AS icon,
+            999 AS rankCode
+        FROM
+            team
+        
+        UNION ALL
+        
+        SELECT
+            emp_code AS id,
+            team_code AS parent,
+            CASE 
+                WHEN rank_code = 1 THEN CONCAT(emp_kor_name, ' 대표')
+                WHEN rank_code = 2 THEN CONCAT(emp_kor_name, ' 부장')
+                WHEN rank_code = 3 THEN CONCAT(emp_kor_name, ' 팀장')
+                WHEN rank_code = 4 THEN CONCAT(emp_kor_name, ' 대리')
+                WHEN rank_code = 5 THEN CONCAT(emp_kor_name, ' 사원')
+                ELSE emp_kor_name
+            END AS text,
+            org_icon AS icon,
+            NULLIF(rank_code, '') AS rankCode
+        FROM
+            emp
+        ORDER BY
+            parent, rankCode, text;
+    </select>
+    
+    <!--  부서 등록 -->
+    <insert id="insertTeam" parameterType="com.ga.gaent.vo.TeamVO">
+        INSERT INTO team(
+            team_code,
+            team_name,
+            team_des,
+            parent_team_code,
+            team_create_date,
+            team_update_date
+        )VALUES(
+            #{teamCode},
+            #{teamName},
+            #{teamDes},
+            #{parentTeamCode},
+            NOW(),
+            NOW()
+        )
+    </insert>
+    
+    <!-- 부서 수정 -->
+    <update id="updateTeam" parameterType="com.ga.gaent.vo.TeamVO">
+        UPDATE
+            team
+        SET
+            team_name = #{teamName},
+            team_des = #{teamDes},
+            parent_team_code = #{parentTeamCode},
+            team_update_date = NOW()
+        WHERE
+            team_code = #{teamCode}
+    </update>
+    
+    <!-- 부서 삭제 -->
+    <delete id="deleteTeam" parameterType="int">
+        DELETE FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+        <!-- 부서원이 1명이라도 존재할 경우 삭제 취소 -->
+        AND NOT EXISTS (
+            SELECT
+                1
+            FROM
+                emp
+            WHERE team_code = #{teamCode}
+        )
+    </delete>
+    
+    <!-- 부서 리스트 조회 -->
+    <select id="selectTeamList" resultType="com.ga.gaent.vo.TeamVO">
+        SELECT
+            team_code teamCode,
+            team_name teamName,
+            team_des teamDes,
+            parent_team_code parentTeamCode,
+            team_create_date teamCreateDate,
+            team_update_date teamUpdateDate
+        FROM
+            team
+        WHERE
+            team_code != 10
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 부서 리스트 카운트 -->
+    <select id="selectTeamCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code != 10
+    </select>
+    
+    <!-- 부서 등록 부서코드 유효성 검사 -->
+    <select id="checkTeamCode" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+    </select>
+</mapper>

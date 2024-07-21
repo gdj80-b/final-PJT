@@ -16,7 +16,14 @@
           <span class="app-brand-text demo menu-text fw-bolder ms-2">GA Ent.</span>
         </div>
         <div class="collapse navbar-collapse" id="navbar-ex-3">
-          <div class="navbar-nav me-auto"></div>
+          <div class="navbar-nav me-auto"></div>          
+          <!-- 로그인한사람 -->
+          <div class="me-4">
+            <a href="/${loginInfo.empCode}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-happy-alt"></i>
+              <span>${loginInfo.korName}님 환영합니다</span>
+            </a>
+          </div>
           <!-- 마이페이지 -->
           <div class="me-4">
             <a href="/" class="menu-link">
@@ -26,7 +33,7 @@
           </div>
           <!-- 로그아웃 -->
           <div class="">
-            <a href="logout" class="menu-link">
+            <a href="/gaent/logout" class="menu-link">
               <i class="menu-icon tf-icons bx bx-log-out"></i>
               <span>로그아웃</span>
             </a>

@@ -1,9 +1,9 @@
-package com.ga.gaent.vo;
+package com.ga.gaent.util;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PagingVO {
+public class Paging {
     
     public Map<String,Object>Paging(int currentPage ,int totalRow){        
         // int currentPage = 1;    // 현재 페이지 번호

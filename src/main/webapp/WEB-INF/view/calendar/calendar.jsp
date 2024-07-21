@@ -128,7 +128,7 @@
     var calendarEl = document.getElementById('calendar');
     var request = $.ajax({
       url: "/gaent/calendar/event",
-      method: "GET",
+      method: "get",
     });
     request.done(function(data){
 	  // full-calendar 생성하기
