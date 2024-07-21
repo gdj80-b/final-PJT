@@ -188,7 +188,7 @@ public class MsgService {
      * @since : 2024. 07. 17.
      * Description : 스케줄러를 이용해 메시지 delete
      */
-    @Scheduled(cron = "0 */12 * * *")   //매일 12시간마다
+    @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
     void eliminateMsg() {
         int deleteMsg = msgMapper.eliminateMsg();
         int deleteMsgFile = msgMapper.eliminateMsgFile();

@@ -136,7 +136,7 @@
                     <!-- 페이징 -->
                     <div>
                         <jsp:include page="/WEB-INF/view/common/paging.jsp">
-                            <jsp:param name="pageUrl" value="/gaent/msg/0"/>
+                            <jsp:param name="aaa" value="&searchMsg=${param.searchMsg}"/>                            
                         </jsp:include>
                     </div>
                 </div>
