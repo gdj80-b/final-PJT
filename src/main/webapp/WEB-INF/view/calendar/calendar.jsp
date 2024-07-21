@@ -17,8 +17,8 @@
   <!-- fullcalendar 언어 CDN -->
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
   <!-- Bootstrap 스크립트 추가 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   <style>
   /* body 스타일 */
@@ -42,6 +42,10 @@
 	<div id="header-area">
         <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
     </div>
+    <div id="sidebar_area">
+        <jsp:include page="/WEB-INF/view/calendar/sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
+      </div>
     
 <div id="workspace-area" class="subsidebar-from-workspace">
 	<!-- calendar 태그 -->
@@ -49,77 +53,73 @@
   
   <!-- 부트스트랩 modal 부분 시작 -->
     <!-- 일정 상세 모달 -->
-  <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="eventModalTitle">일정 상세</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div id="eventDetails">
-            <!-- 여기에 일정 상세 정보를 동적으로 채웁니다. -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eventModalTitle">일정 상세</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div id="eventDetails">
+            		<!-- 여기에 일정 상세 정보를 동적으로 채웁니다. -->
+          		</div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
   
   <!-- 일정클릭 후 일정등록 폼 모달 -->
-<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addEventModalTitle">일정 추가</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
-      <div class="modal-body">
-		<!-- 작성자 --> 
-		<input type="hidden" name="calWriter" value="">
-	    일정타입 : <select name="calType">
-					    <option value="public">개인(공개)</option>
-					    <option value="private">개인(제한)</option>
-					    <option value="tpublic">팀(공개)</option>
-					    <option value="tprivate">팀(제한)</option>
-					    <option value="corp">전사(전체)</option>
-					    <option value="artist">아티스트(전체)</option>
-					</select>
-					<br />
-	    제목 : <input type="text" name="calTitle" /><br />
-        내용 : <input type="text" name="calContent" /><br />
-        시작시간 : <input type="datetime-local" name="calStartDate" /> <br />
-        종료시간 : <input type="datetime-local" name="calEndDate" /><br />
-        일정분류 : <select name="calTargetType">
-					    <option value="emp">개인</option>
-					    <option value="110">인사팀</option>
-					    <option value="210">경영팀</option>
-					    <option value="220">회계팀</option>
-					    <option value="310">기획팀</option>
-					    <option value="320">제작팀</option>
-					    <option value="410">홍보팀</option>
-					    <option value="420">영업팀</option>
-					    <option value="510">매니지먼트팀</option>
-					    <option value="520">스타일팀</option>
-					    <option value="corp">전사</option>
-					    <option value="artist">아티스트</option>
-					</select>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+  <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addEventModalTitle">일정 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
+			      <div class="modal-body">
+					<!-- 작성자 --> 
+					<input type="hidden" name="calWriter" value="">
+				    일정타입 : <select name="calType">
+								    <option value="public">개인(공개)</option>
+								    <option value="private">개인(제한)</option>
+								    <option value="tpublic">팀(공개)</option>
+								    <option value="tprivate">팀(제한)</option>
+								    <option value="corp">전사(전체)</option>
+								    <option value="artist">아티스트(전체)</option>
+								</select>
+								<br />
+				    제목 : <input type="text" name="calTitle" /><br />
+			        내용 : <input type="text" name="calContent" /><br />
+			        시작시간 : <input type="datetime-local" name="calStartDate" /> <br />
+			        종료시간 : <input type="datetime-local" name="calEndDate" /><br />
+			        일정분류 : <select name="calTargetType">
+								    <option value="emp">개인</option>
+								    <option value="110">인사팀</option>
+								    <option value="210">경영팀</option>
+								    <option value="220">회계팀</option>
+								    <option value="310">기획팀</option>
+								    <option value="320">제작팀</option>
+								    <option value="410">홍보팀</option>
+								    <option value="420">영업팀</option>
+								    <option value="510">매니지먼트팀</option>
+								    <option value="520">스타일팀</option>
+								    <option value="corp">전사</option>
+								    <option value="artist">아티스트</option>
+								</select>
+			    </div>
+              <div class="modal-footer">
+		        <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+		      </div>
+		      </form>
+            </div>
+          </div>
+        </div>
     <!-- 부트스트랩 modal 부분 끝 -->
     </div>
 </body>
