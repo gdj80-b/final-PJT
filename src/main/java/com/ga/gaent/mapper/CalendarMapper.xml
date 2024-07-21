@@ -31,9 +31,26 @@
     <!-- 일정조회 -->
     <select id="selectEventList" resultType="Map">
         SELECT
-        	cal_num id, cal_title title, cal_start_date start, cal_end_date end
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+            CASE
+                WHEN cal_type LIKE 'p%' THEN 'blue'
+                WHEN cal_type LIKE 't%' THEN 'yellow'
+                WHEN cal_type LIKE 'c%' THEN 'green'
+                WHEN cal_type LIKE 'a%' THEN 'pink'
+                ELSE NULL
+            END AS color,
+            CASE
+                WHEN cal_type LIKE 'p%' THEN 'white'
+                WHEN cal_type LIKE 't%' THEN 'black'
+                WHEN cal_type LIKE 'c%' THEN 'white'
+                WHEN cal_type LIKE 'a%' THEN 'black'
+                ELSE NULL
+            END AS textColor
         FROM
-        	calendar
+            calendar
     </select>
     
     <!-- 일정상세 -->
