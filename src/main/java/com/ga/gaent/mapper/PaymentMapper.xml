@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.PaymentMapper">
 
-    <insert id="payPrd" parameterType="com.ga.gaent.vo.PaymentVO">
+    <insert id="payPrd" parameterType="map">
         INSERT INTO
             payment(
 	           prod_code,
                emp_code,
                pay_type,
-               pay_amount,
                pay_price,
                pay_time
                )
@@ -16,25 +15,38 @@
                #{prodCode},
                #{empCode},
                #{payType},
-               #{payAmount},
                #{payPrice},
-               #{payTime}
+               NOW()
             )
     </insert>
 
 
-    <select id="getPaymentList" parameterType="String" resultType="com.ga.gaent.vo.PaymentVO">
-        SELECT 
-            prod_code,
-            emp_code,
-            pay_type,
-            pay_amount,
-            pay_price,
-            pay_time
-        FROM 
-            payment
-        WHERE
+    <select id="selectPaymentList" parameterType="String" resultType="com.ga.gaent.dto.PaymentDTO">
+            SELECT
+                payment.prod_code prodCode,
+                product.prod_content prodName,
+                emp_code empCode,
+                pay_type payType,
+                pay_price payPrice,
+                pay_time payTime
+            FROM
+                payment
+                JOIN product
+                ON payment.prod_code = product.prod_code
+        
+            WHERE
             emp_code=#{empCode}
     </select>
+    
+    
+    <select id="paymentCnt" parameterType="String" resultType="int">
+            SELECT
+                COUNT(*)
+            FROM
+                payment
+            WHERE
+                emp_code=#{empCode}
+    </select>
+    
 
 </mapper>

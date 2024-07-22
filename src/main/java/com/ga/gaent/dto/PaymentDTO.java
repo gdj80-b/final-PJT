@@ -1,13 +1,15 @@
-package com.ga.gaent.vo;
+package com.ga.gaent.dto;
 
 import lombok.Data;
 
 @Data
-public class PaymentVO {
-    
+public class PaymentDTO {
+
     private int orderNum;
     
     private String prodCode;
+
+    private String prodName;
     
     private String empCode;
     

@@ -7,5 +7,5 @@ import com.ga.gaent.vo.ProductVO;
 @Mapper
 public interface ProductMapper {
     
-    List<ProductVO> getProdList();    
+    List<ProductVO> selectProdList();
 }

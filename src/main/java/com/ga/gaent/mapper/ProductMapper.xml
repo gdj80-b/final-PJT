@@ -2,14 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.ProductMapper">
 
-    <select id="getProdList">
-    
+    <select id="selectProdList" resultType="com.ga.gaent.vo.ProductVO">
         SELECT
             prod_code prodCode,
             prod_price prodPrice,
             prod_content prodContent,
             prod_img prodImg,
-            prod_create_date createDate            
+            prod_create_date createDate
         FROM
             product
     </select>
