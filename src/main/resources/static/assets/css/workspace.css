@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+*,
+*::before,
+*::after {
+	user-select: none;
+}
+
 /* 서브 사이드바가 없을 때의 작업공간 스타일 속성  */
 @media (max-width: 1199.98px) {
   .sidebar-from-workspace {
