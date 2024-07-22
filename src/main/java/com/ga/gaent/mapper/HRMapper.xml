@@ -92,6 +92,15 @@
             e.emp_code = #{empCode}
     </select>
     
+    <select id="checkEmpCode" parameterType="String">
+        SELECT
+            emp_code
+        FROM
+            emp
+        WHERE
+            emp_code = #{empCode}
+    </select>
+    
     <!-- 직원 등록 -->
     <insert id="insertEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
         INSERT INTO

@@ -94,13 +94,13 @@
               </tr>
               <tr>
                 <th><label for="engName">이름(영문)</label></th>
-                <td><input class="form-control" type="text" id="engName" name="LastEngName" placeholder="Last Name"></td>
-                <td><input class="form-control" type="text" id="" name="FirstEngName" placeholder="First Name"></td>
+                <td><input class="form-control" type="text" id="engName" name="lastEngName" placeholder="Last Name"></td>
+                <td><input class="form-control" type="text" name="firstEngName" placeholder="First Name"></td>
               </tr>
               <tr>
                 <th><label for="empCode">사원코드</label></th>
                 <td><input class="form-control" type="text" id="empCode" name="empCode" placeholder="사원코드를 입력해주세요."></td>
-                <td><button class="btn btn-secondary">중복검사</button></td>
+                <td><button id="checkEmpCode" type="button" class="btn btn-secondary">중복검사</button></td>
               </tr>
               <tr>
                 <th><label for="teamCode">팀코드</label></th>
@@ -149,7 +149,7 @@
               <tr>
                 <th><label for="regNo">주민등록번호</label></th>
                 <td><input class="form-control" type="text" id="regNo" name="firstRegNo" placeholder="주민번호 앞 6자리"></td>
-                <td><input class="form-control" type="text" id="" name="lastRegNo" placeholder="주민번호 뒷 7자리"></td>
+                <td><input class="form-control" type="text" name="lastRegNo" placeholder="주민번호 뒷 7자리"></td>
               </tr>
               <tr>
                 <th><label for="gender">성별</label></th>
@@ -175,7 +175,7 @@
                     <option value="기타">기타</option>
                   </select>
                 </td>
-                <td><input class="form-control" type="text" id="" name="emergencyPhone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
+                <td><input class="form-control" type="text" name="emergencyPhone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="ext">내선번호</label></th>
@@ -211,24 +211,39 @@
         <!-- 작업 공간 끝 -->
       </div>
     </div>
+    <!-- 중복 검사 모달 시작 -->
+    <div class="modal fade" id="checkEmpCodeModal" tabindex="-1" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">사원코드 중복검사</h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div id="checkResultMsg" class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 삭제 버튼 모달 끝 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
       $('#empInputForm').submit(function(e) {
-        e.preventDefault(); // 폼의 기본 제출 동작을 중단
-        // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+        e.preventDefault();
         let formData = new FormData($('#empInputForm')[0]);
         let empCode = $('#empCode').val();
         
         $.ajax({
-          url: '/gaent/hr/addEmp', // 서버에 쪽지를 보낼 URL
+          url: '/gaent/hr/addEmp',
           type: 'POST',
           data: formData,
-          contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
-          processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
+          contentType: false,
+          processData: false,
           success: function(response){
             alert('성공');
-            $('#empInputForm')[0].reset(); // 폼 초기화
-            window.location.href = '/gaent/hr/empDetail/' + empCode; // 보낸쪽지함으로 이동
+            $('#empInputForm')[0].reset();
+            window.location.href = '/gaent/hr/empDetail/' + empCode;
           },
           error: function(){
             alert('실패');
@@ -263,6 +278,34 @@
       }
       
       $(document).ready(function() {
+        $('#checkEmpCode').on('click', function() {
+            
+          let checkEmpCode = $('#empCode').val();
+          let empCodePattern = /^[0-9]{8}$/;
+        
+          if (!empCodePattern.test(checkEmpCode)) {
+            $('#checkResultMsg').text('사원코드는 8자리 숫자여야 합니다.');
+            $('#checkEmpCodeModal').modal('show');
+            return;
+          }
+          
+          $.ajax({
+            url: '/gaent/hr/checkEmpCode',
+            type: 'GET',
+            data: {
+              'empCode': checkEmpCode
+            },
+            success: function(response){
+              $('#checkResultMsg').text(response);
+              $('#checkEmpCodeModal').modal('show');
+              console.log(response);
+            },
+            error: function(e){
+              alert(e);
+            }
+          });
+        });
+          
         $('#leaveBtn').on('click', function() {
           if ($('#leave').attr('readonly')) {
             $('#leave').removeAttr('readonly');

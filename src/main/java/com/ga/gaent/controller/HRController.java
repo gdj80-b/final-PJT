@@ -110,6 +110,25 @@ public class HRController {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 사원코드 중복 검사
+     */
+    @GetMapping("/checkEmpCode")
+    @ResponseBody
+    public String checkEmpCode(@RequestParam(name = "empCode") String empCode) {
+        log.debug(TeamColor.PURPLE_BG + "empCode: " + empCode + TeamColor.RESET);
+        
+        String checkEmpCode = hrService.checkEmpCode(empCode);
+        log.debug(TeamColor.PURPLE_BG + "checkEmpCode: " + checkEmpCode + TeamColor.RESET);
+        
+        if(empCode.equals(checkEmpCode)) {
+            return "이미 존재하는 사원코드 입니다.";
+        }
+        return "사용가능한 사원코드 입니다.";
+    }
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 22.
      * Description : 직원 등록 액션
      */

@@ -131,6 +131,15 @@ public class HRService {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 사원코드 중복 검사
+     */
+    public String checkEmpCode(String empCode) {
+        return hrMapper.checkEmpCode(empCode);
+    }
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 22.
      * Description : 직원 등록
      */
