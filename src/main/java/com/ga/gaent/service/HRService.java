@@ -203,17 +203,20 @@ public class HRService {
             String prefix = UUID.randomUUID().toString().replace("-", "");
             String suffix = fileExtension.getFileExtension(originalFilename);
             String newFileName = prefix + suffix;
+            String updateFileName = empRequestDTO.getUpdateFileName();
             
             FileVO gaFile = new FileVO();
             gaFile.setOriginalName(originalFilename);
             gaFile.setFileType(fileType);
             gaFile.setFileSize(fileSize);
             gaFile.setFileName(newFileName);
+            gaFile.setUpdateFileName(updateFileName);
             
             empRequestDTO.setProfile(newFileName);
             log.debug(TeamColor.PURPLE_BG + "HRService - newFileName: " + newFileName + TeamColor.RESET);
+            log.debug(TeamColor.PURPLE_BG + "HRService - updateFileName: " + updateFileName + TeamColor.RESET);
             
-            int row = fileMapper.insertProfile(gaFile);
+            int row = fileMapper.updateProfile(gaFile);
             log.debug(TeamColor.PURPLE_BG + "HRService - row: " + row + TeamColor.RESET);
             int result = hrMapper.updateEmp(empRequestDTO);
             log.debug(TeamColor.PURPLE_BG + "HRService - result: " + result + TeamColor.RESET);
@@ -225,6 +228,25 @@ public class HRService {
         }
         
         return "empty";
+    }
+    
+    /*
+     * @author : 정건
+     * @since : 2024. 07. 22.
+     * Description : 직원 삭제
+     */
+    public int deleteEmp(String empCode, String profile) {
+
+        int deleteEmp = hrMapper.deleteEmp(empCode);
+        int deleteEmpProfile = fileMapper.deleteProfile(profile);
+
+        if (deleteEmp == 1 && deleteEmpProfile == 1) {
+            log.debug(yellow + "부서 삭제 성공" + yellow);
+            return 1;
+        } else {
+            log.debug(yellow + "부서 삭제 실패" + yellow);
+            return 0;
+        }
     }
 
     /*

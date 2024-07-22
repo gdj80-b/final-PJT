@@ -93,7 +93,7 @@
     </select>
     
     <!-- 직원 등록 -->
-    <insert id="insertEmp" parameterType="com.ga.gaent.vo.EmpVO">
+    <insert id="insertEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
         INSERT INTO
             emp(
             emp_code,
@@ -142,7 +142,8 @@
         )
     </insert>
     
-    <update id="updateEmp" parameterType="com.ga.gaent.vo.EmpVO">
+    <!-- 직원 수정 -->
+    <update id="updateEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
         UPDATE
             emp
         <set>
@@ -190,6 +191,12 @@
         </set>
          WHERE emp_code = #{empCode}
     </update>
+    
+    <delete id="deleteEmp" parameterType="String">
+        DELETE FROM
+            emp
+        WHERE emp_code = #{empCode}
+    </delete>
     
     <!--  부서 등록 -->
     <insert id="insertTeam" parameterType="com.ga.gaent.vo.TeamVO">

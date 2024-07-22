@@ -19,7 +19,7 @@
         )
     </insert>
     
-    <!-- 직원 등록 이미지 파일 -->
+    <!-- 직원 프로필 이미지 등록 -->
     <insert id="insertProfile" parameterType="com.ga.gaent.vo.FileVO">
         INSERT INTO
             profileimg(
@@ -36,5 +36,33 @@
             NOW()
         )
     </insert>
+    
+    <!-- 직원 프로필 이미지 수정 -->
+    <update id="updateProfile" parameterType="com.ga.gaent.vo.FileVO">
+        UPDATE
+            profileimg
+        <set>
+            <if test="fileName != null and fileName != ''">
+                img_name = #{fileName},
+            </if>
+            <if test="originalName != null and originalName != ''">
+                img_original_name = #{originalName},
+            </if>
+            <if test="fileType != null and fileType != ''">
+                img_type = #{fileType},
+            </if>
+            <if test="fileSize != null and fileSize != ''">
+                img_size = #{fileSize},
+            </if>
+            img_update_date = NOW()
+        </set>
+        WHERE img_name = #{updateFileName}
+    </update>
+    
+    <delete id="deleteProfile" parameterType="String">
+        DELETE FROM
+            profileimg
+        WHERE img_name = #{profile}
+    </delete>
 
 </mapper>

@@ -37,7 +37,7 @@
           <h5 class="fs-4 fw-semibold mb-2">인사정보</h5>
           <div>
             <a href="/gaent/hr/modifyEmp/${empDetail.empCode}" class="btn btn-outline-primary">수정</a>
-            <a class="btn btn-outline-danger">삭제</a>
+            <a href="/gaent/hr/removeEmp?empCode=${empDetail.empCode}&profile=${empDetail.profile}" class="btn btn-outline-danger">삭제</a>
           </div>
         </div>
         <hr />

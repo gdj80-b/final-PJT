@@ -183,6 +183,25 @@ public class HRController {
     }
     
     /*
+     * @author : 정건
+     * @since : 2024. 07. 22.
+     * Description : 직원 삭제
+     */
+    @GetMapping("/removeEmp")
+    public String removeEmp(
+            @RequestParam(name = "empCode") String empCode,
+            @RequestParam(name = "profile") String profile) {
+        
+        int removeEmp = hrService.deleteEmp(empCode, profile);
+        
+        if(removeEmp == 1) {
+            return "redirect:/hr/empList";
+        }else {
+            return "redirect:/hr/empList";
+        }
+    }
+    
+    /*
      * @author : 김형호
      * @since : 2024. 07. 00.
      * Description : 부서 등록 폼

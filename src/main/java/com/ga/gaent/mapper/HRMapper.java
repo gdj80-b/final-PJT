@@ -49,16 +49,9 @@ public interface HRMapper {
     /*
      * @author : 정건희
      * @since : 2024. 07. 19.
-     * Description : 직원 수정
-     */
-    public int updateEmp();
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 19.
      * Description : 직원 삭제
      */
-    public int deleteEmp();
+    public int deleteEmp(String empCode);
     
     /*
      * @author : 김형호

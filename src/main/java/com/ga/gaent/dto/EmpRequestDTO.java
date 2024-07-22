@@ -33,4 +33,5 @@ public class EmpRequestDTO {
     private String ext;
     private String hireDate;
     private String modifier;
+    private String updateFileName;
 }

@@ -84,6 +84,7 @@
                   <div class="imgPreview" id="imgPreview"><img src="${pageContext.request.contextPath}/upload/profile/${empDetail.profile}" alt="imgPreview"></div>
                   <div class="removeIngBtn">
                     <input class="form-control" type="file" id="profile" name="gaFile" style="display: none;">
+                    <input class="form-control" type="text" name="updateFileName" value="${empDetail.profile}" style="display: none;">
                     <input class="btn btn-outline-secondary" id="removeImgBtn" value="삭제">
                   </div>
                 </td>
@@ -494,7 +495,7 @@
               </tr>
             </table>
             <br />
-            <button type="submit" class="btn btn-outline-primary">등록</button>
+            <button type="submit" class="btn btn-outline-primary">수정</button>
             <button onclick="" class="btn btn-outline-secondary">취소</button>
           </form>
         </div>
