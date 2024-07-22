@@ -1,8 +1,6 @@
 package com.ga.gaent.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -56,7 +54,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/login","/notLogin","/findId","/findPw","/resetPw");
+        .excludePathPatterns("/login","/notLogin","/findId","/findPw","/resetPw", "/static/**", "/assets/**", "/fonts/**", "/js/**", "/libs/**", "/scss/**" , "/upload/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }
