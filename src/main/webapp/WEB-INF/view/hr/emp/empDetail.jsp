@@ -15,6 +15,12 @@
         height: 160px;
         background-color: rgba(105, 108, 255, 0.6);
       }
+      
+      .img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     </style>
   </head>
   <body>
@@ -41,14 +47,14 @@
             <table class="table table-hover">
               <tr>
                 <td rowspan="6">
-                  <div class="img-box mx-auto"><img alt="" src=""></div>
+                  <div class="img-box mx-auto"><img src="${pageContext.request.contextPath}/upload/profile/${empDetail.profile}"></div>
                 </td>
               </tr>
               <tr>
                 <th>이름(국문)</th>
                 <td><span>${empDetail.korName}</span></td>
                 <th>이름(영문)</th>
-                <td><span>${empDetail.engName}</span></td>
+                <td><span class="text-uppercase">${empDetail.engName}</span></td>
               </tr>
               <tr>
                 <th>소속</th>

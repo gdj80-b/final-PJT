@@ -78,6 +78,8 @@
             e.post_code postCode,
             e.address address,
             e.detail_address detailAddress,
+            e.total_leave totalLeave,
+            e.use_leave useLeave,
             e.emp_ext ext,
             e.emp_hire_date hireDate,
             e.emp_resign_date resignDate,
@@ -89,6 +91,105 @@
         WHERE
             e.emp_code = #{empCode}
     </select>
+    
+    <!-- 직원 등록 -->
+    <insert id="insertEmp" parameterType="com.ga.gaent.vo.EmpVO">
+        INSERT INTO
+            emp(
+            emp_code,
+            team_code,
+            rank_code,
+            emp_profile,
+            emp_id,
+            emp_pw,
+            emp_kor_name,
+            emp_eng_name,
+            emp_reg_no,
+            emp_gender,
+            emp_phone,
+            emergency_phone_relation,
+            emergency_phone,
+            post_code,
+            address,
+            detail_address,
+            total_leave,
+            emp_ext,
+            emp_hire_date,
+            emp_update_date,
+            final_modifier
+        ) VALUES(
+            #{empCode},
+            #{teamCode},
+            #{rankCode},
+            #{profile},
+            #{empId},
+            #{empPw},
+            #{korName},
+            #{engName},
+            #{regNo},
+            #{gender},
+            #{phone},
+            #{emergencyPhoneRelation},
+            #{emergencyPhone},
+            #{postCode},
+            #{address},
+            #{detailAddress},
+            #{leave},
+            #{ext},
+            #{hireDate},
+            NOW(),
+            #{modifier}
+        )
+    </insert>
+    
+    <update id="updateEmp" parameterType="com.ga.gaent.vo.EmpVO">
+        UPDATE
+            emp
+        <set>
+            <if test="teamCode != null and teamCode != ''">
+                team_code = #{teamCode},
+            </if>
+            <if test="rankCode != null and rankCode != ''">
+                rank_code = #{rankCode},
+            </if>
+            <if test="profile != null and profile != ''">
+                emp_profile = #{profile},
+            </if>
+            <if test="empId != null and empId != ''">
+                emp_id = #{empId},
+            </if>
+            <if test="empPw != null and empPw != ''">
+                emp_pw = #{empPw},
+            </if>
+            <if test="gender != null and gender != ''">
+                emp_gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                emp_phone = #{phone},
+            </if>
+            <if test="emergencyPhoneRelation != null and emergencyPhoneRelation != ''">
+                emergency_phone_relation = #{emergencyPhoneRelation},
+            </if>
+            <if test="emergencyPhone != null and emergencyPhone != ''">
+                emergency_phone = #{emergencyPhone},
+            </if>
+            <if test="postCode != null and postCode != ''">
+                post_code = #{postCode},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                detail_address = #{detailAddress},
+            </if>
+            <if test="ext != null and ext != ''">
+                emp_ext = #{ext},
+            </if>
+                emp_update_date = NOW(),
+                final_modifier = #{modifier}
+        </set>
+         WHERE emp_code = #{empCode}
+    </update>
     
     <!--  부서 등록 -->
     <insert id="insertTeam" parameterType="com.ga.gaent.vo.TeamVO">

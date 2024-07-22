@@ -1,5 +1,6 @@
 package com.ga.gaent.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ga.gaent.dto.EmpRequestDTO;
+import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.service.HRService;
+import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EmpVO;
 import com.ga.gaent.vo.TeamVO;
@@ -24,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class HRController {
 
     @Autowired private HRService hrService;
+    
+    @Autowired private FileUploadSetting fileUploadSetting;
     
     // 세션에서 로그인한사람의 empCode추출
     private String getEmpCode(HttpSession session) {
@@ -45,16 +51,6 @@ public class HRController {
     @GetMapping("/tree")
     public @ResponseBody List<Map<String, Object>> orgChart(){
         return hrService.selectTreeInfo();
-    }
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 19.
-     * Description : 직원 등록 폼
-     */
-    @GetMapping("/addEmp")
-    public String addEmpForm() {
-        return "hr/emp/addEmp";
     }
     
     /*
@@ -96,10 +92,49 @@ public class HRController {
         
         // log.debug(TeamColor.PURPLE_BG + "get-empCode: " + empCode + TeamColor.RESET);
         
-        EmpVO empDetail = hrService.selectEmpDetail(empCode);
+        EmpVO empDetail = hrService.selectEmpDetail(empCode, model);
         model.addAttribute("empDetail", empDetail);
         
         return "hr/emp/empDetail";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 19.
+     * Description : 직원 등록 폼
+     */
+    @GetMapping("/addEmp")
+    public String addEmpForm() {
+        return "hr/emp/addEmp";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 22.
+     * Description : 직원 등록 액션
+     */
+    @PostMapping("/addEmp")
+    @ResponseBody
+    public void addEmpForm(EmpRequestDTO empRequestDTO, FileReqDTO fileReqDTO) {
+        
+        // log.debug(TeamColor.PURPLE_BG + "empRequestDTO: " + empRequestDTO + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "fileReqDTO: " + fileReqDTO + TeamColor.RESET);
+        
+        if (!fileReqDTO.getGaFile().isEmpty()) {
+            fileReqDTO.validateFileType();
+        }
+        
+        int result = 0;
+        
+        String newFileName = hrService.insertEmp(empRequestDTO, fileReqDTO);
+        
+        if(!newFileName.equals("empty")) {
+            result = fileUploadSetting.insertFile(newFileName, fileReqDTO, "profile");
+        }
+        
+        if(result != 1) {
+            throw new RuntimeException("직원 등록에 실패했습니다.");
+        }
     }
     
     /*
@@ -112,11 +147,39 @@ public class HRController {
         
         // log.debug(TeamColor.PURPLE_BG + "modify-empCode: " + empCode + TeamColor.RESET);
         
-        EmpVO empDetail = hrService.selectEmpDetail(empCode);
-        model.addAttribute("type", "modify");
+        EmpVO empDetail = hrService.selectEmpDetail(empCode, model);
         model.addAttribute("empDetail", empDetail);
         
-        return "redirect:/hr/addEmp";
+        return "/hr/emp/modifyEmp";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 22.
+     * Description : 직원 수정 액션
+     */
+    @PostMapping("/modifyEmp")
+    @ResponseBody
+    public void modifyEmpForm(EmpRequestDTO empRequestDTO, FileReqDTO fileReqDTO) {
+        
+        // log.debug(TeamColor.PURPLE_BG + "empRequestDTO: " + empRequestDTO + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "fileReqDTO: " + fileReqDTO + TeamColor.RESET);
+        
+        if (!fileReqDTO.getGaFile().isEmpty()) {
+            fileReqDTO.validateFileType();
+        }
+        
+        int result = 0;
+        
+        String newFileName = hrService.updateEmp(empRequestDTO, fileReqDTO);
+        
+        if(!newFileName.equals("empty")) {
+            result = fileUploadSetting.insertFile(newFileName, fileReqDTO, "profile");
+        }
+        
+        if(result != 1) {
+            throw new RuntimeException("직원 수정에 실패했습니다.");
+        }
     }
     
     /*

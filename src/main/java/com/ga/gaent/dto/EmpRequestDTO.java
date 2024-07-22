@@ -1,4 +1,4 @@
-package com.ga.gaent.vo;
+package com.ga.gaent.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmpVO {
+public class EmpRequestDTO {
 
     private String empCode;
     private String teamCode;
@@ -16,10 +16,12 @@ public class EmpVO {
     private String empId;
     private String empPw;
     private String korName;
+    private String firstEngName;
+    private String lastEngName;
     private String engName;
+    private String firstRegNo;
+    private String lastRegNo;
     private String regNo;
-    private String birth;
-    private int age;
     private String gender;
     private String phone;
     private String emergencyPhoneRelation;
@@ -27,17 +29,8 @@ public class EmpVO {
     private String postCode;
     private String address;
     private String detailAddress;
-    private int totalLeave;
-    private int useLeave;
+    private int leave;
     private String ext;
     private String hireDate;
-    private String resignDate;
-    private String updateDate;
-    private String finalModifier;
-    
-    // 직원 정보 리스트 조회에 필요한 컬럼
-    private String rankName;
-    private String teamName;
-    private String parentTeamCode;
-    private String parentTeamName;
+    private String modifier;
 }

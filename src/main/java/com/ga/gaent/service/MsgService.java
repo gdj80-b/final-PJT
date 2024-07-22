@@ -12,6 +12,7 @@ import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
 import com.ga.gaent.mapper.FileMapper;
 import com.ga.gaent.mapper.MsgMapper;
+import com.ga.gaent.util.FileExtension;
 import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.FileVO;
@@ -26,10 +27,11 @@ public class MsgService {
     final String RED = "\u001B[31m\n";
     final String RESET = "\u001B[0m\n";
     
-    @Autowired
-    MsgMapper msgMapper;
-    @Autowired
-    FileMapper fileMapper;
+    @Autowired MsgMapper msgMapper;
+    
+    @Autowired FileMapper fileMapper;
+    
+    @Autowired FileExtension fileExtension;
 
     // 쪽지리스트
     public List<MsgDTO> getMsgList(String empCode, int request, int currentPage, String searchMsg) {
@@ -63,11 +65,10 @@ public class MsgService {
     }
 
 
-    // 쪽지 보내기
     /*
      * @author : 조인환, 정건희
-     * 
-     * @since : 2024. 07. 16. Description : 결재대기문서 리스트 조회
+     * @since : 2024. 07. 16.
+     * Description : 쪽지 보내기
      */
     public String sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
         
@@ -79,7 +80,7 @@ public class MsgService {
             String fileType = mf.getContentType().toLowerCase();
             long fileSize = mf.getSize();
             String prefix = UUID.randomUUID().toString().replace("-", "");
-            String suffix = getFileExtension(originalFilename);
+            String suffix = fileExtension.getFileExtension(originalFilename);
             String newFileName = prefix + suffix;
             
             FileVO gaFile = new FileVO();
@@ -156,13 +157,5 @@ public class MsgService {
     // 안읽은 쪽지수
     public int msgNotReadCnt(String empCode) {
         return msgMapper.msgNotReadCnt(empCode);
-    }
-
-    private String getFileExtension(String filename) {
-        int lastIndex = filename.lastIndexOf('.');
-        if (lastIndex == -1) {
-            return "";
-        }
-        return filename.substring(lastIndex);
     }
 }

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
     <style>
       .emp {
-        height: 60rem;
+        height: 50rem;
         overflow-y: auto;
       }
     
@@ -76,119 +76,131 @@
         <h5 class="fs-4 fw-semibold mb-2">직원등록</h5>
         <hr />
         <div class="table-responsive text-nowrap">
-          <form action="/gaent/team/addEmp" method="post" class="input-form-group">
+          <form id="empInputForm" class="input-form-group" enctype="multipart/form-data">
             <table class="table">
               <tr>
                 <th><label for="profile">사진</label></th>
                 <td colspan="2">
                   <div class="imgPreview" id="imgPreview"><span>선택</span></div>
                   <div class="removeIngBtn">
-                    <input class="form-control" type="file" id="profile" name="profile" style="display: none;">
+                    <input class="form-control" type="file" id="profile" name="gaFile" style="display: none;">
                     <input class="btn btn-outline-secondary" id="removeImgBtn" value="삭제">
                   </div>
                 </td>
               </tr>
               <tr>
                 <th><label for="korName">이름(국문)</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="korName" name="korName" value="" placeholder="이름을 입력해주세요."></td>
+                <td colspan="2"><input class="form-control" type="text" id="korName" name="korName" placeholder="이름을 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="engName">이름(영문)</label></th>
-                <td><input class="form-control" type="text" id="engName" name="engLastName" value="" placeholder="Last Name"></td>
-                <td><input class="form-control" type="text" id="" name="engFirstName" value="" placeholder="First Name"></td>
+                <td><input class="form-control" type="text" id="engName" name="LastEngName" placeholder="Last Name"></td>
+                <td><input class="form-control" type="text" id="" name="FirstEngName" placeholder="First Name"></td>
               </tr>
               <tr>
                 <th><label for="empCode">사원코드</label></th>
-                <td><input class="form-control" type="text" id="empCode" name="empCode" value="" placeholder="사원코드를 입력해주세요."></td>
+                <td><input class="form-control" type="text" id="empCode" name="empCode" placeholder="사원코드를 입력해주세요."></td>
                 <td><button class="btn btn-secondary">중복검사</button></td>
               </tr>
               <tr>
                 <th><label for="teamCode">팀코드</label></th>
                 <td colspan="2">
-                  <select class="form-select form-select" id="teamCode">
+                  <select class="form-select form-select" id="teamCode" name="teamCode">
                     <option disabeld selected hidden>팀코드를 선택해주세요.</option>
-                    <option value="1">인사팀</option>
-                    <option value="2">경영팀</option>
-                    <option value="3">회계팀</option>
-                    <option value="4">기획팀</option>
-                    <option value="5">제작팀</option>
-                    <option value="6">홍보팀</option>
-                    <option value="7">영업팀</option>
-                    <option value="8">매니지먼트팀</option>
-                    <option value="9">스타일팀</option>
+                    <option value="100">인사부</option>
+                    <option value="110">인사부 / 인사팀</option>
+                    <option value="200">경영부</option>
+                    <option value="210">경영부 / 경영팀</option>
+                    <option value="220">경영부 / 회계팀</option>
+                    <option value="300">기획부</option>
+                    <option value="310">기획부 / 제작팀</option>
+                    <option value="320">기획부 / 기획팀</option>
+                    <option value="400">홍보부</option>
+                    <option value="410">홍보부 / 홍보팀</option>
+                    <option value="420">홍보부 / 영업팀</option>
+                    <option value="500">매니지먼트부</option>
+                    <option value="510">매니지먼트부 / 매니지먼트팀</option>
+                    <option value="520">매니지먼트부 / 스타일팀</option>
                   </select>
                 </td>
               </tr>
               <tr>
-                <th><label for="teamCode">직위코드</label></th>
+                <th><label for="rankCode">직위코드</label></th>
                 <td colspan="2">
-                  <select class="form-select form-select" id="teamCode">
+                  <select class="form-select form-select" id="rankCode" name="rankCode">
                     <option disabeld selected hidden>직위코드를 선택해주세요.</option>
-                    <option value="1">사원</option>
-                    <option value="2">대리</option>
+                    <option value="5">사원</option>
+                    <option value="4">대리</option>
                     <option value="3">팀장</option>
-                    <option value="4">부장</option>
-                    <option value="5">아티스트</option>
-                    <option value="6">대표</option>
+                    <option value="2">부장</option>
+                    <option value="0">아티스트</option>
+                    <option value="1">대표</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <th><label for="email">이메일(ID)</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="email" name="email" value="" placeholder="이메일을 입력해주세요."></td>
+                <td colspan="2"><input class="form-control" type="text" id="email" name="empId" placeholder="이메일을 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="password">비밀번호</label></th>
-                <td colspan="2"><input class="form-control" type="password" id="password" name="password" value="" placeholder="비밀번호를 입력해주세요."></td>
+                <td colspan="2"><input class="form-control" type="password" id="password" name="empPw" placeholder="비밀번호를 입력해주세요."></td>
               </tr>
               <tr>
-                <th><label for="regNo">이메일(ID)</label></th>
-                <td><input class="form-control" type="text" id="regNo" name="firstRegNo" value="" placeholder="주민번호 앞 6자리"></td>
-                <td><input class="form-control" type="text" id="" name="lastRegNo" value="" placeholder="주민번호 뒷 7자리"></td>
+                <th><label for="regNo">주민등록번호</label></th>
+                <td><input class="form-control" type="text" id="regNo" name="firstRegNo" placeholder="주민번호 앞 6자리"></td>
+                <td><input class="form-control" type="text" id="" name="lastRegNo" placeholder="주민번호 뒷 7자리"></td>
               </tr>
               <tr>
                 <th><label for="gender">성별</label></th>
                 <td colspan="2">
-                  <select class="form-select form-select" id="teamCode">
+                  <select class="form-select form-select" id="gender" name="gender">
                     <option disabeld selected hidden>성별을 선택해주세요.</option>
-                    <option value="1">여자</option>
-                    <option value="2">남자</option>
+                    <option value="남자">남자</option>
+                    <option value="여자">여자</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <th><label for="phone">연락처</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="phone" name="phone" value="" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
+                <td colspan="2"><input class="form-control" type="text" id="phone" name="phone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="relation">비상연락처</label></th>
                 <td>
-                  <select class="form-select form-select" id="relation">
+                  <select class="form-select form-select" id="relation" name="emergencyPhoneRelation">
                     <option disabeld selected hidden>관계를 선택해주세요.</option>
-                    <option value="1">가족</option>
-                    <option value="2">친구</option>
-                    <option value="3">기타</option>
+                    <option value="가족">가족</option>
+                    <option value="친구">친구</option>
+                    <option value="기타">기타</option>
                   </select>
                 </td>
-                <td><input class="form-control" type="text" id="" name="relationPhone" value="" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
+                <td><input class="form-control" type="text" id="" name="emergencyPhone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="ext">내선번호</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="ext" name="ext" value="" placeholder=""></td>
+                <td colspan="2"><input class="form-control" type="text" id="ext" name="ext" placeholder="내선번호 4자리를 입력해주세요."></td>
               </tr>
               <tr>
                 <th rowspan="3"><label for="postCode">주소</label></th>
-                <td><input class="form-control" type="text" id="postCode" name="postCode" value="" placeholder="우편번호" readonly></td>
+                <td><input class="form-control" type="text" id="postCode" name="postCode" placeholder="우편번호" readonly></td>
                 <td><input class="form-control" type="button" onclick="daumPostCode()" value="우편번호 찾기"></td>
                 <tr>
-                  <td colspan="2"><input class="form-control" type="text" id="address" placeholder="주소"></td>
+                  <td colspan="2"><input class="form-control" type="text" id="address" name="address" placeholder="주소"></td>
                 <tr>
-                  <td colspan="2"><input class="form-control" type="text" id="detailAddress" placeholder="상세주소"></td>
+                  <td colspan="2"><input class="form-control" type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"></td>
               </tr>
               <tr>
                 <th><label for="leave">총연차</label></th>
-                <td><input class="form-control" type="number" id="leave" name="leave" value="" placeholder="총 연차를 입력해주세요." readonly></td>
+                <td><input class="form-control" type="number" id="leave" name="leave" placeholder="총 연차를 입력해주세요." readonly></td>
                 <td><input class="form-control" type="button" id="leaveBtn" value="읽기전용 해제"></td>
+              </tr>
+              <tr>
+                <th><label for="hireDate">입사일</label></th>
+                <td colspan="2">
+                  <input class="form-control" type="date" id="hireDate" name="hireDate" placeholder="입사일을 입력해주세요.">
+                  <input class="form-control" type="hidden" id="modifier" name="modifier" value="${loginInfo.empCode}">
+                </td>
               </tr>
             </table>
             <br />
@@ -201,6 +213,29 @@
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
+      $('#empInputForm').submit(function(e) {
+        e.preventDefault(); // 폼의 기본 제출 동작을 중단
+        // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+        let formData = new FormData($('#empInputForm')[0]);
+        let empCode = $('#empCode').val();
+        
+        $.ajax({
+          url: '/gaent/hr/addEmp', // 서버에 쪽지를 보낼 URL
+          type: 'POST',
+          data: formData,
+          contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
+          processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
+          success: function(response){
+            alert('성공');
+            $('#empInputForm')[0].reset(); // 폼 초기화
+            window.location.href = '/gaent/hr/empDetail/' + empCode; // 보낸쪽지함으로 이동
+          },
+          error: function(){
+            alert('실패');
+          }
+        });
+      });
+    
       function daumPostCode() {
         new daum.Postcode({
           oncomplete: function(data) {
@@ -231,8 +266,10 @@
         $('#leaveBtn').on('click', function() {
           if ($('#leave').attr('readonly')) {
             $('#leave').removeAttr('readonly');
+            $('#leaveBtn').val('읽기전용 적용');
           } else {
             $('#leave').attr('readonly', 'readonly');
+            $('#leaveBtn').val('읽기전용 해제');
           }
         });
         
@@ -249,13 +286,13 @@
               }
               reader.readAsDataURL(file);
             } else {
-              $('#imgPreview').html('<span>사진 없음</span>');
+              $('#imgPreview').html('<span>선택</span>');
             }
           });
 
           $('#removeImgBtn').on('click', function() {
             $('#profile').val('');
-            $('#imgPreview').html('<span>사진 없음</span>');
+            $('#imgPreview').html('<span>선택</span>');
           });
       });
     </script>

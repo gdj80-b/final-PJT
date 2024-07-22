@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import com.ga.gaent.dto.EmpRequestDTO;
 import com.ga.gaent.vo.EmpVO;
 import com.ga.gaent.vo.TeamVO;
 
@@ -33,17 +34,17 @@ public interface HRMapper {
     
     /*
      * @author : 정건희
-     * @since : 2024. 07. 20.
-     * Description : 직원 정보 수정
-     */
-    public int updateEmp(String empCode, EmpVO empVO);
-    
-    /*
-     * @author : 정건희
      * @since : 2024. 07. 19.
      * Description : 직원 등록
      */
-    public int insertEmp();
+    public int insertEmp(EmpRequestDTO empRequestDTO);
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 22.
+     * Description : 직원 정보 수정
+     */
+    public int updateEmp(EmpRequestDTO empRequestDTO);
     
     /*
      * @author : 정건희

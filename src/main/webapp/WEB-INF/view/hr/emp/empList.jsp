@@ -7,7 +7,14 @@
   <head>
     <meta charset="UTF-8">
     <title>인사관리 - GAEnt.</title>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
+    <style>
+      .profileImg {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
   </head>
   <body>
     <div id="">
@@ -38,7 +45,7 @@
             <tbody class="table-border-bottom-0 table-light striped">
               <c:forEach var="el" items="${empList}">
                 <tr>
-                  <td>${el.profile}</td>
+                  <td class="profileImg"><div class="avatar avatar-sm"><img src="${pageContext.request.contextPath}/upload/profile/${el.profile}" alt="" class="rounded-circle"></div></td>
                   <td><b><a href="/gaent/hr/empDetail/${el.empCode}">${el.korName}</a></b></td>
                   <td>${el.rankCode}</td>
                   <td>${el.phone}</td>
