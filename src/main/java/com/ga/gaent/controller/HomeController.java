@@ -8,7 +8,7 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home() {
-        return "home";
+        return "home/home";
     }
     
     // 템플릿 확인을 위한 URL

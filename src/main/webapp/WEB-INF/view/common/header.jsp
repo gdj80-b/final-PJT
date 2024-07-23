@@ -1,22 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-free">
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="${pageContext.request.contextPath}/assets/"
+  data-template="vertical-menu-template-free"
+>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
     <title>헤더 - GAEnt.</title>
   </head>
   <body>
-    <nav class="navbar navbar-example navbar-expand-lg bg-white position-sticky shadow-sm">
+    <nav
+      class="navbar navbar-example navbar-expand-lg bg-white position-sticky shadow-sm"
+    >
       <div class="container-fluid">
         <div class="app-brand demo">
           <span class="app-brand-logo demo">
-            <img src="${pageContext.request.contextPath}/assets/svg/sneat.svg" alt="Logo">
+            <img
+              src="${pageContext.request.contextPath}/assets/svg/sneat.svg"
+              alt="Logo"
+            />
           </span>
-          <span class="app-brand-text demo menu-text fw-bolder ms-2">GA Ent.</span>
+          <span class="app-brand-text demo menu-text fw-bolder ms-2"
+            >GA Ent.</span
+          >
         </div>
         <div class="collapse navbar-collapse" id="navbar-ex-3">
-          <div class="navbar-nav me-auto"></div>          
+          <div class="navbar-nav me-auto"></div>
           <!-- 로그인한사람 -->
           <div class="me-4">
             <a href="/${loginInfo.empCode}" class="menu-link">
