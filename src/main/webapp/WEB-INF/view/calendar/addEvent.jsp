@@ -55,7 +55,7 @@
 				<div class="mb-3">
 		          <label for="calTargetType" class="form-label">일정분류</label>
 		          <select name="calTargetType" id="calTargetType" class="form-select">
-		            <option value="emp">개인</option>
+		            <option value="empCode">개인</option>
 				    <option value="110">인사팀</option>
 				    <option value="210">경영팀</option>
 				    <option value="220">회계팀</option>
@@ -65,8 +65,8 @@
 				    <option value="420">영업팀</option>
 				    <option value="510">매니지먼트팀</option>
 				    <option value="520">스타일팀</option>
-				    <option value="corp">전사</option>
-				    <option value="artist">아티스트</option>
+				    <option value="10">전사</option>
+				    <option value="900">아티스트</option>
 		          </select>
 		        </div>
 		        <button type="submit" class="btn btn-primary">등록</button>

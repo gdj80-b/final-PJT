@@ -96,12 +96,9 @@
 				      	<div class="mb-3">
 				          <label for="calType" class="form-label">일정타입</label>
 				          <select name="calType" id="calType" class="form-select">
-				            <option value="public">개인(공개)</option>
-						    <option value="private">개인(제한)</option>
-						    <option value="tpublic">팀(공개)</option>
-						    <option value="tprivate">팀(제한)</option>
-						    <option value="corp">전사(전체)</option>
-						    <option value="artist">아티스트(전체)</option>
+				          	<c:forEach var="event" items="${eventType}">
+				            <option value="${event.calType}">${event.calTypeName}</option>
+						    </c:forEach>
 				          </select>
 				        </div>
 				        <div class="mb-3">
@@ -124,17 +121,9 @@
 				          <label for="calTargetType" class="form-label">일정분류</label>
 				          <select name="calTargetType" id="calTargetType" class="form-select">
 				            <option value="emp">개인</option>
-						    <option value="110">인사팀</option>
-						    <option value="210">경영팀</option>
-						    <option value="220">회계팀</option>
-						    <option value="310">기획팀</option>
-						    <option value="320">제작팀</option>
-						    <option value="410">홍보팀</option>
-						    <option value="420">영업팀</option>
-						    <option value="510">매니지먼트팀</option>
-						    <option value="520">스타일팀</option>
-						    <option value="corp">전사</option>
-						    <option value="artist">아티스트</option>
+				            <c:forEach var="target" items="${eventTarget}">
+						    <option value="${target.teamCode}">${target.teamName}</option>
+						    </c:forEach>
 				          </select>
 				      </div>
 				    </div>
