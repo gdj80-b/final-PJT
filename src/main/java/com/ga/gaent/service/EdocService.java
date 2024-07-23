@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.mapper.EdocMapper;
+import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EdocFormTypeVO;
 import com.ga.gaent.vo.EdocVO;
@@ -89,9 +90,6 @@ public class EdocService {
             System.out.println("경조사지출결의서 제출");
             insertEdocForm = edocMapper.insertEdocEvent(edocFormTypeDTO);
         }else if(edocType.equals("4")){
-            System.out.println("차량이용신청서 제출");
-            insertEdocForm = edocMapper.insertEdocCar(edocFormTypeDTO);
-        }else if(edocType.equals("5")){
             System.out.println("보고서 제출");
             insertEdocForm = edocMapper.insertEdocReport(edocFormTypeDTO);
         }
@@ -137,8 +135,9 @@ public class EdocService {
         Map<String, Object> toDoMap = new HashMap<>();
         
         toDoMap.put("empCode", empCode);
+        toDoMap.put("request", 0);
         
-        return edocMapper.selectToDo(toDoMap);
+        return edocMapper.selectApprList(toDoMap);
     }
     
     /*
@@ -148,13 +147,71 @@ public class EdocService {
      */
     public List<Map<String, String>> selectToDo(int currentPage, int rowPerPage, String empCode) {
         
-        Map<String, Object> toDoMap = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         
-        toDoMap.put("empCode", empCode);
-        toDoMap.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("empCode", empCode);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("request", 0);
         
-        return edocMapper.selectToDo(toDoMap);
+        return edocMapper.selectApprList(map);
     }
+    
+    public Map<String, Object> getApprPagingIdx(String empCode, int currentPage, int request){
+        
+        Map<String, Object> m = new HashMap<>();
+        m.put("empCode", empCode);
+        m.put("request", request);
+        
+        int totalRow = edocMapper.apprListCnt(m);
+        
+        Paging v = new Paging();
+        Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
+
+        return pagingMap;
+    }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 16.
+     * Description : 결재대기문서 리스트 호출
+     */
+    public List<Map<String, String>> selectUpComing(int currentPage, int rowPerPage, String empCode) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("empCode", empCode);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("request", 1);
+        
+        return edocMapper.selectApprList(map);
+    }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 16.
+     * Description : 결재대기문서 리스트 호출
+     */
+    public List<Map<String, String>> selectApprHistory(int currentPage, int rowPerPage, String empCode) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("empCode", empCode);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("request", 2);
+        
+        return edocMapper.selectApprList(map);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /*
      * @author : 정건희

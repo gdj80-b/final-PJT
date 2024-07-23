@@ -30,15 +30,6 @@ public class EdocFormTypeDTO {
     private String eventPlace;
     private String eventExpense;
     
-    // 차량 이용신청서
-    private String carReason;
-    private String carDeparture;
-    private String carArrival;
-    private String carStartDate;
-    private String carRuturnDate;
-    private String carType;
-    private String carNum;
-    
     // 보고서
     private String reportType;
     private String reportContent;

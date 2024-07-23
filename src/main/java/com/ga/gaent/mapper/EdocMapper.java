@@ -12,6 +12,21 @@ import com.ga.gaent.vo.EmpVO;
 @Mapper
 public interface EdocMapper {
 
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 결재 대기 문서 조회
+     */
+    List<Map<String, String>> selectApprList(Map<String, Object> map);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 23.
+     * Description : 결재 문서 페이징
+     */
+    int apprListCnt(Map<String, Object>m);
+    
     /*
      * @author : 정건희
      * @since : 2024. 07. 15.
@@ -51,13 +66,6 @@ public interface EdocMapper {
     /*
      * @author : 정건희
      * @since : 2024. 07. 16.
-     * Description : 결재 대기 문서 조회
-     */
-    List<Map<String, String>> selectToDo(Map<String, Object> todoMap);
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
      * Description : 전자결재 문서 상세 조회
      */
     Map<String, Object> selectEdocDetail(int edocNum);
@@ -82,13 +90,14 @@ public interface EdocMapper {
     int insertEdocProject(EdocFormTypeDTO edocFormTypeDTO);
     // 경조사 지출 결의서
     int insertEdocEvent(EdocFormTypeDTO edocFormTypeDTO);
-    // 차량이용신청서
-    int insertEdocCar(EdocFormTypeDTO edocFormTypeDTO);
     // 보고서
     int insertEdocReport(EdocFormTypeDTO edocFormTypeDTO);
     
+    
+    
     // 결재선에서 상태수정 (edoc approval)
     int updateEdocApprovalStatus(Map<String,Object>m);
+    
     // edoc테이블에서의 상태수정
     int updateEdocStatus(Map<String,Object>m);
     

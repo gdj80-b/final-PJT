@@ -25,7 +25,7 @@
     <table class="table table-bordered edocForm">
         <tr>
             <th class="text-center typeDraftThTag">제목</th>
-            <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="ecodTitle" required></td>
+            <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
         </tr>
         <tbody>
             <tr>

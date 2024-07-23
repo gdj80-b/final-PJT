@@ -26,28 +26,22 @@
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
-                <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="ecodTitle" required></td>
-            </tr>
-
-            <tr>
-                <th class="text-center typeDraftThTag">시작일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacStartDate" required></td>
-                <th class="text-center typeDraftThTag">종료일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacEndDate" required></td>
+                <td class="typeDraftTdTag" colspan="3">
+                <input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
             </tr>
             <tr>
-                <th class="text-center typeDraftThTag">휴가종류</th>
-                <td class="typeDraftTdTag" colspan="3"><select class="form-select form-select-sm" name="vacType" required>
-                        <option value="일반">일반</option>
-                        <option value="오전반차">오전반차</option>
-                        <option value="오후반차">오후반차</option>
+                <th class="text-center typeDraftThTag">보고서 종류</th>
+                <td class="typeDraftTdTag" colspan="3"><select class="form-select form-select-sm" name="reportType" required>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
                 </select></td>
             </tr>
             <tr>
-                <th class="text-center typeDraftThTag" colspan="4">사유</th>
+                <th class="text-center typeDraftThTag" colspan="4">내용</th>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="vacReason"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="16" name="reportContent"></textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>

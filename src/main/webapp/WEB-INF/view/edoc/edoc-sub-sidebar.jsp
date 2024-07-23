@@ -28,7 +28,7 @@
             </a>
           </div>
           <div class="">
-            <a href="/gaent/approval/history" class="menu-link">
+            <a href="/gaent/approval/apprHistory" class="menu-link">
               <span>결재 내역</span>
             </a>
           </div>

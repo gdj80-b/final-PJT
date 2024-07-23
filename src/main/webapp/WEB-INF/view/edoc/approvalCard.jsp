@@ -4,15 +4,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <style>
   .card-size {
-    width: 250px;
+    width: 250px !important;
   }
 </style>
 <div class="row mb-3">
-  <div class="card-size">
+  <div class="d-flex">
     <c:choose>
       <c:when test="${toDoList != null}">
         <c:forEach items="${toDoList}" var="el">
-          <div class="card">
+          <div class="card card-size me-3">
             <div class="card-header-edoc">
               <c:choose>
                 <c:when test="${el.edocStatus == 0}">
