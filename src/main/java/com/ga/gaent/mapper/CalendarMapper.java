@@ -23,4 +23,10 @@ public interface CalendarMapper {
     
     // 일정수정
     int updateEvent(CalendarVO calendar);
+    
+    // 일정타입 조회
+    List<Map<String, Object>> selectEventType();
+    
+    // 일정분류 조회
+    List<Map<String, Object>> selectEventTarget();
 }

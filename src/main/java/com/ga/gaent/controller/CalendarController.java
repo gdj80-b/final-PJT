@@ -24,7 +24,14 @@ public class CalendarController {
     
     // 기본 페이지 표시
     @RequestMapping
-    public String viewCalendar() {
+    public String viewCalendar(Model model) {
+        
+        List<Map<String, Object>> eventType = calendarService.selectEventType();
+        List<Map<String, Object>> eventTarget = calendarService.selectEventTarget();
+        
+        model.addAttribute("eventType", eventType);
+        model.addAttribute("eventTarget", eventTarget);
+        
         return "calendar/calendar";
     }
     

@@ -70,4 +70,22 @@ public class CalendarService {
         }
         return updateEvent;
     }
+    
+    // 일정타입 조회
+    public List<Map<String, Object>> selectEventType(){
+        
+        List<Map<String, Object>> eventType = calendarMapper.selectEventType();
+        log.debug(yellow + "eventType : " + eventType + yellow);
+        
+        return eventType;
+    }
+    
+    // 일정분류 조회
+    public List<Map<String, Object>> selectEventTarget(){
+        
+        List<Map<String, Object>> eventTarget = calendarMapper.selectEventTarget();
+        log.debug(yellow + "eventTarget : " + eventTarget + yellow);
+        
+        return eventTarget;
+    }
 }
