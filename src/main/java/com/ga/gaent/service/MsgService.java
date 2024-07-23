@@ -90,7 +90,7 @@ public class MsgService {
             gaFile.setOriginalName(originalFilename);
             gaFile.setFileType(fileType);
             gaFile.setFileSize(fileSize);
-            gaFile.setFileName(newFileName);
+            gaFile.setFileName(newFileName);            
             
             m.setMsgFileName(newFileName);
             
@@ -99,6 +99,7 @@ public class MsgService {
             if (row != 1) {
                 throw new RuntimeException("데이터베이스 입려을 실패하였습니다.");
             }
+            
             int success = msgMapper.sendMsg(m);
             log.debug(TeamColor.RED + "Service메시지전송여부: " + success + TeamColor.RESET);
             return newFileName;
