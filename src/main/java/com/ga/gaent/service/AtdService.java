@@ -77,20 +77,27 @@ public class AtdService {
      */
     public Map<String, Object>getAtdStatus(String empCode){
         
-        int daily = atdMapper.dailyWorkMinutes(empCode);
-        int weekly = atdMapper.weeklyWorkMinutes(empCode);
-        int montly = atdMapper.monthlyWorkMinutes(empCode);
+        Map<String, Object>map = new HashMap<>();
+        
+        Integer daily = atdMapper.dailyWorkMinutes(empCode);
+        Integer weekly = atdMapper.weeklyWorkMinutes(empCode);
+        Integer montly = atdMapper.monthlyWorkMinutes(empCode);
       
-      
+      if(daily != null) {
+          
         String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
         String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
-        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;
-        
-        Map<String, Object>map = new HashMap<>();
+        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;        
+            
         map.put("dailyWorkTime", dailyWorkTime);
         map.put("weeklyWorkTime", weeklyWorkTime);
         map.put("montlyWorkTime", montlyWorkTime);
         
+          
+      }
+       
+        
+   
         return map;
         
     }

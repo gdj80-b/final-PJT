@@ -17,7 +17,6 @@
             color:purple;
         }
         .juchaBtn{
-            padding:0px;
             margin:10px;
         }
         .juCha-underline{
@@ -31,7 +30,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin:0px;
         }
+        
     </style>
 </head>
 <body>
@@ -45,35 +46,37 @@
     <div id="workspace-area" class="subsidebar-from-workspace ">
     <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
     <div>
-        <div class="card" style="height:70em">
+        <div class="card" style="height:auto; overflow:inherit; ">
             <h2 class="card-title" style="margin:50px 0px 0px 30px">근태내역</h2>
 <%--             tgYear: ${c.tgYear}년 (원하는 연도 ) / tgMonth : ${c.tgMonth}월 (원하는 월 )/ tgDay: ${c.tgDay}일 (원하는 일 )/ tgYoil: ${c.tgYoil}요일 (해당일의 요일 )--%>
 <%--     <br> tgWeek: ${c.tgWeek}번째주 (원하는 일이 달에 몇번째 주인지 )/ tgFullWeek : ${c.tgFullWeek}번째주 (원하는 일이 연에 몇번째 주인지 )/ 마지막일 tgLastDate: ${c.tgLastDate}일 (원하는 일의 달의 마지막일 )--%>
-<%--     <br> preBlank: ${c.preBlank} / totalDiv: ${c.totalDiv} / afterBlank: ${c.afterBlank}      --%> 
-            <div class="vacInfo" style="padding:0em 14em; margin-top:3em;">
-                    <table class="table" style="border:1px solid black;">
-                        <tr>
-                            <td>금일 근무 시간</td>
-                            <td>이번주 누적</td>
-                            <td>이번달 누적</td> 
-                        </tr>
-                        <tr>
-                            <td><span id="daily"></span></td>
-                            <td><span id="weekly"></span></td>
-                            <td><span id="monthly"></span></td> 
-                        </tr>
-                    </table>
-            
-            </div>
-           
-           
-           
-                <div class="card-body" style="height:; positions: relative;">                    
-                    <div style="text-align:center">
-                        <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">이전달</a>
-                        ${c.tgYear}년 ${c.tgMonth}월
-                        <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">다음달</a>
+<%--     <br> preBlank: ${c.preBlank} / totalDiv: ${c.totalDiv} / afterBlank: ${c.afterBlank}      --%>
+
+                    <div style="text-align: center">
+                        <h4>
+                            <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">◀</a> ${c.tgYear}년 ${c.tgMonth}월 <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">▶</a>
+                        </h4>
                     </div>
+                    <div class="vacInfo" style="padding: 0em 14em;">
+                        <table class="table" style="border: 1px solid black;">
+                            <tr>
+                                <td>금일 근무 시간</td>
+                                <td>이번주 누적</td>
+                                <td>이번달 누적</td>
+                            </tr>
+                            <tr>
+                                <td><span id="daily"></span></td>
+                                <td><span id="weekly"></span></td>
+                                <td><span id="monthly"></span></td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+
+
+                    <div class="card-body" style="height:; positions: relative;">                    
+                    
 
                     
                     <c:set var="currentWeek" value="1"/>
@@ -95,10 +98,10 @@
                             </div>
                         </c:if>
                         <!-- 주가 변경되었으면, 주 버튼과 테이블 생성 -->
-                        <c:if test="${currentWeek != week}">
+                        <c:if test="${currentWeek != week && week != '0주차'}">
                             <c:set var="currentWeek" value="${week}" />
-                            <button class="btn juchaBtn" type="button" data-bs-toggle="collapse"  data-bs-target="#week${currentWeek}Collapse"
-                                 id="${currentWeek}colBtn" aria-expanded="false" aria-controls="week${currentWeek}Collapse">
+                            <button class="juchaBtn btn" type="button" data-bs-toggle="collapse" data-bs-target="#week${currentWeek}Collapse" 
+                                    id="${currentWeek}colBtn" aria-expanded="false" aria-controls="week${currentWeek}Collapse" style="padding:0px;">
                                  <span style="font-size:18px;">▼&nbsp;${currentWeek}</span>
                                  </button>
                             <hr class="juCha-underline">
@@ -123,9 +126,9 @@
                                     <c:when test="${dayOfWeekIndex == 6}">
                                         <span class="sunday">Day ${day} (${c.dayOfWeek[dayOfWeekIndex]})</span>
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:when test="${  week != '0주차' }">
                                         Day ${day} (${c.dayOfWeek[dayOfWeekIndex]})
-                                    </c:otherwise>
+                                    </c:when>
                                 </c:choose>
                             </td>
                             <td>

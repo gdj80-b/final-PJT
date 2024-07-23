@@ -20,9 +20,9 @@ public interface AtdMapper {
     List<AtdDTO> selectAtdHistory(String empCode);
     
     // 일간 근무시간
-    int dailyWorkMinutes(String empCode);
+    Integer dailyWorkMinutes(String empCode);
     // 주간 근무시간
-    int weeklyWorkMinutes(String empCode);
+    Integer weeklyWorkMinutes(String empCode);
     // 월간 근무시간
-    int monthlyWorkMinutes(String empCode);
+    Integer monthlyWorkMinutes(String empCode);
 }
