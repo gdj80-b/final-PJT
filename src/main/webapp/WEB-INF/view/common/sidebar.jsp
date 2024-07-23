@@ -44,13 +44,13 @@
             </li>
             <!-- 근태관리 -->
             <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/atd') ? 'active' : '' }">
-                <a href="/gaent/atd/" class="menu-link"> 
+                <a href="/gaent/atd" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i> <span>근태관리</span>
                 </a>
             </li>
             <!-- 직원조회 -->
             <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team') ? 'active' : '' }">
-                <a href="/gaent/team/teamList" class="menu-link"> 
+                <a href="/gaent/hr" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-archive"></i> <span>직원조회</span>
                 </a>
             </li>
@@ -73,8 +73,8 @@
                 </a>
             </li>
             <!-- 사내구매 -->
-            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/prd') ? 'active' : '' }">
-                <a href="/gaent/prd/" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/product') ? 'active' : '' }">
+                <a href="/gaent/prod" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-cart"></i> <span>사내구매</span>
                 </a>
             </li>
@@ -84,7 +84,7 @@
             </li>
             <!-- 인사관리 -->
             <li class="menu-item">
-                <a href="/" class="menu-link"> 
+                <a href="/gaent/hr" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-user"></i> <span>인사관리</span>
                 </a>
             </li>
@@ -95,11 +95,11 @@
                 </a>
             </li>
             <!-- 사내구매 현황 -->
-            <li class="menu-item">
-                <a href="/" class="menu-link"> 
+            <!-- <li class="menu-item">
+                <a href="/gaent/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-cart"></i> <span>사내구매 현황</span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </aside>
 
