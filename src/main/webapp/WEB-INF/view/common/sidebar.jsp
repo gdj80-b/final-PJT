@@ -62,14 +62,8 @@
             </li>
             <!-- 공지사항 -->
             <li class="menu-item  ${fn:contains(pageContext.request.requestURI, '/notice') ? 'active' : '' }">
-                <a href="/gaent/notice/" class="menu-link"> 
-                    <i class="menu-icon tf-icons bx bx-spreadsheet"></i> <span>공지사항</span>
-                </a>
-            </li>
-            <!-- 커뮤니티 -->
-            <li class="menu-item  ${fn:contains(pageContext.request.requestURI, '/comm') ? 'active' : '' }">
-                <a href="/gaent/community/" class="menu-link"> 
-                    <i class="menu-icon tf-icons bx bx-conversation"></i> <span>커뮤니티</span>
+                <a href="/gaent/board" class="menu-link"> 
+                    <i class="menu-icon tf-icons bx bx-conversation"></i> <span>소통공간</span>
                 </a>
             </li>
             <!-- 사내구매 -->

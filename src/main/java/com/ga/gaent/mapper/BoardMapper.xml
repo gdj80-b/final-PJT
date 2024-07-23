@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.BoardMapper">
+
+    <!-- 자유게시판 글 작성 -->
+    <insert id="insertBoard" parameterType="com.ga.gaent.dto.BoardRequestDTO">
+        INSERT INTO
+            community(
+                comm_writer,
+                file_name,
+                comm_title,
+                comm_content
+            ) VALUES(
+                #{empCode},
+                #{fileName},
+                #{articleTitle},
+                #{articleContent}
+            )
+    </insert>
+
+    <!-- 공지사항 글 작성 -->
+    <insert id="insertNotice" parameterType="com.ga.gaent.dto.BoardRequestDTO">
+        INSERT INTO
+            notice(
+                notice_writer,
+                file_name,
+                notice_title,
+                notice_content
+            ) VALUES(
+                #{empCode},
+                #{fileName},
+                #{articleTitle},
+                #{articleContent}
+            )
+    </insert>
+
+</mapper>
