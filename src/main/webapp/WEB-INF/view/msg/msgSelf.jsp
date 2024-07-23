@@ -123,35 +123,11 @@
                         </tbody>
                     </table>
                     <!-- 페이징 -->
-                    <nav aria-label="Page navigation" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-                        <ul class="pagination">
-                            <li class="page-item first <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=1">
-                                    <i class="tf-icon bx bx-chevrons-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item prev <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.currentPage-1}">
-                                    <i class="tf-icon bx bx-chevron-left"></i>
-                                </a>
-                            </li>
-                            <c:forEach var="i" begin="${pg.firstPage}" end="${pg.lastPage}">
-                                <li class="page-item <c:if test="${pg.currentPage==i}"> active</c:if>">
-                                    <a class="page-link" href="/gaent/msg/3?currentPage=${i}">${i}</a>
-                                </li>
-                            </c:forEach>
-                            <li class="page-item next <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.currentPage+1}">
-                                    <i class="tf-icon bx bx-chevron-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item last <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.totalPage}">
-                                    <i class="tf-icon bx bx-chevrons-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div>
+                        <jsp:include page="/WEB-INF/view/common/paging.jsp">
+                            <jsp:param name="extraParam" value="&searchMsg=${param.searchMsg}"/>
+                        </jsp:include>
+                    </div>
                 </div>
             </div>
         </div>

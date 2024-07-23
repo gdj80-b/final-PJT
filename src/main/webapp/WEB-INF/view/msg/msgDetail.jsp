@@ -37,22 +37,35 @@
         }
         .care-body .title {
             font-size: 1.5em;
+            font-size: 1.5em;
             font-weight: bold;
             margin-bottom: 10px;
         }
         .care-body .info {
             color: #555;
+            font-size:1.2em;
+            font-weight: 300;
+            margin-bottom: 10px;
+            
         }
         .care-body .info-container {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
         .care-body .content {
             padding: 10px;
             background-color: #f0f0f0;
             height:120px;
             border-radius: 5px;
+        }
+        .msg-file-text{
+            font-size:20px;
+            font-weight: 500;
+        }
+        .info{
+            
+        
         }
     </style>
 </head>
@@ -68,6 +81,14 @@
         <div class="inbox-container">
             <div class="care-body">
                 <div class="title">${m.msgTitle}</div>
+                <div class="info" style="display: flex; font-weight: bold" >
+                    첨부파일 : &nbsp;
+                    <c:if test="${m.msgFileName!=null}"> 
+                        <a class="msg-file-text" href="${pageContext.request.contextPath}/upload/msgfile/${m.msgFileName}" target="_blank">
+                            ${m.msgOriginalFileName}
+                        </a>
+                    </c:if>                      
+                </div>
                     <div class="info-container">
                         <div class="info">보낸사람 : ${m.senderName}</div>
                         <div class="info">읽은시간 : ${m.readTime}</div>
