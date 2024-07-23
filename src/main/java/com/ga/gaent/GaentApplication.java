@@ -8,16 +8,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableScheduling
-@ServletComponentScan
+@ServletComponentScan   
 @SpringBootApplication
-public class GaentApplication implements WebMvcConfigurer{
+public class GaentApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GaentApplication.class, args);
-    }
-    
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // registry.addResourceHandler("/img/**").addResourceLocations("file:///static/image/");
     }
 }

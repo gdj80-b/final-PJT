@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.FileMapper">
 
+    <!-- 쪽지 보내기 첨부 파일 -->
     <insert id="insertMsgFile" parameterType="com.ga.gaent.vo.FileVO"> 
         INSERT INTO msg_file(
             file_name,
@@ -17,5 +18,51 @@
             NOW()
         )
     </insert>
+    
+    <!-- 직원 프로필 이미지 등록 -->
+    <insert id="insertProfile" parameterType="com.ga.gaent.vo.FileVO">
+        INSERT INTO
+            profileimg(
+            img_name,
+            img_original_name,
+            img_type,
+            img_size,
+            img_create_date
+        ) VALUES(
+            #{fileName},
+            #{originalName},
+            #{fileType},
+            #{fileSize},
+            NOW()
+        )
+    </insert>
+    
+    <!-- 직원 프로필 이미지 수정 -->
+    <update id="updateProfile" parameterType="com.ga.gaent.vo.FileVO">
+        UPDATE
+            profileimg
+        <set>
+            <if test="fileName != null and fileName != ''">
+                img_name = #{fileName},
+            </if>
+            <if test="originalName != null and originalName != ''">
+                img_original_name = #{originalName},
+            </if>
+            <if test="fileType != null and fileType != ''">
+                img_type = #{fileType},
+            </if>
+            <if test="fileSize != null and fileSize != ''">
+                img_size = #{fileSize},
+            </if>
+            img_update_date = NOW()
+        </set>
+        WHERE img_name = #{updateFileName}
+    </update>
+    
+    <delete id="deleteProfile" parameterType="String">
+        DELETE FROM
+            profileimg
+        WHERE img_name = #{profile}
+    </delete>
 
 </mapper>

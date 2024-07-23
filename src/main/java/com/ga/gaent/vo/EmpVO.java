@@ -18,10 +18,12 @@ public class EmpVO {
     private String korName;
     private String engName;
     private String regNo;
+    private String birth;
+    private int age;
     private String gender;
     private String phone;
     private String emergencyPhoneRelation;
-    private String emergencyphone;
+    private String emergencyPhone;
     private String postCode;
     private String address;
     private String detailAddress;
@@ -32,4 +34,10 @@ public class EmpVO {
     private String resignDate;
     private String updateDate;
     private String finalModifier;
+    
+    // 직원 정보 리스트 조회에 필요한 컬럼
+    private String rankName;
+    private String teamName;
+    private String parentTeamCode;
+    private String parentTeamName;
 }
