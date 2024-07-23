@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.PaymentDTO;
 import com.ga.gaent.mapper.PaymentMapper;
+import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
-import com.ga.gaent.vo.PagingVO;
 import com.ga.gaent.vo.PaymentVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,7 +118,7 @@ public class PaymentService {
 
         int totalRow = paymentMapper.paymentCnt(empCode); // 전체 row수
 
-        PagingVO v = new PagingVO();
+        Paging v = new Paging();
         Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
 
         return pagingMap;

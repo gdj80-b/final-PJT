@@ -44,6 +44,13 @@
                         </tr>                
                     </c:forEach>
                 </table>
+                <br><br><br><br>
+                <!-- 페이징 -->
+                    <div>
+                        <jsp:include page="/WEB-INF/view/common/paging.jsp">
+                            <jsp:param name="pageUrl" value=""/>
+                        </jsp:include>
+                    </div>
             </div>
         </div>
     </div>

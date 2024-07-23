@@ -9,7 +9,6 @@
     <title>결재</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     <style>
-
     </style>
 </head>
 <body>
@@ -20,10 +19,8 @@
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
         <jsp:include page="/WEB-INF/view/product/prod-sub-sidebar.jsp"></jsp:include>
     </div>
-    <div id="workspace-area" class="subsidebar-from-workspace">
-        <div id="" style="width:100%;height:100%    ">
-            <jsp:include page="/WEB-INF/view/product/checkout.jsp"></jsp:include>
-        </div>
+    <div id="workspace-area" class="subsidebar-from-workspace" style="padding:0px;!important; height:100% !important;">
+        <jsp:include page="/WEB-INF/view/product/checkout.jsp"></jsp:include>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>

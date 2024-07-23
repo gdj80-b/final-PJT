@@ -6,6 +6,7 @@
         SELECT
             prod_code prodCode,
             prod_price prodPrice,
+            prod_category prodCategory,
             prod_content prodContent,
             prod_img prodImg,
             prod_create_date createDate

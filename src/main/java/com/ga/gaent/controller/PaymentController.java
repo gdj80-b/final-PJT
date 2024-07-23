@@ -43,6 +43,7 @@ public class PaymentController {
         
         
         model.addAttribute("list", list);
+        model.addAttribute("pg", pagingMap);
         return "/product/payList";
     }
     

@@ -13,22 +13,26 @@
   </head>
 
   <body>
-    <!-- 주문서 영역 -->
-    <div class="wrapper">
-      <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
-        <!-- 결제 UI -->
+    <div class="toss-bodys">
+        <!-- 주문서 영역 -->
+        <div class="wrapper">
         
-        <div id="payment-method"></div>
-        
-        <!-- 이용약관 UI -->
-        <div id="agreement"></div>
-        <!-- 쿠폰 체크박스 -->
-        <div class="checkable typography--p" style="padding-left: 25px">
-          <input id="coupon-box" class="checkable__input" type="hidden" aria-checked="true" disabled />
+          <div class="box_section" style="padding: 20px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
+            <a href="/gaent/prod" type="button" class="btn-close" style="margin-left:98% !important;" data-dismiss="modal" aria-label="Close"></a>
+            <!-- 결제 UI -->
+            
+            <div id="payment-method"></div>
+            
+            <!-- 이용약관 UI -->
+            <div id="agreement"></div>
+            <!-- 쿠폰 체크박스 -->
+            <div class="checkable typography--p" style="padding-left: 25px">
+              <input id="coupon-box" class="checkable__input" type="hidden" aria-checked="true" disabled />
+            </div>
+            <!-- 결제하기 버튼 -->
+            <button class="button" id="payment-button" style="margin-top: 30px" disabled>결제하기</button>
+          </div>
         </div>
-        <!-- 결제하기 버튼 -->
-        <button class="button" id="payment-button" style="margin-top: 30px" disabled>결제하기</button>
-      </div>
     </div>
   </body>
 
@@ -85,11 +89,10 @@
       paymentWidget.requestPayment({
         orderId: generateRandomString(),
         orderName: "${proName}",
-       //  prodCode: "${prodCode}",
         successUrl: currentURL + "/prod/success?prodCode=${prodCode}",
-        failUrl: currentURL + "/fail",
+        failUrl: currentURL + "/prod/fail",
         customerEmail: "customer123@gmail.com",
-        customerName: "김토스",
+        customerName: "${loginInfo.korName}",
         customerMobilePhone: "01012341234",
         onSuccess: function(response) {
         },
