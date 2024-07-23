@@ -9,13 +9,25 @@ import com.ga.gaent.vo.PaymentVO;
 @Mapper
 public interface PaymentMapper {
     
-    // 구매
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 상품구매시 이력 DB에 저장
+     */
     int payPrd(Map<String,Object>m);
     
-    // 구매이력
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 상품 구매 리스트 조회
+     */
     List<PaymentDTO> selectPaymentList(String empCode);
 
-    // 구매이력 페이징
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 상품 구매 리스트 페이징
+     */
     int paymentCnt(String empCode);
     
 }

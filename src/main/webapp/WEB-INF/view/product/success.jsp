@@ -15,15 +15,11 @@
         text-align: center;
         justify-content: center;
     }
-    
-  
     .modal-header img {
         width: 50px;
         display: block;
         margin: 0 auto;
     }
-    
-    
     .modal-header img {
         width: 50px;
     }

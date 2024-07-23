@@ -5,9 +5,8 @@ import lombok.Data;
 public class ProductVO {
     
     private String prodCode;
-    private String prodImg;
     private String prodPrice;
-    private String prodCategory;    
+    private String prodCategory;
     private String prodContent;
     private String createDate;
     private String updateDate;
