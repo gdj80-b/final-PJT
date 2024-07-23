@@ -49,8 +49,8 @@
                 </a>
             </li>
             <!-- 직원조회 -->
-            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team') ? 'active' : '' }">
-                <a href="/gaent/team/teamList" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/inquiry') ? 'active' : '' }">
+                <a href="/gaent/inquiry/teamList" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-archive"></i> <span>직원조회</span>
                 </a>
             </li>
@@ -83,7 +83,7 @@
                 <span class="menu-header-text">관리자 메뉴</span>
             </li>
             <!-- 인사관리 -->
-            <li class="menu-item">
+            <li class="menu-item ">
                 <a href="/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-user"></i> <span>인사관리</span>
                 </a>
