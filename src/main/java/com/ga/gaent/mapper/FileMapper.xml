@@ -64,5 +64,22 @@
             profileimg
         WHERE img_name = #{profile}
     </delete>
+    
+    <!-- 쪽지 보내기 첨부 파일 -->
+    <insert id="insertBoardFile" parameterType="com.ga.gaent.vo.FileVO"> 
+        INSERT INTO forum_file(
+            file_name,
+            original_file_name,
+            file_type,
+            file_size,
+            file_create_date
+        ) VALUES(
+            #{fileName},
+            #{originalName},
+            #{fileType},
+            #{fileSize},
+            NOW()
+        )
+    </insert>
 
 </mapper>
