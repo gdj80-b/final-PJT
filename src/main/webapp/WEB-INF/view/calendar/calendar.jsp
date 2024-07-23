@@ -17,9 +17,8 @@
   <!-- fullcalendar 언어 CDN -->
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
   <!-- Bootstrap 스크립트 추가 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+  
   <style>
   /* body 스타일 */
   html, body {
@@ -35,6 +34,15 @@
   }
   
   
+  .fc-view-harness {
+  	background-color: #ffffff;
+  }
+  
+  /* 추가한 calendar 크기 조정 스타일 */
+    #calendar {
+        max-height: 600px;
+        margin: 0 auto;
+    }
 </style>
 </head>
 <body>
@@ -43,7 +51,7 @@
         <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
     </div>
     <div id="sidebar_area">
-        <jsp:include page="/WEB-INF/view/calendar/sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
         <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
       </div>
     

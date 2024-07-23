@@ -49,8 +49,8 @@
             WHEN cal_type LIKE 'a%' THEN 'black'
             ELSE NULL
         END AS textColor
-    FROM
-        calendar
+        FROM
+            calendar
     </select>
     
     <!-- 일정상세 -->

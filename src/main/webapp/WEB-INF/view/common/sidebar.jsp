@@ -49,8 +49,8 @@
                 </a>
             </li>
             <!-- 직원조회 -->
-            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team') ? 'active' : '' }">
-                <a href="/gaent/hr" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/inquiry') ? 'active' : '' }">
+                <a href="/gaent/inquiry/teamList" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-archive"></i> <span>직원조회</span>
                 </a>
             </li>
