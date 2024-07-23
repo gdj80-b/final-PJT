@@ -92,7 +92,7 @@
                             <tr>
                                 <td>${loginInfo.korName}</td>
                                 <td>${m.vacType}</td>
-                                <td>${m.vacStartDate}~${m.vacEndDate}</td>
+                                <td>${m.vacStartDate} ~ ${m.vacEndDate}</td>
                                 <td>${m.vacPeriod}일</td>
                                 <td>${m.vacReason}</td>
                             </tr>

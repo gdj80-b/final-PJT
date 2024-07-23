@@ -13,6 +13,7 @@ import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
 import com.ga.gaent.mapper.FileMapper;
 import com.ga.gaent.mapper.MsgMapper;
+import com.ga.gaent.util.FileExtension;
 import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.FileVO;
@@ -27,10 +28,11 @@ public class MsgService {
     final String RED = "\u001B[31m\n";
     final String RESET = "\u001B[0m\n";
     
-    @Autowired
-    MsgMapper msgMapper;
-    @Autowired
-    FileMapper fileMapper;
+    @Autowired MsgMapper msgMapper;
+    
+    @Autowired FileMapper fileMapper;
+    
+    @Autowired FileExtension fileExtension;
 
     /* @author : 조인환
      * @since : 2024. 07. 12.
@@ -83,7 +85,7 @@ public class MsgService {
             String fileType = mf.getContentType().toLowerCase();
             long fileSize = mf.getSize();
             String prefix = UUID.randomUUID().toString().replace("-", "");
-            String suffix = getFileExtension(originalFilename);
+            String suffix = fileExtension.getFileExtension(originalFilename);
             String newFileName = prefix + suffix;
             
             FileVO gaFile = new FileVO();
@@ -196,7 +198,4 @@ public class MsgService {
         log.debug(RED + "스케쥴러 이용 msg테이블 삭제처리 행 수 : " + deleteMsg + "msgFile테이블 삭제처리 행 수 : " + deleteMsgFile + RESET );
        
     }
-    
- 
-    
 }

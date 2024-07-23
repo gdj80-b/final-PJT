@@ -9,7 +9,7 @@ public class AtdHistory {
 public Map<String,Object> makeCalendar(String year, String month) {
         
 
-        // Get current date if no year or month is provided
+        // 
         Calendar currentDate = Calendar.getInstance();
         int currentYear = currentDate.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH) + 1;

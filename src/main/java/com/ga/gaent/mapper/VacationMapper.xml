@@ -32,7 +32,7 @@
             emp_code = #{empCode} AND
             edoc.edoc_status IN ('0','1','2')
         ORDER BY
-            edoc.edoc_enroll_date DESC
+            edoc.edoc_num DESC
     </select>
     
     <select id="myVacCnt" parameterType="map" resultType="int">

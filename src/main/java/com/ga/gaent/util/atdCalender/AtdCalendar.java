@@ -12,8 +12,19 @@ public class AtdCalendar {
 
         // Calendar 인스턴스를 초기화하고, 대상 년도와 월의 첫째 날로 설정
         Calendar targetDate = Calendar.getInstance();
+        
+        int today = targetDate.get(Calendar.DATE);
+        int todayWeek = targetDate.get(Calendar.WEEK_OF_MONTH);
+        int todayMonth = targetDate.get(Calendar.MONTH)+1;
+        int todayYear = targetDate.get(Calendar.YEAR);
+        
+        
         targetDate.set(Calendar.YEAR, Integer.parseInt(tgYear)); // 대상 년도 설정
         targetDate.set(Calendar.MONTH, Integer.parseInt(tgMonth) - 1); // 대상 월 설정 (0부터 시작하므로 -1)
+        
+        
+        
+        
         targetDate.set(Calendar.DATE, 1); // 1일로 설정
 
         // 달의 첫째 날
@@ -42,6 +53,10 @@ public class AtdCalendar {
                 
         // 결과를 담을 Map 생성
         Map<String, Object> c = new HashMap<>();
+        c.put("today", today); // 오늘날짜
+        c.put("todayWeek", todayWeek); // 오늘주
+        c.put("todayMonth", todayMonth); // 오늘달
+        c.put("todayYear", todayYear); // 오늘연도
         c.put("tgYear", tgYear); // 년도
         c.put("tgMonth", targetDate.get(Calendar.MONTH) + 1); // 월 (0부터 시작하므로 +1)
         c.put("tgDay", tgDay); // 일

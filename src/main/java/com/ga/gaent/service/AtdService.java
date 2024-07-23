@@ -1,6 +1,8 @@
 package com.ga.gaent.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 public class AtdService {
     @Autowired AtdMapper atdMapper;
     
-    // 출퇴근여부
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 14. 
+     * Description : 개인 출퇴근 여부 조회
+     */
     public AtdDTO checkAtd(String empCode) {
         
         AtdDTO check = atdMapper.checkAtdStatus(empCode);
@@ -35,34 +41,71 @@ public class AtdService {
         return v ;
     }
     
-  //출근 등록
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 출근 등록
+     */
     public int atdIn(String empCode) {   
         return atdMapper.atdIn(empCode) ;
     }
     
-    //퇴근 등록
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 퇴근등록
+     */
     public int atdOut(String empCode) {      
         return atdMapper.atdOut(empCode);        
     }
     
-    // 출퇴근 내역
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 14. 
+     * Description : 개인 출근 이력 리스트 조회
+     */
     public List<AtdDTO> getAtdHistory(String empCode){
         
         return atdMapper.selectAtdHistory(empCode);
     }
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22. 
+     * Description : 개인 근무시간 조회
+     */
+    public Map<String, Object>getAtdStatus(String empCode){
+        
+        Map<String, Object>map = new HashMap<>();
+        
+        Integer daily = atdMapper.dailyWorkMinutes(empCode);
+        Integer weekly = atdMapper.weeklyWorkMinutes(empCode);
+        Integer montly = atdMapper.monthlyWorkMinutes(empCode);
+      
+      if(daily != null) {
+          
+        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
+        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
+        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;        
+            
+        map.put("dailyWorkTime", dailyWorkTime);
+        map.put("weeklyWorkTime", weeklyWorkTime);
+        map.put("montlyWorkTime", montlyWorkTime);
+        
+          
+      }
+       
+        
+   
+        return map;
+        
+    }
+    
     
     @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
     void eliminateMsg() {
-        String empCode = "20110004";
-//        int daily = atdMapper.dailyWorkMinutes(empCode);
-//        int weekly = atdMapper.weeklyWorkMinutes(empCode);
-//        int montly = atdMapper.monthlyWorkMinutes(empCode);
-//        
-//        
-//        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
-//        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
-//        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;
+
 //        
 //        System.out.println(dailyWorkTime);
 //        System.out.println(weeklyWorkTime);
