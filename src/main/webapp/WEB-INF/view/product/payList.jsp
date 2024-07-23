@@ -47,9 +47,7 @@
                 <br><br><br><br>
                 <!-- 페이징 -->
                     <div>
-                        <jsp:include page="/WEB-INF/view/common/paging.jsp">
-                            <jsp:param name="pageUrl" value=""/>
-                        </jsp:include>
+                        <jsp:include page="/WEB-INF/view/common/paging.jsp"></jsp:include>
                     </div>
             </div>
         </div>

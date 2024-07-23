@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.PaymentService;
@@ -30,11 +31,18 @@ import java.io.UnsupportedEncodingException;
 import java.util.Set;
 
 @Controller
+@RequestMapping("prod")
 public class ProductController {
 
    @Autowired ProductService productService;
 
-    @GetMapping("prod")
+   
+   /*
+    * @author : 조인환
+    * @since : 2024. 07. 22.
+    * Description : 상품리스트 페이지로 이동
+    */
+    @GetMapping("")
     public String prod(Model model) {
         
         List<ProductVO>list = productService.getProdList();

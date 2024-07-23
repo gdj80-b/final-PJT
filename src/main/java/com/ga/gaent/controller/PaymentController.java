@@ -29,7 +29,11 @@ public class PaymentController {
         return (String) loginInfo.get("empCode");
     }
    
-    // 구매이력
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 구매이력 조회
+     */
     @GetMapping("/payList")
     public String getPayList(
             HttpSession session, Model model,
@@ -47,7 +51,11 @@ public class PaymentController {
         return "/product/payList";
     }
     
-    // 토스결제 페이지
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 토스결제 페이지 호출
+     */
     @PostMapping("/toss")
     public String toss(
             Model model,
@@ -63,7 +71,11 @@ public class PaymentController {
     }
     
     
-    // 결제 성공시 도착하는 페이지
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 토스 결제 성공시  DB입력 및 페이지 이동
+     */
     @GetMapping("/success")
     public String success(
             Model model,HttpSession session,
@@ -86,19 +98,5 @@ public class PaymentController {
         
         return "product/success";
     }
-
-    @GetMapping("/succ")
-    // @ResponseBody
-    public String success() throws Exception {        
-       // <String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo"));
-        
-        // String empCode = (String)loginInfo.get("empCode");
-        
-        // int success =  paymentService.payPrd(orderId,paymentKey,amount,prodCode,empCode);
-        // System.out.println("success" + success);
-
-        return "product/success";
-    }
-  
     
 }

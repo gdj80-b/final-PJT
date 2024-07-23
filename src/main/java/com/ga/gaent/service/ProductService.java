@@ -13,6 +13,11 @@ import com.ga.gaent.vo.ProductVO;
 public class ProductService {
     @Autowired ProductMapper productMapper;
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22.
+     * Description : 상픔 리스트 조회
+     */
     public List<ProductVO> getProdList(){
         
          return productMapper.selectProdList();
