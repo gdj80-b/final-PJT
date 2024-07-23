@@ -94,10 +94,11 @@
 				    <div class="card mb-4">
 				      <div class="card-body">
 				      	<div class="mb-3">
+				          <input type="hidden" name="calWriter" value="${loginInfo.empCode}">
 				          <label for="calType" class="form-label">일정타입</label>
 				          <select name="calType" id="calType" class="form-select">
 				          	<c:forEach var="event" items="${eventType}">
-				            <option value="${event.calType}">${event.calTypeName}</option>
+				            	<option value="${event.calType}">${event.calTypeName}</option>
 						    </c:forEach>
 				          </select>
 				        </div>
@@ -120,9 +121,9 @@
 						<div class="mb-3">
 				          <label for="calTargetType" class="form-label">일정분류</label>
 				          <select name="calTargetType" id="calTargetType" class="form-select">
-				            <option value="emp">개인</option>
+				            <option value="${loginInfo.empCode}">개인</option>
 				            <c:forEach var="target" items="${eventTarget}">
-						    <option value="${target.teamCode}">${target.teamName}</option>
+						    	<option value="${target.teamCode}">${target.teamName}</option>
 						    </c:forEach>
 				          </select>
 				      </div>

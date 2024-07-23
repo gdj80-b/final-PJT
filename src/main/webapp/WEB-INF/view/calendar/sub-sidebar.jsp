@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-3">
       <li class="menu-item">
-        <a href="home" class="menu-link">
+        <a href="/gaent/calendar" class="menu-link">
           <span>홈</span>
         </a>
       </li>
