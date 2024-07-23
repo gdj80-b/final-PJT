@@ -37,7 +37,14 @@ public class CalendarController {
     
     // 일정등록 폼
     @GetMapping("/addEvent")
-    public String addEventForm() {
+    public String addEventForm(Model model) {
+        
+        List<Map<String, Object>> eventType = calendarService.selectEventType();
+        List<Map<String, Object>> eventTarget = calendarService.selectEventTarget();
+        
+        model.addAttribute("eventType", eventType);
+        model.addAttribute("eventTarget", eventTarget);
+        
         return "calendar/addEvent";
     }
     
