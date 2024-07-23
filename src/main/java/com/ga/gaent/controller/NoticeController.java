@@ -32,7 +32,7 @@ public class NoticeController {
     @GetMapping("/noticeOne")
     public String noticeOne(Model model, @RequestParam(name="noticeNum") int noticeNum) {
         
-        List<Map<String, Object>> noticeOne = noticeService.selectNoticeList(noticeNum);
+        List<Map<String, Object>> noticeOne = noticeService.selectNoticeOne(noticeNum);
         model.addAttribute("noticeOne", noticeOne);
         return "noticeOne";
     }
@@ -59,7 +59,7 @@ public class NoticeController {
     // 공지사항 삭제
     @PostMapping("/removeNotice")
     public String removeNotice(NoticeVO notice, int noticeNum) {
-        int removeNotice = noticeService.deleteEvent(noticeNum);
+        int removeNotice = noticeService.deleteNotice(noticeNum);
         if(removeNotice == 1) {
             return "redirect:/noticeList";
         } else {
@@ -70,7 +70,7 @@ public class NoticeController {
     // 공지사항 수정
     @PostMapping("/modifyNotice")
     public String modifyNotice(NoticeVO notice, int noticeNum) {
-        int modifyNotice = noticeService.updateEvent(notice);
+        int modifyNotice = noticeService.updateNotice(notice);
         if(modifyNotice == 1) {
             return  "redirect:/noticeList";
         } else {
@@ -80,7 +80,7 @@ public class NoticeController {
     
     // 공지사항 전체항목 출력, 페이징
     @GetMapping("/noticeList")
-    public @ResponseBody List<Map<String, Object>> getNoticeList(
+    public @ResponseBody Map<String, Object> getNoticeList(
             @RequestParam(name="currentPage", defaultValue="1") int currentPage,
             @RequestParam(name="rowPerPage", defaultValue="5") int rowPerPage,
             @RequestParam(name="search", defaultValue="") String search,
@@ -98,6 +98,6 @@ public class NoticeController {
         m.put("search", search);
         m.put("category", category);
 
-        return noticeService.selectNoticeList();
+        return m;
     }
 }
