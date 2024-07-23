@@ -25,6 +25,19 @@
   <table class="table table-bordered edocForm">
     <tbody>
       <tr>
+       <th class="text-center typeDraftThTag">제목</th>
+        <td class="typeDraftTdTag" colspan="3">
+          <c:choose>
+            <c:when test="${edocDetail.propTitle != null}">
+                ${edocDetail.propTitle}
+            </c:when>
+            <c:otherwise>
+              <input class="form-control form-control-sm" type="text" name="propTitle">
+            </c:otherwise>
+          </c:choose>
+        </td>
+      </tr>
+      <tr>
         <th class="text-center typeDraftThTag">시작일자</th>
         <td class="typeDraftTdTag">
           <c:choose>
@@ -47,20 +60,7 @@
             </c:otherwise>
           </c:choose>
         </td>
-      </tr>
-      <tr>
-        <th class="text-center typeDraftThTag">제목</th>
-        <td class="typeDraftTdTag" colspan="3">
-          <c:choose>
-            <c:when test="${edocDetail.propTitle != null}">
-                ${edocDetail.propTitle}
-            </c:when>
-            <c:otherwise>
-              <input class="form-control form-control-sm" type="text" name="propTitle">
-            </c:otherwise>
-          </c:choose>
-        </td>
-      </tr>
+      </tr>      
       <tr>
         <td class="typeDraftTdTag" colspan="4">
           <c:choose>

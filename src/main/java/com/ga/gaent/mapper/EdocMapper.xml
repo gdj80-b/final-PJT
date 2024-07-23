@@ -32,7 +32,7 @@
     </select>
 
     <!--
-        @author : 정건희
+        @author : 정건희,조인환
         Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
     -->
     <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
@@ -79,13 +79,11 @@
                 edoc_num,
                 prop_start_date,
                 prop_end_date,
-                prop_title,
                 prop_content
             ) VALUES(
                 #{edocNum},
                 #{propStartDate},
                 #{propEndDate},
-                #{propTitle},
                 #{propContent}
             )
     </insert>
@@ -108,58 +106,80 @@
     </insert>
 
     <!--
-        @author : 정건희
+        @author : 조인환
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 정보
     -->
-    <select id="selectToDo" parameterType="Map" resultType="Map">
+    <select id="selectApprList" parameterType="Map" resultType="Map">
         SELECT
-            e.edoc_num edocNum,
-            e.edoc_enroll_date edocEnrollDate,
-            eft.edoc_form_title edocFormTitle,
-            ed.prop_title propTitle,
-            ef.file_name fileName,
-            emp.emp_kor_name korName,
-            e.edoc_status edocStatus
-        FROM
-            edoc e
-                LEFT OUTER JOIN emp emp ON e.edoc_writer = emp.emp_code
-                LEFT OUTER JOIN edoc_draft ed ON e.edoc_num = ed.edoc_num
-                LEFT OUTER JOIN edoc_file ef ON e.file_name = ef.file_name
-                LEFT OUTER JOIN edoc_form_type eft ON e.edoc_type = eft.edoc_type
-                LEFT OUTER JOIN (
-                    SELECT 
-                        ea.edoc_num,
-                        ea.approver empCode,
-                        emp2.emp_kor_name approver,
-                        ea.appr_order,
-                        ea.appr_status,
-                        ea.appr_date,
-                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
-                    FROM
-                        edoc_approval ea
-                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
-                ) ea1 ON e.edoc_num = ea1.edoc_num AND ea1.row_num = 1 LEFT OUTER JOIN (
-                    SELECT 
-                        ea.edoc_num,
-                        ea.approver empCode,
-                        emp2.emp_kor_name approver,
-                        ea.appr_order,
-                        ea.appr_status,
-                        ea.appr_date,
-                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
-                    FROM
-                        edoc_approval ea
-                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
-                ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
-        WHERE
-            e.edoc_status = '0' AND (ea1.empCode = #{empCode} OR ea2.empCode = #{empCode})
+            edoc.edoc_enroll_date edocEnrollDate,
+            edoc.edoc_num edocNum,
+            edoc.edoc_status edocStatus,
+            edoc.edoc_title edocTitle,
+            etype.edoc_form_title edocFormTitle,
+            edoc.file_name fileName,
+            emp.emp_code writerEmpCode,
+            emp.emp_kor_name korName
+        FROM 
+            edoc
+            JOIN emp
+                ON edoc_writer = emp_code
+            JOIN edoc_approval app
+                ON app.edoc_num = edoc.edoc_num
+            JOIN edoc_form_type etype
+                ON edoc.edoc_type = etype.edoc_type
+        WHERE 
+        	app.approver = #{empCode}
+        <choose>
+            <when test="request == 0">  <!--  결재 대기문서 -->
+                AND edoc.edoc_done_date IS NULL
+                AND edoc.edoc_status = '0' 
+            </when>
+            <when test="request == 1"> <!-- 결재 진행문서 -->
+                AND edoc.edoc_done_date IS NULL
+                AND edoc.edoc_status != '0'
+            </when>
+            <when test="request == 2"> <!-- 본인이 결재한 문서 -->
+                AND app.appr_status != '0' 
+            </when>
+        </choose>
+            
         ORDER BY
-            e.edoc_enroll_date DESC
+            edoc.edoc_enroll_date DESC,
+            edoc.edoc_num DESC
         <if test="startRow != null">
             LIMIT
                 #{startRow}, 10
         </if>
     </select>
+    
+    <select id="apprListCnt" parameterType="Map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM 
+            edoc
+            JOIN emp
+                ON edoc_writer = emp_code
+            JOIN edoc_approval app
+                ON app.edoc_num = edoc.edoc_num
+            JOIN edoc_form_type etype
+                ON edoc.edoc_type = etype.edoc_type
+        WHERE 
+            app.approver = #{empCode}
+        <choose>
+            <when test="request == 0">  <!--  결재 대기문서 -->
+                AND edoc.edoc_done_date IS NULL
+                AND edoc.edoc_status = '0' 
+            </when>
+            <when test="request == 1"> <!-- 결재 진행문서 -->
+                AND edoc.edoc_done_date IS NULL
+                AND edoc.edoc_status != '0'
+            </when>
+            <when test="request == 2"> <!-- 본인이 결재한 문서 -->
+                AND app.appr_status != '0' 
+            </when>
+        </choose>
+    </select>
+    
 
     <!--
         @author : 정건희
@@ -235,10 +255,7 @@
 
 
 
-     <!--
-        @author : 조인환
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 기안서 양식의 정보
-    -->
+     <!-- 휴가신청서  -->
     <insert id="insertEdocVacation" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
         INSERT INTO
             edoc_vacation(
@@ -256,6 +273,7 @@
             )
     </insert>
     
+    <!-- 지출결의서  -->
     <insert id="insertEdocProject" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
         INSERT INTO
             edoc_project(
@@ -269,6 +287,7 @@
             )
     </insert>
     
+    <!-- 경조사  -->
     <insert id="insertEdocEvent" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
         INSERT INTO
             edoc_event(
@@ -285,41 +304,20 @@
                 #{eventExpense}
             )
     </insert>
-    
-    <insert id="insertEdocCar" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_car(
-                edoc_num,
-                car_reason,
-                car_departure,
-                car_arrival,
-                car_start_date,
-                car_return_date,
-                car_type,
-                car_num
-            ) VALUES(
-                #{edocNum},
-                #{carReason},
-                #{carDeparture},
-                #{carArrival},
-                #{carStartDate},
-                #{carRuturnDate},
-                #{carType},
-                #{carNum}
-            )
-    </insert>
-    
+
+    <!-- 보고서  -->
     <insert id="insertEdocReport" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
         INSERT INTO
             edoc_report(
                 edoc_num,
                 report_type,
                 report_content
-            ) VALUES(
+                ) 
+            VALUES(
                 #{edocNum},
                 #{reportType},
                 #{reportContent}
-            )
+                )
     </insert>
 
     
@@ -337,45 +335,60 @@
             approver = #{empCode}
     </update>
     
+    
+   
+           
     <!-- 공통 -->
     <update id="updateEdocStatus" parameterType="map">
         UPDATE  
             edoc
-        SET     
-            edoc_status = #{request}
+        <set>
+            edoc_status = #{request},
+            <if test="request == -1">
+                edoc_done_date = NOW(),
+            </if>
+            edoc_enroll_date = NOW()
+        </set>
         WHERE 
             edoc_num = #{edocNum} 
     </update>
     
+    
+
+    
     <!-- 내 결재 대기,진행,완료문서   -->
     <select id="selectMyEdocSubmitList" parameterType="map" resultType="com.ga.gaent.vo.EdocVO">
         SELECT 
-             edoc_num edocNum,
-             edoc_title edocTitle,
-             edoc_type edocType,
-             file_name edocFileName,
-             edoc_done_date edocDoneDate,
-             edoc_enroll_date edocEnrollDate,
-             edoc_status edocStatus
+             edoc.edoc_num edocNum,
+             edoc.edoc_title edocTitle,
+             etype.edoc_form_title edocType,
+             edoc.file_name edocFileName,
+             edoc.edoc_done_date edocDoneDate,
+             edoc.edoc_enroll_date edocEnrollDate,
+             edoc.edoc_status edocStatus
         FROM
             edoc
+            JOIN edoc_form_type etype
+                ON edoc.edoc_type = etype.edoc_type 
         WHERE 
-            edoc_writer = #{empCode} 
+            edoc.edoc_writer = #{empCode} 
             <choose>
                 <when test="request == 0">  <!-- 결재대기문서 -->
                 </when>
                 <when test="request == 1"> <!-- 결재진행문서 -->
-                    AND(edoc_status = '1' OR
-                    edoc_status = '2'
+                    AND(
+                    edoc.edoc_status = '1' OR
+                    edoc.edoc_status = '2'
                     )
                 </when>
                 <when test="request == 2"> <!-- 결재완료문서 -->
-                    AND(edoc_status = '-1' OR
-                    edoc_status = '-2'
+                    AND(
+                    edoc.edoc_status = '-1' OR
+                    edoc.edoc_status = '-2'
                     )
                 </when>
             </choose>
         ORDER BY
-            edoc_enroll_date DESC
+            edoc.edoc_enroll_date DESC
     </select>
 </mapper>

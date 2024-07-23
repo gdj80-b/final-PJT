@@ -258,7 +258,7 @@ $(document).ready(function() {
         $('#rejectBtn').click(function() {
             $('#approvalModalLabel').text('반려하기');
             $('#modalInBtn').text('반려');
-            $('#approvalForm').data('request', -2); // request 값 설정
+            $('#approvalForm').data('request', -1); // request 값 설정
             $('#approvalModal').modal('show');
         });
     }
