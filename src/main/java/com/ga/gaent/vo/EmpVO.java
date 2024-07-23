@@ -18,10 +18,12 @@ public class EmpVO {
     private String korName;
     private String engName;
     private String regNo;
+    private String birth;
+    private int age;
     private String gender;
     private String phone;
     private String emergencyPhoneRelation;
-    private String emergencyphone;
+    private String emergencyPhone;
     private String postCode;
     private String address;
     private String detailAddress;

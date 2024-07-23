@@ -5,66 +5,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>받은쪽지함</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        
-        .inbox-container {
-            margin-top: 20px;
-        }
-        .inbox-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-        .inbox-actions span, .inbox-actions button {
-            margin-right: 15px;
-        }
-        .inbox-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .inbox-table th, .inbox-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        .inbox-table th {
-            background-color: #f9f9f9;
-        }
-        .inbox-table tr:hover {
-            background-color: #f1f1f1;
-        }
-        .checkbox {
-            text-align: center;
-            width: 60px;
-        }
-        .msg-sub-size {
-            width: 140px;
-            text-align: center;
-        }
-        .msg-state-size {
-            width: 80px;
-            text-align: center;
-        }
-        .msg-time-size {
-            width: 200px;
-            text-align: right;
-        }
-        .msg-sh-btn{
-            text-decoration: none;   /* 링크의 기본 밑줄 제거 */
-            padding: 5px 5px;      /* 버튼의 패딩 조정 */
-            color: white;            /* 버튼의 텍스트 색상 */
-            border-radius: 5px;      /* 버튼의 모서리 둥글게 */
-            display: inline-block;   /* 버튼이 줄바꿈 없이 나란히 위치하도록 설정 */
-        }
-        
-    </style>
+<meta charset="UTF-8">
+<title>전체쪽지함</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+<style>
+.checkbox {
+	text-align: center;
+	width: 60px;
+}
+
+.msg-sub-size {
+	QQwidth: 140px;
+	text-align: center;
+}
+
+.msg-state-size {
+	QQwidth: 80px;
+	text-align: center;
+}
+
+.msg-time-size {
+	QQwidth: 200px;
+	text-align: right;
+}
+</style>
 </head>
 <body>
     <div id="header-area">
@@ -76,26 +40,26 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">전체쪽지함</h2>            
-            <div class="card-body inbox-container">            
-                <div class="care-body" style="height:700px; position: relative;">
-                    <table class="inbox-table">
+            <h2 class="card-title" style="margin: 50px 0px 0px 30px">전체쪽지함</h2>
+            <div class="card-body">
+                <div class="care-body" style="height: 700px;">
+                    <table class="table table-striped table-bordered ">
                         <thead>
                             <tr>
-                                <th colspan="3">
-                                    전체 : ${pg.lastRow}개
-                                </th>
-                                <th style="padding-left:80px">
-                                    <form class="d-flex align-items-center" action="/gaent/msg/0">
-                                        <span style="width:600px">
-                                        <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg">
-                                        </span>
-                                        <button class="btn btn-secondary msg-sh-btn" type="submit">검색</button>
+                                <th colspan="2" class="align-middle fs-6" >전체 : ${pg.lastRow}개</th>
+                                <th colspan="2">
+                                    <form action="/gaent/msg/0">
+                                        <div class="d-flex justify-content-between">
+                                            <input class="form-control w-75 me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg">
+                                            <button class="btn btn-secondary" type="submit">검색</button>
+                                        </div>
                                     </form>
                                 </th>
-                                <th style="text-align:right">
-                                    <button type="button" id="readButton" class="btn btn-success">읽음</button>
-                                    <button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
+                                <th>
+                                    <div class="d-flex flex-row-reverse">
+                                        <button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
+                                        <button type="button" id="readButton" class="btn btn-success me-2">읽음</button>
+                                    </div>
                                 </th>
                             </tr>
                             <tr>
@@ -109,25 +73,18 @@
                         <tbody>
                             <c:if test="${empty list}">
                                 <tr>
-                                    <td colspan="5" style="text-align:center">쪽지가 없습니다</td>
+                                    <td colspan="5" style="text-align: center">쪽지가 없습니다</td>
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
-                                    <td class="checkbox">
-                                        <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
-                                    </td>
-                                    <td class="msg-state-size">
-                                        ${m.receiver == m.sender ? '<span style="color:skyblue">자신</span>' :
+                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
+                                    <td class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
+                                    <td class="msg-state-size">${m.receiver == m.sender ? '<span style="color:skyblue">나</span>' :
                                          (m.receiver == loginInfo.empCode ? '<span style="color:purple">수신</span>'
                                          : '<span style="color:orange">발신</span>') }
-                                     </td>                                    
-                                    <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.senderName : m.receiverName) }</td>
-                                    <td class="msg-title-size">
-                                        <a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}">
-                                            ${m.msgTitle}
-                                        </a>
                                     </td>
+                                    <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.senderName : m.receiverName) }</td>
+                                    <td class="msg-title-size"><a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}"> ${m.msgTitle} </a></td>
                                     <td class="msg-time-size">${m.sendTime}</td>
                                 </tr>
                             </c:forEach>
@@ -136,7 +93,7 @@
                     <!-- 페이징 -->
                     <div>
                         <jsp:include page="/WEB-INF/view/common/paging.jsp">
-                            <jsp:param name="pageUrl" value="/gaent/msg/0"/>
+                            <jsp:param name="aaa" value="&searchMsg=${param.searchMsg}" />
                         </jsp:include>
                     </div>
                 </div>

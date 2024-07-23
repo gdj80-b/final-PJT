@@ -31,7 +31,7 @@ let menu, animate;
   });
 
   // Display menu toggle (layout-menu-toggle) on hover with delay
-  let delay = function (elem, callback) {
+  /*let delay = function (elem, callback) {
     let timeout = null;
     elem.onmouseenter = function () {
       // Set timeout to be a timer which will invoke callback after 300ms (not for small screen)
@@ -55,7 +55,7 @@ let menu, animate;
         document.querySelector('.layout-menu-toggle').classList.add('d-block');
       }
     });
-  }
+  }*/
 
   // Display in main menu when menu scrolls
   let menuInnerContainer = document.getElementsByClassName('menu-inner'),

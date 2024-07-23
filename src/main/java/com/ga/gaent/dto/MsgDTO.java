@@ -11,6 +11,7 @@ public class MsgDTO {
     String receiver;
     String receiverName;
     String msgFileName;
+    String msgOriginalFileName;
     String msgTitle;
     String msgContent;
     String sendTime;

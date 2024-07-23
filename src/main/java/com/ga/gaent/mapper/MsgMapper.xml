@@ -169,13 +169,15 @@
             re.emp_kor_name receiverName,
             m.msg_title msgTitle,
             m.file_name msgFileName,
+            f.original_file_name msgOriginalFileName,
             m.msg_content msgContent,            
             DATE_FORMAT(m.msg_send_time, '%y/%m/%d %H시%i분') AS sendTime,
             DATE_FORMAT(m.msg_read_time, '%y/%m/%d %H시%i분') AS readTime
         FROM 
             msg m 
                 JOIN emp re ON m.msg_receiver = re.emp_code
-                JOIN emp se ON m.msg_sender = se.emp_code 
+                JOIN emp se ON m.msg_sender = se.emp_code
+                JOIN msg_file f ON m.file_name = f.file_name 
         WHERE
             m.msg_num = #{msgNum}
     </select>
@@ -212,4 +214,25 @@
             msg_read_time IS NULL AND 
             msg_receiver = #{empCode}
     </select>
+
+    <!-- 쪽지 영구삭제 -->
+    <delete id="eliminateMsg">
+        DELETE 
+        FROM 
+            msg
+        WHERE 
+            msg_send_del_status = 'D' AND
+            msg_receive_del_status = 'D'    
+    </delete>
+    <!-- 쪽지 영구삭제 -->
+    <delete id="eliminateMsgFile">
+        DELETE FROM msg_file
+        WHERE file_name IN (
+            SELECT file_name
+            FROM msg
+            WHERE msg_send_del_status = 'D' AND
+            msg_receive_del_status = 'D'AND
+            file_name IS NOT NULL
+        )   
+    </delete>
 </mapper>

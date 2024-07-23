@@ -73,8 +73,8 @@
                 </a>
             </li>
             <!-- 사내구매 -->
-            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/prd') ? 'active' : '' }">
-                <a href="/gaent/prd/" class="menu-link"> 
+            <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/product') ? 'active' : '' }">
+                <a href="/gaent/prod" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-cart"></i> <span>사내구매</span>
                 </a>
             </li>
@@ -95,11 +95,11 @@
                 </a>
             </li>
             <!-- 사내구매 현황 -->
-            <li class="menu-item">
-                <a href="/" class="menu-link"> 
+            <!-- <li class="menu-item">
+                <a href="/gaent/" class="menu-link"> 
                     <i class="menu-icon tf-icons bx bx-cart"></i> <span>사내구매 현황</span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </aside>
 
