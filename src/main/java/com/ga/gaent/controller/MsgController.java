@@ -17,6 +17,7 @@ import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
 import com.ga.gaent.service.MsgService;
 import com.ga.gaent.util.FileUploadSetting;
+import com.ga.gaent.util.TeamColor;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,12 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/msg")
 public class MsgController {
-    final String YELLOW = "\u001B[33m\n";
-    final String RED = "\u001B[31m\n";
-    final String RESET = "\u001B[0m\n";
-
-    @Autowired MsgService msgService;
-    
+    @Autowired MsgService msgService;    
     @Autowired FileUploadSetting fileUploadSetting;
     
     // 세션에서 로그인한사람의 empCode추출
@@ -83,8 +79,8 @@ public class MsgController {
     @ResponseBody
     public int sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
         
-        log.debug(RED + "확인 : " + m.getMsgTitle() + RESET);
-        log.debug(YELLOW + "원본이름 :" + fileReqDTO.getGaFile() + RESET);
+        log.debug(TeamColor.RED + "확인 : " + m.getMsgTitle() + TeamColor.RESET);
+        log.debug(TeamColor.YELLOW + "원본이름 :" + fileReqDTO.getGaFile() + TeamColor.RESET);
 
         // 파일을 업로드 했을 시에만 동작
         if (!fileReqDTO.getGaFile().isEmpty()) {
@@ -119,8 +115,8 @@ public class MsgController {
             @RequestParam(name = "msgNums", required = false) String[] msgNums) {
         
         // 배열의 내용을 보기 위해 Arrays.toString()을 사용
-        log.debug(YELLOW + "(컨)번호: " + Arrays.toString(msgNums) + " request: " + request + RESET);
-        log.debug(YELLOW + "개수 " + msgNums.length + RESET);
+        log.debug(TeamColor.YELLOW + "(컨)번호: " + Arrays.toString(msgNums) + " request: " + request + TeamColor.RESET);
+        log.debug(TeamColor.YELLOW + "개수 " + msgNums.length + TeamColor.RESET);
 
         int result = 0;
         Map<String, Object> deleteMsgMap = new HashMap<>();
@@ -131,7 +127,7 @@ public class MsgController {
             result = result + msgService.modifyMsgState(deleteMsgMap);
         }
 
-        log.debug(RED + "result: " + result + RESET);
+        log.debug(TeamColor.RED + "result: " + result + TeamColor.RESET);
         if (msgNums.length == result) {
             return 1;
         } else {
@@ -182,15 +178,15 @@ public class MsgController {
             @RequestParam(name = "msgNums", required = false) String[] msgNums) {
         
         // 배열의 내용을 보기 위해 Arrays.toString()을 사용합니다.
-        log.debug(YELLOW + "번호: " + Arrays.toString(msgNums) + RESET);
-        log.debug(YELLOW + "개수 " + msgNums.length + RESET);
+        log.debug(TeamColor.YELLOW + "번호: " + Arrays.toString(msgNums) + TeamColor.RESET);
+        log.debug(TeamColor.YELLOW + "개수 " + msgNums.length + TeamColor.RESET);
 
         int result = 0;
         for (String no : msgNums) {
             result = result + msgService.readMsg(empCode, no);
         }
 
-        log.debug(RED + "result: " + result + RESET);
+        log.debug(TeamColor.RED + "result: " + result + TeamColor.RESET);
 
         return result;
     }

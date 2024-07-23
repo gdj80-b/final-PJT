@@ -24,17 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MsgService {
     
-    final String YELLOW = "\u001B[33m\n";
-    final String RED = "\u001B[31m\n";
-    final String RESET = "\u001B[0m\n";
-    
     @Autowired MsgMapper msgMapper;
     
     @Autowired FileMapper fileMapper;
     
     @Autowired FileExtension fileExtension;
 
-    /* @author : 조인환
+    /* 
+     * @author : 조인환
      * @since : 2024. 07. 12.
      * Description : 모든 쪽지 리스트 호출
      */
@@ -49,7 +46,8 @@ public class MsgService {
         return msgMapper.selectMsgList(m);
     }
 
-    /* @author : 조인환
+    /* 
+     * @author : 조인환
      * @since : 2024. 07. 14
      * Description : 쪽지리스트 출력 페이징을 위한 매서드
      */
@@ -71,7 +69,8 @@ public class MsgService {
         return pagingMap;
     }
 
-    /* @author : 조인환 / 조인환, 정건희
+    /* 
+     * @author : 조인환 / 조인환, 정건희
      * @since : 2024. 07. 13. / 2024. 07. 16.(파일전송추가)
      * @Description : 쪽지보내기
      */
@@ -80,7 +79,7 @@ public class MsgService {
         MultipartFile mf = fileReqDTO.getGaFile();
         
         if (!fileReqDTO.getGaFile().isEmpty()) {
-            log.debug(RED + "파일이 있습니다!" + RESET);
+            log.debug(TeamColor.RED + "파일이 있습니다!" + TeamColor.RESET);
             String originalFilename = mf.getOriginalFilename();
             String fileType = mf.getContentType().toLowerCase();
             long fileSize = mf.getSize();
@@ -126,7 +125,11 @@ public class MsgService {
         return "empty";
     }
     
-    // 파일저장
+    /* 
+     * @author : 조인환
+     * @since : 2024. 07. 13.
+     * Description : v
+     */
     private String getFileExtension(String filename) {
         int lastIndex = filename.lastIndexOf('.');
         if (lastIndex == -1) {
@@ -135,7 +138,8 @@ public class MsgService {
         return filename.substring(lastIndex);
     }
 
-    /* @author : 조인환
+    /* 
+     * @author : 조인환
      * @since : 2024. 07. 13.
      * Description : Ajax를 이용해 메시지 상태 변경
      */
@@ -146,7 +150,8 @@ public class MsgService {
         return success;
     }
 
-    /* @author : 조인환
+    /*
+     *  @author : 조인환
      * @since : 2024. 07. 15
      * Description : 메시지 상세보기
      */
@@ -163,7 +168,8 @@ public class MsgService {
         return msgMapper.msgDetail(m);
     }
 
-    /* @author : 조인환
+    /*
+     *  @author : 조인환
      * @since : 2024. 07. 13.
      * Description : Ajax를 이용해 메시지 읽기 처리
      */
@@ -179,7 +185,8 @@ public class MsgService {
         return msgMapper.readMsg(m);
     }
 
-    /* @author : 조인환
+    /*
+     *  @author : 조인환
      * @since : 2024. 07. 14.
      * Description : Ajax를 이용해 안읽은 메시지 수 확인
      */
@@ -187,7 +194,8 @@ public class MsgService {
         return msgMapper.msgNotReadCnt(empCode);
     }    
     
-    /* @author : 조인환
+    /* 
+     * @author : 조인환
      * @since : 2024. 07. 17.
      * Description : 스케줄러를 이용해 메시지 delete
      */
@@ -195,7 +203,7 @@ public class MsgService {
     void eliminateMsg() {
         int deleteMsg = msgMapper.eliminateMsg();
         int deleteMsgFile = msgMapper.eliminateMsgFile();
-        log.debug(RED + "스케쥴러 이용 msg테이블 삭제처리 행 수 : " + deleteMsg + "msgFile테이블 삭제처리 행 수 : " + deleteMsgFile + RESET );
+        log.debug(TeamColor.RED + "스케쥴러 이용 msg테이블 삭제처리 행 수 : " + deleteMsg + "msgFile테이블 삭제처리 행 수 : " + deleteMsgFile + TeamColor.RESET );
        
     }
 }
