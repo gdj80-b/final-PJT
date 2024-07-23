@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.PaymentMapper">
 
+    <!-- 상품 구매시 입력 -->
     <insert id="payPrd" parameterType="map">
         INSERT INTO
             payment(
@@ -11,7 +12,7 @@
                pay_price,
                pay_time
                )
-            VALUES  (
+            VALUES (
                #{prodCode},
                #{empCode},
                #{payType},
@@ -20,7 +21,7 @@
             )
     </insert>
 
-
+    <!-- 구매이력조회 -->
     <select id="selectPaymentList" parameterType="String" resultType="com.ga.gaent.dto.PaymentDTO">
             SELECT
                 payment.prod_code prodCode,
@@ -33,19 +34,18 @@
                 payment
                 JOIN product
                 ON payment.prod_code = product.prod_code
-        
             WHERE
-            emp_code=#{empCode}
+                emp_code = #{empCode}
     </select>
     
-    
+    <!-- 구매이력 페이징  -->
     <select id="paymentCnt" parameterType="String" resultType="int">
             SELECT
                 COUNT(*)
             FROM
                 payment
             WHERE
-                emp_code=#{empCode}
+                emp_code = #{empCode}
     </select>
     
 
