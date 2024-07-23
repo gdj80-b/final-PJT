@@ -129,6 +129,25 @@ public class HRController {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 이메일(ID) 중복 검사
+     */
+    @GetMapping("/checkEmpId")
+    @ResponseBody
+    public String checkEmpId(@RequestParam(name = "empId") String empId) {
+        log.debug(TeamColor.PURPLE_BG + "empId: " + empId + TeamColor.RESET);
+        
+        String checkEmpId = hrService.checkEmpId(empId);
+        log.debug(TeamColor.PURPLE_BG + "checkEmpId: " + checkEmpId + TeamColor.RESET);
+        
+        if(empId.equals(checkEmpId)) {
+            return "이미 존재하는 아이디 입니다.";
+        }
+        return "사용가능한 아이디 입니다.";
+    }
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 22.
      * Description : 직원 등록 액션
      */

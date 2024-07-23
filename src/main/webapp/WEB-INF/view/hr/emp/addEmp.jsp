@@ -10,30 +10,11 @@
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
     <style>
-      .emp {
-        height: 50rem;
-        overflow-y: auto;
-      }
-    
-      .typeDraftThTag {
-        color: #fff !important;
-        background-color: rgba(105, 108, 255, 0.6) !important;
-        padding: 0.1rem !important;
-      }
-
-      .typeDraftTdTag {
-        background-color: rgba(255, 255, 255, 1) !important;
-      }
-
-      .typeDraftTdTag textarea {
-        resize: none;
-      }
-      
       .input-form-group {
         width: 54rem !important;
       }
       
-      .imgPreview {
+      .img-preview {
         width: 7.5rem;
         height: 10rem;
         background-color: #f0f0f0;
@@ -46,18 +27,18 @@
         cursor: pointer;
       }
       
-      .removeIngBtn input {
+      .remove-img-btn input {
         width: 7.5rem;
         height: 1.6rem;
       }
       
-      .imgPreview img {
+      .img-preview img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
       
-      .imgPreview span {
+      .img-preview span {
         cursor: pointer;
       }
     </style>
@@ -81,8 +62,8 @@
               <tr>
                 <th><label for="profile">사진</label></th>
                 <td colspan="2">
-                  <div class="imgPreview" id="imgPreview"><span>선택</span></div>
-                  <div class="removeIngBtn">
+                  <div class="img-preview" id="imgPreview"><span>선택</span></div>
+                  <div class="remove-img-btn">
                     <input class="form-control" type="file" id="profile" name="gaFile" style="display: none;">
                     <input class="btn btn-outline-secondary" id="removeImgBtn" value="삭제">
                   </div>
@@ -140,7 +121,8 @@
               </tr>
               <tr>
                 <th><label for="email">이메일(ID)</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="email" name="empId" placeholder="이메일을 입력해주세요."></td>
+                <td><input class="form-control" type="text" id="empId" name="empId" placeholder="이메일을 입력해주세요."></td>
+                <td><button id="checkEmpId" type="button" class="btn btn-secondary">중복검사</button></td>
               </tr>
               <tr>
                 <th><label for="password">비밀번호</label></th>
@@ -205,19 +187,18 @@
             </table>
             <br />
             <button type="submit" class="btn btn-outline-primary">등록</button>
-            <button onclick="" class="btn btn-outline-secondary">취소</button>
+            <button onclick="window.history.back()" class="btn btn-outline-secondary">취소</button>
           </form>
         </div>
         <!-- 작업 공간 끝 -->
       </div>
     </div>
     <!-- 중복 검사 모달 시작 -->
-    <div class="modal fade" id="checkEmpCodeModal" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="checkEmpModal" tabindex="-1" aria-hidden="true" style="display: none;">
       <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalCenterTitle">사원코드 중복검사</h5>
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            <h5 class="modal-title" id="modalCenterTitle">중복검사</h5>
           </div>
           <div id="checkResultMsg" class="modal-body"></div>
           <div class="modal-footer">
@@ -240,7 +221,7 @@
           data: formData,
           contentType: false,
           processData: false,
-          success: function(response){
+          success: function(data) {
             alert('성공');
             $('#empInputForm')[0].reset();
             window.location.href = '/gaent/hr/empDetail/' + empCode;
@@ -295,10 +276,31 @@
             data: {
               'empCode': checkEmpCode
             },
-            success: function(response){
-              $('#checkResultMsg').text(response);
+            success: function(data) {
+              $('#checkResultMsg').text(data);
               $('#checkEmpCodeModal').modal('show');
-              console.log(response);
+              console.log(data);
+            },
+            error: function(e){
+              alert(e);
+            }
+          });
+        });
+        
+        $('#checkEmpId').on('click', function() {
+            
+          let checkEmpId = $('#empId').val();
+            
+          $.ajax({
+            url: '/gaent/hr/checkEmpId',
+            type: 'GET',
+            data: {
+              'empId': checkEmpId
+            },
+            success: function(data) {
+              $('#checkResultMsg').text(data);
+              $('#checkEmpModal').modal('show');
+              console.log(data);
             },
             error: function(e){
               alert(e);

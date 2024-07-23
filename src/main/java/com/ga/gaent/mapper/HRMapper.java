@@ -41,6 +41,13 @@ public interface HRMapper {
     
     /*
      * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 이메일(ID) 중복 검사
+     */
+    public String checkEmpId(String empId);
+    
+    /*
+     * @author : 정건희
      * @since : 2024. 07. 19.
      * Description : 직원 등록
      */
