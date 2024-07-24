@@ -65,7 +65,7 @@
           <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="eventModalTitle">일정 상세</h5>
+                <h5 class="modal-title" id="eventModalTitle">일정상세</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -74,6 +74,7 @@
           		</div>
               </div>
               <div class="modal-footer">
+              	<button type="button" class="btn btn-primary" id="modifyEventBtn">수정</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
               </div>
             </div>
@@ -138,6 +139,23 @@
             </div>
           </div>
         </div>
+        
+        <!-- 수정 모달 -->
+<div class="modal fade" id="modifyEventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyEventModalTitle">일정수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modifyEventForm">
+                    <!-- 일정 수정을 위한 폼이 여기에 들어갑니다. -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- 부트스트랩 modal 부분 끝 -->
     </div>
 </body>
@@ -170,7 +188,6 @@
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-        //initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         editable: true, // 수정 가능?
         selectable: true, // 달력 일자 드래그 설정가능
@@ -191,6 +208,26 @@
           select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
             
             $('#addEventModal').modal('show');
+          
+         	// 클릭한 이벤트의 시작 날짜와 시간을 가져온다.
+            var eventStartDate = arg.start;
+
+            // 현재 시간을 가져온다.
+            var currentDate = new Date();
+
+            // 현재 시간에서 9시간 전의 시간을 구한다.
+            var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
+
+            // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
+            adjustedStartDate.setDate(eventStartDate.getDate());
+            adjustedStartDate.setMonth(eventStartDate.getMonth());
+            adjustedStartDate.setFullYear(eventStartDate.getFullYear());
+
+            // 날짜를 ISO 문자열로 변환하고 필요한 포맷(년-월-일 시간:분)으로 자른다.
+            var formattedStartDate = adjustedStartDate.toISOString().slice(0, 16);
+
+            // 입력 필드에 설정한다.
+            $('input[name="calStartDate"]').val(formattedStartDate);
             
             $('#saveEventBtn').on('click', function() {
                 
@@ -236,7 +273,7 @@
 
             $.ajax({
                 url: '/gaent/calendar/eventOne',
-                method: 'GET',
+                method: 'get',
                 data: {
                   calNum: info.event.id
                 },
@@ -245,6 +282,39 @@
                   $('#eventModal').modal('show');
                 }
               });
+            
+         // 이벤트 상세 모달에서 수정 버튼 클릭 시 처리
+            $('#modifyEventBtn').on('click', function() {
+             	// 일정상세 모달 닫기
+                $('#eventModal').modal('hide');
+                
+                // 현재 표시된 이벤트의 calNum 값 가져오기
+                var calNum = $('#eventDetails').find('.calNum').val(); // 예시에서는 .calNum이 해당 값을 가리키는 클래스로 가정합니다.
+
+                // 수정 모달에서 데이터를 동적으로 로드하기 위한 AJAX 요청
+                $.ajax({
+                    url: '/gaent/calendar/modifyEvent',
+                    method: 'get',
+                    data: {
+                        calNum: info.event.id
+                    },
+                    success: function(response) {
+                        $('#modifyEventForm').html(response); // 수정 폼에 데이터 채우기
+                        $('#modifyEventModal').modal('show'); // 수정 모달 표시
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('일정 상세 정보 가져오기 실패:', error);
+                        // 실패 처리 로직 추가
+                    }
+                });
+            });
+
+            // 수정 모달이 닫힐 때 초기화 및 후속 처리
+            $('#modifyEventModal').on('hidden.bs.modal', function() {
+                // 수정 폼 초기화 (옵션)
+                $('#modifyEventForm').empty();
+                // 추가적인 후속 처리 추가 가능
+            });
         }
       });
       calendar.render();		

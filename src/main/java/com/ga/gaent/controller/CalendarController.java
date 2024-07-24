@@ -26,7 +26,9 @@ public class CalendarController {
     @RequestMapping
     public String viewCalendar(Model model) {
         
+        // 일정타입 조회
         List<Map<String, Object>> eventType = calendarService.selectEventType();
+        // 일정분류 조회
         List<Map<String, Object>> eventTarget = calendarService.selectEventTarget();
         
         model.addAttribute("eventType", eventType);
@@ -93,7 +95,21 @@ public class CalendarController {
         }
     }
     
-    // 일정수정
+    // 일정수정 폼
+    @GetMapping("/modifyEvent")
+    public String modifyEvent(Model model, int calNum) {
+        
+        List<String> eventOne = calendarService.selectEventOne(calNum);
+        // 일정분류 조회
+        List<Map<String, Object>> eventTarget = calendarService.selectEventTarget();
+        
+        model.addAttribute("eventOne", eventOne);
+        model.addAttribute("eventTarget", eventTarget);
+        
+        return "calendar/modifyEvent";
+    }
+    
+    // 일정수정 액션
     @PostMapping("/modifyEvent")
     public String modifyEvent(CalendarVO calendar) {
         

@@ -16,9 +16,9 @@
             cal_update_date
             )
         VALUES(
+            #{calWriter},
             #{calType},
             #{calTargetType},
-            #{calWriter},
             #{calTitle},
             #{calContent},
             #{calStartDate},
@@ -80,7 +80,7 @@
             cal_num = ${calNum}
     </delete>
     
-    <!-- 일정삭제 -->
+    <!-- 일정수정 -->
     <update id="updateEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         UPDATE
             calendar
