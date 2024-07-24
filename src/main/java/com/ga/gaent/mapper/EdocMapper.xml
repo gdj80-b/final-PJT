@@ -42,34 +42,32 @@
             edoc.edoc_type edocType,
             edoc.edoc_status edocStatus,
             edoc.edoc_title edocTitle,
+            DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
             etype.edoc_form_title edocFormTitle,
             edoc.file_name fileName,
             emp.emp_code writerEmpCode,
             emp.emp_kor_name korName
         FROM 
             edoc
-            JOIN emp
-                ON edoc_writer = emp_code
-            JOIN edoc_approval app
-                ON app.edoc_num = edoc.edoc_num
-            JOIN edoc_form_type etype
-                ON edoc.edoc_type = etype.edoc_type
+                JOIN emp ON edoc_writer = emp_code
+                JOIN edoc_approval app ON app.edoc_num = edoc.edoc_num
+                JOIN edoc_form_type etype ON edoc.edoc_type = etype.edoc_type
         WHERE 
         	app.approver = #{empCode}
         <choose>
             <when test="request == 0">  <!--  결재 대기문서 -->
                 AND edoc.edoc_done_date IS NULL
-                AND edoc.edoc_status = '0' 
+                AND app.appr_status = '0'
             </when>
             <when test="request == 1"> <!-- 결재 진행문서 -->
                 AND edoc.edoc_done_date IS NULL
                 AND edoc.edoc_status != '0'
+                AND app.appr_status != '0'
             </when>
             <when test="request == 2"> <!-- 본인이 결재한 문서 -->
-                AND app.appr_status != '0' 
+                AND app.appr_status != '0'
             </when>
         </choose>
-            
         ORDER BY
             edoc.edoc_enroll_date DESC,
             edoc.edoc_num DESC
@@ -84,25 +82,26 @@
             COUNT(*)
         FROM 
             edoc
-            JOIN emp
-                ON edoc_writer = emp_code
-            JOIN edoc_approval app
-                ON app.edoc_num = edoc.edoc_num
-            JOIN edoc_form_type etype
-                ON edoc.edoc_type = etype.edoc_type
+                JOIN emp
+                    ON edoc_writer = emp_code
+                JOIN edoc_approval app
+                    ON app.edoc_num = edoc.edoc_num
+                JOIN edoc_form_type etype
+                    ON edoc.edoc_type = etype.edoc_type
         WHERE 
-            app.approver = #{empCode}
+        	app.approver = #{empCode}
         <choose>
             <when test="request == 0">  <!--  결재 대기문서 -->
                 AND edoc.edoc_done_date IS NULL
-                AND edoc.edoc_status = '0' 
+                AND app.appr_status = '0'
             </when>
             <when test="request == 1"> <!-- 결재 진행문서 -->
                 AND edoc.edoc_done_date IS NULL
                 AND edoc.edoc_status != '0'
+                AND app.appr_status != '0'
             </when>
             <when test="request == 2"> <!-- 본인이 결재한 문서 -->
-                AND app.appr_status != '0' 
+                AND app.appr_status != '0'
             </when>
         </choose>
     </select>
@@ -119,6 +118,7 @@
             edoc.edoc_status edocStatus,
             edoc.edoc_title edocTitle,
             edoc.edoc_type edocType,
+            edoc.edoc_done_date edocDoneDate,
             edoc.file_name edocFileName,
             etype.edoc_form_title edocFormTitle,
             edoc.file_name fileName,
@@ -137,18 +137,18 @@
             DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
         FROM
             edoc
-        JOIN emp
-            ON edoc_writer = emp_code
-        JOIN team
-            ON emp.team_code = team.team_code
-        JOIN edoc_form_type etype
-            ON edoc.edoc_type = etype.edoc_type
-        JOIN edoc_approval appr1
-            ON edoc.edoc_num = appr1.edoc_num
-                AND appr1.appr_order = '1'
-        JOIN edoc_approval appr2
-            ON edoc.edoc_num = appr2.edoc_num
-                AND appr2.appr_order = '2'
+                JOIN emp
+                    ON edoc_writer = emp_code
+                JOIN team
+                    ON emp.team_code = team.team_code
+                JOIN edoc_form_type etype
+                    ON edoc.edoc_type = etype.edoc_type
+                JOIN edoc_approval appr1
+                    ON edoc.edoc_num = appr1.edoc_num
+                        AND appr1.appr_order = '1'
+                JOIN edoc_approval appr2
+                    ON edoc.edoc_num = appr2.edoc_num
+                        AND appr2.appr_order = '2'
         WHERE
            edoc.edoc_num = #{edocNum} AND
         ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
@@ -171,8 +171,8 @@
              edoc.edoc_type edocType,
              etype.edoc_form_title edocTypeName,
              edoc.file_name edocFileName,
-             edoc.edoc_done_date edocDoneDate,
-             edoc.edoc_enroll_date edocEnrollDate,
+             DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
+             DATE_FORMAT(edoc.edoc_enroll_date, '%Y년 %m월 %d일') edocEnrollDate,
              edoc.edoc_status edocStatus
         FROM
             edoc
@@ -182,17 +182,18 @@
             edoc.edoc_writer = #{empCode} 
             <choose>
                 <when test="request == 0">  <!-- 결재대기문서 -->
+                    AND edoc.edoc_done_date IS NULL
                 </when>
-                <when test="request == 1"> <!-- 결재진행문서 -->
+                <when test="request == 1"> <!-- 결재승인문서 -->
+                    AND edoc.edoc_done_date IS NOT NULL
                     AND(
                     edoc.edoc_status = '1' OR
                     edoc.edoc_status = '2'
                     )
                 </when>
-                <when test="request == 2"> <!-- 결재완료문서 -->
+                <when test="request == 2"> <!-- 결재반려문서 -->
                     AND(
-                    edoc.edoc_status = '-1' OR
-                    edoc.edoc_status = '-2'
+                    edoc.edoc_status = '-1'
                     )
                 </when>
             </choose>

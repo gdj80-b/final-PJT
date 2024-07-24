@@ -32,11 +32,15 @@
                                     <th>결재양식</th>
                                     <th>제목</th>
                                     <th>첨부</th>
-                                    <th>문서번호</th>
                                     <th>결재상태</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                <c:if test="${empty list}">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center">문서가 없습니다</td>
+                                    </tr>
+                                </c:if>
                                 <!-- 문서 조회 반복문 영역 -->
                                 <c:forEach items="${list}" var="el">
                                     <tr onclick="location.href='/gaent/edocDetail/${el.edocType}/${el.edocNum}'" style="cursor: pointer;">
@@ -51,8 +55,16 @@
                                                 <td><span class="fw-medium d-flex align-items-center"><i class="tf-icon bx bx-file"></i></span></td>
                                             </c:otherwise>
                                         </c:choose>
-                                        <td><span class="fw-medium">${el.edocNum}</span></td>
-                                        <td><span class="fw-medium">${el.edocStatus}</span></td>
+                                        <td class="fw-medium">
+                                            <c:choose>
+                                                <c:when test="${el.edocStatus == '0' }">
+                                                    <span class="badge bg-label-info fs-6">대기</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="badge bg-label-warning fs-6">진행중</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

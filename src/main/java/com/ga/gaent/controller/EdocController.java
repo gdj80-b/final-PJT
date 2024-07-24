@@ -292,12 +292,4 @@ public class EdocController {
         model.addAttribute("list",list);
         return "edoc/edocPersonal/reject";
     }
-    
-    
-    
-    
-    @GetMapping("/a/test")
-    public String aa() {
-        return "redirect:/approval/draft";
-    }
 }

@@ -22,7 +22,7 @@
         <div id="workspace-area" class="subsidebar-from-workspace">
             <div class="card" style="height:40rem; overflow-x: hidden; overflow-y: auto;">
                     <h1 class="card-title m-2">
-                        <span class="display-6 fw-semibold mb-0">대기 문서함</span>
+                        <span class="display-6 fw-semibold mb-0">승인 문서함</span>
                     </h1>
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
@@ -32,11 +32,15 @@
                                     <th>결재양식</th>
                                     <th>제목</th>
                                     <th>첨부</th>
-                                    <th>문서번호</th>
-                                    <th>결재상태</th>
+                                    <th>최종승인날짜</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                <c:if test="${empty list}">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center">문서가 없습니다</td>
+                                    </tr>
+                                </c:if>
                                 <!-- 문서 조회 반복문 영역 -->
                                 <c:forEach items="${list}" var="el">
                                     <tr onclick="location.href='/gaent/edocDetail/${el.edocType}/${el.edocNum}'" style="cursor: pointer;">
@@ -51,8 +55,7 @@
                                                 <td><span class="fw-medium d-flex align-items-center"><i class="tf-icon bx bx-file"></i></span></td>
                                             </c:otherwise>
                                         </c:choose>
-                                        <td><span class="fw-medium">${el.edocNum}</span></td>
-                                        <td><span class="fw-medium">${el.edocStatus}</span></td>
+                                        <td><span class="fw-medium">${el.edocDoneDate}</span></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

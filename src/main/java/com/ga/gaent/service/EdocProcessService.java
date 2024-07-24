@@ -106,7 +106,11 @@ public class EdocProcessService {
     
 
     
-    //  결재,반려처리
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 19.
+     * Description : 결재 상태 승인,반려 처리
+     */ 
     public int updateEdocProcess(int empCode,String edocNum,String apprReason, int request) {
         
         String requestEnum =  String.valueOf(request);
@@ -122,11 +126,30 @@ public class EdocProcessService {
             map.put("apprStatus", "1" );
         }
         
+        // 승인을 처리하려 할 때 작동
+        // 결재자가 승인 처리를 하면 첫 번째 if문으로 넘어감
+        // 결재자가 반려 처리를 하면 첫 번째 if else로 넘어감
+        
+        // select로 edoc의 상태를 확인
+        String status = edocProcessMapper.checkEdocStatus(edocNum);        
+        log.debug(TeamColor.YELLOW + "status : " + status + TeamColor.RESET);
+        
+        // 이미 누군가가 승인처리를 했으면 그다음 결재자는 최종결재자이므로 donDate를 삽입          
+        if(status.equals("1")||status.equals("2") ){ // 두번째 if문
+            // 승인으로 업데이트
+            int s3 = edocProcessMapper.updateEdocStatusSecond(map);
+            log.debug(TeamColor.YELLOW + "두번째 결재" + s3 + TeamColor.RESET);
+        }else {
+            int s2 = edocProcessMapper.updateEdocStatusFirst(map);
+            log.debug(TeamColor.YELLOW + "첫번째 결제" + s2 + TeamColor.RESET);
+        }
+       
+        
+        
         int s1 = edocProcessMapper.updateEdocApprovalStatus(map); // 결재선테이블
         log.debug(TeamColor.YELLOW + "결재선" + s1 + TeamColor.RESET);
         
-        int s2 = edocProcessMapper.updateEdocStatus(map); // 전자문서공통테이블
-        log.debug(TeamColor.YELLOW + "공통" + s2 + TeamColor.RESET);
+        
         return 1;
     }
     

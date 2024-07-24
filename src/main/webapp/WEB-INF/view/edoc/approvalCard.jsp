@@ -15,13 +15,13 @@
                     <div class="card card-size me-3">
                         <div class="card-header-edoc">
                             <c:choose>
-                                <c:when test="${el.edocStatus == 0}">
+                                <c:when test="${el.edocStatus == '0'}">
                                     <span class="badge bg-label-primary">대기</span>
                                 </c:when>
-                                <c:when test="${el.edocStatus == 1}">
+                                <c:when test="${el.edocDoneDate == null}">
                                     <span class="badge bg-label-primary">진행</span>
                                 </c:when>
-                                <c:when test="${el.edocStatus == 2}">
+                                <c:when test="${el.edocStatus == '-1'}">
                                     <span class="badge bg-label-primary">반려</span>
                                 </c:when>
                                 <c:otherwise>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="card-body-edoc text-center">
-                            <a href="/gaent/edocDetail/${el.edocNum}">
+                            <a href="/gaent/edocDetail/${el.edocType}/${el.edocNum}">
                                 <button class="btn btn-outline-primary btn-sm">결재하기</button>
                             </a>
                         </div>

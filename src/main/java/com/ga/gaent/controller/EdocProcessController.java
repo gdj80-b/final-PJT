@@ -47,7 +47,11 @@ public class EdocProcessController {
     }
     
 
-    // 결재,반려처리
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 19.
+     * Description : 결재 상태 승인,반려 처리
+     */ 
     @PostMapping("/edoc/updateEdocProcess")
     @ResponseBody
     public int updateEdocProcess(

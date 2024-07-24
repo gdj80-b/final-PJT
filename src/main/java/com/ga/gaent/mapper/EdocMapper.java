@@ -10,9 +10,7 @@ import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
 
 @Mapper
-public interface EdocMapper {
-
-    
+public interface EdocMapper {    
     /*
      * @author : 정건희
      * @since : 2024. 07. 16.
@@ -41,31 +39,54 @@ public interface EdocMapper {
      */
     List<EmpVO> selectApprover();
     
-    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 전자결재 문서 공통 사항 상세 조회
+     */
+    Map<String, Object> selectEdocDetail(Map<String, Object> m);
+
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 기안서 상세 조회
+     */
+    Map<String,Object>selectDraftDetail(int edocNum);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 휴가신청서 상세 조회
+     */
+    Map<String,Object>selectVactionDetail(int edocNum);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 프로젝트 지출 경비서 상세 조회
+     */
+    Map<String,Object>selectProjectDetail(int edocNum);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 경조사 지출 결의서 상세 조회
+     */
+    Map<String,Object>selectEventDetail(int edocNum);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 보고서 상세 조회
+     */
+    Map<String,Object>selectReportDetail(int edocNum);
     
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
-     * Description : 전자결재 문서 상세 조회
+     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
      */
-    Map<String, Object> selectEdocDetail(Map<String, Object> m);
-        
-    
-    // 기안서 디테일
-    Map<String,Object>selectDraftDetail(int edocNum);
-    // 휴가 디테일
-    Map<String,Object>selectVactionDetail(int edocNum);
-    // 지출결의서 디테일
-    Map<String,Object>selectProjectDetail(int edocNum);
-    // 경조사 디테일
-    Map<String,Object>selectEventDetail(int edocNum);
-    // 보고서 디테일
-    Map<String,Object>selectReportDetail(int edocNum);
-      
-    
-    
-    // 본인이 작성한 문서
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
-    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : empCode에 해당하는 한글 이름 조회
+     */
     String findKorName(String empCode);
 }
