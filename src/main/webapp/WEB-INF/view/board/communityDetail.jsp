@@ -15,7 +15,7 @@
       }
       
       .board-detail {
-        width: 46rem;
+        width: 36rem;
         height: 40rem;
       }
       
@@ -37,27 +37,27 @@
       <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="board-detail-area d-flex flex-column align-items-center justify-content-center">
           <div class="mb-5">
-            <span class="display-5 fw-semibold mb-0">공지사항</span>
+            <span class="display-5 fw-semibold mb-0">자유게시판</span>
           </div>
           <div>
             <div class="card board-detail">
               <div class="px-4 pt-4 d-flex align-items-start">
                 <label class="me-2">제목 :</label>
-                <h3>${boardDetail.noticeTitle}</h3>
+                <h3>${boardDetail.commTitle}</h3>
               </div>
               <hr>
               <div class="px-4 d-flex justify-content-between">
                 <div class="d-flex align-items-center">
                   <label class="me-2">작성자 :</label>
-                  <span>${boardDetail.noticeWriter}</span>
+                  <span>${boardDetail.commWriter}</span>
                 </div>
                 <div>
-                  <span>${boardDetail.noticeCreateDate}</span>
+                  <span>${boardDetail.commCreateDate}</span>
                 </div>
               </div>
               <hr>
               <div class="px-4 py-2">
-                <div class="board-content">${boardDetail.noticeContent}</div>
+                <div class="board-content">${boardDetail.commContent}</div>
               </div>
             </div>
           </div>
