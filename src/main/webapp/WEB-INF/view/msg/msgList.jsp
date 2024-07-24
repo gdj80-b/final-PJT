@@ -43,7 +43,7 @@
             <h2 class="card-title" style="margin: 50px 0px 0px 30px">전체쪽지함</h2>
             <div class="card-body">
                 <div class="care-body" style="height: 700px;">
-                    <table class="table table-striped table-bordered ">
+                    <table class="table table-bordered ">
                         <thead>
                             <tr>
                                 <th colspan="2" class="align-middle fs-6" >전체 : ${pg.lastRow}개</th>
