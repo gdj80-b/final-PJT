@@ -506,7 +506,6 @@
     <script>
       $('#empInputForm').submit(function(e) {
         e.preventDefault();
-        
         let formData = new FormData($('#empInputForm')[0]);
         let empCode = $('#empCode').val();
         

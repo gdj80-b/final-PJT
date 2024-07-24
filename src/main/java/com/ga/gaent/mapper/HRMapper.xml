@@ -92,6 +92,26 @@
             e.emp_code = #{empCode}
     </select>
     
+    <!-- 사원코드 중복 검사 -->
+    <select id="checkEmpCode" parameterType="String">
+        SELECT
+            emp_code
+        FROM
+            emp
+        WHERE
+            emp_code = #{empCode}
+    </select>
+    
+    <!-- 이메일(ID) 중복 검사 -->
+    <select id="checkEmpId" parameterType="String">
+        SELECT
+            emp_id
+        FROM
+            emp
+        WHERE
+            emp_id = #{empId}
+    </select>
+    
     <!-- 직원 등록 -->
     <insert id="insertEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
         INSERT INTO
