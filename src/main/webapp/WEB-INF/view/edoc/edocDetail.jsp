@@ -127,12 +127,25 @@
                                         <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                                             <tbody>
                                                 <tr>
-                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">1 차</th>
                                                     <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
                                                 </tr>
                                                 <tr>
-                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver1}</td>
-                                                </tr>
+                                                <td id="edocKorName" class="small text-center d-flex flex-column align-items-center">
+                                                <div>
+                                                    <c:choose>
+                                                        <c:when test="${edocDetail.apprStatus1 == '1' }">
+                                                        <i class='bx bx-md bx-check-shield' style="color: #00b300"></i>
+                                                        </c:when>
+                                                        <c:when test="${edocDetail.apprStatus1 == '-1' }">
+                                                        <i class='bx bx-md bx-registered' style="color: #b00"></i>
+                                                        </c:when>
+                                                        <c:otherwise><span>&nbsp;</span></c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <div>${edocDetail.approverName1}</div> 
+                                                </td>
+                                            </tr>
                                                 <tr>
                                                     <td id="edocApprovalDate" class="small text-center approverTdTag">
                                                         ${edocDetail.apprDate1 == null ? '결재일' :edocDetail.apprDate1 }
@@ -148,11 +161,26 @@
                                     <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                                         <tbody>
                                             <tr>
-                                                <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">2 차</th>
                                                 <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
                                             </tr>
                                             <tr>
-                                                <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
+                                                <td id="edocKorName" class="small text-center d-flex flex-column align-items-center">
+                                                <div>
+                                                    <c:choose>
+                                                        <c:when test="${edocDetail.apprStatus2 == '1' }">
+                                                        <i class='bx bx-md bx-check-shield' style="color: #00b300"></i>
+                                                        </c:when>
+                                                        <c:when test="${edocDetail.apprStatus2 == '-1' }">
+                                                        <i class='bx bx-md bx-registered' style="color: #b00"></i>
+                                                        </c:when>
+                                                        <c:otherwise><span>&nbsp;</span></c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <div>${edocDetail.approverName2}</div>
+                                                
+                                                </td>
+                                                
                                             </tr>
                                             <tr>
                                                 <td id="edocApprovalDate" class="small text-center approverTdTag">
@@ -239,37 +267,54 @@
 <script>
 $(document).ready(function() {
     // 1차 승인자인 경우
-    if (${loginInfo.empCode == edocDetail.approverCode1}) {
+    if (${loginInfo.empCode == edocDetail.approver1}) {
         console.log('1차승인자입니다');
         $('#approveBtn').click(function() {
-            $('#approvalModalLabel').text('결재하기');
-            $('#modalInBtn').text('승인');
-            $('#approvalForm').data('request', 1); // request 값 설정
-            $('#approvalModal').modal('show');
+			if(edocDetail.apprStatus1!= 0){
+                alert('이미 결재하신 문서입니다');
+			}else{
+        		$('#approvalModalLabel').text('결재하기');
+                $('#modalInBtn').text('승인');
+                $('#approvalForm').data('request', 1); // request 값 설정
+                $('#approvalModal').modal('show');
+			}
         });
 
         $('#rejectBtn').click(function() {
-            $('#approvalModalLabel').text('반려하기');
-            $('#modalInBtn').text('반려');
-            $('#approvalForm').data('request', -1); // request 값 설정
-            $('#approvalModal').modal('show');
+            if(edocDetail.apprStatus1!= 0){
+                alert('이미 결재하신 문서입니다');
+			}else{
+    			$('#approvalModalLabel').text('반려하기');
+                $('#modalInBtn').text('반려');
+                $('#approvalForm').data('request', -1); // request 값 설정
+                $('#approvalModal').modal('show');
+			};
         });
     } 
     // 2차 승인자인 경우
-    else if (${loginInfo.empCode == edocDetail.approverCode2}) {
+    else if (${loginInfo.empCode == edocDetail.approver2}) {
         console.log('2차승인자입니다');
         $('#approveBtn').click(function() {
-            $('#approvalModalLabel').text('결재하기');
-            $('#modalInBtn').text('승인');
-            $('#approvalForm').data('request', 2); // request 값 설정
-            $('#approvalModal').modal('show');
+            if( ${edocDetail.apprStatus2}!= 0){
+                alert('이미 결재하신 문서입니다');
+			}else{
+    			$('#approvalModalLabel').text('결재하기');
+                $('#modalInBtn').text('승인');
+                $('#approvalForm').data('request', 2); // request 값 설정
+                $('#approvalModal').modal('show');	
+			};
         });
 
         $('#rejectBtn').click(function() {
-            $('#approvalModalLabel').text('반려하기');
-            $('#modalInBtn').text('반려');
-            $('#approvalForm').data('request', -1); // request 값 설정
-            $('#approvalModal').modal('show');
+            if(${edocDetail.apprStatus2}!= 0){
+                alert('이미 결재하신 문서입니다');
+			}else{
+                $('#approvalModalLabel').text('반려하기');
+                $('#modalInBtn').text('반려');
+                $('#approvalForm').data('request', -1); // request 값 설정
+                $('#approvalModal').modal('show');
+			}
+            
         });
     }
 

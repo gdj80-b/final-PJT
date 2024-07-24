@@ -46,9 +46,9 @@
                             </c:if>
                             <!-- 문서 조회 반복문 영역 -->
                             <c:forEach items="${list}" var="el">
-                                <tr>
+                                <tr onclick="location.href='/gaent/edocDetail/${el.edocType}/${el.edocNum}'" style="cursor: pointer;">
                                     <td><span class="fw-medium">${el.edocEnrollDate}</span></td>
-                                    <td><a href="/gaent/edocDetail/${el.edocNum}"><span class="fw-medium">${el.edocFormTitle}</span></a></td>
+                                    <td><span class="fw-medium">${el.edocFormTitle}</span></td>
                                     <td><span class="fw-medium">${el.edocTitle}</span></td>
                                     <c:choose>
                                         <c:when test="${el.fileName == null}">

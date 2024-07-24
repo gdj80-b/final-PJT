@@ -32,80 +32,6 @@
     </select>
 
     <!--
-        @author : 정건희,조인환
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
-    -->
-    <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
-        INSERT INTO
-            edoc(
-                edoc_title,
-                edoc_type,
-                edoc_writer,
-                edoc_enroll_date
-            ) VALUES(
-                #{edocTitle},
-                #{edocType},
-                #{edocWriter},
-                NOW()
-            )
-    </insert>
-
-    <!--
-        @author : 정건희
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 첨부파일의 정보
-    -->
-    <insert id="insertEdocFile" parameterType="Map">
-        INSERT INTO
-            edoc_file(
-                file_name,
-                original_file_name,
-                file_type,
-                file_size,
-            ) VALUES(
-                #{fileName},
-                #{orginalFileName},
-                #{fileType},
-                #{fileSize}
-            )
-    </insert>
-
-    <!--
-        @author : 정건희
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 기안서 양식의 정보
-    -->
-    <insert id="insertEdocDraft" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_draft(
-                edoc_num,
-                prop_start_date,
-                prop_end_date,
-                prop_content
-            ) VALUES(
-                #{edocNum},
-                #{propStartDate},
-                #{propEndDate},
-                #{propContent}
-            )
-    </insert>
-
-    <!--
-        @author : 정건희
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 결재선(1차, 2차)의 정보
-    -->
-    <insert id="insertApprover" parameterType="Map">
-        INSERT INTO
-            edoc_approval(
-                edoc_num,
-                approver,
-                appr_order
-            ) VALUES(
-                #{edocNum},
-                #{approver},
-                #{apprOrder}
-            )
-    </insert>
-
-    <!--
         @author : 조인환
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 정보
     -->
@@ -203,12 +129,12 @@
             appr1.appr_order apprOrder1,
             appr1.appr_status apprStatus1,
             appr1.appr_reason apprReason1,
-            appr1.appr_date apprDate1,
+            DATE_FORMAT(appr1.appr_date, '%Y.%m.%d') apprDate1,
             appr2.approver approver2,
             appr2.appr_order apprOrder2,
             appr2.appr_status apprStatus2,
             appr2.appr_reason apprReason2,
-            appr2.appr_date apprDate2
+            DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
         FROM
             edoc
         JOIN emp
@@ -225,7 +151,7 @@
                 AND appr2.appr_order = '2'
         WHERE
            edoc.edoc_num = #{edocNum} AND
-        ( appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
+        ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
     </select>
 
 
@@ -236,114 +162,14 @@
 
 
 
-
-     <!-- 휴가신청서  -->
-    <insert id="insertEdocVacation" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_vacation(
-                edoc_num,
-                vac_type,
-                vac_start_date,
-                vac_end_date,
-                vac_reason
-            ) VALUES(
-                #{edocNum},
-                #{vacType},
-                #{vacStartDate},
-                #{vacEndDate},
-                #{vacReason}
-            )
-    </insert>
-    
-    <!-- 지출결의서  -->
-    <insert id="insertEdocProject" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_project(
-                edoc_num,
-                project_content,
-                project_estimate
-            ) VALUES(
-                #{edocNum},
-                #{projectContent},
-                #{projectEstimate}
-            )
-    </insert>
-    
-    <!-- 경조사  -->
-    <insert id="insertEdocEvent" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_event(
-                edoc_num,
-                event_type,
-                event_date,
-                event_place,
-                event_expense
-            ) VALUES(
-                #{edocNum},
-                #{eventType},
-                #{eventDate},
-                #{eventPlace},
-                #{eventExpense}
-            )
-    </insert>
-
-    <!-- 보고서  -->
-    <insert id="insertEdocReport" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
-        INSERT INTO
-            edoc_report(
-                edoc_num,
-                report_type,
-                report_content
-                ) 
-            VALUES(
-                #{edocNum},
-                #{reportType},
-                #{reportContent}
-                )
-    </insert>
-
-    
-    <!-- 결재, 반려처리 -->
-    <!-- 결재선 -->
-    <update id="updateEdocApprovalStatus" parameterType="map">
-        UPDATE 
-            edoc_approval
-        SET 
-            appr_reason = #{apprReason},
-            appr_status = #{apprStatus},
-            appr_date = NOW()
-        WHERE 
-            edoc_num = #{edocNum} AND
-            approver = #{empCode}
-    </update>
-    
-    
-   
-           
-    <!-- 공통 -->
-    <update id="updateEdocStatus" parameterType="map">
-        UPDATE  
-            edoc
-        <set>
-            edoc_status = #{request},
-            <if test="request == -1">
-                edoc_done_date = NOW(),
-            </if>
-            edoc_enroll_date = NOW()
-        </set>
-        WHERE 
-            edoc_num = #{edocNum} 
-    </update>
-    
-    
-
     
     <!-- 내 결재 대기,진행,완료문서   -->
     <select id="selectMyEdocSubmitList" parameterType="map" resultType="com.ga.gaent.vo.EdocVO">
         SELECT 
              edoc.edoc_num edocNum,
              edoc.edoc_title edocTitle,
-             etype.edoc_form_title edocType,
+             edoc.edoc_type edocType,
+             etype.edoc_form_title edocTypeName,
              edoc.file_name edocFileName,
              edoc.edoc_done_date edocDoneDate,
              edoc.edoc_enroll_date edocEnrollDate,
@@ -378,8 +204,8 @@
     
     <select id="selectDraftDetail" parameterType="int" resultType="map" >
         SELECT 
-            prop_start_date propStartDate,
-            prop_end_date propEndDate,
+            DATE_FORMAT(prop_start_date,'%Y년 %m월 %d일') propStartDate,
+            DATE_FORMAT(prop_end_date,'%Y년 %m월 %d일') propEndDate,
             prop_title propTitle,
             prop_content propContent
         FROM 
@@ -390,24 +216,43 @@
     <select id="selectVactionDetail" parameterType="int" resultType="map" >
         SELECT
             vac_type vacType,
-            vac_start_date vacStartDate,
-            vac_end_date vacEndDate,
+            DATE_FORMAT(vac_start_date,'%Y년 %m월 %d일') vacStartDate,
+            DATE_FORMAT(vac_end_date,'%Y년 %m월 %d일') vacEndDate,
             vac_reason vacReason
         FROM
             edoc_vacation
-        WHERE edoc_num = #{edocNum}
+        WHERE 
+            edoc_num = #{edocNum}
+        
     </select>
     <select id="selectProjectDetail" parameterType="int" resultType="map" >
-    
-    
+        SELECT
+            project_content projectContent,
+            project_estimate projectExtimate
+        FROM
+            edoc_project
+        WHERE
+            edoc_num = #{edocNum}
     </select>
     <select id="selectEventDetail" parameterType="int" resultType="map" >
-    
-    
+        SELECT
+            event_type eventType,
+            DATE_FORMAT(event_date,'%Y년 %m월 %d일') eventDate,
+            event_place eventPlace,
+            event_expense eventExpense
+        FROM
+            edoc_event
+        WHERE
+            edoc_num = #{edocNum}
     </select>
     <select id="selectReportDetail" parameterType="int" resultType="map" >
-    
-    
+        SELECT
+            report_type reportType,
+            report_content reportContent
+        FROM
+            edoc_report
+        WHERE
+            edoc_num = #{edocNum}
     </select>
     
     
