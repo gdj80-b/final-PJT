@@ -17,7 +17,25 @@ pageEncoding="UTF-8"%>
         </a>
       </li>
       <li class="menu-item">
-          
+	  	<span>일정선택</span>
+          <div class="list-group">
+            <label class="list-group-item">
+              <input class="form-check-input me-1" type="checkbox" value="">
+              개인일정
+            </label>
+            <label class="list-group-item">
+              <input class="form-check-input me-1" type="checkbox" value="">
+              팀일정
+            </label>
+            <label class="list-group-item">
+              <input class="form-check-input me-1" type="checkbox" value="">
+              전사일정
+            </label>
+            <label class="list-group-item">
+              <input class="form-check-input me-1" type="checkbox" value="">
+              아티스트일정
+            </label>
+      	</div>
       </li>
     </ul>
   </aside>
