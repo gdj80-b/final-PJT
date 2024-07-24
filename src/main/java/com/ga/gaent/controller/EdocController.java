@@ -132,35 +132,6 @@ public class EdocController {
         return "edoc/edocApprover";
     }
     
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 12.
-     * Description : 전자결재 데이터 입력
-     */
-    @PostMapping("/approver/edoc")
-    public String approvalRequest(
-            EdocRequestDTO edocRequestDTO,
-            EdocFormTypeDTO edocFormTypeDTO,
-            RedirectAttributes redirectAttributes) {
-        
-        int result = edocService.insertEdoc(edocRequestDTO, edocFormTypeDTO);
-        int edocFileResult = -1;
-        
-        if(edocRequestDTO.getFileName() != null) {
-            edocFileResult = edocService.insertEdocFile(edocRequestDTO);
-        }
-        
-        String fail = "결재 요청에 실패하셨습니다.";
-        String pass = "결재 요청에 성공하셨습니다.";
-        
-        if(result != 1) {
-            redirectAttributes.addFlashAttribute("message", fail);
-            return "redirect:edoc/approval";
-        }
-        
-        redirectAttributes.addFlashAttribute("message", pass);
-        return "redirect:/approval/wait";
-    }
     
     /*
      * @author : 정건희
@@ -216,7 +187,7 @@ public class EdocController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 23.
-     * Description : 결재진행문서 리스트 조회
+     * Description : 결재완료문서 리스트 조회
      */
     @GetMapping("/approval/apprHistory")
     public String getApprHistory(
@@ -264,10 +235,10 @@ public class EdocController {
             formDetail = edocService.selectReportDetail(edocNum);
         }
         
-        
-       
-        
-        
+        if(edocDetail == null || formDetail == null ) {
+            
+            return "edoc/false";
+        }
         
         model.addAttribute("formDetail", formDetail);
         model.addAttribute("edocDetail", edocDetail);
@@ -322,22 +293,6 @@ public class EdocController {
         return "edoc/edocPersonal/reject";
     }
     
-    // 결재,반려처리
-    @PostMapping("/edoc/updateEdocProcess")
-    @ResponseBody
-    public int updateEdocProcess(
-            @RequestParam(name = "empCode") int empCode,
-            @RequestParam(name = "edocNum") String edocNum,
-            @RequestParam(name = "apprReason", defaultValue = "") String apprReason,
-            @RequestParam(name = "request") Integer request
-            ) {
-        System.out.println("승인들어옴");
-        System.out.println("request: " + request);
-        
-        edocService.updateEdocProcess(empCode,edocNum,apprReason,request);
-        
-        return 1;
-    }
     
     
     

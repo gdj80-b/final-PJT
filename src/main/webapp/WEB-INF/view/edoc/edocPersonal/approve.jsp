@@ -39,9 +39,9 @@
                             <tbody class="table-border-bottom-0">
                                 <!-- 문서 조회 반복문 영역 -->
                                 <c:forEach items="${list}" var="el">
-                                    <tr>
+                                    <tr onclick="location.href='/gaent/edocDetail/${el.edocType}/${el.edocNum}'" style="cursor: pointer;">
                                         <td><span class="fw-medium">${el.edocEnrollDate}</span></td>
-                                        <td><span class="fw-medium">${el.edocType}</span></td>
+                                        <td><span class="fw-medium">${el.edocTypeName}</span></td>
                                         <td><span class="fw-medium">${el.edocTitle}</span></td>
                                         <c:choose>
                                             <c:when test="${el.edocFileName == null}">

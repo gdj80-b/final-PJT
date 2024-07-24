@@ -41,27 +41,7 @@ public interface EdocMapper {
      */
     List<EmpVO> selectApprover();
     
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 데이터 입력
-     */
-    int insertEdoc(EdocRequestDTO edocRequestDTO);
     
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 첨부파일 입력
-     */
-    int insertEdocFile(Map<String, Object> insertFile);
-    
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 결재선 데이터 입력
-     */
-    int insertApprover(Map<String, Object> edocMap);
     
     /*
      * @author : 조인환
@@ -69,29 +49,7 @@ public interface EdocMapper {
      * Description : 전자결재 문서 상세 조회
      */
     Map<String, Object> selectEdocDetail(Map<String, Object> m);
-    
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 기안서 데이터 입력
-     */
-    int insertEdocDraft(EdocFormTypeDTO edocFormTypeDTO);
-    
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 17.
-     * Description : 전자결재 기안서 데이터 입력
-     */
-    // 휴가신청서
-    int insertEdocVacation(EdocFormTypeDTO edocFormTypeDTO);
-    // 지출결의서
-    int insertEdocProject(EdocFormTypeDTO edocFormTypeDTO);
-    // 경조사 지출 결의서
-    int insertEdocEvent(EdocFormTypeDTO edocFormTypeDTO);
-    // 보고서
-    int insertEdocReport(EdocFormTypeDTO edocFormTypeDTO);
+        
     
     // 기안서 디테일
     Map<String,Object>selectDraftDetail(int edocNum);
@@ -103,13 +61,8 @@ public interface EdocMapper {
     Map<String,Object>selectEventDetail(int edocNum);
     // 보고서 디테일
     Map<String,Object>selectReportDetail(int edocNum);
+      
     
-    
-    // 결재선에서 상태수정 (edoc approval)
-    int updateEdocApprovalStatus(Map<String,Object>m);
-    
-    // edoc테이블에서의 상태수정
-    int updateEdocStatus(Map<String,Object>m);
     
     // 본인이 작성한 문서
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);

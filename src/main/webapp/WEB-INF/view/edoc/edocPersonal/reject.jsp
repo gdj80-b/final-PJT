@@ -41,7 +41,7 @@
                                 <c:forEach items="${list}" var="el">
                                     <tr>
                                         <td><span class="fw-medium">${el.edocEnrollDate}</span></td>
-                                        <td><span class="fw-medium">${el.edocType}</span></td>
+                                        <td><span class="fw-medium">${el.edocTypeName}</span></td>
                                         <td><span class="fw-medium">${el.edocTitle}</span></td>
                                         <c:choose>
                                             <c:when test="${el.edocFileName == null}">

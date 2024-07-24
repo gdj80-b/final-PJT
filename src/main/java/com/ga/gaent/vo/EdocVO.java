@@ -6,6 +6,7 @@ public class EdocVO {
     
     private int edocNum;
     private String edocType;
+    private String edocTypeName;
     private String edocWriter;
     private String edocFileName;
     private String edocTitle;

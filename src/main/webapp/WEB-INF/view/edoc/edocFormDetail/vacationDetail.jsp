@@ -51,7 +51,7 @@
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
                 <td class="typeDraftTdTag" colspan="4">
-                    ${edocDetail.edocFileName == null ? '첨부파일 없슴':edocDetail.edocFileName }
+                    ${edocDetail.edocFileName == null ? '첨부파일 없음':edocDetail.edocFileName }
                 </td>
             </tr>
         </tbody>
