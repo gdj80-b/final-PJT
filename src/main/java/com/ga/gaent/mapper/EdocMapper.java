@@ -64,11 +64,11 @@ public interface EdocMapper {
     int insertApprover(Map<String, Object> edocMap);
     
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
+     * @author : 조인환
+     * @since : 2024. 07. 24.
      * Description : 전자결재 문서 상세 조회
      */
-    Map<String, Object> selectEdocDetail(int edocNum);
+    Map<String, Object> selectEdocDetail(Map<String, Object> m);
     
     
     /*
@@ -93,6 +93,16 @@ public interface EdocMapper {
     // 보고서
     int insertEdocReport(EdocFormTypeDTO edocFormTypeDTO);
     
+    // 기안서 디테일
+    Map<String,Object>selectDraftDetail(int edocNum);
+    // 휴가 디테일
+    Map<String,Object>selectVactionDetail(int edocNum);
+    // 지출결의서 디테일
+    Map<String,Object>selectProjectDetail(int edocNum);
+    // 경조사 디테일
+    Map<String,Object>selectEventDetail(int edocNum);
+    // 보고서 디테일
+    Map<String,Object>selectReportDetail(int edocNum);
     
     
     // 결재선에서 상태수정 (edoc approval)
@@ -101,6 +111,8 @@ public interface EdocMapper {
     // edoc테이블에서의 상태수정
     int updateEdocStatus(Map<String,Object>m);
     
-    
+    // 본인이 작성한 문서
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
+    
+    String findKorName(String empCode);
 }

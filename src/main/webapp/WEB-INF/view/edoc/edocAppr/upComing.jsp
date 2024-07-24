@@ -38,16 +38,16 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <c:if test="${empty toDoList}">
+                            <c:if test="${empty list}">
                                 <tr>
                                     <td colspan="5" style="text-align: center">문서가 없습니다</td>
                                 </tr>
                             </c:if>
                             <!-- 문서 조회 반복문 영역 -->
-                            <c:forEach items="${toDoList}" var="el">
+                            <c:forEach items="${list}" var="el">
                                 <tr>
                                     <td><span class="fw-medium">${el.edocEnrollDate}</span></td>
-                                    <td><a href="/gaent/edocDetail/${el.edocNum}"><span class="fw-medium">${el.edocFormTitle}</span></a></td>
+                                    <td><a href="/gaent/edocDetail/${el.edocType}/${el.edocNum}"><span class="fw-medium">${el.edocFormTitle}</span></a></td>
                                     <td><span class="fw-medium">${el.edocTitle}</span></td>
                                     <c:choose>
                                         <c:when test="${el.fileName == null}">

@@ -1,6 +1,7 @@
 package com.ga.gaent.controller;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.tags.shaded.org.apache.xpath.objects.XNull;
@@ -71,7 +72,7 @@ public class EdocController {
         int month = now.get(Calendar.MONTH);
         int day = now.get(Calendar.DATE);
         
-        model.addAttribute("date", year + "-" + (month + 1) + "-" + day);
+        model.addAttribute("date", year + "년 " + (month + 1) + "월" + day + "일");
         
         return "edoc/edoc";
     }
@@ -236,19 +237,39 @@ public class EdocController {
     }
     
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
+     * @author : 조인환
+     * @since : 2024. 07. 24.
      * Description : 전자결재 문서 상세보기
      */
-    @GetMapping("/edocDetail/{edocNum}")
+    @GetMapping("/edocDetail/{edocType}/{edocNum}")
     public String getEdocDetail(
-            @PathVariable(name = "edocNum") Integer edocNum,
-            Model model
+            Model model, HttpSession session,
+            @PathVariable(name = "edocType") Integer edocType,
+            @PathVariable(name = "edocNum") Integer edocNum
             ) {
-        
-        Map<String, Object> edocDetail = edocService.selectEdocDetail(edocNum);
+        String empCode = getEmpCode(session);
+        Map<String, Object> edocDetail = edocService.selectEdocDetail(edocNum,empCode);
         log.debug(TeamColor.BLUE_BG + "edocDetail: " + edocDetail + TeamColor.RESET);
         
+        Map<String, Object>formDetail = new HashMap<>();
+        if(edocType == 0) {
+            formDetail = edocService.selectDraftDetail(edocNum);
+        }else if(edocType == 1) {
+            formDetail = edocService.selectVactionDetail(edocNum);
+        }else if(edocType == 2) {
+            formDetail = edocService.selectProjectDetail(edocNum);
+        }else if(edocType == 3) {
+            formDetail = edocService.selectEventDetail(edocNum);
+        }else if(edocType == 4) {
+            formDetail = edocService.selectReportDetail(edocNum);
+        }
+        
+        
+       
+        
+        
+        
+        model.addAttribute("formDetail", formDetail);
         model.addAttribute("edocDetail", edocDetail);
         
         return "edoc/edocDetail";

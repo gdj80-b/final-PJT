@@ -105,7 +105,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-center">소속</th>
-                                            <td class="small"><input name="edocRankCode" value="${edocDetail.teamCode}" readonly /></td>
+                                            <td class="small"><input name="edocRankCode" value="${edocDetail.teamName}" readonly /></td>
                                         </tr>
                                         <tr>
                                             <th class="text-center">기안일</th>
@@ -122,28 +122,6 @@
                         <!-- 결재선 -->
                         <div class="d-flex">
                             <c:choose>
-                                <c:when test="${edocDetail.apprOrder2 == 2}">
-                                    <div class="table-responsive text-nowrap approverForm">
-                                        <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
-                                            <tbody>
-                                                <tr>
-                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
-                                                    <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="edocApprovalDate" class="small text-center approverTdTag">
-                                                        ${edocDetail.apprDate1 == null ? '결재일' :edocDetail.apprDate1 }
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </c:when>
-                            </c:choose>
-                            <c:choose>
                                 <c:when test="${edocDetail.apprOrder1 == 1}">
                                     <div class="table-responsive text-nowrap approverForm">
                                         <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
@@ -157,7 +135,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td id="edocApprovalDate" class="small text-center approverTdTag">
-                                                        ${edocDetail.apprDate2 == null ? '결재일' : edocDetail.apprDate2 }
+                                                        ${edocDetail.apprDate1 == null ? '결재일' :edocDetail.apprDate1 }
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -165,6 +143,26 @@
                                     </div>
                                 </c:when>
                             </c:choose>
+                            <c:if test="${edocDetail.apprOrder2 == 2}">
+                                <div class="table-responsive text-nowrap approverForm">
+                                    <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
+                                        <tbody>
+                                            <tr>
+                                                <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocApprovalDate" class="small text-center approverTdTag">
+                                                    ${edocDetail.apprDate2 == null ? '결재일' : edocDetail.apprDate2 }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -174,7 +172,19 @@
                     <div id="edoc-form-type">
                         <c:choose>
                             <c:when test="${edocDetail.edocType == 0}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormType/draftForm.jsp"></jsp:include>
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/draftDetail.jsp"></jsp:include>
+                            </c:when>
+                            <c:when test="${edocDetail.edocType == 1}">
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/vacationDetail.jsp"></jsp:include>
+                            </c:when>
+                            <c:when test="${edocDetail.edocType == 2}">
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/projectDetail.jsp"></jsp:include>
+                            </c:when>
+                            <c:when test="${edocDetail.edocType == 3}">
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/eventDetail.jsp"></jsp:include>
+                            </c:when>
+                            <c:when test="${edocDetail.edocType == 4}">
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/reportDetail.jsp"></jsp:include>
                             </c:when>
                             <c:otherwise>
                                 <div class="edoc-form-area">양식을 선택해주세요.</div>

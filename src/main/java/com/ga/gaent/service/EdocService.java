@@ -155,7 +155,11 @@ public class EdocService {
         
         return edocMapper.selectApprList(map);
     }
-    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 결재문서 리스트 페이징
+     */
     public Map<String, Object> getApprPagingIdx(String empCode, int currentPage, int request){
         
         Map<String, Object> m = new HashMap<>();
@@ -173,7 +177,7 @@ public class EdocService {
     
     /*
      * @author : 조인환
-     * @since : 2024. 07. 16.
+     * @since : 2024. 07. 23.
      * Description : 결재대기문서 리스트 호출
      */
     public List<Map<String, String>> selectUpComing(int currentPage, int rowPerPage, String empCode) {
@@ -190,7 +194,7 @@ public class EdocService {
     
     /*
      * @author : 조인환
-     * @since : 2024. 07. 16.
+     * @since : 2024. 07. 23.
      * Description : 결재대기문서 리스트 호출
      */
     public List<Map<String, String>> selectApprHistory(int currentPage, int rowPerPage, String empCode) {
@@ -208,19 +212,57 @@ public class EdocService {
     
     
     
-    
-    
-    
-    
-    
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
-     * Description : 전자결재 문서 상세보기
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 전자결재 문서(공통부분) 상세보기
      */
-    public Map<String, Object> selectEdocDetail(int edocNum) {
-        return edocMapper.selectEdocDetail(edocNum);
+    public Map<String, Object> selectEdocDetail(int edocNum,String empCode) {
+        Map<String,Object>map = new HashMap<>();
+        map.put("empCode", empCode);
+        map.put("edocNum", edocNum);
+        
+        Map<String,Object>resultMap = edocMapper.selectEdocDetail(map);
+//        String code1 =  (String)resultMap.get("approver1");
+//        String code2 =  (String)resultMap.get("approver2");
+        
+        
+        resultMap.put("approver1",  edocMapper.findKorName((String)resultMap.get("approver1")));
+        resultMap.put("approver2",  edocMapper.findKorName((String)resultMap.get("approver2")));
+        
+        
+        
+        return resultMap;
     }
+    
+    public Map<String,Object>selectDraftDetail(int edocNum){
+        
+        return edocMapper.selectDraftDetail(edocNum);
+    }
+     public Map<String,Object>selectVactionDetail(int edocNum){
+            
+            return edocMapper.selectVactionDetail(edocNum);
+        }
+     public Map<String,Object>selectProjectDetail(int edocNum){
+         
+         return edocMapper.selectProjectDetail(edocNum);
+     }
+     public Map<String,Object>selectEventDetail(int edocNum){
+         
+         return edocMapper.selectEventDetail(edocNum);
+     }
+     public Map<String,Object>selectReportDetail(int edocNum){
+         
+         return edocMapper.selectReportDetail(edocNum);
+     }
+            
+         
+    
+    
+    
+    
+    
+    
     
     //  결재,반려처리
     public int updateEdocProcess(int empCode,String edocNum,String apprReason, int request) {

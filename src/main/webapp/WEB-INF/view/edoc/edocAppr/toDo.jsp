@@ -47,7 +47,7 @@
                             <c:forEach items="${toDoList}" var="el">
                                 <tr>
                                     <td><span class="fw-medium">${el.edocEnrollDate}</span></td>
-                                    <td><a href="/gaent/edocDetail/${el.edocNum}"><span class="fw-medium">${el.edocFormTitle}</span></a></td>
+                                    <td><a href="/gaent/edocDetail/${el.edocType}/${el.edocNum}"><span class="fw-medium">${el.edocFormTitle}</span></a></td>
                                     <td><span class="fw-medium">${el.edocTitle}</span></td>
                                     <c:choose>
                                         <c:when test="${el.fileName == null}">
