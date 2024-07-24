@@ -7,6 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <style>
   .articleContent {
+    width: 30rem;
     height: 16rem;
     resize: none;
   }
@@ -29,12 +30,12 @@
         <h5 class="fs-4 fw-semibold mb-2">메뉴</h5>
         <ul class="menu-item">
           <div>
-            <a href="/gaent/notice/" class="menu-link">
+            <a href="/gaent/board/notice" class="menu-link">
               <span>공지사항</span>
             </a>
           </div>
           <div>
-            <a href="/gaent/notice/qna" class="menu-link">
+            <a href="/gaent/board/community" class="menu-link">
               <span>자유게시판</span>
             </a>
           </div>
