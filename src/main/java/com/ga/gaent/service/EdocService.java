@@ -43,7 +43,6 @@ public class EdocService {
         return edocMapper.selectApprover();
     }
     
-    
     /*
      * @author : 정건희
      * @since : 2024. 07. 17.
@@ -74,8 +73,43 @@ public class EdocService {
         
         return edocMapper.selectApprList(map);
     }
+    
     /*
-     * @author : 정건희
+     * @author : 조인환
+     * @since : 2024. 07. 23.
+     * Description : 결재진행문서 리스트 호출
+     */
+    public List<Map<String, String>> selectUpComing(int currentPage, int rowPerPage, String empCode) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("empCode", empCode);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("request", 1);
+        
+        return edocMapper.selectApprList(map);
+    }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 23.
+     * Description : 결재 내역 문서 리스트 호출
+     */
+    public List<Map<String, String>> selectApprHistory(int currentPage, int rowPerPage, String empCode) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("empCode", empCode);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("request", 2);
+        
+        return edocMapper.selectApprList(map);
+    }
+    
+    
+    /*
+     * @author : 조인환
      * @since : 2024. 07. 23.
      * Description : 결재문서 리스트 페이징
      */
@@ -93,43 +127,22 @@ public class EdocService {
         return pagingMap;
     }
     
-    
+
     /*
      * @author : 조인환
-     * @since : 2024. 07. 23.
-     * Description : 결재대기문서 리스트 호출
-     */
-    public List<Map<String, String>> selectUpComing(int currentPage, int rowPerPage, String empCode) {
-        
-        Map<String, Object> map = new HashMap<>();
-        
+     * @since : 2024. 07. 24.
+     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
+     */ 
+    public List<EdocVO>selectMyEdocSubmitList(String empCode, int request){
+        Map<String,Object>map = new HashMap<>();
         map.put("empCode", empCode);
-        map.put("startRow", (currentPage - 1) * rowPerPage);
-        map.put("request", 1);
+        map.put("request", request);
         
-        return edocMapper.selectApprList(map);
-    }
-    
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 23.
-     * Description : 결재대기문서 리스트 호출
-     */
-    public List<Map<String, String>> selectApprHistory(int currentPage, int rowPerPage, String empCode) {
         
-        Map<String, Object> map = new HashMap<>();
+        List<EdocVO>list = edocMapper.selectMyEdocSubmitList(map);
         
-        map.put("empCode", empCode);
-        map.put("startRow", (currentPage - 1) * rowPerPage);
-        map.put("request", 2);
-        
-        return edocMapper.selectApprList(map);
-    }
-    
-    
-    
-    
+        return list;
+    };
     
     /*
      * @author : 조인환
@@ -142,9 +155,7 @@ public class EdocService {
         map.put("edocNum", edocNum);
         
         Map<String,Object>resultMap = edocMapper.selectEdocDetail(map);
-//        String code1 =  (String)resultMap.get("approver1");
-//        String code2 =  (String)resultMap.get("approver2");
-        
+
         if(resultMap != null) {
         resultMap.put("approverName1",  edocMapper.findKorName((String)resultMap.get("approver1")));
         resultMap.put("approverName2",  edocMapper.findKorName((String)resultMap.get("approver2")));
@@ -154,41 +165,29 @@ public class EdocService {
         return resultMap;
     }
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 각 전자문서 종류별 세부사항 조회
+     */ 
     public Map<String,Object>selectDraftDetail(int edocNum){
         
         return edocMapper.selectDraftDetail(edocNum);
     }
-     public Map<String,Object>selectVactionDetail(int edocNum){
+    public Map<String,Object>selectVactionDetail(int edocNum){
             
-            return edocMapper.selectVactionDetail(edocNum);
-        }
-     public Map<String,Object>selectProjectDetail(int edocNum){
-         
-         return edocMapper.selectProjectDetail(edocNum);
-     }
-     public Map<String,Object>selectEventDetail(int edocNum){
-         
-         return edocMapper.selectEventDetail(edocNum);
-     }
-     public Map<String,Object>selectReportDetail(int edocNum){
-         
-         return edocMapper.selectReportDetail(edocNum);
-     }
-            
-         
-    
-    
-    
-    
-    // 개인이 제출한 대기,진행,반려문서
-    public List<EdocVO>selectMyEdocSubmitList(String empCode, int request){
-        Map<String,Object>map = new HashMap<>();
-        map.put("empCode", empCode);
-        map.put("request", request);
-        
-        
-        List<EdocVO>list = edocMapper.selectMyEdocSubmitList(map);
-        
-        return list;
-    };
+        return edocMapper.selectVactionDetail(edocNum);
+    }
+    public Map<String, Object> selectProjectDetail(int edocNum) {
+
+        return edocMapper.selectProjectDetail(edocNum);
+    }
+    public Map<String, Object> selectEventDetail(int edocNum) {
+
+        return edocMapper.selectEventDetail(edocNum);
+    }
+    public Map<String, Object> selectReportDetail(int edocNum) {
+
+        return edocMapper.selectReportDetail(edocNum);
+    }    
 }

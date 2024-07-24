@@ -222,14 +222,16 @@
                     <hr />
                     <!-- 버튼 -->
                     <div class="text-end">
-                        <button id="approveBtn" class="btn btn-link btn-me" type="button">
-                            <i class="menu-icon bx bx-check-square"></i>결재
-                        </button>
-                        <button id="rejectBtn" class="btn btn-link btn-me" type="button">
-                            <i class="menu-icon bx bx-exit"></i>반려
-                        </button>
-                        <a href="javascript:history.back()" class="btn btn-link btn-me"> 
-                            <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
+                        <c:if test="${edocDetail.writerEmpCode != loginInfo.empCode && ( edocDetail.edocDoneDate == null || edocDetail.edocDoneDate == '')}">
+                            <button id="approveBtn" class="btn btn-link btn-me" type="button">
+                                <i class="menu-icon bx bx-check-square"></i>결재
+                            </button>
+                            <button id="rejectBtn" class="btn btn-link btn-me" type="button">
+                                <i class="menu-icon bx bx-exit"></i>반려
+                            </button>
+                        </c:if>
+                        <a href="javascript:history.back()" class="btn btn-link btn-me"> <i class="menu-icon bx bx-chevron-left-circle">
+                            </i>돌아가기
                         </a>
                     </div>
                 </div>
@@ -270,18 +272,18 @@ $(document).ready(function() {
     if (${loginInfo.empCode == edocDetail.approver1}) {
         console.log('1차승인자입니다');
         $('#approveBtn').click(function() {
-			if(edocDetail.apprStatus1!= 0){
+			if(${edocDetail.apprStatus1}!= '0'){
                 alert('이미 결재하신 문서입니다');
 			}else{
         		$('#approvalModalLabel').text('결재하기');
                 $('#modalInBtn').text('승인');
                 $('#approvalForm').data('request', 1); // request 값 설정
                 $('#approvalModal').modal('show');
-			}
+			};
         });
 
         $('#rejectBtn').click(function() {
-            if(edocDetail.apprStatus1!= 0){
+            if(${edocDetail.apprStatus1}!= '0'){
                 alert('이미 결재하신 문서입니다');
 			}else{
     			$('#approvalModalLabel').text('반려하기');
@@ -295,7 +297,7 @@ $(document).ready(function() {
     else if (${loginInfo.empCode == edocDetail.approver2}) {
         console.log('2차승인자입니다');
         $('#approveBtn').click(function() {
-            if( ${edocDetail.apprStatus2}!= 0){
+            if( ${edocDetail.apprStatus2}!= '0'){
                 alert('이미 결재하신 문서입니다');
 			}else{
     			$('#approvalModalLabel').text('결재하기');
@@ -306,14 +308,14 @@ $(document).ready(function() {
         });
 
         $('#rejectBtn').click(function() {
-            if(${edocDetail.apprStatus2}!= 0){
+            if(${edocDetail.apprStatus2}!= '0'){
                 alert('이미 결재하신 문서입니다');
 			}else{
                 $('#approvalModalLabel').text('반려하기');
                 $('#modalInBtn').text('반려');
                 $('#approvalForm').data('request', -1); // request 값 설정
                 $('#approvalModal').modal('show');
-			}
+			};
             
         });
     }
@@ -333,8 +335,7 @@ $(document).ready(function() {
                 alert('처리가 완료되었습니다.');
                 $('#approvalModal').modal('hide');
                 $('#approvalForm')[0].reset(); // 폼 초기화
-                 window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
-                 // window.location.reload(); // 현재 페이지 새로고침
+                 // window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
             },
             error: function() {
                 alert('처리에 실패했습니다.');

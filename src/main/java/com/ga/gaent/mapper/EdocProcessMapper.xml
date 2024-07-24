@@ -166,8 +166,8 @@
     
    
            
-    <!-- 공통 -->
-    <update id="updateEdocStatus" parameterType="map">
+    <!-- 첫번째 업데이트 -->
+    <update id="updateEdocStatusFirst" parameterType="map">
         UPDATE  
             edoc
         <set>
@@ -180,6 +180,38 @@
         WHERE 
             edoc_num = #{edocNum} 
     </update>
+    
+    
+    <!--  두번째 업데이트  -->
+    <update id="updateEdocStatusSecond" parameterType="map">
+        UPDATE  
+            edoc
+        <set>
+            edoc_status = #{request},
+            edoc_done_date = NOW(),
+            edoc_enroll_date = NOW()
+        </set>
+        WHERE 
+            edoc_num = #{edocNum} 
+    </update>
+    
+    
+   
+    
+    
+    <select id="checkEdocStatus" parameterType="String">
+        SELECT 
+            edoc_status
+        FROM 
+            edoc
+        WHERE 
+            edoc_num = #{edocNum}
+    </select>
+    
+    
+    
+    
+    
     
     
 
