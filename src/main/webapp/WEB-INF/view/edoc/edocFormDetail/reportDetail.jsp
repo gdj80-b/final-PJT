@@ -26,20 +26,26 @@
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
-                <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="edocTitle"></td>
+                <td class="typeDraftTdTag" colspan="3">
+                <input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
             </tr>
             <tr>
-                <th class="text-center typeDraftThTag">시작일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propStartDate"></td>
-                <th class="text-center typeDraftThTag">종료일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propEndDate"></td>
+                <th class="text-center typeDraftThTag">보고서 종류</th>
+                <td class="typeDraftTdTag" colspan="3"><select class="form-select form-select-sm" name="reportType" required>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                </select></td>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="propContent"></textarea></td>
+                <th class="text-center typeDraftThTag" colspan="4">내용</th>
+            </tr>
+            <tr>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="16" name="reportContent"></textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" multiple="" name="edocFileName"></td>
+                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" name="edocFileName"></td>
             </tr>
         </tbody>
     </table>

@@ -113,6 +113,7 @@
         SELECT
             edoc.edoc_enroll_date edocEnrollDate,
             edoc.edoc_num edocNum,
+            edoc.edoc_type edocType,
             edoc.edoc_status edocStatus,
             edoc.edoc_title edocTitle,
             etype.edoc_form_title edocFormTitle,
@@ -182,68 +183,49 @@
     
 
     <!--
-        @author : 정건희
+        @author : 조인환
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 상세 정보
     -->
-    <select id="selectEdocDetail" parameterType="int" resultType="Map">
+    <select id="selectEdocDetail" parameterType="map" resultType="Map">
         SELECT
-            e.edoc_num edocNum,
-            emp.team_code teamCode,
+            edoc.edoc_enroll_date edocEnrollDate,
+            edoc.edoc_num edocNum,
+            edoc.edoc_status edocStatus,
+            edoc.edoc_title edocTitle,
+            edoc.edoc_type edocType,
+            edoc.file_name edocFileName,
+            etype.edoc_form_title edocFormTitle,
+            edoc.file_name fileName,
+            emp.emp_code writerEmpCode,
             emp.emp_kor_name edocWriter,
-            e.edoc_status edocStatus,
-            e.edoc_enroll_date edocEnrollDate,
-            ea1.empCode approverCode1,
-            ea1.approver approver1,
-            ea1.appr_order apprOrder1,
-            ea1.appr_status apprStatus1,
-            ea1.appr_date apprDate1,
-            ea2.empCode approverCode2,
-            ea2.approver approver2, 
-            ea2.appr_order apprOrder2,
-            ea2.appr_status apprStatus2,
-            ea2.appr_date apprDate2,
-            eft.edoc_type edocType,
-            eft.edoc_form_title edocFormTitle,
-            
-            ed.prop_start_date propStartDate,
-            ed.prop_end_date propEndDate,
-            ed.prop_title propTitle,
-            ed.prop_content propContent,
-            ef.file_name fileName
+            team.team_name teamName,
+            appr1.approver approver1,
+            appr1.appr_order apprOrder1,
+            appr1.appr_status apprStatus1,
+            appr1.appr_reason apprReason1,
+            appr1.appr_date apprDate1,
+            appr2.approver approver2,
+            appr2.appr_order apprOrder2,
+            appr2.appr_status apprStatus2,
+            appr2.appr_reason apprReason2,
+            appr2.appr_date apprDate2
         FROM
-            edoc e
-                LEFT OUTER JOIN emp emp ON e.edoc_writer = emp.emp_code
-                LEFT OUTER JOIN edoc_draft ed ON e.edoc_num = ed.edoc_num
-                LEFT OUTER JOIN edoc_file ef ON e.file_name = ef.file_name
-                LEFT OUTER JOIN edoc_form_type eft ON e.edoc_type = eft.edoc_type
-                LEFT OUTER JOIN (
-                    SELECT 
-                        ea.edoc_num,
-                        ea.approver empCode,
-                        emp2.emp_kor_name approver,
-                        ea.appr_order,
-                        ea.appr_status,
-                        ea.appr_date,
-                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
-                    FROM
-                        edoc_approval ea
-                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
-                ) ea1 ON e.edoc_num = ea1.edoc_num 
-                         AND ea1.row_num = 1 LEFT OUTER JOIN (
-                            SELECT 
-                                ea.edoc_num,
-                                ea.approver empCode,
-                                emp2.emp_kor_name approver,
-                                ea.appr_order,
-                                ea.appr_status,
-                                ea.appr_date,
-                                ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
-                            FROM
-                                edoc_approval ea
-                                    LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
-                        ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
+            edoc
+        JOIN emp
+            ON edoc_writer = emp_code
+        JOIN team
+            ON emp.team_code = team.team_code
+        JOIN edoc_form_type etype
+            ON edoc.edoc_type = etype.edoc_type
+        JOIN edoc_approval appr1
+            ON edoc.edoc_num = appr1.edoc_num
+                AND appr1.appr_order = '1'
+        JOIN edoc_approval appr2
+            ON edoc.edoc_num = appr2.edoc_num
+                AND appr2.appr_order = '2'
         WHERE
-            e.edoc_num = #{edocNum};
+           edoc.edoc_num = #{edocNum} AND
+        ( appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
     </select>
 
 
@@ -391,4 +373,52 @@
         ORDER BY
             edoc.edoc_enroll_date DESC
     </select>
+    
+    
+    
+    <select id="selectDraftDetail" parameterType="int" resultType="map" >
+        SELECT 
+            prop_start_date propStartDate,
+            prop_end_date propEndDate,
+            prop_title propTitle,
+            prop_content propContent
+        FROM 
+            edoc_draft
+        WHERE edoc_num = #{edocNum}
+    </select>
+    
+    <select id="selectVactionDetail" parameterType="int" resultType="map" >
+        SELECT
+            vac_type vacType,
+            vac_start_date vacStartDate,
+            vac_end_date vacEndDate,
+            vac_reason vacReason
+        FROM
+            edoc_vacation
+        WHERE edoc_num = #{edocNum}
+    </select>
+    <select id="selectProjectDetail" parameterType="int" resultType="map" >
+    
+    
+    </select>
+    <select id="selectEventDetail" parameterType="int" resultType="map" >
+    
+    
+    </select>
+    <select id="selectReportDetail" parameterType="int" resultType="map" >
+    
+    
+    </select>
+    
+    
+    <select id="findKorName" parameterType="String" resultType="String" >
+        SELECT
+            emp_kor_name empKorName
+        FROM
+            emp
+        WHERE 
+            emp_code = #{empCode} 
+    </select>
+    
+    
 </mapper>
