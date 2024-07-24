@@ -353,9 +353,10 @@
     <!-- 팀상세 조회 -->
     <select id="selectTeamDetail" parameterType="String" resultType="Map">
         SELECT
-            t.team_name AS teamName,
-            t.team_des AS teamDes,
-            e.emp_kor_name AS empName,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName,
             (SELECT COUNT(*)
              FROM emp
              WHERE team_code = t.team_code) AS cnt
