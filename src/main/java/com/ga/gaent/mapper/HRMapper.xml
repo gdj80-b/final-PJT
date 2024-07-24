@@ -226,14 +226,16 @@
             team_des,
             parent_team_code,
             team_create_date,
-            team_update_date
+            team_update_date,
+            org_icon
         )VALUES(
             #{teamCode},
             #{teamName},
             #{teamDes},
             #{parentTeamCode},
             NOW(),
-            NOW()
+            NOW(),
+            #{orgIcon}
         )
     </insert>
     
@@ -301,5 +303,69 @@
             team
         WHERE
             team_code = #{teamCode}
+    </select>
+    
+    <!-- 부서상세 조회 -->
+    <select id="selectDeptDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode} AND e.rank_code = 2
+    </select>
+    
+    <!-- 부서총원 조회 -->
+    <select id="selectDeptTotal" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            emp
+        WHERE
+            LEFT(team_code, 1) = LEFT(#{teamCode}, 1)
+        AND
+            team_code != '10'
+    </select>
+    
+    <!-- 관련부서 조회 -->
+    <select id="selectDeptTeam" parameterType="String" resultType="Map">
+        SELECT
+            t.team_name AS teamName,
+            t.team_des AS teamDes,
+            e.emp_kor_name AS empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.parent_team_code = #{teamCode} 
+            AND e.rank_code = 3
+    </select>
+    
+    <!-- 팀상세 조회 -->
+    <select id="selectTeamDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_name AS teamName,
+            t.team_des AS teamDes,
+            e.emp_kor_name AS empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode}
+        AND
+            e.rank_code = 3
     </select>
 </mapper>

@@ -11,4 +11,5 @@ public class TeamVO {
     private String parentTeamCode;
     private String teamCreateDate;
     private String teamUpdateDate;
+    private String orgIcon;
 }
