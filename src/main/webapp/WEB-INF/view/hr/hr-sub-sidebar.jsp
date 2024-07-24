@@ -46,8 +46,7 @@
   
   <!-- 조직도 자바스크립트 -->
   <script type="text/javascript">
-    $(function() {
-      // jstree 초기화
+  $(function() {
       $('#orgChart').jstree({
         'core' : {
           'data' : {
@@ -55,78 +54,31 @@
             'dataType' : 'json'
           },
           'themes' : {
-            'icons' : true, // 아이콘 사용 여부
-            'dots' : true, // 점 표시 사용 여부
+            'icons' : true,
+            'dots' : true,
             'responsive' : true
           },
-          'expand_all' : true, // 모든 노드를 초기에 확장
+          'expand_all' : true,
         },
         'plugins' : [ 'themes', 'json_data', 'state' ]
-      })
+      });
 
-      // 항목 클릭 시 모달창 열기
       $('#orgChart').on('select_node.jstree', function(e, data) {
-        let node = data.node;
-        $('#nodeId').text(node.id);
-        $('#nodeName').text(node.text);
-
-        // 부모 노드 정보 가져오기
-        let parentNode = $('#orgChart').jstree(true).get_node(node.parent);
-        if (parentNode) {
-          $('#parentNode').text(parentNode.text);
-        } else {
-          $('#parentNode').text('없음');
-        }
-        $('#nodeModal').modal('show');
+          e.preventDefault(); // 기본 이벤트 동작 막기
+          
+          let nodeId = data.node.id;
+          // nodeId 값의 길이 체크
+          if (nodeId.length >= 4) {
+            // nodeId 값이 4자리 이상일 경우 다른 경로로 이동
+            window.location.href = '/gaent/hr/empDetail/' + nodeId;
+          } else {
+            // nodeId 값이 4자리 미만일 경우 기존 경로로 이동
+            window.location.href = '/gaent/hr/deptDetail?teamCode=' + nodeId;
+          }
+          
+          // 선택된 노드 해제
+          $('#orgChart').jstree(true).deselect_node(nodeId);
+        });
       });
-
-      // 외부 클릭 시 처리
-      $(document).on('click', function(event) {
-        // 클릭된 요소가 orgChart 내의 요소인지 확인
-        if (!$(event.target).closest('#orgChart').length) {
-          // 클릭된 요소가 orgChart 내의 요소가 아니면 선택 해제
-          deselectNode();
-        }
-      });
-
-      // 선택 해제 함수
-      function deselectNode() {
-        $('#orgChart').jstree(true).deselect_all();
-      }
-    });
   </script>
-  
-  <!-- 조직도 모달창 -->
-  <div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-labelledby="nodeModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="nodeModal">상세정보</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="nameSmall" class="form-label">이름</label>
-              <p><span id="nodeName"></span></p>
-            </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label class="form-label" for="emailSmall">구분코드</label>
-              <p><span id="nodeId"></span></p>
-            </div>
-            <div class="col mb-0">
-              <label for="dobSmall" class="form-label">소속그룹</label>
-              <p><span id="parentNode"></span></p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-primary">수정</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
