@@ -37,7 +37,25 @@
           <h5 class="fs-4 fw-semibold mb-2">인사정보</h5>
           <div>
             <a href="/gaent/hr/modifyEmp/${empDetail.empCode}" class="btn btn-outline-primary">수정</a>
-            <a href="/gaent/hr/removeEmp?empCode=${empDetail.empCode}&profile=${empDetail.profile}" class="btn btn-outline-danger">삭제</a>
+            <!-- 삭제 버튼 -->
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+            <!-- 삭제 버튼 모달 시작 -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">직원 삭제</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">정말 삭제하시겠습니까?</div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                    <a href="/gaent/hr/removeEmp?empCode=${empDetail.empCode}&profile=${empDetail.profile}" class="btn btn-outline-danger" data-bs-dismiss="modal">삭제</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 삭제 버튼 모달 끝 -->
           </div>
         </div>
         <hr />

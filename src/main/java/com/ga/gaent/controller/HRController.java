@@ -45,7 +45,7 @@ public class HRController {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 조직도 정보 조회
      */
     @GetMapping("/tree")
@@ -106,6 +106,44 @@ public class HRController {
     @GetMapping("/addEmp")
     public String addEmpForm() {
         return "hr/emp/addEmp";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 사원코드 중복 검사
+     */
+    @GetMapping("/checkEmpCode")
+    @ResponseBody
+    public String checkEmpCode(@RequestParam(name = "empCode") String empCode) {
+        log.debug(TeamColor.PURPLE_BG + "empCode: " + empCode + TeamColor.RESET);
+        
+        String checkEmpCode = hrService.checkEmpCode(empCode);
+        log.debug(TeamColor.PURPLE_BG + "checkEmpCode: " + checkEmpCode + TeamColor.RESET);
+        
+        if(empCode.equals(checkEmpCode)) {
+            return "이미 존재하는 사원코드 입니다.";
+        }
+        return "사용가능한 사원코드 입니다.";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 23.
+     * Description : 직원 등록 -> 이메일(ID) 중복 검사
+     */
+    @GetMapping("/checkEmpId")
+    @ResponseBody
+    public String checkEmpId(@RequestParam(name = "empId") String empId) {
+        log.debug(TeamColor.PURPLE_BG + "empId: " + empId + TeamColor.RESET);
+        
+        String checkEmpId = hrService.checkEmpId(empId);
+        log.debug(TeamColor.PURPLE_BG + "checkEmpId: " + checkEmpId + TeamColor.RESET);
+        
+        if(empId.equals(checkEmpId)) {
+            return "이미 존재하는 아이디 입니다.";
+        }
+        return "사용가능한 아이디 입니다.";
     }
     
     /*
@@ -203,7 +241,7 @@ public class HRController {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 부서 등록 폼
      */
     @GetMapping("/addTeam")
@@ -213,7 +251,7 @@ public class HRController {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 부서 등록 액션
      */
     @PostMapping("/addTeam")
@@ -222,15 +260,15 @@ public class HRController {
         int addTeam = hrService.insertTeam(team);
         
         if(addTeam == 1) {
-            return "redirect:/hr/team/teamList";
+            return "redirect:/hr/teamList";
         }else {
-            return "redirect:/hr/team/addTeam";
+            return "redirect:/hr/addTeam";
         }
     }
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 수정
      */
     @PostMapping("/modifyTeam")
@@ -239,15 +277,15 @@ public class HRController {
         int modifyTeam = hrService.updateTeam(team);
         
         if(modifyTeam == 1) {
-            return "redirect:/hr/team/teamList";
+            return "redirect:/hr/deptDetail?teamCode=" + team.getTeamCode();
         }else {
-            return "redirect:/hr/team/teamList";
+            return "redirect:/hr/deptDetail?teamCode=" + team.getTeamCode();
         }
     }
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 삭제
      */
     @GetMapping("/removeTeam")
@@ -256,15 +294,15 @@ public class HRController {
         int removeTeam = hrService.deleteTeam(teamCode);
         
         if(removeTeam == 1) {
-            return "redirect:/hr/team/teamList";
+            return "redirect:/hr/teamList";
         }else {
-            return "redirect:/hr/team/teamList";
+            return "redirect:/hr/teamList";
         }
     }
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 리스트 조회(페이징 기능 적용)
      */
     @GetMapping("/teamList")
@@ -291,12 +329,57 @@ public class HRController {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 등록 부서코드 유효성 검사
      */
     @ResponseBody
     @GetMapping("/checkTeamCode")
     public int checkTeamCode(@RequestParam(value="teamCode") String teamCode) {
         return hrService.checkTeamCode(teamCode);
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 조직도 활용 부서 정보 조회
+     */
+    @GetMapping("/deptDetail")
+    public String deptDetail(
+            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name="rowPerPage", defaultValue = "5") int rowPerPage,
+            Model model, String teamCode) {
+        
+        // 부서상세
+        List<Map<String, Object>> deptDetail = hrService.selectDeptDetail(teamCode);
+        // 부서총원
+        int deptTotal = hrService.selectDeptTotal(teamCode);
+        // 관련부서
+        List<Map<String, Object>> deptTeam = hrService.selectDeptTeam(teamCode);
+        // 팀상세
+        List<Map<String, Object>> teamDetail = hrService.selectTeamDetail(teamCode);
+        // 팀 멤버 정보 조회
+        List<Map<String, Object>> memberDetail = hrService.selectMemberDetail(teamCode, currentPage, rowPerPage);
+        
+        int memberCount = hrService.selectMemberCount(teamCode);
+        
+        int lastPage = memberCount / rowPerPage;
+        if(memberCount % rowPerPage != 0) {
+            lastPage++;
+        }
+        System.out.println("memberCount : " + memberCount);
+        System.out.println("rowPerPage : " + rowPerPage);
+        System.out.println("lastPage : " + lastPage);
+                
+        model.addAttribute("deptDetail", deptDetail);
+        model.addAttribute("deptTeam", deptTeam);
+        model.addAttribute("deptTotal", deptTotal);
+        model.addAttribute("teamDetail", teamDetail);
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("teamCode", teamCode);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
+        
+        return "hr/team/deptDetail";
     }
 }

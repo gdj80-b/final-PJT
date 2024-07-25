@@ -3,6 +3,7 @@ package com.ga.gaent.mapper;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.ga.gaent.vo.CalendarVO;
 
 @Mapper
@@ -22,4 +23,10 @@ public interface CalendarMapper {
     
     // 일정수정
     int updateEvent(CalendarVO calendar);
+    
+    // 일정타입 조회
+    List<Map<String, Object>> selectEventType();
+    
+    // 일정분류 조회
+    List<Map<String, Object>> selectEventTarget();
 }
