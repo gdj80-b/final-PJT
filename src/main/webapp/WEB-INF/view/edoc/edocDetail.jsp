@@ -105,7 +105,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-center">소속</th>
-                                            <td class="small"><input name="edocRankCode" value="${edocDetail.teamName}" readonly /></td>
+                                            <td class="small"><input name="edocRankCode" value="${edocDetail.teamCode}" readonly /></td>
                                         </tr>
                                         <tr>
                                             <th class="text-center">기안일</th>
@@ -122,30 +122,17 @@
                         <!-- 결재선 -->
                         <div class="d-flex">
                             <c:choose>
-                                <c:when test="${edocDetail.apprOrder1 == 1}">
+                                <c:when test="${edocDetail.apprOrder2 == 2}">
                                     <div class="table-responsive text-nowrap approverForm">
                                         <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                                             <tbody>
                                                 <tr>
-                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">1 차</th>
+                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
                                                     <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
                                                 </tr>
                                                 <tr>
-                                                <td id="edocKorName" class="small text-center d-flex flex-column align-items-center">
-                                                <div>
-                                                    <c:choose>
-                                                        <c:when test="${edocDetail.apprStatus1 == '1' }">
-                                                        <i class='bx bx-md bx-check-shield' style="color: #00b300"></i>
-                                                        </c:when>
-                                                        <c:when test="${edocDetail.apprStatus1 == '-1' }">
-                                                        <i class='bx bx-md bx-registered' style="color: #b00"></i>
-                                                        </c:when>
-                                                        <c:otherwise><span>&nbsp;</span></c:otherwise>
-                                                    </c:choose>
-                                                </div>
-                                                <div>${edocDetail.approverName1}</div> 
-                                                </td>
-                                            </tr>
+                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver2}</td>
+                                                </tr>
                                                 <tr>
                                                     <td id="edocApprovalDate" class="small text-center approverTdTag">
                                                         ${edocDetail.apprDate1 == null ? '결재일' :edocDetail.apprDate1 }
@@ -156,41 +143,28 @@
                                     </div>
                                 </c:when>
                             </c:choose>
-                            <c:if test="${edocDetail.apprOrder2 == 2}">
-                                <div class="table-responsive text-nowrap approverForm">
-                                    <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
-                                        <tbody>
-                                            <tr>
-                                                <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">2 차</th>
-                                                <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
-                                            </tr>
-                                            <tr>
-                                                <td id="edocKorName" class="small text-center d-flex flex-column align-items-center">
-                                                <div>
-                                                    <c:choose>
-                                                        <c:when test="${edocDetail.apprStatus2 == '1' }">
-                                                        <i class='bx bx-md bx-check-shield' style="color: #00b300"></i>
-                                                        </c:when>
-                                                        <c:when test="${edocDetail.apprStatus2 == '-1' }">
-                                                        <i class='bx bx-md bx-registered' style="color: #b00"></i>
-                                                        </c:when>
-                                                        <c:otherwise><span>&nbsp;</span></c:otherwise>
-                                                    </c:choose>
-                                                </div>
-                                                <div>${edocDetail.approverName2}</div>
-                                                
-                                                </td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td id="edocApprovalDate" class="small text-center approverTdTag">
-                                                    ${edocDetail.apprDate2 == null ? '결재일' : edocDetail.apprDate2 }
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${edocDetail.apprOrder1 == 1}">
+                                    <div class="table-responsive text-nowrap approverForm">
+                                        <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
+                                            <tbody>
+                                                <tr>
+                                                    <th id="edocApproverOrder" class="text-center approverThTag" rowspan="4">접 수</th>
+                                                    <td id="edocRankCode" class="small text-center approverTdTag">직위</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocKorName" class="small text-center">${edocDetail.approver1}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="edocApprovalDate" class="small text-center approverTdTag">
+                                                        ${edocDetail.apprDate2 == null ? '결재일' : edocDetail.apprDate2 }
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
@@ -200,19 +174,7 @@
                     <div id="edoc-form-type">
                         <c:choose>
                             <c:when test="${edocDetail.edocType == 0}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/draftDetail.jsp"></jsp:include>
-                            </c:when>
-                            <c:when test="${edocDetail.edocType == 1}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/vacationDetail.jsp"></jsp:include>
-                            </c:when>
-                            <c:when test="${edocDetail.edocType == 2}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/projectDetail.jsp"></jsp:include>
-                            </c:when>
-                            <c:when test="${edocDetail.edocType == 3}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/eventDetail.jsp"></jsp:include>
-                            </c:when>
-                            <c:when test="${edocDetail.edocType == 4}">
-                                <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/reportDetail.jsp"></jsp:include>
+                                <jsp:include page="/WEB-INF/view/edoc/edocFormType/draftForm.jsp"></jsp:include>
                             </c:when>
                             <c:otherwise>
                                 <div class="edoc-form-area">양식을 선택해주세요.</div>
@@ -222,16 +184,14 @@
                     <hr />
                     <!-- 버튼 -->
                     <div class="text-end">
-                        <c:if test="${edocDetail.writerEmpCode != loginInfo.empCode && ( edocDetail.edocDoneDate == null || edocDetail.edocDoneDate == '')}">
-                            <button id="approveBtn" class="btn btn-link btn-me" type="button">
-                                <i class="menu-icon bx bx-check-square"></i>결재
-                            </button>
-                            <button id="rejectBtn" class="btn btn-link btn-me" type="button">
-                                <i class="menu-icon bx bx-exit"></i>반려
-                            </button>
-                        </c:if>
-                        <a href="javascript:history.back()" class="btn btn-link btn-me"> <i class="menu-icon bx bx-chevron-left-circle">
-                            </i>돌아가기
+                        <button id="approveBtn" class="btn btn-link btn-me" type="button">
+                            <i class="menu-icon bx bx-check-square"></i>결재
+                        </button>
+                        <button id="rejectBtn" class="btn btn-link btn-me" type="button">
+                            <i class="menu-icon bx bx-exit"></i>반려
+                        </button>
+                        <a href="javascript:history.back()" class="btn btn-link btn-me"> 
+                            <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
                         </a>
                     </div>
                 </div>
@@ -269,54 +229,37 @@
 <script>
 $(document).ready(function() {
     // 1차 승인자인 경우
-    if (${loginInfo.empCode == edocDetail.approver1}) {
+    if (${loginInfo.empCode == edocDetail.approverCode1}) {
         console.log('1차승인자입니다');
         $('#approveBtn').click(function() {
-			if(${edocDetail.apprStatus1}!= '0'){
-                alert('이미 결재하신 문서입니다');
-			}else{
-        		$('#approvalModalLabel').text('결재하기');
-                $('#modalInBtn').text('승인');
-                $('#approvalForm').data('request', 1); // request 값 설정
-                $('#approvalModal').modal('show');
-			};
+            $('#approvalModalLabel').text('결재하기');
+            $('#modalInBtn').text('승인');
+            $('#approvalForm').data('request', 1); // request 값 설정
+            $('#approvalModal').modal('show');
         });
 
         $('#rejectBtn').click(function() {
-            if(${edocDetail.apprStatus1}!= '0'){
-                alert('이미 결재하신 문서입니다');
-			}else{
-    			$('#approvalModalLabel').text('반려하기');
-                $('#modalInBtn').text('반려');
-                $('#approvalForm').data('request', -1); // request 값 설정
-                $('#approvalModal').modal('show');
-			};
+            $('#approvalModalLabel').text('반려하기');
+            $('#modalInBtn').text('반려');
+            $('#approvalForm').data('request', -1); // request 값 설정
+            $('#approvalModal').modal('show');
         });
     } 
     // 2차 승인자인 경우
-    else if (${loginInfo.empCode == edocDetail.approver2}) {
+    else if (${loginInfo.empCode == edocDetail.approverCode2}) {
         console.log('2차승인자입니다');
         $('#approveBtn').click(function() {
-            if( ${edocDetail.apprStatus2}!= '0'){
-                alert('이미 결재하신 문서입니다');
-			}else{
-    			$('#approvalModalLabel').text('결재하기');
-                $('#modalInBtn').text('승인');
-                $('#approvalForm').data('request', 2); // request 값 설정
-                $('#approvalModal').modal('show');	
-			};
+            $('#approvalModalLabel').text('결재하기');
+            $('#modalInBtn').text('승인');
+            $('#approvalForm').data('request', 2); // request 값 설정
+            $('#approvalModal').modal('show');
         });
 
         $('#rejectBtn').click(function() {
-            if(${edocDetail.apprStatus2}!= '0'){
-                alert('이미 결재하신 문서입니다');
-			}else{
-                $('#approvalModalLabel').text('반려하기');
-                $('#modalInBtn').text('반려');
-                $('#approvalForm').data('request', -1); // request 값 설정
-                $('#approvalModal').modal('show');
-			};
-            
+            $('#approvalModalLabel').text('반려하기');
+            $('#modalInBtn').text('반려');
+            $('#approvalForm').data('request', -2); // request 값 설정
+            $('#approvalModal').modal('show');
         });
     }
 
@@ -335,7 +278,8 @@ $(document).ready(function() {
                 alert('처리가 완료되었습니다.');
                 $('#approvalModal').modal('hide');
                 $('#approvalForm')[0].reset(); // 폼 초기화
-                 // window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
+                 window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
+                 // window.location.reload(); // 현재 페이지 새로고침
             },
             error: function() {
                 alert('처리에 실패했습니다.');

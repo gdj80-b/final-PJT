@@ -185,6 +185,9 @@
               title = '경조사 지출결의서';
                 break;
             case '4':
+              title = '차량 이용 신청서';
+                break;
+            case '5':
               title = '보고서';
                 break;
           }

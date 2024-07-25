@@ -23,12 +23,12 @@
 </style>
 <div class="table-responsive text-nowrap">
     <table class="table table-bordered edocForm">
+
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
                 <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="ecodTitle" required></td>
             </tr>
-
             <tr>
                 <th class="text-center typeDraftThTag">시작일자</th>
                 <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacStartDate" required></td>
@@ -47,7 +47,7 @@
                 <th class="text-center typeDraftThTag" colspan="4">사유</th>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="vacReason"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="text" name="vacReason"></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>

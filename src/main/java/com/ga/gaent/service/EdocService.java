@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.mapper.EdocMapper;
-import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EdocFormTypeVO;
 import com.ga.gaent.vo.EdocVO;
@@ -44,6 +43,91 @@ public class EdocService {
     }
     
     /*
+     * @author : 정건희, 조인환
+     * @since : 2024. 07. 15.
+     * Description : 전자결재(전자결재 문서, 문서양식, 결재선) 데이터 입력
+     */
+    public int insertEdoc(
+            EdocRequestDTO edocRequestDTO,
+            EdocFormTypeDTO edocFormTypeDTO) {
+        
+        // 공통으로 들어가는 전자결재 문서
+        int edocResult = edocMapper.insertEdoc(edocRequestDTO);
+        
+        Integer edocNum = edocRequestDTO.getEdocNum();
+        edocRequestDTO.setEdocNum(edocNum);
+        edocFormTypeDTO.setEdocNum(edocNum);
+        
+        
+        String[] approvers = edocRequestDTO.getApprover();
+        String[] apprOrders = edocRequestDTO.getApprOrder();
+        
+        int approvalResult = -1;
+        
+        for(int i = 0; i < approvers.length; i++) {
+            Map<String, Object> edocMap = new HashMap<>();
+            edocMap.put("edocNum", edocNum);
+            edocMap.put("approver", approvers[i]);
+            edocMap.put("apprOrder", apprOrders[i]);
+            // 공통으로 들어가는 결재선
+            approvalResult = edocMapper.insertApprover(edocMap);
+        }
+        
+        String edocType = edocFormTypeDTO.getEdocType();
+        
+        int insertEdocForm = -1;
+        if(edocType.equals("0")){
+            System.out.println("기안서 제출");
+            insertEdocForm = edocMapper.insertEdocDraft(edocFormTypeDTO);
+        }else if(edocType.equals("1")){
+            System.out.println("휴가신청서 제출");
+            insertEdocForm = edocMapper.insertEdocVacation(edocFormTypeDTO);
+        }else if(edocType.equals("2")){
+            System.out.println("지출결의서 제출");
+            insertEdocForm = edocMapper.insertEdocProject(edocFormTypeDTO);
+        }else if(edocType.equals("3")){
+            System.out.println("경조사지출결의서 제출");
+            insertEdocForm = edocMapper.insertEdocEvent(edocFormTypeDTO);
+        }else if(edocType.equals("4")){
+            System.out.println("차량이용신청서 제출");
+            insertEdocForm = edocMapper.insertEdocCar(edocFormTypeDTO);
+        }else if(edocType.equals("5")){
+            System.out.println("보고서 제출");
+            insertEdocForm = edocMapper.insertEdocReport(edocFormTypeDTO);
+        }
+        
+        
+        if(edocResult != 1 || insertEdocForm != 1) {
+            throw new RuntimeException("전자결재 입력을 실패했습니다.");
+        }
+        
+        return 1;
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 15.
+     * Description : 전자결재 첨부파일 데이터 입력
+     */
+    public int insertEdocFile(EdocRequestDTO edocRequestDTO) {
+        
+        String originalFileName = edocRequestDTO.getFileName().getOriginalFilename();
+        String fileName = (UUID.randomUUID().toString()).replace("-", "");
+        String fileType = edocRequestDTO.getFileName().getContentType();
+        /* String file = fileName + fileType; */
+        double fileSize = edocRequestDTO.getFileName().getSize();
+        
+        Map<String, Object> insertFile = new HashMap<>();
+        
+        insertFile.put("originalFileName", originalFileName);
+        insertFile.put("fileName", fileName);
+        insertFile.put("fileType", fileType);
+        insertFile.put("fileSize", fileSize);
+        
+        return edocMapper.insertEdocFile(insertFile);
+    }
+    
+    /*
      * @author : 정건희
      * @since : 2024. 07. 17.
      * Description : 결재대기문서 리스트 호출(전자결재 홈)
@@ -53,9 +137,8 @@ public class EdocService {
         Map<String, Object> toDoMap = new HashMap<>();
         
         toDoMap.put("empCode", empCode);
-        toDoMap.put("request", 0);
         
-        return edocMapper.selectApprList(toDoMap);
+        return edocMapper.selectToDo(toDoMap);
     }
     
     /*
@@ -65,74 +148,48 @@ public class EdocService {
      */
     public List<Map<String, String>> selectToDo(int currentPage, int rowPerPage, String empCode) {
         
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> toDoMap = new HashMap<>();
         
-        map.put("empCode", empCode);
-        map.put("startRow", (currentPage - 1) * rowPerPage);
-        map.put("request", 0);
+        toDoMap.put("empCode", empCode);
+        toDoMap.put("startRow", (currentPage - 1) * rowPerPage);
         
-        return edocMapper.selectApprList(map);
+        return edocMapper.selectToDo(toDoMap);
     }
     
     /*
-     * @author : 조인환
-     * @since : 2024. 07. 23.
-     * Description : 결재진행문서 리스트 호출
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 전자결재 문서 상세보기
      */
-    public List<Map<String, String>> selectUpComing(int currentPage, int rowPerPage, String empCode) {
+    public Map<String, Object> selectEdocDetail(int edocNum) {
+        return edocMapper.selectEdocDetail(edocNum);
+    }
+    
+    //  결재,반려처리
+    public int updateEdocProcess(int empCode,String edocNum,String apprReason, int request) {
         
-        Map<String, Object> map = new HashMap<>();
-        
+        String requestEnum =  String.valueOf(request);
+        Map<String,Object>map = new HashMap<>();
         map.put("empCode", empCode);
-        map.put("startRow", (currentPage - 1) * rowPerPage);
-        map.put("request", 1);
+        map.put("edocNum", edocNum);
+        map.put("apprReason", apprReason);
+        map.put("request", requestEnum);
         
-        return edocMapper.selectApprList(map);
+        if(request < 0) {
+            map.put("apprStatus", "-1" );
+        }else if(request > 0){
+            map.put("apprStatus", "1" );
+        }
+        
+        int s1 = edocMapper.updateEdocApprovalStatus(map); // 결재선테이블
+        log.debug(TeamColor.YELLOW + "결재선" + s1 + TeamColor.RESET);
+        
+        int s2 = edocMapper.updateEdocStatus(map); // 전자문서공통테이블
+        log.debug(TeamColor.YELLOW + "공통" + s2 + TeamColor.RESET);
+        return 1;
     }
     
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 23.
-     * Description : 결재 내역 문서 리스트 호출
-     */
-    public List<Map<String, String>> selectApprHistory(int currentPage, int rowPerPage, String empCode) {
-        
-        Map<String, Object> map = new HashMap<>();
-        
-        map.put("empCode", empCode);
-        map.put("startRow", (currentPage - 1) * rowPerPage);
-        map.put("request", 2);
-        
-        return edocMapper.selectApprList(map);
-    }
-    
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 23.
-     * Description : 결재문서 리스트 페이징
-     */
-    public Map<String, Object> getApprPagingIdx(String empCode, int currentPage, int request){
-        
-        Map<String, Object> m = new HashMap<>();
-        m.put("empCode", empCode);
-        m.put("request", request);
-        
-        int totalRow = edocMapper.apprListCnt(m);
-        
-        Paging v = new Paging();
-        Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
-
-        return pagingMap;
-    }
-    
-
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 24.
-     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
-     */ 
+    // 개인이 제출한 대기,진행,반려문서
     public List<EdocVO>selectMyEdocSubmitList(String empCode, int request){
         Map<String,Object>map = new HashMap<>();
         map.put("empCode", empCode);
@@ -143,69 +200,4 @@ public class EdocService {
         
         return list;
     };
-    
-    public Map<String, Object> getPersonalEdocPagingIdx(String empCode, int currentPage, int request){
-        
-        Map<String, Object> m = new HashMap<>();
-        m.put("empCode", empCode);
-        m.put("request", request);
-        
-        int totalRow = edocMapper.edocSubmitListCnt(m);
-        
-        Paging v = new Paging();
-        Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
-
-        return pagingMap;
-    }
-    
-    
-    
-    
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 24.
-     * Description : 전자결재 문서(공통부분) 상세보기
-     */
-    public Map<String, Object> selectEdocDetail(int edocNum,String empCode) {
-        Map<String,Object>map = new HashMap<>();
-        map.put("empCode", empCode);
-        map.put("edocNum", edocNum);
-        
-        Map<String,Object>resultMap = edocMapper.selectEdocDetail(map);
-
-        if(resultMap != null) {
-        resultMap.put("approverName1",  edocMapper.findKorName((String)resultMap.get("approver1")));
-        resultMap.put("approverName2",  edocMapper.findKorName((String)resultMap.get("approver2")));
-        }
-        
-        
-        return resultMap;
-    }
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 24.
-     * Description : 각 전자문서 종류별 세부사항 조회
-     */ 
-    public Map<String,Object>selectDraftDetail(int edocNum){
-        
-        return edocMapper.selectDraftDetail(edocNum);
-    }
-    public Map<String,Object>selectVactionDetail(int edocNum){
-            
-        return edocMapper.selectVactionDetail(edocNum);
-    }
-    public Map<String, Object> selectProjectDetail(int edocNum) {
-
-        return edocMapper.selectProjectDetail(edocNum);
-    }
-    public Map<String, Object> selectEventDetail(int edocNum) {
-
-        return edocMapper.selectEventDetail(edocNum);
-    }
-    public Map<String, Object> selectReportDetail(int edocNum) {
-
-        return edocMapper.selectReportDetail(edocNum);
-    }    
 }
