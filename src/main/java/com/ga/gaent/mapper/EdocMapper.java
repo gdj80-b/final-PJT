@@ -83,6 +83,15 @@ public interface EdocMapper {
      * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
      */
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
+     */
+    int edocSubmitListCnt(Map<String,Object>m);
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.

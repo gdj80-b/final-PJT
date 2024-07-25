@@ -253,11 +253,15 @@ public class EdocController {
      * Description : 기안문서 리스트 조회
      */
     @GetMapping("/approval/wait")
-    public String getDraft(HttpSession session, Model model) {
+    public String getDraft(
+            HttpSession session, Model model,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         String empCode = getEmpCode(session);
         int request = 0;
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
+        model.addAttribute("pg", paginMap);
         model.addAttribute("list",list);
         
         return "edoc/edocPersonal/wait";
@@ -269,11 +273,14 @@ public class EdocController {
      * Description : 승인문서 리스트 조회
      */
     @GetMapping("/approval/approve")
-    public String getApprove(HttpSession session, Model model) {
+    public String getApprove(HttpSession session, Model model,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         String empCode = getEmpCode(session);
         int request = 1;
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
+        model.addAttribute("pg", paginMap);
         model.addAttribute("list",list);
         return "edoc/edocPersonal/approve";
     }
@@ -284,11 +291,15 @@ public class EdocController {
      * Description : 반려문서 리스트 조회
      */
     @GetMapping("/approval/reject")
-    public String getReject(HttpSession session, Model model) {
+    public String getReject(
+            HttpSession session, Model model,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         String empCode = getEmpCode(session);
         int request = 2;
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
+        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
+        model.addAttribute("pg", paginMap);
         model.addAttribute("list",list);
         return "edoc/edocPersonal/reject";
     }

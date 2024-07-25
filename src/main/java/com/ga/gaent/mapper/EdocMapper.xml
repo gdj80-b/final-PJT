@@ -153,17 +153,8 @@
            edoc.edoc_num = #{edocNum} AND
         ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
     </select>
-
-
-
-
-
-
-
-
-
     
-    <!-- 내 결재 대기,진행,완료문서   -->
+    <!-- 내 결재 대기,진행,완료문서 (개인문서)   -->
     <select id="selectMyEdocSubmitList" parameterType="map" resultType="com.ga.gaent.vo.EdocVO">
         SELECT 
              edoc.edoc_num edocNum,
@@ -201,7 +192,34 @@
             edoc.edoc_enroll_date DESC
     </select>
     
-    
+    <!-- 내 결재 대기,진행,완료문서   -->
+    <select id="edocSubmitListCnt" parameterType="map" resultType="int">
+        SELECT 
+             COUNT(*)
+        FROM
+            edoc
+            JOIN edoc_form_type etype
+                ON edoc.edoc_type = etype.edoc_type 
+        WHERE 
+            edoc.edoc_writer = #{empCode} 
+            <choose>
+                <when test="request == 0">  <!-- 결재대기문서 -->
+                    AND edoc.edoc_done_date IS NULL
+                </when>
+                <when test="request == 1"> <!-- 결재승인문서 -->
+                    AND edoc.edoc_done_date IS NOT NULL
+                    AND(
+                    edoc.edoc_status = '1' OR
+                    edoc.edoc_status = '2'
+                    )
+                </when>
+                <when test="request == 2"> <!-- 결재반려문서 -->
+                    AND(
+                    edoc.edoc_status = '-1'
+                    )
+                </when>
+            </choose>
+    </select>
     
     <select id="selectDraftDetail" parameterType="int" resultType="map" >
         SELECT 

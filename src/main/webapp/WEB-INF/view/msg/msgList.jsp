@@ -175,7 +175,6 @@
                                 
                                     alert( result + '개가 읽음처리되었습니다');
                                     location.reload();
-                                
                             },
                             error: function() {
                                 alert('항목 읽음처리에 실패했습니다.');
