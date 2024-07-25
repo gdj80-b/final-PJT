@@ -150,11 +150,6 @@ public class MsgController {
 
         MsgDTO msgDetail = msgService.msgDetail(msgNum, empCode);
  
-        if(msgDetail == null) {
-            log.debug(TeamColor.YELLOW + "데이터 없음 " + TeamColor.RESET);
-            return "/msg/msgFail";
-        }
-            
         model.addAttribute("m", msgDetail);
         return "/msg/msgDetail";
     }
