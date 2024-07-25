@@ -144,6 +144,24 @@ public class EdocService {
         return list;
     };
     
+    public Map<String, Object> getPersonalEdocPagingIdx(String empCode, int currentPage, int request){
+        
+        Map<String, Object> m = new HashMap<>();
+        m.put("empCode", empCode);
+        m.put("request", request);
+        
+        int totalRow = edocMapper.edocSubmitListCnt(m);
+        
+        Paging v = new Paging();
+        Map<String, Object> pagingMap = v.Paging(currentPage, totalRow);
+
+        return pagingMap;
+    }
+    
+    
+    
+    
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
