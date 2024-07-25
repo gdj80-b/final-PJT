@@ -177,7 +177,7 @@
             msg m 
                 JOIN emp re ON m.msg_receiver = re.emp_code
                 JOIN emp se ON m.msg_sender = se.emp_code
-                JOIN msg_file f ON m.file_name = f.file_name 
+                LEFT JOIN msg_file f ON m.file_name = f.file_name 
         WHERE
             m.msg_num = #{msgNum}
     </select>
