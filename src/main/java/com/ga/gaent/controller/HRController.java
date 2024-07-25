@@ -338,9 +338,16 @@ public class HRController {
         return hrService.checkTeamCode(teamCode);
     }
     
-    // 조직도 상세 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 조직도 활용 부서 정보 조회
+     */
     @GetMapping("/deptDetail")
-    public String deptDetail(Model model, String teamCode) {
+    public String deptDetail(
+            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name="rowPerPage", defaultValue = "5") int rowPerPage,
+            Model model, String teamCode) {
         
         // 부서상세
         List<Map<String, Object>> deptDetail = hrService.selectDeptDetail(teamCode);
@@ -348,15 +355,30 @@ public class HRController {
         int deptTotal = hrService.selectDeptTotal(teamCode);
         // 관련부서
         List<Map<String, Object>> deptTeam = hrService.selectDeptTeam(teamCode);
-        
         // 팀상세
         List<Map<String, Object>> teamDetail = hrService.selectTeamDetail(teamCode);
+        // 팀 멤버 정보 조회
+        List<Map<String, Object>> memberDetail = hrService.selectMemberDetail(teamCode, currentPage, rowPerPage);
+        
+        int memberCount = hrService.selectMemberCount(teamCode);
+        
+        int lastPage = memberCount / rowPerPage;
+        if(memberCount % rowPerPage != 0) {
+            lastPage++;
+        }
+        System.out.println("memberCount : " + memberCount);
+        System.out.println("rowPerPage : " + rowPerPage);
+        System.out.println("lastPage : " + lastPage);
                 
         model.addAttribute("deptDetail", deptDetail);
         model.addAttribute("deptTeam", deptTeam);
         model.addAttribute("deptTotal", deptTotal);
-        
         model.addAttribute("teamDetail", teamDetail);
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("teamCode", teamCode);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
         
         return "hr/team/deptDetail";
     }

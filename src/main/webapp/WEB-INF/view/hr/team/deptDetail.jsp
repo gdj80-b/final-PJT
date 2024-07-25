@@ -38,7 +38,7 @@
     </style>
   </head>
   <body>
-  	<% 
+  	<%
 	String teamCode = request.getParameter("teamCode");
 	if (teamCode != null && teamCode.length() == 3) {
 	    char secondChar = teamCode.charAt(1); // 2번째 문자 추출
@@ -346,7 +346,75 @@
               </c:forEach>
             </tbody>
           </table>
-        </div>
+        </div><br>
+        <h5 class="fs-4 fw-semibold mb-2">멤버 정보</h5>
+        <hr />
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover table-striped">
+            <thead class="table-light">
+              <tr>
+                <th>&nbsp;</th>
+                <th>이름</th>
+                <th>직위</th>
+                <th>연락처</th>
+                <th>이메일</th>
+                <th>내선번호</th>
+              </tr>
+            </thead>
+            <tbody class="table-border-bottom-0 table-light striped">
+              <c:forEach var="m" items="${memberDetail}">
+                <tr>
+                  <td class="profileImg"><div class="avatar avatar-sm"><img src="${pageContext.request.contextPath}/upload/profile/${m.profile}" alt="" class="rounded-circle"></div></td>
+                  <td><b><a href="/gaent/hr/empDetail/${m.empCode}">${m.empName}</a></b></td>
+                  <td>${m.rank}</td>
+                  <td>${m.phone}</td>
+                  <td>${m.email}</td>
+                  <td>${m.ext}</td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </table>
+          <br>
+          <!-- Basic Pagination -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">
+                <c:if test="${lastPage == 1}">
+                  <li class="page-item active">
+                    <a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a>
+                  </li>
+                </c:if>
+                <c:if test="${currentPage == lastPage && lastPage != 1}">
+                  <li class="page-item first"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
+                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
+                  <c:if test="${lastPage <= currentPage-2}">
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
+                  </c:if>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                </c:if>
+                <c:if test="${(1 < currentPage) && (currentPage < lastPage)}">
+                  <li class="page-item first"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
+                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
+                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
+                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+                </c:if>
+                <c:if test="${currentPage == 1 && lastPage != 1}">
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
+                  <c:if test="${currentPage+2 <= lastPage}">
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
+                  </c:if>
+                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
+                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/hr/deptDetail?teamCode=${teamCode}&currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+                </c:if>
+              </ul>
+            </nav>
+            <!--/ Basic Pagination -->
       </div>
     </div>
 	<%

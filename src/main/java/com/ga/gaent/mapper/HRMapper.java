@@ -109,18 +109,45 @@ public interface HRMapper {
      */
     public int checkTeamCode(String teamCode);
     
-    // 부서상세 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 상세 조회
+     */
     public List<Map<String, Object>> selectDeptDetail(String teamCode);
     
-    // 부서총원 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 총원 조회
+     */
     public int selectDeptTotal(String teamCode);
     
-    // 관련부서 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 관련부서 조회
+     */
     public List<Map<String, Object>> selectDeptTeam(String teamCode);
     
-    // 팀총원 조회
-    public int selectTeamTotal(String teamCode);
-    
-    // 팀상세 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 팀 상세 조회
+     */
     public List<Map<String, Object>> selectTeamDetail(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 정보 조회
+     */
+    public List<Map<String, Object>> selectMemberDetail(Map<String, Object> map);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 총 인원 조회
+     */
+    public int selectMemberCount(String teamCode);
 }
