@@ -53,7 +53,7 @@
         ORDER BY
             c.comm_num DESC
         LIMIT
-            1, 5
+            0, 5
     </select>
     
     <!-- 메인에서 보여줄 공지사항 조회 -->
@@ -75,7 +75,7 @@
         ORDER BY
             n.notice_num DESC
         LIMIT
-            1, 5
+            0, 5
     </select>
     
     <!-- 자유게시판 리스트 조회 -->
@@ -141,8 +141,8 @@
             f.original_file_name commFileName,
             c.comm_title commTitle,
             c.comm_content commContent,
-            DATE_FORMAT(c.comm_create_date, '%y-%m-%d') AS commCreateDate,
-            DATE_FORMAT(c.comm_update_date, '%y-%m-%d') AS commUpdateDate
+            DATE_FORMAT(c.comm_create_date, '%y.%m.%d %H:%i:%S') AS commCreateDate,
+            DATE_FORMAT(c.comm_update_date, '%y.%m.%d %H:%i:%S') AS commUpdateDate
         FROM
             community c
                 LEFT OUTER JOIN emp e ON c.comm_writer = e.emp_code
@@ -169,5 +169,47 @@
         WHERE
             n.notice_num = #{boardNum}
     </select>
+    
+    <update id="updateCommunityContent" parameterType="Map">
+        UPDATE
+            community
+        SET(
+            comm_title = #{articleTitle},
+            comm_content = #{articleContent},
+            comm_update_date = NOW()
+        )
+        WHERE
+            comm_num = #{boardNum} AND
+            comm_writer = #{empCode}
+    </update>
+    
+    <update id="updateNoticeContent" parameterType="Map">
+        UPDATE
+            notice
+        SET(
+            notice_title = #{articleTitle},
+            notice_content = #{articleContent},
+            notice_update_date = NOW()
+        )
+        WHERE
+            notice_num = #{boardNum} AND
+            notice_writer = #{empCode}
+    </update>
+    
+    <!-- 자유게시판 삭제 -->
+    <delete id="deleteCommunityContent" parameterType="int">
+        DELETE FROM
+            community
+        WHERE
+            comm_num = #{boardNum}
+    </delete>
+    
+    <!-- 공지사항 삭제 -->
+    <delete id="deleteNoticeContent" parameterType="int">
+        DELETE FROM
+            notice
+        WHERE
+            notice_num = #{boardNum}
+    </delete>
 
 </mapper>

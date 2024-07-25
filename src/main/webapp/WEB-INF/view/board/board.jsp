@@ -9,22 +9,7 @@
     <title>소통공간 - GAEnt.</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-    <style>
-      .board-body {
-        height: 20rem;
-      }
-      
-      .board-num .board-category .board-file {
-        width: 1rem;
-      }
-      
-      .board-title {
-      }
-      
-      .board-writer .board-date {
-        width: 4rem;
-      }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/board.css"/>
   </head>
   <body>
     <div id="">

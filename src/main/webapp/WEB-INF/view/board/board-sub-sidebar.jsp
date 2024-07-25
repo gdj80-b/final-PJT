@@ -5,13 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/sidebar.css"/>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-<style>
-  .articleContent {
-    width: 30rem;
-    height: 16rem;
-    resize: none;
-  }
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/board.css"/>
 <body>
   <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">
     <div class="menu-inner-shadow"></div>
@@ -29,16 +23,16 @@
       <li class="menu-item-edoc">
         <h5 class="fs-4 fw-semibold mb-2">메뉴</h5>
         <ul class="menu-item">
-          <div>
+          <li class="menu-item">
             <a href="/gaent/board/notice" class="menu-link">
               <span>공지사항</span>
             </a>
-          </div>
-          <div>
+          </li>
+          <li class="menu-item">
             <a href="/gaent/board/community" class="menu-link">
               <span>자유게시판</span>
             </a>
-          </div>
+          </li>
         </ul>
       </li>
     </ul>
@@ -95,7 +89,8 @@
         processData: false,
         success: function(data){
           $('#articleInputForm')[0].reset();
-          window.location.href = '/gaent/home';
+          window.location.href = '/gaent/board';
+          console.log(data);
         },
         error: function(e){
           console.log(e);

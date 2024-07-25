@@ -9,26 +9,7 @@
     <title>소통공간 - GAEnt.</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-    <style>
-      .board-list-area {
-        height: 84vh;
-      }
-    
-      .board-body {
-        height: 100%;
-      }
-      
-      .board-num .board-category .board-file {
-        width: 1rem;
-      }
-      
-      .board-title {
-      }
-      
-      .board-writer .board-date {
-        width: 4rem;
-      }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/board.css"/>
   </head>
   <body>
     <div id="">
@@ -89,5 +70,30 @@
         </div>
       </div>
     </div>
+    <!--삭제 메세지 모달 시작 -->
+    <div id="deleteMessageModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="deleteMessageModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div id="message" class="modal-content text-white">
+          <div class="modal-header">
+            <h4 class="modal-title">${message}</h4>
+          </div>
+          <div class="modal-body">
+            <p>${updateMessage}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 삭제 메세지 모달 끝 -->
+    <script>
+      $(document).ready(function(){
+        if(${!empty message}){
+          $("#message").attr("class", "modal-content");
+          $("#deleteMessageModal").modal("show");
+        };
+      });
+    </script>
   </body>
 </html>

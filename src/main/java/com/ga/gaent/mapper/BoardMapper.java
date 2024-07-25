@@ -42,7 +42,6 @@ public interface BoardMapper {
     List<Map<String, Object>> selectNoticeList(int startRow, int rowPerPage);
     int selectNoticeListTotal();
     
-    
     /*
      * @author : 정건희
      * @since : 2024. 07. 24.
@@ -50,4 +49,20 @@ public interface BoardMapper {
      */
     Map<String, Object> selectCommunityDetail(int boardNum);
     Map<String, Object> selectNoticeDetail(int boardNum);
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 24.
+     * Description : 게시글(자유게시판, 공지사항) 상세 조회
+     */
+    int updateCommunityContent(Map<String, Object> paramMap);
+    int updateNoticeContent(Map<String, Object> paramMap);
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 25.
+     * Description : 게시글(자유게시판, 공지사항) 삭제
+     */
+    int deleteCommunityContent(int boardNum);
+    int deleteNoticeContent(int boardNum);
 }
