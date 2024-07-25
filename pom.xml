@@ -111,6 +111,13 @@
 			<version>3.0.3</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- webSocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
 		<!-- toss결제 json데이터 주고받기 -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
