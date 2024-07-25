@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.HomeMapper">
+
+    <select id="selectMyPageInfo" parameterType="String" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            e.emp_code empCode,
+            e.team_code teamCode,
+            t.team_name teamName,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_kor_name korName,
+            e.emp_reg_no regNo,
+            e.emp_phone phone
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code 
+        WHERE
+            e.emp_code = #{empCode}
+    </select>
+
+</mapper>

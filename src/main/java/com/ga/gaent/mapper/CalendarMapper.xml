@@ -16,9 +16,9 @@
             cal_update_date
             )
         VALUES(
+            #{calWriter},
             #{calType},
             #{calTargetType},
-            #{calWriter},
             #{calTitle},
             #{calContent},
             #{calStartDate},
@@ -31,9 +31,26 @@
     <!-- 일정조회 -->
     <select id="selectEventList" resultType="Map">
         SELECT
-        	cal_num id, cal_title title, cal_start_date start, cal_end_date end
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS textColor
         FROM
-        	calendar
+            calendar
     </select>
     
     <!-- 일정상세 -->
@@ -63,7 +80,7 @@
             cal_num = ${calNum}
     </delete>
     
-    <!-- 일정삭제 -->
+    <!-- 일정수정 -->
     <update id="updateEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         UPDATE
             calendar
@@ -78,4 +95,39 @@
         WHERE
             cal_num = ${calNum}
     </update>
+    
+    <!-- 일정타입 조회 -->
+    <select id="selectEventType" resultType="Map">
+        SELECT DISTINCT
+            cal_type calType,
+        CASE cal_type
+            WHEN 'public' THEN '개인(공개)'
+            WHEN 'private' THEN '개인(제한)'
+            WHEN 'tpublic' THEN '팀(공개)'
+            WHEN 'tprivate' THEN '팀(비공개)'
+            WHEN 'corp' THEN '전사(전체)'
+            WHEN 'artist' THEN '아티스트(전체)'
+            ELSE cal_type
+        END AS calTypeName
+        FROM
+            calendar
+        ORDER BY
+            calTypeName
+    </select>
+    
+    <!-- 일정분류 조회 -->
+    <select id="selectEventTarget" resultType="Map">
+        SELECT
+        team_code teamCode,
+        CASE
+            WHEN team_code = 10 THEN '전사'
+            ELSE team_name
+        END AS teamName
+        FROM
+            team
+        WHERE
+            team_name NOT LIKE '%부'
+        ORDER BY
+            teamCode
+    </select>
 </mapper>

@@ -17,9 +17,8 @@
   <!-- fullcalendar 언어 CDN -->
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
   <!-- Bootstrap 스크립트 추가 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+  
   <style>
   /* body 스타일 */
   html, body {
@@ -35,6 +34,15 @@
   }
   
   
+  .fc-view-harness {
+  	background-color: #ffffff;
+  }
+  
+  /* 추가한 calendar 크기 조정 스타일 */
+    #calendar {
+        max-height: 600px;
+        margin: 0 auto;
+    }
 </style>
 </head>
 <body>
@@ -42,6 +50,10 @@
 	<div id="header-area">
         <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
     </div>
+    <div id="sidebar_area">
+        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
+      </div>
     
 <div id="workspace-area" class="subsidebar-from-workspace">
 	<!-- calendar 태그 -->
@@ -49,76 +61,100 @@
   
   <!-- 부트스트랩 modal 부분 시작 -->
     <!-- 일정 상세 모달 -->
-  <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="eventModalTitle">일정 상세</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div id="eventDetails">
-            <!-- 여기에 일정 상세 정보를 동적으로 채웁니다. -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eventModalTitle">일정상세</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div id="eventDetails">
+            		<!-- 여기에 일정 상세 정보를 동적으로 채웁니다. -->
+          		</div>
+              </div>
+              <div class="modal-footer">
+              	<button type="button" class="btn btn-primary" id="modifyEventBtn">수정</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
   
   <!-- 일정클릭 후 일정등록 폼 모달 -->
-<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addEventModalTitle">일정 추가</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
-      <div class="modal-body">
-		<!-- 작성자 --> 
-		<input type="hidden" name="calWriter" value="">
-	    일정타입 : <select name="calType">
-					    <option value="public">개인(공개)</option>
-					    <option value="private">개인(제한)</option>
-					    <option value="tpublic">팀(공개)</option>
-					    <option value="tprivate">팀(제한)</option>
-					    <option value="corp">전사(전체)</option>
-					    <option value="artist">아티스트(전체)</option>
-					</select>
-					<br />
-	    제목 : <input type="text" name="calTitle" /><br />
-        내용 : <input type="text" name="calContent" /><br />
-        시작시간 : <input type="datetime-local" name="calStartDate" /> <br />
-        종료시간 : <input type="datetime-local" name="calEndDate" /><br />
-        일정분류 : <select name="calTargetType">
-					    <option value="emp">개인</option>
-					    <option value="110">인사팀</option>
-					    <option value="210">경영팀</option>
-					    <option value="220">회계팀</option>
-					    <option value="310">기획팀</option>
-					    <option value="320">제작팀</option>
-					    <option value="410">홍보팀</option>
-					    <option value="420">영업팀</option>
-					    <option value="510">매니지먼트팀</option>
-					    <option value="520">스타일팀</option>
-					    <option value="corp">전사</option>
-					    <option value="artist">아티스트</option>
-					</select>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-      </div>
-      </form>
+  <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addEventModalTitle">일정 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
+			      <div class="modal-body">
+					<!-- 작성자 --> 
+				    <div class="card mb-4">
+				      <div class="card-body">
+				      	<div class="mb-3">
+				          <input type="hidden" name="calWriter" value="${loginInfo.empCode}">
+				          <label for="calType" class="form-label">일정타입</label>
+				          <select name="calType" id="calType" class="form-select">
+				          	<c:forEach var="event" items="${eventType}">
+				            	<option value="${event.calType}">${event.calTypeName}</option>
+						    </c:forEach>
+				          </select>
+				        </div>
+				        <div class="mb-3">
+				          <label for="calTitle" class="form-label">제목</label>
+				          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요.">
+				        </div>
+				        <div class="mb-3">
+				          <label for="calContent" class="form-label">내용</label>
+				          <input name="calContent" id="calContent" class="form-control" type="text" placeholder="내용을 입력해주세요.">
+				        </div>
+				        <div class="mb-3">
+				          <label for="calStartDate" class="form-label">시작시간</label>
+				          <input name="calStartDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
+				        </div>
+				        <div class="mb-3">
+				          <label for="calEndDate" class="form-label">종료시간</label>
+				          <input name="calEndDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
+				        </div>
+						<div class="mb-3">
+				          <label for="calTargetType" class="form-label">일정분류</label>
+				          <select name="calTargetType" id="calTargetType" class="form-select">
+				            <option value="${loginInfo.empCode}">개인</option>
+				            <c:forEach var="target" items="${eventTarget}">
+						    	<option value="${target.teamCode}">${target.teamName}</option>
+						    </c:forEach>
+				          </select>
+				      </div>
+				    </div>
+				  </div>
+			    </div>
+              <div class="modal-footer">
+		        <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+		      </div>
+		      </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 수정 모달 -->
+<div class="modal fade" id="modifyEventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyEventModalTitle">일정수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modifyEventForm">
+                    <!-- 일정 수정을 위한 폼이 여기에 들어갑니다. -->
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
     <!-- 부트스트랩 modal 부분 끝 -->
     </div>
@@ -128,7 +164,7 @@
     var calendarEl = document.getElementById('calendar');
     var request = $.ajax({
       url: "/gaent/calendar/event",
-      method: "GET",
+      method: "get",
     });
     request.done(function(data){
 	  // full-calendar 생성하기
@@ -152,7 +188,6 @@
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-        //initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         editable: true, // 수정 가능?
         selectable: true, // 달력 일자 드래그 설정가능
@@ -173,6 +208,26 @@
           select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
             
             $('#addEventModal').modal('show');
+          
+         	// 클릭한 이벤트의 시작 날짜와 시간을 가져온다.
+            var eventStartDate = arg.start;
+
+            // 현재 시간을 가져온다.
+            var currentDate = new Date();
+
+            // 현재 시간에서 9시간 전의 시간을 구한다.
+            var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
+
+            // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
+            adjustedStartDate.setDate(eventStartDate.getDate());
+            adjustedStartDate.setMonth(eventStartDate.getMonth());
+            adjustedStartDate.setFullYear(eventStartDate.getFullYear());
+
+            // 날짜를 ISO 문자열로 변환하고 필요한 포맷(년-월-일 시간:분)으로 자른다.
+            var formattedStartDate = adjustedStartDate.toISOString().slice(0, 16);
+
+            // 입력 필드에 설정한다.
+            $('input[name="calStartDate"]').val(formattedStartDate);
             
             $('#saveEventBtn').on('click', function() {
                 
@@ -218,7 +273,7 @@
 
             $.ajax({
                 url: '/gaent/calendar/eventOne',
-                method: 'GET',
+                method: 'get',
                 data: {
                   calNum: info.event.id
                 },
@@ -227,6 +282,39 @@
                   $('#eventModal').modal('show');
                 }
               });
+            
+         // 이벤트 상세 모달에서 수정 버튼 클릭 시 처리
+            $('#modifyEventBtn').on('click', function() {
+             	// 일정상세 모달 닫기
+                $('#eventModal').modal('hide');
+                
+                // 현재 표시된 이벤트의 calNum 값 가져오기
+                var calNum = $('#eventDetails').find('.calNum').val(); // 예시에서는 .calNum이 해당 값을 가리키는 클래스로 가정합니다.
+
+                // 수정 모달에서 데이터를 동적으로 로드하기 위한 AJAX 요청
+                $.ajax({
+                    url: '/gaent/calendar/modifyEvent',
+                    method: 'get',
+                    data: {
+                        calNum: info.event.id
+                    },
+                    success: function(response) {
+                        $('#modifyEventForm').html(response); // 수정 폼에 데이터 채우기
+                        $('#modifyEventModal').modal('show'); // 수정 모달 표시
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('일정 상세 정보 가져오기 실패:', error);
+                        // 실패 처리 로직 추가
+                    }
+                });
+            });
+
+            // 수정 모달이 닫힐 때 초기화 및 후속 처리
+            $('#modifyEventModal').on('hidden.bs.modal', function() {
+                // 수정 폼 초기화 (옵션)
+                $('#modifyEventForm').empty();
+                // 추가적인 후속 처리 추가 가능
+            });
         }
       });
       calendar.render();		

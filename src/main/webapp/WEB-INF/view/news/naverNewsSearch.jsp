@@ -41,7 +41,6 @@
                 url: "/gaent/api/naverSearch?id=" + query,
                 success: function(data) {
                     displayResults(data);
-                    console.log(data);
                 },
                 error: function() {
                     alert('검색에 실패했습니다.');

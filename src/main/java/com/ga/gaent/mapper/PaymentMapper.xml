@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.PaymentMapper">
+
+    <!-- 상품 구매시 입력 -->
+    <insert id="payPrd" parameterType="map">
+        INSERT INTO
+            payment(
+	           prod_code,
+               emp_code,
+               pay_type,
+               pay_price,
+               pay_time
+               )
+            VALUES (
+               #{prodCode},
+               #{empCode},
+               #{payType},
+               #{payPrice},
+               NOW()
+            )
+    </insert>
+
+    <!-- 구매이력조회 -->
+    <select id="selectPaymentList" parameterType="String" resultType="com.ga.gaent.dto.PaymentDTO">
+            SELECT
+                payment.prod_code prodCode,
+                product.prod_content prodName,
+                emp_code empCode,
+                pay_type payType,
+                pay_price payPrice,
+                pay_time payTime
+            FROM
+                payment
+                JOIN product
+                ON payment.prod_code = product.prod_code
+            WHERE
+                emp_code = #{empCode}
+    </select>
+    
+    <!-- 구매이력 페이징  -->
+    <select id="paymentCnt" parameterType="String" resultType="int">
+            SELECT
+                COUNT(*)
+            FROM
+                payment
+            WHERE
+                emp_code = #{empCode}
+    </select>
+    
+
+</mapper>

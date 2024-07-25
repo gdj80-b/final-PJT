@@ -18,7 +18,7 @@ public class FileUploadSetting {
     public void initDIR() {
         try {
 
-            String projectDir = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+            String projectDir = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
 
             UPLOAD_DIR = projectDir;
             // System.out.println("쪽지파일저장위치: " + UPLOAD_DIR);
