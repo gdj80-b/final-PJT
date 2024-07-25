@@ -36,7 +36,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 조직도 정보 조회
      */
     public List<Map<String, Object>> selectTreeInfo() {
@@ -269,7 +269,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 부서 등록
      */
     public int insertTeam(TeamVO team) {
@@ -287,7 +287,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 수정
      */
     public int updateTeam(TeamVO team) {
@@ -305,7 +305,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 삭제
      */
     public int deleteTeam(int teamCode) {
@@ -323,7 +323,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 리스트 조회
      */
     public List<TeamVO> selectTeamList(int currentPage, int rowPerPage) {
@@ -342,7 +342,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 리스트 카운트
      */
     public int selectTeamCount() {
@@ -355,7 +355,7 @@ public class HRService {
 
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 등록 부서코드 유효성 검사
      */
     public int checkTeamCode(String teamCode) {
@@ -372,5 +372,91 @@ public class HRService {
         log.debug(yellow + "result : " + result + yellow);
 
         return result;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 상세 조회
+     */
+    public List<Map<String, Object>> selectDeptDetail(String teamCode){
+        
+        List<Map<String, Object>> deptDetail = hrMapper.selectDeptDetail(teamCode);
+        log.debug(yellow + "deptDetail : " + deptDetail + yellow);
+        
+        return deptDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 총원 조회
+     */
+    public int selectDeptTotal(String teamCode) {
+        
+        int deptTotal = hrMapper.selectDeptTotal(teamCode);
+        log.debug(yellow + "deptTotal : " + deptTotal + yellow);
+        
+        return deptTotal;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 관련부서 조회
+     */
+    public List<Map<String, Object>> selectDeptTeam(String teamCode){
+        
+        List<Map<String, Object>> deptTeam = hrMapper.selectDeptTeam(teamCode);
+        log.debug(yellow + "deptTeam : " + deptTeam + yellow);
+        
+        return deptTeam;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 팀 상세 조회
+     */
+    public List<Map<String, Object>> selectTeamDetail(String teamCode){
+        
+        List<Map<String, Object>> teamDetail = hrMapper.selectTeamDetail(teamCode);
+        log.debug(yellow + "teamDetail : " + teamDetail + yellow);
+        
+        return teamDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 정보 조회
+     */
+    public List<Map<String, Object>> selectMemberDetail(String teamCode, int currentPage, int rowPerPage){
+        
+        int startRow = (currentPage - 1) * rowPerPage;
+        
+        Map<String, Object> map = new HashMap<>();
+        map.put("teamCode", teamCode);
+        map.put("startRow", startRow);
+        map.put("rowPerPage", rowPerPage);
+        
+        List<Map<String, Object>> memberDetail = hrMapper.selectMemberDetail(map);
+        log.debug(yellow + "memberDetail : " + memberDetail + yellow);
+        log.debug(yellow + "map : " + map + yellow);
+        
+        return memberDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 총 인원 조회
+     */
+    public int selectMemberCount(String teamCode) {
+        
+        int memberCount = hrMapper.selectMemberCount(teamCode);
+        log.debug(yellow + "memberCount : " + memberCount + yellow);
+        
+        return memberCount;
     }
 }

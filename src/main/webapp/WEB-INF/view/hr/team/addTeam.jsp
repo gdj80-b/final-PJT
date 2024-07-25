@@ -83,6 +83,7 @@
                 </tr>
               </tbody>
             </table>
+            <input type="hidden" name="orgIcon" value="fas fa-folder-open">
             <br />
             <button type="submit" class="btn btn-primary btn-lg">등록하기</button>
             <a href="/gaent/team/addTeam" class="btn btn-primary btn-lg">취소하기</a>
@@ -112,7 +113,7 @@
         }
 
         $.ajax({
-          url: "/gaent/team/checkTeamCode",
+          url: "/gaent/hr/checkTeamCode",
           method: "get",
           data: {
               "teamCode" : teamCode
