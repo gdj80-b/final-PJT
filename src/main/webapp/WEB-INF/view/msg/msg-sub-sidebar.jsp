@@ -83,8 +83,16 @@
                         <!-- 숨겨진 필드에 로그인한 사용자의 ID -->
                         <input type="hidden" id="sender" name="sender" value="${loginInfo.empCode}">
                         <div class="mb-3">
+                            <label for="search" class="form-label">!직원검색!</label>
+                            <input class="form-control" type="search" name="empName" id="searchEmpCode" autocomplete="off">
+                            <select id="resultEmpCode" style="display: none;">
+                                <option value="">직원선택</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="receiver" class="form-label">받는이</label>
-                            <input type="text" class="form-control" id="receiver" name="receiver" required>
+                            <input type="text" class="form-control" id="receiverName" readonly required >
+                            <input type="hidden" class="form-control" id="receiver" name="receiver" required>
                         </div>
                         <div class="mb-3">
                             <label for="title" class="form-label">제목</label>
@@ -114,6 +122,8 @@
     $(document).ready(function(){
         // "쪽지쓰기" 버튼 클릭 시 모달 표시
         $('#writeMessageBtn').click(function(){
+            $('#searchEmpCode').val(''); // 검색 필드를 초기화하고 읽기 전용 해제
+            $('#receiverName').val('').prop('readonly', false);; 
             $('#receiver').val('').prop('readonly', false); // 받는이 필드를 초기화하고 읽기 전용 해제
             $('#messageModalLabel').text('쪽지쓰기'); // 제목을 "쪽지쓰기"로 설정
             $('#messageModal').modal('show');
@@ -121,15 +131,25 @@
 
         // "내게쓰기" 버튼 클릭 시 receiver 필드에 로그인한 사용자의 ID로 설정하고 readonly로 만들기
         $('#writeMessageBtn2').click(function(){
-            $('#receiver').val('${loginInfo.empCode}').prop('readonly', true); // 필드 값을 로그인 ID로 설정하고 readonly로 만듦
             $('#messageModalLabel').text('내게쓰기'); // 제목을 "내게쓰기"로 변경
+            $('#searchEmpCode').prop('readonly', true); // 필드 값을 로그인 ID로 설정하고 readonly로 만듦
+            $('#receiverName').val('${loginInfo.korName}').prop('readonly', true); // 필드 값을 로그인 이름으로 설정하고 readonly로 만듦
+            $('#receiver').val('${loginInfo.empCode}').prop('readonly', true); // 필드 값을 로그인 ID로 설정하고 readonly로 만듦
+            
             $('#messageModal').modal('show');
         });
 
         // 폼 제출 시 AJAX 요청으로 쪽지 보내기
         $('#messageForm').submit(function(event){
             event.preventDefault(); // 폼의 기본 제출 동작을 중단
+            let checkReceiver = $('#receiverName').val();
             // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+            console.log( );
+            if(!checkReceiver){
+                alert('받는이를 선택해주세요');
+                return false;
+            }
+            
             let formData = new FormData($('#messageForm')[0]);
             
             $.ajax({
@@ -149,5 +169,41 @@
                 }
             });
         });
+/*       
+      // 검색창에 입력할 때마다 검색 결과 업데이트
+        $('#searchEmpCode').keyup(function() {
+            let searchText = $(this).val(); // 입력된 검색어 가져오기
+            if (searchText.length >= 2) {
+                $.ajax({
+                    url: '/gaent/msg/searchEmpCode',
+                    type: 'POST',
+                    data: { empName: searchText },
+                    success: function(response) {
+                        $('#resultEmpCode').empty(); // 기존 옵션 모두 제거
+                        $('#resultEmpCode').css('display', 'block'); // 검색 결과 보이기
+                        $('#resultEmpCode').append('<option value="">' + '선택하세요' + '</option>');
+                        response.forEach(function(item) {
+                            $('#resultEmpCode').append('<option value="' + item.empCode + '">' + item.empName + '</option>'); // 검색 결과 옵션 추가
+                        });
+                    },
+                    error: function() {
+                        console.error('검색 중 오류가 발생했습니다.');
+                    }
+                });
+            } else {
+                $('#resultEmpCode').css('display', 'none'); // 입력이 부족하면 검색 결과 숨기기
+            }
+        });
+
+        // select 요소에서 옵션 선택 시 처리
+        $('#resultEmpCode').change(function() {
+            let selectedEmpCode = $(this).val(); // 선택된 직원 코드 가져오기
+            let selectedEmpName = $('#resultEmpCode option:selected').text(); // 선택된 직원 이름 가져오기
+            $('#receiverName').val(selectedEmpName); // 선택된 직원 이름을 receiverName input 요소에 설정
+            $('#receiver').val(selectedEmpCode); // 선택된 직원 코드를 receiver input 요소에 설정
+        }); 
+*/
+        
     });
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/searchEmp.js"></script>

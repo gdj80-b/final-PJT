@@ -73,4 +73,7 @@ public interface MsgMapper {
    * Description : 스케줄러를 이용해 메시지 파일 삭제
    */
   int eliminateMsgFile();
+  
+  
+  List<Map<String,Object>>searchEmpCode(String empName);
 }

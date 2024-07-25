@@ -196,6 +196,24 @@ public class MsgController {
 
         return result;
     }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 14.
+     * Description : Ajax를 이용해 안읽은 메시지 수 확인
+     */
+    @GetMapping("/searchEmpCodep")
+    public String s() {
+        return "/msg/searchEmpCode";
+    }
+    
+    @PostMapping("/searchEmpCode")
+    @ResponseBody
+    public List<Map<String,Object>> searchEmpCode(@RequestParam String empName) {
+        
+        return msgService.searchEmpCode(empName);
+    }
 }
 
 

@@ -206,4 +206,8 @@ public class MsgService {
         log.debug(TeamColor.RED + "스케쥴러 이용 msg테이블 삭제처리 행 수 : " + deleteMsg + "msgFile테이블 삭제처리 행 수 : " + deleteMsgFile + TeamColor.RESET );
        
     }
+    
+    public List<Map<String,Object>>searchEmpCode(String empName){
+        return msgMapper.searchEmpCode(empName);
+    }
 }
