@@ -1,6 +1,5 @@
 package com.ga.gaent.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +37,21 @@ public class BoardService {
     public String insertBoard(BoardRequestDTO boardRequestDTO, FileReqDTO fileReqDTO) {
         
         MultipartFile mf = fileReqDTO.getGaFile();
+        String articleType = boardRequestDTO.getArticleType();
+        String originalFilename = "";
+        String fileType = "";
+        long fileSize = 0L;
+        String prefix = "";
+        String suffix = "";
+        String newFileName = "empty";
         
-        if(!fileReqDTO.getGaFile().isEmpty()) {
-            String originalFilename = mf.getOriginalFilename();
-            String fileType = mf.getContentType().toLowerCase();
-            long fileSize = mf.getSize();
-            String prefix = UUID.randomUUID().toString().replace("-", "");
-            String suffix = fileExtension.getFileExtension(originalFilename);
-            String newFileName = prefix + suffix;
+        if(!mf.isEmpty()) {
+            originalFilename = mf.getOriginalFilename();
+            fileType = mf.getContentType().toLowerCase();
+            fileSize = mf.getSize();
+            prefix = UUID.randomUUID().toString().replace("-", "");
+            suffix = fileExtension.getFileExtension(originalFilename);
+            newFileName = prefix + suffix;
             
             FileVO gaFile = new FileVO();
             gaFile.setOriginalName(originalFilename);
@@ -53,30 +59,47 @@ public class BoardService {
             gaFile.setFileSize(fileSize);
             gaFile.setFileName(newFileName);
             
+            int result = -1;
+            
             boardRequestDTO.setFileName(newFileName);
             log.debug(TeamColor.PURPLE_BG + "BoardService newFileName: " + newFileName + TeamColor.RESET);
             
             int row = fileMapper.insertBoardFile(gaFile);
             log.debug(TeamColor.PURPLE_BG + "BoardService row: " + row + TeamColor.RESET);
             
-            String articleType = boardRequestDTO.getArticleType();
-            int result = -1;
-            
             if(articleType.equals("자유게시판")) {
                 result = boardMapper.insertBoard(boardRequestDTO);
-                log.debug(TeamColor.PURPLE_BG + "BoardService board: " + result + TeamColor.RESET);
+                log.debug(TeamColor.PURPLE_BG + "1BoardService board: " + result + TeamColor.RESET);
             } else {
                 result = boardMapper.insertNotice(boardRequestDTO);
-                log.debug(TeamColor.PURPLE_BG + "BoardService notice: " + result + TeamColor.RESET);
+                log.debug(TeamColor.PURPLE_BG + "1BoardService notice: " + result + TeamColor.RESET);
             }
             
             if (row != 1 && result != 1) {
                 throw new RuntimeException("게시글 작성에 실패했습니다.");
             }
+            
+            return newFileName;
+            
+        } else {
+            
+            int result = -1;
+            
+            if(articleType.equals("자유게시판")) {
+                result = boardMapper.insertBoard(boardRequestDTO);
+                log.debug(TeamColor.PURPLE_BG + "2BoardService board: " + result + TeamColor.RESET);
+            } else {
+                result = boardMapper.insertNotice(boardRequestDTO);
+                log.debug(TeamColor.PURPLE_BG + "2BoardService notice: " + result + TeamColor.RESET);
+            }
+            
+            if (result != 1) {
+                throw new RuntimeException("게시글 작성에 실패했습니다.");
+            }
+            
             return newFileName;
         }
         
-        return "empty";
     }
     
     /*
@@ -109,6 +132,7 @@ public class BoardService {
         return boardMapper.selectNoticeList(startRow, rowPerPage);
     }
     
+    // 자유게시판 게시글 총 갯수
     public Map<String, Object> selectCommunityListPaging(int nowPage) {
         
         Map<String, Object> pagingMap = new HashMap<>();
@@ -121,6 +145,7 @@ public class BoardService {
         return pagingMap;
     }
     
+    // 공지사항 게시글 총 갯수
     public Map<String, Object> selectNoticeListPaging(int nowPage) {
         
         Map<String, Object> pagingMap = new HashMap<>();
@@ -144,5 +169,43 @@ public class BoardService {
     
     public Map<String, Object> selectNoticeDetail(int boardNum) {
         return boardMapper.selectNoticeDetail(boardNum);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 24.
+     * Description : 게시글(자유게시판, 공지사항) 수정
+     */
+    public int updateCommunityContent(int boardNum, String empCode, BoardRequestDTO boardRequestDTO) {
+        
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("boardNum", boardNum);
+        paramMap.put("empCode", empCode);
+        paramMap.put("boardRequestDTO", boardRequestDTO);
+        
+        return boardMapper.updateCommunityContent(paramMap);
+    }
+    
+    public int updateNoticeContent(int boardNum, String empCode, BoardRequestDTO boardRequestDTO) {
+        
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("boardNum", boardNum);
+        paramMap.put("empCode", empCode);
+        paramMap.put("boardRequestDTO", boardRequestDTO);
+        
+        return boardMapper.updateNoticeContent(paramMap);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 25.
+     * Description : 게시글(자유게시판, 공지사항) 삭제
+     */
+    public int deleteCommunityContent(int boardNum) {
+        return boardMapper.deleteCommunityContent(boardNum);
+    }
+    
+    public int deleteNoticeContent(int boardNum) {
+        return boardMapper.deleteNoticeContent(boardNum);
     }
 }
