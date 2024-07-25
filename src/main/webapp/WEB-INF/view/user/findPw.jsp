@@ -45,8 +45,8 @@
               <div class="app-brand justify-content-center">
                 <span class="app-brand-text demo text-body fw-bolder">GA Entertainment</span>
               </div>
-              <p class="mb-4">이메일과 연락처를 입력해주세요.</p>
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <p class="mb-4">이메일과 이름 그리고 연락처를 입력해주세요.</p>
+              <form id="formAuthentication" class="mb-3" action="findPw" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -59,17 +59,28 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Phone Number</label>
+                  <label for="name" class="form-label">Name</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="email"
-                    name="email"
+                    id="name"
+                    name="name"
+                    placeholder="이름을 입력해주세요."
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
                     placeholder="'-' 을 제외한 번호만 입력해주세요."
                     autofocus
                   />
                 </div>
-                <button class="btn btn-primary d-grid w-100">비밀번호 찾기</button>
+                <button class="btn btn-primary d-grid w-100" type="submit">비밀번호 찾기</button>
               </form>
               <div class="text-center">
                 <a href="login" class="d-flex align-items-center justify-content-center">

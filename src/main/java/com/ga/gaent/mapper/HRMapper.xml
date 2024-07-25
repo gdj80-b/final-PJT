@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.HRMapper">
+    
+    <!-- 조직도 정보 조회 -->
+    <select id="selectTreeInfo" resultType="Map">
+        SELECT
+            team_code AS id,
+            parent_team_code AS parent,
+            team_name AS text,
+            org_icon AS icon,
+            999 AS rankCode
+        FROM
+            team
+        
+        UNION ALL
+        
+        SELECT
+            emp_code AS id,
+            team_code AS parent,
+            CASE 
+                WHEN rank_code = 1 THEN CONCAT(emp_kor_name, ' 대표')
+                WHEN rank_code = 2 THEN CONCAT(emp_kor_name, ' 부장')
+                WHEN rank_code = 3 THEN CONCAT(emp_kor_name, ' 팀장')
+                WHEN rank_code = 4 THEN CONCAT(emp_kor_name, ' 대리')
+                WHEN rank_code = 5 THEN CONCAT(emp_kor_name, ' 사원')
+                ELSE emp_kor_name
+            END AS text,
+            org_icon AS icon,
+            NULLIF(rank_code, '') AS rankCode
+        FROM
+            emp
+        ORDER BY
+            parent, rankCode, text;
+    </select>
+    
+    <!-- 직원 리스트 조회 -->
+    <select id="selectEmpList" parameterType="Map" resultType="Map">
+        SELECT
+            e.emp_code empCode,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.parent_team_code parentTeamCode,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_kor_name korName,
+            e.emp_phone phone,
+            e.emp_ext ext,
+            e.emp_hire_date hireDate
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
+        WHERE
+            e.emp_code != #{empCode}
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 직원 상세 조회 -->
+    <select id="selectEmpDetail" parameterType="String" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            e.emp_code empCode,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.parent_team_code parentTeamCode,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_pw empPw,
+            e.emp_kor_name korName,
+            e.emp_eng_name engName,
+            e.emp_reg_no regNo,
+            e.emp_gender gender,
+            e.emp_phone phone,
+            e.emergency_phone_relation emergencyPhoneRelation,
+            e.emergency_phone emergencyPhone,
+            e.post_code postCode,
+            e.address address,
+            e.detail_address detailAddress,
+            e.total_leave totalLeave,
+            e.use_leave useLeave,
+            e.emp_ext ext,
+            e.emp_hire_date hireDate,
+            e.emp_resign_date resignDate,
+            e.emp_update_date updateDate,
+            e.final_modifier finalModifier
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
+        WHERE
+            e.emp_code = #{empCode}
+    </select>
+    
+    <!-- 사원코드 중복 검사 -->
+    <select id="checkEmpCode" parameterType="String">
+        SELECT
+            emp_code
+        FROM
+            emp
+        WHERE
+            emp_code = #{empCode}
+    </select>
+    
+    <!-- 이메일(ID) 중복 검사 -->
+    <select id="checkEmpId" parameterType="String">
+        SELECT
+            emp_id
+        FROM
+            emp
+        WHERE
+            emp_id = #{empId}
+    </select>
+    
+    <!-- 직원 등록 -->
+    <insert id="insertEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
+        INSERT INTO
+            emp(
+            emp_code,
+            team_code,
+            rank_code,
+            emp_profile,
+            emp_id,
+            emp_pw,
+            emp_kor_name,
+            emp_eng_name,
+            emp_reg_no,
+            emp_gender,
+            emp_phone,
+            emergency_phone_relation,
+            emergency_phone,
+            post_code,
+            address,
+            detail_address,
+            total_leave,
+            emp_ext,
+            emp_hire_date,
+            emp_update_date,
+            final_modifier
+        ) VALUES(
+            #{empCode},
+            #{teamCode},
+            #{rankCode},
+            #{profile},
+            #{empId},
+            #{empPw},
+            #{korName},
+            #{engName},
+            #{regNo},
+            #{gender},
+            #{phone},
+            #{emergencyPhoneRelation},
+            #{emergencyPhone},
+            #{postCode},
+            #{address},
+            #{detailAddress},
+            #{leave},
+            #{ext},
+            #{hireDate},
+            NOW(),
+            #{modifier}
+        )
+    </insert>
+    
+    <!-- 직원 수정 -->
+    <update id="updateEmp" parameterType="com.ga.gaent.dto.EmpRequestDTO">
+        UPDATE
+            emp
+        <set>
+            <if test="teamCode != null and teamCode != ''">
+                team_code = #{teamCode},
+            </if>
+            <if test="rankCode != null and rankCode != ''">
+                rank_code = #{rankCode},
+            </if>
+            <if test="profile != null and profile != ''">
+                emp_profile = #{profile},
+            </if>
+            <if test="empId != null and empId != ''">
+                emp_id = #{empId},
+            </if>
+            <if test="empPw != null and empPw != ''">
+                emp_pw = #{empPw},
+            </if>
+            <if test="gender != null and gender != ''">
+                emp_gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                emp_phone = #{phone},
+            </if>
+            <if test="emergencyPhoneRelation != null and emergencyPhoneRelation != ''">
+                emergency_phone_relation = #{emergencyPhoneRelation},
+            </if>
+            <if test="emergencyPhone != null and emergencyPhone != ''">
+                emergency_phone = #{emergencyPhone},
+            </if>
+            <if test="postCode != null and postCode != ''">
+                post_code = #{postCode},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                detail_address = #{detailAddress},
+            </if>
+            <if test="ext != null and ext != ''">
+                emp_ext = #{ext},
+            </if>
+                emp_update_date = NOW(),
+                final_modifier = #{modifier}
+        </set>
+         WHERE emp_code = #{empCode}
+    </update>
+    
+    <delete id="deleteEmp" parameterType="String">
+        DELETE FROM
+            emp
+        WHERE emp_code = #{empCode}
+    </delete>
+    
+    <!--  부서 등록 -->
+    <insert id="insertTeam" parameterType="com.ga.gaent.vo.TeamVO">
+        INSERT INTO team(
+            team_code,
+            team_name,
+            team_des,
+            parent_team_code,
+            team_create_date,
+            team_update_date,
+            org_icon
+        )VALUES(
+            #{teamCode},
+            #{teamName},
+            #{teamDes},
+            #{parentTeamCode},
+            NOW(),
+            NOW(),
+            #{orgIcon}
+        )
+    </insert>
+    
+    <!-- 부서 수정 -->
+    <update id="updateTeam" parameterType="com.ga.gaent.vo.TeamVO">
+        UPDATE
+            team
+        SET
+            team_name = #{teamName},
+            team_des = #{teamDes},
+            parent_team_code = #{parentTeamCode},
+            team_update_date = NOW()
+        WHERE
+            team_code = #{teamCode}
+    </update>
+    
+    <!-- 부서 삭제 -->
+    <delete id="deleteTeam" parameterType="int">
+        DELETE FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+        <!-- 부서원이 1명이라도 존재할 경우 삭제 취소 -->
+        AND NOT EXISTS (
+            SELECT
+                1
+            FROM
+                emp
+            WHERE team_code = #{teamCode}
+        )
+    </delete>
+    
+    <!-- 부서 리스트 조회 -->
+    <select id="selectTeamList" resultType="com.ga.gaent.vo.TeamVO">
+        SELECT
+            team_code teamCode,
+            team_name teamName,
+            team_des teamDes,
+            parent_team_code parentTeamCode,
+            team_create_date teamCreateDate,
+            team_update_date teamUpdateDate
+        FROM
+            team
+        WHERE
+            team_code != 10
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 부서 리스트 카운트 -->
+    <select id="selectTeamCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code != 10
+    </select>
+    
+    <!-- 부서 등록 부서코드 유효성 검사 -->
+    <select id="checkTeamCode" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+    </select>
+    
+    <!-- 부서상세 조회 -->
+    <select id="selectDeptDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode} AND e.rank_code = 2
+    </select>
+    
+    <!-- 부서총원 조회 -->
+    <select id="selectDeptTotal" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            emp
+        WHERE
+            LEFT(team_code, 1) = LEFT(#{teamCode}, 1)
+        AND
+            team_code != '10'
+    </select>
+    
+    <!-- 관련부서 조회 -->
+    <select id="selectDeptTeam" parameterType="String" resultType="Map">
+        SELECT
+            t.team_name AS teamName,
+            t.team_des AS teamDes,
+            e.emp_kor_name AS empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.parent_team_code = #{teamCode} 
+            AND e.rank_code = 3
+    </select>
+    
+    <!-- 팀상세 조회 -->
+    <select id="selectTeamDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode}
+        AND
+            e.rank_code = 3
+    </select>
+    
+    <!-- 팀 멤버 정보 조회 -->
+    <select id="selectMemberDetail" parameterType="String" resultType="Map">
+        SELECT
+            emp_code empCode,
+            team_code teamCode,
+            emp_kor_name empName,
+        CASE rank_code
+            WHEN 1 THEN '대표이사'
+            WHEN 2 THEN '부장'
+            WHEN 3 THEN '팀장'
+            WHEN 4 THEN '대리'
+            WHEN 5 THEN '사원'
+            ELSE '기타'
+        END
+            as rank,
+        CONCAT(
+                SUBSTRING(emp_phone, 1, 3), '-',
+                SUBSTRING(emp_phone, 4, 4), '-',
+                SUBSTRING(emp_phone, 8, 4)
+            ) phone,
+            emp_id email,
+            emp_ext ext,
+            emp_profile profile
+        FROM
+            emp
+        WHERE
+            team_code = #{teamCode}
+        ORDER BY
+            rank_code, empName
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!-- 팀 멤버 총 인원 조회 -->
+    <select id="selectMemberCount" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            emp
+        WHERE
+            team_code = #{teamCode}
+    </select>
+</mapper>

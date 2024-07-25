@@ -7,18 +7,21 @@
   <head>
     <meta charset="UTF-8">
     <title>홈 - GAEnt.</title>
-    </head>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+  </head>
   <body>
     <div id="">
       <div id="header-area">
         <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
       </div>
-      <div id="sidebar_area">
+      <div id="sidebar-area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
       </div>
       <div id="workspace-area" class="sidebar-from-workspace">
-        <h1>작업공간</h1>
+        <div id="" style="width: 600px;">
+          <jsp:include page="/WEB-INF/view/news/naverNewsSearch.jsp"></jsp:include>
+        </div>
       </div>
     </div>
   </body>

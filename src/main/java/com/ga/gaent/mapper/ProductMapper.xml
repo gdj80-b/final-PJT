@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.ProductMapper">
+
+    <select id="selectProdList" resultType="com.ga.gaent.vo.ProductVO">
+        SELECT
+            prod_code prodCode,
+            prod_price prodPrice,
+            prod_category prodCategory,
+            prod_content prodContent,
+            prod_create_date createDate
+        FROM
+            product
+    </select>
+</mapper>
