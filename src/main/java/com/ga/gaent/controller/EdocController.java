@@ -119,7 +119,7 @@ public class EdocController {
         model.addAttribute("approverList", approverList);
         // log.debug(TeamColor.BLUE_BG + "approverList: " + approverList + TeamColor.RESET);
         
-        return "edoc/edocApproverModal";
+        return "edoc/edocApproverOrgChart";
     }
     
     /*
