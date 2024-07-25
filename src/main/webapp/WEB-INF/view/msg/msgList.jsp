@@ -43,7 +43,7 @@
             <h2 class="card-title" style="margin: 50px 0px 0px 30px">전체쪽지함</h2>
             <div class="card-body">
                 <div class="care-body" style="height: 700px;">
-                    <table class="table table-striped table-bordered ">
+                    <table class="table table-bordered ">
                         <thead>
                             <tr>
                                 <th colspan="2" class="align-middle fs-6" >전체 : ${pg.lastRow}개</th>
@@ -79,9 +79,9 @@
                             <c:forEach var="m" items="${list}">
                                 <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
-                                    <td class="msg-state-size">${m.receiver == m.sender ? '<span style="color:skyblue">나</span>' :
-                                         (m.receiver == loginInfo.empCode ? '<span style="color:purple">수신</span>'
-                                         : '<span style="color:orange">발신</span>') }
+                                    <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :
+                                         (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>': 
+                                         '<span class="badge bg-label-warning fs-6">발신</span>') }
                                     </td>
                                     <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.senderName : m.receiverName) }</td>
                                     <td class="msg-title-size"><a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}"> ${m.msgTitle} </a></td>

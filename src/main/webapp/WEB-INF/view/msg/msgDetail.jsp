@@ -5,69 +5,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>받은쪽지함</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .inbox-container {
-            width: 90%;
-            margin: 0 auto;
-            margin-top: 20px;
-        }
-        .inbox-container {
-            width: 80%;
-            margin: 0 auto;
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .care-body {
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .care-body div {
-            margin-bottom: 15px;
-        }
-        .care-body .title {
-            font-size: 1.5em;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .care-body .info {
-            color: #555;
-            font-size:1.2em;
-            font-weight: 300;
-            margin-bottom: 10px;
-            
-        }
-        .care-body .info-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0px;
-        }
-        .care-body .content {
-            padding: 10px;
-            background-color: #f0f0f0;
-            height:120px;
-            border-radius: 5px;
-        }
-        .msg-file-text{
-            font-size:20px;
-            font-weight: 500;
-        }
-        .info{
-            
-        
-        }
-    </style>
+<meta charset="UTF-8">
+<title>쪽지상세보기</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+<style>
+    body {
+    	font-family: Arial, sans-serif;
+    }
+    
+    .inbox-container {
+    	width: 90%;
+    	margin: 0 auto;
+    	margin-top: 20px;
+    }
+    
+    .inbox-container {
+    	width: 80%;
+    	margin: 0 auto;
+    	margin-top: 20px;
+    	padding: 20px;
+    	border: 1px solid #ddd;
+    	border-radius: 5px;
+    	background-color: #f9f9f9;
+    }
+    
+    .care-body {
+    	padding: 20px;
+    	background-color: #fff;
+    	border-radius: 5px;
+    	/* 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    }
+    
+    .care-body div {
+    	margin-bottom: 15px;
+    }
+    
+    .title {
+    	font-size: 1.5em;
+    	font-size: 1.5em;
+    	font-weight: bold;
+    	margin-bottom: 10px;
+    }
+    
+    .care-body .info {
+    	color: #555;
+    	font-size: 1.2em;
+    	font-weight: 300;
+    	margin-bottom: 10px;
+    }
+    
+    .care-body .info-container {
+    	display: flex;
+    	justify-content: space-between;
+    	margin-bottom: 0px;
+    }
+    
+    .care-body .content {
+    	padding: 10px;
+    	background-color: #f0f0f0;
+    	height: 120px;
+    	border-radius: 5px;
+    }
+    
+    .msg-file-text {
+    	font-size: 20px;
+    	font-weight: 500;
+    }
+</style>
 </head>
 <body>
     <div id="header-area">
@@ -78,9 +82,12 @@
         <jsp:include page="/WEB-INF/view/msg/msg-sub-sidebar.jsp"></jsp:include>
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
-        <div class="inbox-container">
+        <div class="card inbox-container">
+            <div class="card-header d-flex align-items-start justify-content-between ps-3 pt-3" style="padding-top: ">
+                <h2 class="title pt-3">${m.msgTitle}</h2>
+                <button onclick="javascript:history.back()" class="btn-close fs-4"></button>
+            </div>
             <div class="care-body">
-                <div class="title">${m.msgTitle}</div>
                 <div class="info" style="display: flex; font-weight: bold" >
                     첨부파일 : &nbsp;
                     <c:if test="${m.msgFileName!=null}"> 
