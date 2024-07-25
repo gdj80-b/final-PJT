@@ -32,257 +32,350 @@
     </select>
 
     <!--
-        @author : 조인환
+        @author : 정건희
+        Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
+    -->
+    <insert id="insertEdoc" parameterType="com.ga.gaent.dto.EdocRequestDTO" useGeneratedKeys="true" keyProperty="edocNum">
+        INSERT INTO
+            edoc(
+                edoc_title,
+                edoc_type,
+                edoc_writer,
+                edoc_enroll_date
+            ) VALUES(
+                #{edocTitle},
+                #{edocType},
+                #{edocWriter},
+                NOW()
+            )
+    </insert>
+
+    <!--
+        @author : 정건희
+        Description : 전자결재문서 작성 후 등록할 때 입력되는 첨부파일의 정보
+    -->
+    <insert id="insertEdocFile" parameterType="Map">
+        INSERT INTO
+            edoc_file(
+                file_name,
+                original_file_name,
+                file_type,
+                file_size,
+            ) VALUES(
+                #{fileName},
+                #{orginalFileName},
+                #{fileType},
+                #{fileSize}
+            )
+    </insert>
+
+    <!--
+        @author : 정건희
+        Description : 전자결재문서 작성 후 등록할 때 입력되는 기안서 양식의 정보
+    -->
+    <insert id="insertEdocDraft" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_draft(
+                edoc_num,
+                prop_start_date,
+                prop_end_date,
+                prop_title,
+                prop_content
+            ) VALUES(
+                #{edocNum},
+                #{propStartDate},
+                #{propEndDate},
+                #{propTitle},
+                #{propContent}
+            )
+    </insert>
+
+    <!--
+        @author : 정건희
+        Description : 전자결재문서 작성 후 등록할 때 입력되는 결재선(1차, 2차)의 정보
+    -->
+    <insert id="insertApprover" parameterType="Map">
+        INSERT INTO
+            edoc_approval(
+                edoc_num,
+                approver,
+                appr_order
+            ) VALUES(
+                #{edocNum},
+                #{approver},
+                #{apprOrder}
+            )
+    </insert>
+
+    <!--
+        @author : 정건희
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 정보
     -->
-    <select id="selectApprList" parameterType="Map" resultType="Map">
+    <select id="selectToDo" parameterType="Map" resultType="Map">
         SELECT
-            edoc.edoc_enroll_date edocEnrollDate,
-            edoc.edoc_num edocNum,
-            edoc.edoc_type edocType,
-            edoc.edoc_status edocStatus,
-            edoc.edoc_title edocTitle,
-            DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
-            etype.edoc_form_title edocFormTitle,
-            edoc.file_name fileName,
-            emp.emp_code writerEmpCode,
-            emp.emp_kor_name korName
-        FROM 
-            edoc
-                JOIN emp ON edoc_writer = emp_code
-                JOIN edoc_approval app ON app.edoc_num = edoc.edoc_num
-                JOIN edoc_form_type etype ON edoc.edoc_type = etype.edoc_type
-        WHERE 
-        	app.approver = #{empCode}
-        <choose>
-            <when test="request == 0">  <!--  결재 대기문서 -->
-                AND edoc.edoc_done_date IS NULL
-                AND app.appr_status = '0'
-            </when>
-            <when test="request == 1"> <!-- 결재 진행문서 -->
-                AND edoc.edoc_done_date IS NULL
-                AND edoc.edoc_status != '0'
-                AND app.appr_status != '0'
-            </when>
-            <when test="request == 2"> <!-- 본인이 결재한 문서 -->
-                AND app.appr_status != '0'
-            </when>
-        </choose>
+            e.edoc_num edocNum,
+            e.edoc_enroll_date edocEnrollDate,
+            eft.edoc_form_title edocFormTitle,
+            ed.prop_title propTitle,
+            ef.file_name fileName,
+            emp.emp_kor_name korName,
+            e.edoc_status edocStatus
+        FROM
+            edoc e
+                LEFT OUTER JOIN emp emp ON e.edoc_writer = emp.emp_code
+                LEFT OUTER JOIN edoc_draft ed ON e.edoc_num = ed.edoc_num
+                LEFT OUTER JOIN edoc_file ef ON e.file_name = ef.file_name
+                LEFT OUTER JOIN edoc_form_type eft ON e.edoc_type = eft.edoc_type
+                LEFT OUTER JOIN (
+                    SELECT 
+                        ea.edoc_num,
+                        ea.approver empCode,
+                        emp2.emp_kor_name approver,
+                        ea.appr_order,
+                        ea.appr_status,
+                        ea.appr_date,
+                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                    FROM
+                        edoc_approval ea
+                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                ) ea1 ON e.edoc_num = ea1.edoc_num AND ea1.row_num = 1 LEFT OUTER JOIN (
+                    SELECT 
+                        ea.edoc_num,
+                        ea.approver empCode,
+                        emp2.emp_kor_name approver,
+                        ea.appr_order,
+                        ea.appr_status,
+                        ea.appr_date,
+                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                    FROM
+                        edoc_approval ea
+                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
+        WHERE
+            e.edoc_status = '0' AND (ea1.empCode = #{empCode} OR ea2.empCode = #{empCode})
         ORDER BY
-            edoc.edoc_enroll_date DESC,
-            edoc.edoc_num DESC
+            e.edoc_enroll_date DESC
         <if test="startRow != null">
             LIMIT
                 #{startRow}, 10
         </if>
     </select>
-    
-    <select id="apprListCnt" parameterType="Map" resultType="int">
-        SELECT
-            COUNT(*)
-        FROM 
-            edoc
-                JOIN emp
-                    ON edoc_writer = emp_code
-                JOIN edoc_approval app
-                    ON app.edoc_num = edoc.edoc_num
-                JOIN edoc_form_type etype
-                    ON edoc.edoc_type = etype.edoc_type
-        WHERE 
-        	app.approver = #{empCode}
-        <choose>
-            <when test="request == 0">  <!--  결재 대기문서 -->
-                AND edoc.edoc_done_date IS NULL
-                AND app.appr_status = '0'
-            </when>
-            <when test="request == 1"> <!-- 결재 진행문서 -->
-                AND edoc.edoc_done_date IS NULL
-                AND edoc.edoc_status != '0'
-                AND app.appr_status != '0'
-            </when>
-            <when test="request == 2"> <!-- 본인이 결재한 문서 -->
-                AND app.appr_status != '0'
-            </when>
-        </choose>
-    </select>
-    
 
     <!--
-        @author : 조인환
+        @author : 정건희
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 상세 정보
     -->
-    <select id="selectEdocDetail" parameterType="map" resultType="Map">
+    <select id="selectEdocDetail" parameterType="int" resultType="Map">
         SELECT
-            edoc.edoc_enroll_date edocEnrollDate,
-            edoc.edoc_num edocNum,
-            edoc.edoc_status edocStatus,
-            edoc.edoc_title edocTitle,
-            edoc.edoc_type edocType,
-            edoc.edoc_done_date edocDoneDate,
-            edoc.file_name edocFileName,
-            etype.edoc_form_title edocFormTitle,
-            edoc.file_name fileName,
-            emp.emp_code writerEmpCode,
+            e.edoc_num edocNum,
+            emp.team_code teamCode,
             emp.emp_kor_name edocWriter,
-            team.team_name teamName,
-            appr1.approver approver1,
-            appr1.appr_order apprOrder1,
-            appr1.appr_status apprStatus1,
-            appr1.appr_reason apprReason1,
-            DATE_FORMAT(appr1.appr_date, '%Y.%m.%d') apprDate1,
-            appr2.approver approver2,
-            appr2.appr_order apprOrder2,
-            appr2.appr_status apprStatus2,
-            appr2.appr_reason apprReason2,
-            DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
+            e.edoc_status edocStatus,
+            e.edoc_enroll_date edocEnrollDate,
+            ea1.empCode approverCode1,
+            ea1.approver approver1,
+            ea1.appr_order apprOrder1,
+            ea1.appr_status apprStatus1,
+            ea1.appr_date apprDate1,
+            ea2.empCode approverCode2,
+            ea2.approver approver2, 
+            ea2.appr_order apprOrder2,
+            ea2.appr_status apprStatus2,
+            ea2.appr_date apprDate2,
+            eft.edoc_type edocType,
+            eft.edoc_form_title edocFormTitle,
+            
+            ed.prop_start_date propStartDate,
+            ed.prop_end_date propEndDate,
+            ed.prop_title propTitle,
+            ed.prop_content propContent,
+            ef.file_name fileName
         FROM
-            edoc
-                JOIN emp
-                    ON edoc_writer = emp_code
-                JOIN team
-                    ON emp.team_code = team.team_code
-                JOIN edoc_form_type etype
-                    ON edoc.edoc_type = etype.edoc_type
-                JOIN edoc_approval appr1
-                    ON edoc.edoc_num = appr1.edoc_num
-                        AND appr1.appr_order = '1'
-                JOIN edoc_approval appr2
-                    ON edoc.edoc_num = appr2.edoc_num
-                        AND appr2.appr_order = '2'
+            edoc e
+                LEFT OUTER JOIN emp emp ON e.edoc_writer = emp.emp_code
+                LEFT OUTER JOIN edoc_draft ed ON e.edoc_num = ed.edoc_num
+                LEFT OUTER JOIN edoc_file ef ON e.file_name = ef.file_name
+                LEFT OUTER JOIN edoc_form_type eft ON e.edoc_type = eft.edoc_type
+                LEFT OUTER JOIN (
+                    SELECT 
+                        ea.edoc_num,
+                        ea.approver empCode,
+                        emp2.emp_kor_name approver,
+                        ea.appr_order,
+                        ea.appr_status,
+                        ea.appr_date,
+                        ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                    FROM
+                        edoc_approval ea
+                            LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                ) ea1 ON e.edoc_num = ea1.edoc_num 
+                         AND ea1.row_num = 1 LEFT OUTER JOIN (
+                            SELECT 
+                                ea.edoc_num,
+                                ea.approver empCode,
+                                emp2.emp_kor_name approver,
+                                ea.appr_order,
+                                ea.appr_status,
+                                ea.appr_date,
+                                ROW_NUMBER() OVER (PARTITION BY ea.edoc_num ORDER BY ea.appr_order) row_num
+                            FROM
+                                edoc_approval ea
+                                    LEFT OUTER JOIN emp emp2 ON ea.approver = emp2.emp_code
+                        ) ea2 ON e.edoc_num = ea2.edoc_num AND ea2.row_num = 2
         WHERE
-           edoc.edoc_num = #{edocNum} AND
-        ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
+            e.edoc_num = #{edocNum};
     </select>
+
+
+
+
+
+
+
+
+
+
+     <!--
+        @author : 조인환
+        Description : 전자결재문서 작성 후 등록할 때 입력되는 기안서 양식의 정보
+    -->
+    <insert id="insertEdocVacation" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_vacation(
+                edoc_num,
+                vac_type,
+                vac_start_date,
+                vac_end_date,
+                vac_reason
+            ) VALUES(
+                #{edocNum},
+                #{vacType},
+                #{vacStartDate},
+                #{vacEndDate},
+                #{vacReason}
+            )
+    </insert>
     
-    <!-- 내 결재 대기,진행,완료문서 (개인문서)   -->
+    <insert id="insertEdocProject" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_project(
+                edoc_num,
+                project_content,
+                project_estimate
+            ) VALUES(
+                #{edocNum},
+                #{projectContent},
+                #{projectEstimate}
+            )
+    </insert>
+    
+    <insert id="insertEdocEvent" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_event(
+                edoc_num,
+                event_type,
+                event_date,
+                event_place,
+                event_expense
+            ) VALUES(
+                #{edocNum},
+                #{eventType},
+                #{eventDate},
+                #{eventPlace},
+                #{eventExpense}
+            )
+    </insert>
+    
+    <insert id="insertEdocCar" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_car(
+                edoc_num,
+                car_reason,
+                car_departure,
+                car_arrival,
+                car_start_date,
+                car_return_date,
+                car_type,
+                car_num
+            ) VALUES(
+                #{edocNum},
+                #{carReason},
+                #{carDeparture},
+                #{carArrival},
+                #{carStartDate},
+                #{carRuturnDate},
+                #{carType},
+                #{carNum}
+            )
+    </insert>
+    
+    <insert id="insertEdocReport" parameterType="com.ga.gaent.dto.EdocFormTypeDTO">
+        INSERT INTO
+            edoc_report(
+                edoc_num,
+                report_type,
+                report_content
+            ) VALUES(
+                #{edocNum},
+                #{reportType},
+                #{reportContent}
+            )
+    </insert>
+
+    
+    <!-- 결재, 반려처리 -->
+    <!-- 결재선 -->
+    <update id="updateEdocApprovalStatus" parameterType="map">
+        UPDATE 
+            edoc_approval
+        SET 
+            appr_reason = #{apprReason},
+            appr_status = #{apprStatus},
+            appr_date = NOW()
+        WHERE 
+            edoc_num = #{edocNum} AND
+            approver = #{empCode}
+    </update>
+    
+    <!-- 공통 -->
+    <update id="updateEdocStatus" parameterType="map">
+        UPDATE  
+            edoc
+        SET     
+            edoc_status = #{request}
+        WHERE 
+            edoc_num = #{edocNum} 
+    </update>
+    
+    <!-- 내 결재 대기,진행,완료문서   -->
     <select id="selectMyEdocSubmitList" parameterType="map" resultType="com.ga.gaent.vo.EdocVO">
         SELECT 
-             edoc.edoc_num edocNum,
-             edoc.edoc_title edocTitle,
-             edoc.edoc_type edocType,
-             etype.edoc_form_title edocTypeName,
-             edoc.file_name edocFileName,
-             DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
-             DATE_FORMAT(edoc.edoc_enroll_date, '%Y년 %m월 %d일') edocEnrollDate,
-             edoc.edoc_status edocStatus
+             edoc_num edocNum,
+             edoc_title edocTitle,
+             edoc_type edocType,
+             file_name edocFileName,
+             edoc_done_date edocDoneDate,
+             edoc_enroll_date edocEnrollDate,
+             edoc_status edocStatus
         FROM
             edoc
-            JOIN edoc_form_type etype
-                ON edoc.edoc_type = etype.edoc_type 
         WHERE 
-            edoc.edoc_writer = #{empCode} 
+            edoc_writer = #{empCode} 
             <choose>
                 <when test="request == 0">  <!-- 결재대기문서 -->
-                    AND edoc.edoc_done_date IS NULL
                 </when>
-                <when test="request == 1"> <!-- 결재승인문서 -->
-                    AND edoc.edoc_done_date IS NOT NULL
-                    AND(
-                    edoc.edoc_status = '1' OR
-                    edoc.edoc_status = '2'
+                <when test="request == 1"> <!-- 결재진행문서 -->
+                    AND(edoc_status = '1' OR
+                    edoc_status = '2'
                     )
                 </when>
-                <when test="request == 2"> <!-- 결재반려문서 -->
-                    AND(
-                    edoc.edoc_status = '-1'
+                <when test="request == 2"> <!-- 결재완료문서 -->
+                    AND(edoc_status = '-1' OR
+                    edoc_status = '-2'
                     )
                 </when>
             </choose>
         ORDER BY
-            edoc.edoc_enroll_date DESC
+            edoc_enroll_date DESC
     </select>
-    
-    <!-- 내 결재 대기,진행,완료문서   -->
-    <select id="edocSubmitListCnt" parameterType="map" resultType="int">
-        SELECT 
-             COUNT(*)
-        FROM
-            edoc
-            JOIN edoc_form_type etype
-                ON edoc.edoc_type = etype.edoc_type 
-        WHERE 
-            edoc.edoc_writer = #{empCode} 
-            <choose>
-                <when test="request == 0">  <!-- 결재대기문서 -->
-                    AND edoc.edoc_done_date IS NULL
-                </when>
-                <when test="request == 1"> <!-- 결재승인문서 -->
-                    AND edoc.edoc_done_date IS NOT NULL
-                    AND(
-                    edoc.edoc_status = '1' OR
-                    edoc.edoc_status = '2'
-                    )
-                </when>
-                <when test="request == 2"> <!-- 결재반려문서 -->
-                    AND(
-                    edoc.edoc_status = '-1'
-                    )
-                </when>
-            </choose>
-    </select>
-    
-    <select id="selectDraftDetail" parameterType="int" resultType="map" >
-        SELECT 
-            DATE_FORMAT(prop_start_date,'%Y년 %m월 %d일') propStartDate,
-            DATE_FORMAT(prop_end_date,'%Y년 %m월 %d일') propEndDate,
-            prop_title propTitle,
-            prop_content propContent
-        FROM 
-            edoc_draft
-        WHERE edoc_num = #{edocNum}
-    </select>
-    
-    <select id="selectVactionDetail" parameterType="int" resultType="map" >
-        SELECT
-            vac_type vacType,
-            DATE_FORMAT(vac_start_date,'%Y년 %m월 %d일') vacStartDate,
-            DATE_FORMAT(vac_end_date,'%Y년 %m월 %d일') vacEndDate,
-            vac_reason vacReason
-        FROM
-            edoc_vacation
-        WHERE 
-            edoc_num = #{edocNum}
-        
-    </select>
-    <select id="selectProjectDetail" parameterType="int" resultType="map" >
-        SELECT
-            project_content projectContent,
-            project_estimate projectExtimate
-        FROM
-            edoc_project
-        WHERE
-            edoc_num = #{edocNum}
-    </select>
-    <select id="selectEventDetail" parameterType="int" resultType="map" >
-        SELECT
-            event_type eventType,
-            DATE_FORMAT(event_date,'%Y년 %m월 %d일') eventDate,
-            event_place eventPlace,
-            event_expense eventExpense
-        FROM
-            edoc_event
-        WHERE
-            edoc_num = #{edocNum}
-    </select>
-    <select id="selectReportDetail" parameterType="int" resultType="map" >
-        SELECT
-            report_type reportType,
-            report_content reportContent
-        FROM
-            edoc_report
-        WHERE
-            edoc_num = #{edocNum}
-    </select>
-    
-    
-    <select id="findKorName" parameterType="String" resultType="String" >
-        SELECT
-            emp_kor_name empKorName
-        FROM
-            emp
-        WHERE 
-            emp_code = #{empCode} 
-    </select>
-    
-    
 </mapper>
