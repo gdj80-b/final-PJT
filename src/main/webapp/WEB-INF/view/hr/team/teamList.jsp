@@ -218,37 +218,37 @@
               <ul class="pagination justify-content-center">
                 <c:if test="${lastPage == 1}">
                   <li class="page-item active">
-                    <a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a>
+                    <a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a>
                   </li>
                 </c:if>
                 <c:if test="${currentPage == lastPage}">
-                  <li class="page-item first"><a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a></li>
-                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
+                  <li class="page-item first"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
+                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
                   <c:if test="${lastPage <= currentPage-2}">
-                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
                   </c:if>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
-                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
                 </c:if>
                 <c:if test="${(1 < currentPage) && (currentPage < lastPage)}">
-                  <li class="page-item first"><a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a></li>
-                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
-                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
-                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
-                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+                  <li class="page-item first"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
+                  <li class="page-item prev"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a></li>
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
+                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
+                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
                 </c:if>
                 <c:if test="${currentPage == 1}">
-                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
-                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
+                  <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage}&rowPerPage=${rowPerPage}">${currentPage}</a></li>
+                  <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a></li>
                   <c:if test="${currentPage+2 <= lastPage}">
-                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a></li>
                   </c:if>
-                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
-                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/team/teamList?currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+                  <li class="page-item next"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a></li>
+                  <li class="page-item last"><a class="page-link" href="${pageContext.request.contextPath}/hr/teamList?currentPage=${lastPage}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
                 </c:if>
               </ul>
             </nav>

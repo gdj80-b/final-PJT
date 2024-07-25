@@ -10,30 +10,11 @@
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
     <style>
-      .emp {
-        height: 50rem;
-        overflow-y: auto;
-      }
-    
-      .typeDraftThTag {
-        color: #fff !important;
-        background-color: rgba(105, 108, 255, 0.6) !important;
-        padding: 0.1rem !important;
-      }
-
-      .typeDraftTdTag {
-        background-color: rgba(255, 255, 255, 1) !important;
-      }
-
-      .typeDraftTdTag textarea {
-        resize: none;
-      }
-      
       .input-form-group {
         width: 54rem !important;
       }
       
-      .imgPreview {
+      .img-preview {
         width: 7.5rem;
         height: 10rem;
         background-color: #f0f0f0;
@@ -46,18 +27,18 @@
         cursor: pointer;
       }
       
-      .removeIngBtn input {
+      .remove-img-btn input {
         width: 7.5rem;
         height: 1.6rem;
       }
       
-      .imgPreview img {
+      .img-preview img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
       
-      .imgPreview span {
+      .img-preview span {
         cursor: pointer;
       }
     </style>
@@ -81,8 +62,8 @@
               <tr>
                 <th><label for="profile">사진</label></th>
                 <td colspan="2">
-                  <div class="imgPreview" id="imgPreview"><span>선택</span></div>
-                  <div class="removeIngBtn">
+                  <div class="img-preview" id="imgPreview"><span>선택</span></div>
+                  <div class="remove-img-btn">
                     <input class="form-control" type="file" id="profile" name="gaFile" style="display: none;">
                     <input class="btn btn-outline-secondary" id="removeImgBtn" value="삭제">
                   </div>
@@ -94,13 +75,13 @@
               </tr>
               <tr>
                 <th><label for="engName">이름(영문)</label></th>
-                <td><input class="form-control" type="text" id="engName" name="LastEngName" placeholder="Last Name"></td>
-                <td><input class="form-control" type="text" id="" name="FirstEngName" placeholder="First Name"></td>
+                <td><input class="form-control" type="text" id="engName" name="lastEngName" placeholder="Last Name"></td>
+                <td><input class="form-control" type="text" name="firstEngName" placeholder="First Name"></td>
               </tr>
               <tr>
                 <th><label for="empCode">사원코드</label></th>
                 <td><input class="form-control" type="text" id="empCode" name="empCode" placeholder="사원코드를 입력해주세요."></td>
-                <td><button class="btn btn-secondary">중복검사</button></td>
+                <td><button id="checkEmpCode" type="button" class="btn btn-secondary">중복검사</button></td>
               </tr>
               <tr>
                 <th><label for="teamCode">팀코드</label></th>
@@ -140,7 +121,8 @@
               </tr>
               <tr>
                 <th><label for="email">이메일(ID)</label></th>
-                <td colspan="2"><input class="form-control" type="text" id="email" name="empId" placeholder="이메일을 입력해주세요."></td>
+                <td><input class="form-control" type="text" id="empId" name="empId" placeholder="이메일을 입력해주세요."></td>
+                <td><button id="checkEmpId" type="button" class="btn btn-secondary">중복검사</button></td>
               </tr>
               <tr>
                 <th><label for="password">비밀번호</label></th>
@@ -149,7 +131,7 @@
               <tr>
                 <th><label for="regNo">주민등록번호</label></th>
                 <td><input class="form-control" type="text" id="regNo" name="firstRegNo" placeholder="주민번호 앞 6자리"></td>
-                <td><input class="form-control" type="text" id="" name="lastRegNo" placeholder="주민번호 뒷 7자리"></td>
+                <td><input class="form-control" type="text" name="lastRegNo" placeholder="주민번호 뒷 7자리"></td>
               </tr>
               <tr>
                 <th><label for="gender">성별</label></th>
@@ -175,7 +157,7 @@
                     <option value="기타">기타</option>
                   </select>
                 </td>
-                <td><input class="form-control" type="text" id="" name="emergencyPhone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
+                <td><input class="form-control" type="text" name="emergencyPhone" placeholder="하이픈('-')을 제외한 숫자만 입력해주세요."></td>
               </tr>
               <tr>
                 <th><label for="ext">내선번호</label></th>
@@ -205,30 +187,44 @@
             </table>
             <br />
             <button type="submit" class="btn btn-outline-primary">등록</button>
-            <button onclick="" class="btn btn-outline-secondary">취소</button>
+            <button onclick="window.history.back()" class="btn btn-outline-secondary">취소</button>
           </form>
         </div>
         <!-- 작업 공간 끝 -->
       </div>
     </div>
+    <!-- 중복 검사 모달 시작 -->
+    <div class="modal fade" id="checkEmpModal" tabindex="-1" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">중복검사</h5>
+          </div>
+          <div id="checkResultMsg" class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 삭제 버튼 모달 끝 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
       $('#empInputForm').submit(function(e) {
-        e.preventDefault(); // 폼의 기본 제출 동작을 중단
-        // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
+        e.preventDefault();
         let formData = new FormData($('#empInputForm')[0]);
         let empCode = $('#empCode').val();
         
         $.ajax({
-          url: '/gaent/hr/addEmp', // 서버에 쪽지를 보낼 URL
+          url: '/gaent/hr/addEmp',
           type: 'POST',
           data: formData,
-          contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
-          processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
-          success: function(response){
+          contentType: false,
+          processData: false,
+          success: function(data) {
             alert('성공');
-            $('#empInputForm')[0].reset(); // 폼 초기화
-            window.location.href = '/gaent/hr/empDetail/' + empCode; // 보낸쪽지함으로 이동
+            $('#empInputForm')[0].reset();
+            window.location.href = '/gaent/hr/empDetail/' + empCode;
           },
           error: function(){
             alert('실패');
@@ -263,6 +259,55 @@
       }
       
       $(document).ready(function() {
+        $('#checkEmpCode').on('click', function() {
+            
+          let checkEmpCode = $('#empCode').val();
+          let empCodePattern = /^[0-9]{8}$/;
+        
+          if (!empCodePattern.test(checkEmpCode)) {
+            $('#checkResultMsg').text('사원코드는 8자리 숫자여야 합니다.');
+            $('#checkEmpCodeModal').modal('show');
+            return;
+          }
+          
+          $.ajax({
+            url: '/gaent/hr/checkEmpCode',
+            type: 'GET',
+            data: {
+              'empCode': checkEmpCode
+            },
+            success: function(data) {
+              $('#checkResultMsg').text(data);
+              $('#checkEmpCodeModal').modal('show');
+              console.log(data);
+            },
+            error: function(e){
+              alert(e);
+            }
+          });
+        });
+        
+        $('#checkEmpId').on('click', function() {
+            
+          let checkEmpId = $('#empId').val();
+            
+          $.ajax({
+            url: '/gaent/hr/checkEmpId',
+            type: 'GET',
+            data: {
+              'empId': checkEmpId
+            },
+            success: function(data) {
+              $('#checkResultMsg').text(data);
+              $('#checkEmpModal').modal('show');
+              console.log(data);
+            },
+            error: function(e){
+              alert(e);
+            }
+          });
+        });
+          
         $('#leaveBtn').on('click', function() {
           if ($('#leave').attr('readonly')) {
             $('#leave').removeAttr('readonly');
