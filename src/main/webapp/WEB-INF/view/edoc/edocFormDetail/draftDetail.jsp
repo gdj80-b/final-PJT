@@ -26,20 +26,22 @@
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
-                <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="edocTitle"></td>
+                <td class="typeDraftTdTag" colspan="3">${edocDetail.edocTitle}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">시작일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propStartDate"></td>
+                <td class="typeDraftTdTag">${formDetail.propStartDate}</td>
                 <th class="text-center typeDraftThTag">종료일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="propEndDate"></td>
+                <td class="typeDraftTdTag">${formDetail.propEndDate}</td>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="propContent"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="12" name="propContent" readonly>${formDetail.propContent}</textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" multiple="" name="edocFileName"></td>
+                <td class="typeDraftTdTag" colspan="4">
+                ${edocDetail.edocFileName == null ? '첨부파일 없음':edocDetail.edocFileName }
+                </td>
             </tr>
         </tbody>
     </table>
