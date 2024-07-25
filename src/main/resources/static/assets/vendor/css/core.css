@@ -15462,19 +15462,10 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
     margin-left: 13rem !important;
     width: 16rem;
   }
-}
 
-/* 2024-07-16 [반응형] 채팅방 목록 사이드바 추가 */
-@media (min-width: 1200px) {
-  .layout-menu-fixed .layout-chat-menu,
-.layout-menu-fixed-offcanvas .layout-chat-menu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    margin-right: 0 !important;
-    margin-left: 13rem !important;
-    width: 16rem;
+  .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page,
+.layout-menu-fixed-offcanvas:not(.layout-menu-collapsed) .layout-page {
+    padding-left: 16.25rem;
   }
 }
 
@@ -15585,21 +15576,6 @@ html:not(.layout-footer-fixed) .content-wrapper {
     margin-left: 4rem !important;
     width: 16rem;
     transform: translate3d(-1.25rem, 0, 0);
-    will-change: transform, -webkit-transform;
-  }
-}
-
-/* 2024-07-16 [반응형] 채팅방 목록 사이드바 추가 */
-@media (max-width: 1199.98px) {
-  .layout-chat-menu {
-    position: fixed !important;
-    top: 0 !important;
-    height: 100% !important;
-    left: 0 !important;
-    margin-right: 0 !important;
-    margin-left: 4rem !important;
-    width: 16rem;
-    transform: translate3d(-17.25rem, 0, 0);
     will-change: transform, -webkit-transform;
   }
 }
