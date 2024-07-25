@@ -69,13 +69,13 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         </a>
       </li>
       <!-- 채팅 -->
-      <li
+      <!-- <li
         class="menu-item ${fn:contains(pageContext.request.requestURI, '/chat') ? 'active' : '' }"
       >
         <a href="/gaent/chat" class="menu-link">
           <i class="menu-icon tf-icons bx bx-message"></i> <span>채팅</span>
         </a>
-      </li>
+      </li> -->
       <!-- 캘린더 -->
       <li
         class="menu-item ${fn:contains(pageContext.request.requestURI, '/calendar') ? 'active' : '' }"
@@ -133,13 +133,13 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
       </li>
       <!-- 인사관리 -->
       <li class="menu-item">
-        <a href="/" class="menu-link">
+        <a href="/gaent/hr" class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i> <span>인사관리</span>
         </a>
       </li>
       <!-- 부서 근태관리 -->
       <li class="menu-item">
-        <a href="/gaent/" class="menu-link">
+        <a onclick="alert('준비중인 기능입니다.')" class="menu-link">
           <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
           <span>부서 근태관리</span>
         </a>
