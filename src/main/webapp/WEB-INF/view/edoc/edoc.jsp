@@ -12,9 +12,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/edoc.css"/>
     <!-- 조직도 관련 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
-    <style>
-      
-    </style>
   </head>
   <body>
     <div id="">
@@ -74,12 +71,46 @@
                     </table>
                   </div>
                 </div>
-                <!-- 결재선 -->
-                <div class="d-flex">
-                  <div id="edoc-approver-one" class="me-2"></div>
-                  <div id="edoc-approver-two"></div>
-                </div>
-              </div>
+               <!-- 결재선 시작 -->
+    <div class="d-flex">
+        <div id="edoc-approver-one" class="me-2" style="display: none;">
+            <div class="table-responsive text-nowrap approver-form">
+                <table class="table table-bordered appr-table">
+                    <tr>
+                        <th id="edocApproverOrder1" class="text-center approver-th-tag" rowspan="3">1 차</th>
+                        <td id="edocRankCode1" class="small text-center approver-td-tag">직위</td>
+                    </tr>
+                    <tr>
+                        <td id="edocKorName1" class="small text-center">결재자</td>
+                    </tr>
+                    <tr>
+                        <td id="edocApprovalDate1" class="small text-center approver-td-tag">결재일</td>
+                    </tr>
+                </table>
+                <input type="hidden" name="approver1" id="hiddenEdocApprover1">
+                <input type="hidden" name="apprOrder1" id="hiddenEdocApproverOrder1">
+            </div>
+        </div>
+        <div id="edoc-approver-two" class="me-2" style="display: none;">
+            <div class="table-responsive text-nowrap approver-form">
+                <table class="table table-bordered appr-table">
+                    <tr>
+                        <th id="edocApproverOrder2" class="text-center approver-th-tag" rowspan="3">2 차</th>
+                        <td id="edocRankCode2" class="small text-center approver-td-tag">직위</td>
+                    </tr>
+                    <tr>
+                        <td id="edocKorName2" class="small text-center">결재자</td>
+                    </tr>
+                    <tr>
+                        <td id="edocApprovalDate2" class="small text-center approver-td-tag">결재일</td>
+                    </tr>
+                </table>
+                <input type="hidden" name="approver2" id="hiddenEdocApprover2">
+                <input type="hidden" name="apprOrder2" id="hiddenEdocApproverOrder2">
+            </div>
+        </div>
+    </div>
+    <!-- 결재선 끝 -->
             </div>
             <hr /> 
             <!-- 기안서 양식 -->
@@ -99,36 +130,52 @@
                 <!-- 결재선 정보 모달 시작 -->
                 <div class="modal fade" id="approvalModalOrgChart" tabindex="-1" style="display: none;" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content p-2">
                       <div class="modal-header">
                         <h5 class="modal-title" id="modalCenterTitle">결재선 선택</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
-                      <div class="modal-body d-flex justify-content-between">
-                        <div class="approverInfo">
+                      <div class="modal-body d-flex">
+                        <div class="approver-info me-4">
                           <div id="orgChart"></div>
                         </div>
-                        <div class="approverInput d-flex flex-column align-items-start ps-4">
-                          <h5>결재선</h5>
-                          <div class="d-flex flex-column align-items-start mb-3">
-                            <label for="firstApprover">1차 결재자</label>
-                            <div class="d-flex">
-                              <input class="form-control form-control-sm w-75 me-2" type="text" name="firstApprover" id="firstApprover" readonly>
-                              <button type="button" class="btn btn-outline-primary btn-sm w-25">초기화</button>
+                        <div class="approver-input">
+                          <hr>
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                              <h5>1차 결재선</h5>
+                              <button type="button" class="btn btn-outline-primary btn-sm h-25" id="firstApprBtn">초기화</button>
+                            </div>
+                            <div>
+                              <label for="firstApprover">사원번호</label>
+                              <input class="form-control form-control-sm" type="text" name="firstEmpCode" id="firstEmpCode" readonly>
+                            </div>
+                            <div>
+                              <label for="firstApprover">이름</label>
+                              <input class="form-control form-control-sm" type="text" name="firstName" id="firstName" readonly>
                             </div>
                           </div>
-                          <div class="d-flex flex-column align-items-start">
-                            <label for="secondApprover">2차 결재자</label>
-                            <div class="d-flex">
-                              <input class="form-control form-control-sm w-75 me-2" type="text" name="secondApprover" id="firstApprover" readonly>
-                              <button type="button" class="btn btn-outline-primary btn-sm w-25">초기화</button>
+                          <hr>
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                              <h5>2차 결재선</h5>
+                              <button type="button" class="btn btn-outline-primary btn-sm h-25" id="secondApprBtn">초기화</button>
+                            </div>
+                            <div>
+                              <label for="secondApprover">사원번호</label>
+                              <input class="form-control form-control-sm" type="text" name="secondEmpCode" id="secondEmpCode" readonly>
+                            </div>
+                            <div>
+                              <label for="secondApprover">이름</label>
+                              <input class="form-control form-control-sm" type="text" name="secondName" id="secondName" readonly>
                             </div>
                           </div>
+                          <hr>
                         </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" onclick="addApprover()" data-bs-dismiss="modal">확인</button>
+                        <button type="button" class="btn btn-primary" id="approverSubmit">확인</button>
                       </div>
                     </div>
                   </div>
@@ -145,9 +192,18 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script src="https://unpkg.com/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
     <script>
       $(document).ready(function() {
         selectType();
+        
+        $('#firstApproverBtn').on('click', function() {
+          $('#firstApprover').val();
+        });
+          
+        $('#secondApproverBtn').on('click', function() {
+          $('#secondApprover').val();
+        });
         
         $('#orgChart').jstree({
           'core' : {
@@ -168,17 +224,89 @@
         $('#orgChart').on('select_node.jstree', function(e, data) {
           e.preventDefault(); // 기본 이벤트 동작 막기
           
-          let nodeId = data.node.id;
+          let empCode = data.node.id;
+          let korName = data.node.text;
+          let rankCode = data.node.rankCode;
           
-          // 인풋에 코드가 아닌 이름이 들어가고
-          // 1차는 필수로 들어가게
+          let firstEmpCode = $('#firstEmpCode');
+          let firstName = $('#firstName');
           
-          $('#firstApprover').val(nodeId);
-          $('#secondApprover').val(nodeId);
+          let secondEmpCode = $('#secondEmpCode');
+          let secondName = $('#secondName');
+          
+          // 1차, 2차 결재선 선택
+          // 1차 결재선 조건문 -> 1차 input의 value가 없거나, 2차 input의 value가 있을 때
+          if(!firstEmpCode.val() || (!firstEmpCode.val() && secondEmpCode.val())) {
+              
+            if(secondEmpCode.val() !== empCode) {
+              // 선택한 결재선이 2차와 같지 않을 때 value 삽입
+              firstEmpCode.val(empCode);
+              firstName.val(korName);
+            } else {
+              // 선택한 결재선이 2차와 같다면 경고!
+              alert('2차 결재자와 같은 결재자입니다.');
+            }
+          
+          // 2차 결재선 조건문 -> 2차 input의 value가 없을 때
+          } else if(!secondEmpCode.val()) {
+              
+            if(firstEmpCode.val() !== empCode) {
+              // 선택한 결재선이 1차와 같지 않을 때 value 삽입
+              secondEmpCode.val(empCode);
+              secondName.val(korName);
+            } else {
+              // 선택한 결재선이 1차와 같다면 경고!
+              alert('1차 결재자와 같은 결재자입니다.');
+            }
+          }
           
           // 선택된 노드 해제
-          $('#orgChart').jstree(true).deselect_node(nodeId);
+          $('#orgChart').jstree(true).deselect_node(empCode);
         });
+        
+        // 1차 결재선 초기화
+        $('#firstApprBtn').on('click', function() {
+          $('#firstEmpCode').val('');
+          $('#firstName').val('');
+        });
+        
+        // 2차 결재선 초기화
+        $('#secondApprBtn').on('click', function() {
+          $('#secondEmpCode').val('');
+          $('#secondName').val('');
+        });
+      });
+      
+      $('#approverSubmit').on('click', function() {
+        if (!$('#firstEmpCode').val()) {
+          alert('1차 결재자를 선택해주세요.');
+          return;
+        }
+        
+        let firstRank = $('#firstName').val();
+        let firstRankName = firstRank.slice(-2, firstRank.length);
+        
+        let secondRank = $('#secondName').val();
+        let secondRankName = secondRank.slice(-2, secondRank.length);
+        
+        // 1차 결재자 값 설정
+        $('#edoc-approver-one').show();
+        $('#edocRankCode1').text(firstRankName);
+        $('#edocKorName1').text($('#firstName').val());
+        $('#hiddenEdocApprover1').val($('#firstEmpCode').val());
+        
+        // 2차 결재자 값 설정
+        if ($('#secondEmpCode').val()) {
+          $('#edoc-approver-two').show();
+          $('#edocRankCode2').text(secondRankName);
+          $('#edocKorName2').text($('#secondName').val());
+          $('#hiddenEdocApprover2').val($('#secondEmpCode').val());
+        } else {
+          $('#edoc-approver-two').hide();
+        }
+        
+        // 모달 닫기
+        $('#approvalModalOrgChart').modal('hide');
       });
       
       function selectType() {
