@@ -13,7 +13,7 @@ public interface HRMapper {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 조직도 정보
      */
     public List<Map<String, Object>> selectTreeInfo();
@@ -69,43 +69,85 @@ public interface HRMapper {
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 15.
      * Description : 부서 등록
      */
     public int insertTeam(TeamVO team);
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 수정
      */
     public int updateTeam(TeamVO team);
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 삭제
      */
     public int deleteTeam(int teamCode);
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 리스트 조회
      */
     public List<TeamVO> selectTeamList(Map<String, Integer> map);
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 리스트 카운트
      */
     public int selectTeamCount();
     
     /*
      * @author : 김형호
-     * @since : 2024. 07. 00.
+     * @since : 2024. 07. 16.
      * Description : 부서 등록 부서코드 유효성 체크
      */
     public int checkTeamCode(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 상세 조회
+     */
+    public List<Map<String, Object>> selectDeptDetail(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 부서 총원 조회
+     */
+    public int selectDeptTotal(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 관련부서 조회
+     */
+    public List<Map<String, Object>> selectDeptTeam(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 24.
+     * Description : 팀 상세 조회
+     */
+    public List<Map<String, Object>> selectTeamDetail(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 정보 조회
+     */
+    public List<Map<String, Object>> selectMemberDetail(Map<String, Object> map);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 25.
+     * Description : 팀 멤버 총 인원 조회
+     */
+    public int selectMemberCount(String teamCode);
 }
