@@ -9,21 +9,7 @@
     <title>소통공간 - GAEnt.</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-    <style>
-      .board-detail-area {
-        height: 84vh;
-      }
-      
-      .board-detail {
-        width: 46rem;
-        height: 40rem;
-      }
-      
-      .board-content {
-        height: 28rem;
-        overflow-y: auto;
-      }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/board.css"/>
   </head>
   <body>
     <div id="">
@@ -39,6 +25,37 @@
           <div class="mb-5">
             <span class="display-5 fw-semibold mb-0">공지사항</span>
           </div>
+          <c:choose>
+            <c:when test="${boardDetail.noticeEmpCode == loginInfo.empCode}">
+              <div class="mb-3 w-100 d-flex justify-content-end">
+                <button onclick="location.href='/gaent/board/getModifyNotice?boardNum=${boardDetail.noticeNum}'" class="btn btn-sm btn-outline-primary me-2">수정</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+                <!-- 삭제 버튼 모달 시작 -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">게시글 삭제</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">정말 삭제하시겠습니까?</div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                        <a href="/gaent/board/removeNotice?boardNum=${boardDetail.noticeNum}" class="btn btn-outline-danger">삭제</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- 삭제 버튼 모달 끝 -->
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="mb-3 w-100 d-flex justify-content-end">
+                <button class="btn btn-sm btn-secondary me-2" disabled>수정</button>
+                <button class="btn btn-sm btn-secondary" disabled>삭제</button>
+              </div>
+            </c:otherwise>
+          </c:choose>
           <div>
             <div class="card board-detail">
               <div class="px-4 pt-4 d-flex align-items-start">
@@ -59,10 +76,50 @@
               <div class="px-4 py-2">
                 <div class="board-content">${boardDetail.noticeContent}</div>
               </div>
+              <c:choose>
+                <c:when test="${boardDetail.noticeFileName != null}">
+                  <div class="px-4 py-2 d-flex flex-column align-items-start">
+                    <label for="boardFileName" class="mb-2">첨부파일 :</label>
+                    <input class="form-control" type="file" id="boardFileName" name="boardFileName" value="${boardDetail.noticeFileName}">
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <hr>
+                  <div class="px-4 py-2">
+                    <label for="boardFileName" class="me-2">첨부파일 :</label>
+                    <span>첨부파일 없음</span>
+                  </div>
+                </c:otherwise>
+              </c:choose>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--삭제 메세지 모달 시작 -->
+    <div id="deleteMessageModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="deleteMessageModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div id="message" class="modal-content text-white">
+          <div class="modal-header">
+            <h4 class="modal-title">${message}</h4>
+          </div>
+          <div class="modal-body">
+            <p>${deleteMessage}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 삭제 메세지 모달 끝 -->
+    <script>
+      $(document).ready(function(){
+        if(${!empty message}){
+          $("#message").attr("class", "modal-content");
+          $("#deleteMessageModal").modal("show");
+        };
+      });
+    </script>
   </body>
 </html>

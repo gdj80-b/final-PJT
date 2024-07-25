@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+.articleContent {
+  width: 30rem;
+  height: 16rem;
+  resize: none;
+}
+
+.board-body {
+  height: 20rem;
+}
+
+.board-detail-area {
+  height: 84vh;
+}
+
+.board-detail {
+  width: 46rem;
+  height: 40rem;
+}
+
+.board-content {
+  height: 24rem;
+  overflow-y: auto;
+}
+
+.board-list-area {
+  height: 84vh;
+}
+
+.board-body {
+  height: 100%;
+}
+
+.board-num .board-category .board-file {
+  width: 1rem;
+}
+
+.board-writer .board-date {
+  width: 4rem;
+}
+
+.modify-comm-board-content {
+  width: 100%;
+  height: 26rem;
+  resize: none;
+}
+
+.modify-notice-board-content {
+  width: 100%;
+  height: 20rem;
+  resize: none;
+}
