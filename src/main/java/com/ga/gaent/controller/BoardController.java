@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.BoardRequestDTO;
 import com.ga.gaent.dto.BoardResponseDTO;
 import com.ga.gaent.dto.FileReqDTO;
@@ -70,16 +71,13 @@ public class BoardController {
         
         boardRequestDTO.setEmpCode(getEmpCode(session));
         
-        int result = 0;
-        
         String newFileName = boardService.insertBoard(boardRequestDTO, fileReqDTO);
         
         if(!newFileName.equals("empty")) {
-            result = fileUploadSetting.insertFile(newFileName, fileReqDTO, "forumfile");
-        }
-        
-        if(result != 1) {
-            throw new RuntimeException("게시글 작성에 실패했습니다.");
+            int result = fileUploadSetting.insertFile(newFileName, fileReqDTO, "forumfile");
+            if(result != 1) {
+                throw new RuntimeException("게시글 작성에 실패했습니다.");
+            }
         }
     }
     
@@ -135,5 +133,112 @@ public class BoardController {
         Map<String, Object> boardDetail = boardService.selectNoticeDetail(boardNum);
         model.addAttribute("boardDetail", boardDetail);
         return "board/noticeDetail";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 25.
+     * Description : 게시글(자유게시판, 공지사항) 수정 페이지
+     */
+    @GetMapping("/getModifyComm")
+    public String modifyComm(@RequestParam(name = "boardNum") int boardNum, Model model) {
+        
+        Map<String, Object> boardDetail = boardService.selectCommunityDetail(boardNum);
+        model.addAttribute("boardDetail", boardDetail);
+        
+        return "board/modifyCommunity";
+    }
+    
+    @GetMapping("/getModifyNotice")
+    public String modifyNotice(@RequestParam(name = "boardNum") int boardNum, Model model) {
+        
+        Map<String, Object> boardDetail = boardService.selectNoticeDetail(boardNum);
+        model.addAttribute("boardDetail", boardDetail);
+        
+        return "board/modifyNotice";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 25.
+     * Description : 게시글(자유게시판, 공지사항) 수정
+     */
+    @PostMapping("/modifyCommunity")
+    public String modifyCommunityContent(
+            HttpSession session,
+            @RequestParam(name = "boardNum") int boardNum,
+            BoardRequestDTO boardRequestDTO,
+            RedirectAttributes redirectAttributes) {
+        
+        String empCode = getEmpCode(session);
+        
+        int result = boardService.updateCommunityContent(boardNum, empCode, boardRequestDTO);
+        
+        if(result != 1) {
+            redirectAttributes.addFlashAttribute("message", "게시글 수정 알림");
+            redirectAttributes.addFlashAttribute("deleteMessage", "게시글 수정에 실패했습니다.");
+            return "redirect:/board/community/boardDetail?boardNum=" + boardNum;
+          }
+          
+        redirectAttributes.addFlashAttribute("message", "게시글 수정 알림");
+        redirectAttributes.addFlashAttribute("deleteMessage", "게시글 수정에 성공했습니다.");
+        return "redirect:/board/community";
+    }
+    
+    @PostMapping("/modifyNotice")
+    public String modifyNoticeContent(
+            HttpSession session,
+            @RequestParam(name = "boardNum") int boardNum,
+            BoardRequestDTO boardRequestDTO,
+            RedirectAttributes redirectAttributes) {
+        
+        String empCode = getEmpCode(session);
+        
+        int result = boardService.updateNoticeContent(boardNum, empCode, boardRequestDTO);
+        
+        if(result != 1) {
+            redirectAttributes.addFlashAttribute("message", "게시글 수정 알림");
+            redirectAttributes.addFlashAttribute("updateMessage", "게시글 수정에 실패했습니다.");
+            return "redirect:/board/notice/boardDetail?boardNum=" + boardNum;
+          }
+          
+        redirectAttributes.addFlashAttribute("message", "게시글 수정 알림");
+        redirectAttributes.addFlashAttribute("updateMessage", "게시글 수정에 성공했습니다.");
+        return "redirect:/board/notice";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 25.
+     * Description : 게시글(자유게시판, 공지사항) 삭제
+     */
+    @GetMapping("/removeComm")
+    public String removeCommunityContent(@RequestParam(name = "boardNum") int boardNum, RedirectAttributes redirectAttributes) {
+        int result = boardService.deleteCommunityContent(boardNum);
+        
+        if(result != 1) {
+          redirectAttributes.addFlashAttribute("message", "게시글 삭제 알림");
+          redirectAttributes.addFlashAttribute("deleteMessage", "게시글 삭제에 실패했습니다.");
+          return "redirect:/board/community/boardDetail?boardNum=" + boardNum;
+        }
+        
+        redirectAttributes.addFlashAttribute("message", "게시글 삭제 알림");
+        redirectAttributes.addFlashAttribute("deleteMessage", "게시글 삭제에 성공했습니다.");
+        return "redirect:/board/community";
+    }
+    
+    @GetMapping("/removeNotice")
+    public String removeNoticeContent(@RequestParam(name = "boardNum") int boardNum, RedirectAttributes redirectAttributes) {
+        int result = boardService.deleteNoticeContent(boardNum);
+        
+        if(result != 1) {
+          redirectAttributes.addFlashAttribute("message", "게시글 삭제 알림");
+          redirectAttributes.addFlashAttribute("deleteMessage", "게시글 삭제에 실패했습니다.");
+          return "redirect:/board/notice/boardDetail?boardNum=" + boardNum;
+        }
+        
+        redirectAttributes.addFlashAttribute("message", "게시글 삭제 알림");
+        redirectAttributes.addFlashAttribute("deleteMessage", "게시글 삭제에 성공했습니다.");
+        return "redirect:/board/notice";
     }
 }
