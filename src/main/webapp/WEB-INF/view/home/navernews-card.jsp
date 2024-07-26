@@ -146,7 +146,7 @@ pageEncoding="UTF-8"%>
         if (results.hasOwnProperty('items')) {
             let items = results.items;
             items.forEach(function(item) {
-                let title = '<p class="news-title"><b><a href="' + item.link + '">' + item.title + '</a></b></p>';
+                let title = '<p class="news-title"><b><a href="' + item.link + '" target="_blank">' + item.title + '</a></b></p>';
                 // 원본 item.description에서 앞 45글자를 가져와서 "..."을 붙여 출력
                 let trimmedDescription = item.description.substring(0, 45) + (item.description.length > 45 ? '...' : '');
                 let description = '<p class="news-desc">' + trimmedDescription + '</p>';
