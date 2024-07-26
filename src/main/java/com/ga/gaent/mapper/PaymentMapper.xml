@@ -22,20 +22,23 @@
     </insert>
 
     <!-- 구매이력조회 -->
-    <select id="selectPaymentList" parameterType="String" resultType="com.ga.gaent.dto.PaymentDTO">
-            SELECT
-                payment.prod_code prodCode,
-                product.prod_content prodName,
-                emp_code empCode,
-                pay_type payType,
-                pay_price payPrice,
-                pay_time payTime
-            FROM
-                payment
-                JOIN product
-                ON payment.prod_code = product.prod_code
-            WHERE
-                emp_code = #{empCode}
+    <select id="selectPaymentList" parameterType="map" resultType="com.ga.gaent.dto.PaymentDTO">
+        SELECT
+            payment.prod_code prodCode,
+            product.prod_content prodName,
+            emp_code empCode,
+            pay_type payType,
+            pay_price payPrice,
+            DATE_FORMAT(pay_time, '%y년 %m월 %d일 %H시%i분') payTime
+        FROM
+            payment
+            JOIN product
+            ON payment.prod_code = product.prod_code
+        WHERE
+            emp_code = #{empCode}
+        ORDER BY 
+            pay_time DESC
+        LIMIT #{startRow}, 10
     </select>
     
     <!-- 구매이력 페이징  -->
