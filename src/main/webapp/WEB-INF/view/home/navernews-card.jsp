@@ -1,55 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-      .news-card {
-        width: 36rem;
-        height: 10rem;
-      }
-
-      .news-card hr {
-        margin: 0.5rem 0;
-      }
-
-      .news-card h4 {
-        margin: 0;
-      }
-
-      .news-card .card-header {
-        padding: 1rem 1rem;
-      }
-
-      .news-card .card-body {
-        padding: 1rem 1rem;
-      }
-
-      .news-card p {
-        margin-bottom: 0.05rem;
-        padding-left: 0.75rem;
-      }
-
-      .news-title {
-        font-size: 14px;
-      }
-
-      .news-desc {
-        font-size: 12px;
-      }
-
-      .news-search-result hr {
-        margin: 0.5rem 0;
-      }
-      
-      .pagination {
-        margin-bottom: 0;
-      }
-    </style>
-  </head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navernews-card.css">
+    </head>
+    <body>
     <div class="news-card">
         <div class="card">
             <div class="card-body">
@@ -146,9 +103,10 @@ pageEncoding="UTF-8"%>
         if (results.hasOwnProperty('items')) {
             let items = results.items;
             items.forEach(function(item) {
-                let title = '<p class="news-title"><b><a href="' + item.link + '" target="_blank">' + item.title + '</a></b></p>';
+                let trimmedTitle = item.title.substring(0, 45) + (item.title.length > 30 ? '...' : '');
+                let title = '<p class="news-title"><b><a href="' + item.link + '" target="_blank">' + trimmedTitle + '</a></b></p>';
                 // 원본 item.description에서 앞 45글자를 가져와서 "..."을 붙여 출력
-                let trimmedDescription = item.description.substring(0, 45) + (item.description.length > 45 ? '...' : '');
+                let trimmedDescription = item.description.substring(0, 60) + (item.description.length > 30 ? '...' : '');
                 let description = '<p class="news-desc">' + trimmedDescription + '</p>';
                 let hr = '<hr>';
                 resultDiv.append(title + description + hr);

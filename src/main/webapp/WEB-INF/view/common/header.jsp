@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html
   lang="en"
@@ -60,7 +59,7 @@ pageEncoding="UTF-8"%>
   </head>
   <body>
     <nav
-      class="navbar navbar-example navbar-expand-lg bg-white position-sticky shadow-sm"
+      class="navbar navbar-example navbar-expand-lg bg-white fixed-top shadow-sm"
     >
       <div class="container-fluid">
         <div class="app-brand demo">
@@ -105,122 +104,6 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </nav>
-    <script>
-      $('#myPageInputForm').submit(function (e) {
-        e.preventDefault();
-        let formData = new FormData($('#myPageInputForm')[0]);
-        let empCode = $('#myEmpCode').val();
-
-        $.ajax({
-          url: '/gaent/hr/modifyEmp',
-          type: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false,
-          success: function (response) {
-            alert('성공');
-            $('#myPageInputForm')[0].reset();
-            window.location.reload;
-          },
-          error: function (e) {
-            console.log(e);
-            alert('실패');
-          },
-        });
-      });
-
-      function idCheck() {
-        let checkEmpId = $('#myPageEmpId').val();
-
-        $.ajax({
-          url: '/gaent/hr/checkEmpId',
-          type: 'GET',
-          data: {
-            empId: checkEmpId,
-          },
-          success: function (data) {
-            $('#checkResultMsg').text(data);
-            $('#checkEmpIdModal').modal('show');
-            console.log(data);
-          },
-          error: function (e) {
-            alert(e);
-          },
-        });
-      }
-
-      function showMyPage() {
-        let myEmpCode = $('#myEmpCode').val();
-        $('#myPageModal').modal('show');
-
-        $.ajax({
-          url: '/gaent/myPage',
-          type: 'GET',
-          data: {
-            empCode: myEmpCode,
-          },
-          success: function (data) {
-            // console.log(data);
-            $('#checkResultMsg').text(data);
-            $('#imgPreview').html(
-              '<img src="${pageContext.request.contextPath}/upload/profile/' +
-                data.profile +
-                '" alt="imgPreview">'
-            );
-            $('#myPageKorName').text(data.korName);
-            $('#myPageAge').text(data.age);
-            let tmpbirth = data.birth;
-            let birth =
-              tmpbirth.slice(0, 4) +
-              '-' +
-              tmpbirth.slice(4, 6) +
-              '-' +
-              tmpbirth.slice(6, 8);
-            $('#myPageBirth').text(birth);
-            $('#myPageTeamName').text(data.teamName);
-            $('#myPageRankName').text(data.rankName);
-            $('#myPageEmpId').val(data.empId);
-            let tmpphone = data.phone;
-            let phone =
-              tmpphone.slice(0, 3) +
-              '-' +
-              tmpphone.slice(3, 7) +
-              '-' +
-              tmpphone.slice(7, 11);
-            $('#myPagePhone').val(phone);
-          },
-          error: function (e) {
-            alert(e);
-          },
-        });
-
-        $('#imgPreview').on('click', function () {
-          $('#profile').click();
-        });
-
-        $('#profile').on('change', function () {
-          const file = this.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-              $('#imgPreview').html(
-                '<img src="' + event.target.result + '" alt="imgPreview">'
-              );
-            };
-            reader.readAsDataURL(file);
-          } else {
-            $('#imgPreview').html('<span>선택</span>');
-          }
-        });
-
-        $('#removeImgBtn').on('click', function () {
-          $('#profile').val('');
-          $('#imgPreview').html('<span>선택</span>');
-        });
-      }
-
-      $(document).ready(function () {});
-    </script>
   </body>
   <div
     class="modal fade"

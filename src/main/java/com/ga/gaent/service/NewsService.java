@@ -32,7 +32,7 @@ public class NewsService {
         }
 
         String apiURL = "https://openapi.naver.com/v1/search/news?query="
-                + text + "&display=" + 4 + "&start=" + (page*4) + "&sort=date"; // JSON 결과
+                + text + "&display=" + 3 + "&start=" + (3 * page) + "&sort=date"; // JSON 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);

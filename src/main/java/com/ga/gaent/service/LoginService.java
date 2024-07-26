@@ -35,9 +35,11 @@ public class LoginService {
         
         loginInfo.put("empCode", empVO.getEmpCode());
         loginInfo.put("teamCode", empVO.getTeamCode());
+        loginInfo.put("teamName", empVO.getTeamName());
         loginInfo.put("rankCode", empVO.getRankCode());
         loginInfo.put("empId", empVO.getEmpId());
         loginInfo.put("korName", empVO.getKorName());
+        loginInfo.put("phone", empVO.getPhone());
         loginInfo.put("totalLeave", empVO.getTotalLeave());
         loginInfo.put("useLeave", empVO.getUseLeave());
         

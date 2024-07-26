@@ -9,15 +9,25 @@
     -->
     <select id="selectLoginCheck" parameterType="com.ga.gaent.dto.LoginRequestDTO" resultType="com.ga.gaent.vo.EmpVO">
         SELECT
-            emp_code empCode,
-            team_code teamCode,
-            rank_code rankCode,
-            emp_id empId,
-            emp_kor_name korName,
-            total_leave totalLeave,
-            use_leave useLeave
+            e.emp_code empCode,
+            e.team_code teamCode,
+            t.team_name teamName,
+            e.rank_code rankCode,
+            CASE
+                WHEN rank_code = 1 THEN '대표'
+                WHEN rank_code = 2 THEN '부장'
+                WHEN rank_code = 3 THEN '팀장'
+                WHEN rank_code = 4 THEN '대리'
+                WHEN rank_code = 5 THEN '사원'
+            END rankName,
+            e.emp_id empId,
+            e.emp_kor_name korName,
+            e.emp_phone phone,
+            e.total_leave totalLeave,
+            e.use_leave useLeave
         FROM
-            emp
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
         WHERE
             emp_id = #{email} AND
             emp_pw = #{password}
