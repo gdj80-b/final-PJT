@@ -24,4 +24,9 @@ public class HomeController {
     public EmpVO getMyPageInfo(@RequestParam(name = "empCode") String empCode) {
         return homeService.selectMyPageInfo(empCode);
     }
+    
+    @GetMapping("/defaultError")
+    public String errorPage() {
+        return "common/error-page";
+    }
 }

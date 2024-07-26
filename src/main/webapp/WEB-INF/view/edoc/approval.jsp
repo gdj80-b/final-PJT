@@ -25,61 +25,51 @@
           <div class="mb-3">
             <span class="display-6 fw-semibold mb-0">전자결재 홈</span>
           </div>
-          <div class="edoc-card-area mb-4"><jsp:include page="/WEB-INF/view/edoc/approvalCard.jsp"></jsp:include></div>
-          <div class="edoc-list-area">
-            <div class="card mb-3">
-              <h5 class="card-header-edoc">기안 대기 문서</h5>
-              <div class="table-responsive text-nowrap">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>기안일</th>
-                      <th>결재양식</th>
-                      <th>제목</th>
-                      <th>첨부</th>
-                      <th>결재상태</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-border-bottom-0">
-                    <!-- 문서 조회 반복문 영역 -->
-                    <tr>
-                      <td><span class="fw-medium">기안일</span></td>
-                      <td><span class="fw-medium">결재양식</span></td>
-                      <td><span class="fw-medium">제목</span></td>
-                      <td><span class="fw-medium">첨부</span></td>
-                      <td><span class="badge bg-label-primary me-1">결재상태</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="edoc-card-area mb-4">
+            <jsp:include page="/WEB-INF/view/edoc/approvalCard.jsp"></jsp:include>
           </div>
-          <div class="">
-            <div class="card mb-3">
-              <h5 class="card-header-edoc">기안 승인 문서</h5>
-              <div class="table-responsive text-nowrap">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>기안일</th>
-                      <th>결재양식</th>
-                      <th>제목</th>
-                      <th>첨부</th>
-                      <th>결재상태</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-border-bottom-0">
-                    <!-- 문서 조회 반복문 영역 -->
-                    <tr>
-                      <td><span class="fw-medium">기안일</span></td>
-                      <td><span class="fw-medium">결재양식</span></td>
-                      <td><span class="fw-medium">제목</span></td>
-                      <td><span class="fw-medium">첨부</span></td>
-                      <td><span class="badge bg-label-primary me-1">결재상태</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          <div class="edoc-list-area">
+            <div class="card mb-3 px-4 py-2">
+              <h5 class="card-header-edoc">기안 대기 문서</h5>
+              <c:choose>
+                <c:when test="${!empty draftList}">
+                  <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-between">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>기안일</th>
+                          <th>결재양식</th>
+                          <th>제목</th>
+                          <th>첨부</th>
+                          <th>결재상태</th>
+                        </tr>
+                      </thead>
+                      <!-- 문서 조회 반복문 영역 -->
+                      <tbody class="table-border-bottom-0">
+                        <c:forEach var="app" items="${draftList}">
+                          <tr onclick="location.href='/gaent/edocDetail/${app.edocType}/${app.edocNum}'">
+                            <td><span class="fw-medium">${app.edocEnrollDate}</span></td>
+                            <td><span class="fw-medium">${app.edocTypeName}</span></td>
+                            <td><span class="fw-medium">${app.edocTitle}</span></td>
+                            <td><span class="fw-medium">${app.edocFileName}</span></td>
+                            <td><span class="badge bg-label-primary me-1">${app.edocStatus}</span></td>
+                          </tr>
+                        </c:forEach>
+                      </tbody>
+                    </table>
+                    <!-- 페이징 시작 -->
+                    <div class="mt-4">
+                      <jsp:include page="/WEB-INF/view/edoc/edoc-paging.jsp"></jsp:include>
+                    </div>
+                    <!-- 페이징 종료 -->
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-center">
+                    <h5>내 대기 문서가 없습니다.</h5>
+                  </div>
+                </c:otherwise>
+              </c:choose>
             </div>
           </div>
         </div>

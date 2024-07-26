@@ -45,6 +45,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
   rel="stylesheet"
   href="${pageContext.request.contextPath}/assets/css/sidebar.css"
 />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/pages/page-misc.css">
 
 <body>
   <aside

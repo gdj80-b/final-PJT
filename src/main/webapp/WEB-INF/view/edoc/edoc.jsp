@@ -146,12 +146,12 @@
                               <h5>1차 결재선</h5>
                               <button type="button" class="btn btn-outline-primary btn-sm h-25" id="firstApprBtn">초기화</button>
                             </div>
-                            <div>
-                              <label for="firstApprover">사원번호</label>
+                            <div class="d-flex align-items-center text-end mb-2">
+                              <label for="firstApprover">사원번호 :</label>
                               <input class="form-control form-control-sm" type="text" name="firstEmpCode" id="firstEmpCode" readonly>
                             </div>
-                            <div>
-                              <label for="firstApprover">이름</label>
+                            <div class="d-flex align-items-center text-end">
+                              <label for="firstApprover">이름 :</label>
                               <input class="form-control form-control-sm" type="text" name="firstName" id="firstName" readonly>
                             </div>
                           </div>
@@ -161,12 +161,12 @@
                               <h5>2차 결재선</h5>
                               <button type="button" class="btn btn-outline-primary btn-sm h-25" id="secondApprBtn">초기화</button>
                             </div>
-                            <div>
-                              <label for="secondApprover">사원번호</label>
+                            <div class="d-flex align-items-center text-end mb-2">
+                              <label for="secondApprover">사원번호 :</label>
                               <input class="form-control form-control-sm" type="text" name="secondEmpCode" id="secondEmpCode" readonly>
                             </div>
-                            <div>
-                              <label for="secondApprover">이름</label>
+                            <div class="d-flex align-items-center text-end">
+                              <label for="secondApprover">이름 :</label>
                               <input class="form-control form-control-sm" type="text" name="secondName" id="secondName" readonly>
                             </div>
                           </div>
@@ -258,6 +258,8 @@
               // 선택한 결재선이 1차와 같다면 경고!
               alert('1차 결재자와 같은 결재자입니다.');
             }
+          } else if(firstEmpCode.val() && secondEmpCode.val()) {
+            alert('2차 결재선까지 다 찼습니다. 확인을 눌러주세요.');
           }
           
           // 선택된 노드 해제

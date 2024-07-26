@@ -6,12 +6,16 @@
   overflow-y: auto;
 }
 
+.card-size {
+  width: 14rem !important;
+}
+
 .edoc-card-area {
   height: 15rem;
 }
 
 .edoc-list-area {
-  height: 15rem;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -37,13 +41,13 @@
   margin-bottom: 0rem !important;
 }
 
-.edoc-form-info-table>tbody>tr>th {
+.edoc-form-info-table > tbody > tr > th {
   width: 80px;
   color: #fff !important;
   background-color: rgba(105, 108, 255, 0.6);
 }
 
-.edoc-form-info-table>tbody>tr>td>input {
+.edoc-form-info-table > tbody > tr > td > input {
   border: none;
   outline: none;
 }
@@ -73,12 +77,14 @@
   text-align: left;
 }
 
-.input-wrapper {
-  width: 100%;
+.approver-input label {
+  width: 50px;
+  font-size: 12px;
+  margin-right: 0.625rem;
 }
 
-.approver-input label {
-  font-size: 12px;
+.approver-input input {
+  width: 75%;
 }
 
 .approver-form {
@@ -103,4 +109,16 @@
 .appr-table {
   background-color: #fff;
   margin-bottom: 0rem !important;
+}
+
+.edoc-btn {
+  width: 100% !important;
+}
+
+.edoc-btn button {
+  width: 100%;
+}
+
+.home-draft-list {
+  height: 22rem;
 }

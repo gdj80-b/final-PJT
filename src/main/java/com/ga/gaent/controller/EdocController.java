@@ -46,15 +46,27 @@ public class EdocController {
      * Description : 전자결재 페이지
      */
     @GetMapping("/approval")
-    public String approval(HttpSession session, Model model) {
+    public String approval(HttpSession session, Model model,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "rowPerPage", defaultValue = "5") int rowPerPage) {
         
         String empCode = getEmpCode(session);
         
-        // 전자결재 페이지에서 보이는 카드(결재대기문서)
-        List<Map<String, String>> toDoList = edocService.selectToDo(empCode);
+        // 전자결재 페이지에서 보이는 카드(결재하기 -> 결재 대기 문서)
+        List<Map<String, String>> toDoList = edocService.selectToDoInHome(empCode);
         log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET);
         
+        // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)
+        List<EdocVO> draftList = edocService.selectDraftInHome(currentPage, rowPerPage, empCode);
+        log.debug(TeamColor.BLUE_BG + "draftList: " + draftList + TeamColor.RESET);
+        
+        // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)에 대한 페이징
+        Map<String, Object> pagingMap = edocService.getDraftPagingInHome(currentPage, rowPerPage, empCode, 0);
+        log.debug(TeamColor.BLUE_BG + "pagingMap: " + pagingMap + TeamColor.RESET);
+        
         model.addAttribute("toDoList", toDoList);
+        model.addAttribute("draftList", draftList);
+        model.addAttribute("pg", pagingMap);
         
         return "edoc/approval";
     }
@@ -108,42 +120,14 @@ public class EdocController {
     
     /*
      * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 결재선 리스트 호출
-     */
-    @GetMapping("/getApprover")
-    public String getApprover(Model model) {
-        
-        List<EmpVO> approverList = edocService.selectApprover();
-        
-        model.addAttribute("approverList", approverList);
-        // log.debug(TeamColor.BLUE_BG + "approverList: " + approverList + TeamColor.RESET);
-        
-        return "edoc/edocApproverOrgChart";
-    }
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 결재선 폼 호출
-     */
-    @GetMapping("/approver")
-    public String getEdocApprover() {
-        return "edoc/edocApprover";
-    }
-    
-    
-    /*
-     * @author : 정건희
      * @since : 2024. 07. 16.
-     * Description : 결재대기문서 리스트 조회
+     * Description : 결재하기 -> 결재 대기 문서 조회
      */
     @GetMapping("/approval/toDo")
     public String getToDo(
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage
-            ) {
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getEmpCode(session);
         
@@ -151,7 +135,6 @@ public class EdocController {
         /* log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET); */
         
         Map<String, Object> pagingMap = edocService.getApprPagingIdx(empCode,currentPage,0);
-        
         
         model.addAttribute("pg", pagingMap);
         model.addAttribute("toDoList", list);
@@ -162,14 +145,13 @@ public class EdocController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 23.
-     * Description : 결재진행문서 리스트 조회
+     * Description : 결재하기 -> 결재 진행 문서 조회
      */
     @GetMapping("/approval/upComing")
     public String getUpComing(
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage
-            ) {
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getEmpCode(session);
         
@@ -187,14 +169,13 @@ public class EdocController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 23.
-     * Description : 결재완료문서 리스트 조회
+     * Description : 결재하기 -> 결재 내역 조회
      */
     @GetMapping("/approval/apprHistory")
     public String getApprHistory(
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage
-            ) {
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getEmpCode(session);
         
@@ -216,9 +197,10 @@ public class EdocController {
     public String getEdocDetail(
             Model model, HttpSession session,
             @PathVariable(name = "edocType") Integer edocType,
-            @PathVariable(name = "edocNum") Integer edocNum
-            ) {
+            @PathVariable(name = "edocNum") Integer edocNum) {
+        
         String empCode = getEmpCode(session);
+        
         Map<String, Object> edocDetail = edocService.selectEdocDetail(edocNum,empCode);
         log.debug(TeamColor.BLUE_BG + "edocDetail: " + edocDetail + TeamColor.RESET);
         
@@ -236,8 +218,7 @@ public class EdocController {
         }
         
         if(edocDetail == null || formDetail == null ) {
-            
-            return "edoc/false";
+            return "edoc/edoc-error";
         }
         
         model.addAttribute("formDetail", formDetail);
@@ -250,14 +231,17 @@ public class EdocController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 18.
-     * Description : 기안문서 리스트 조회
+     * Description : 개인문서함 -> 대기 문서함 조회
      */
     @GetMapping("/approval/wait")
     public String getDraft(
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
         String empCode = getEmpCode(session);
+        
         int request = 0;
+        
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
         Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
@@ -270,37 +254,45 @@ public class EdocController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 18.
-     * Description : 승인문서 리스트 조회
+     * Description : 개인문서함 -> 승인 문서함 조회
      */
     @GetMapping("/approval/approve")
     public String getApprove(HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
         String empCode = getEmpCode(session);
+        
         int request = 1;
+        
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
         Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
         model.addAttribute("pg", paginMap);
         model.addAttribute("list",list);
+        
         return "edoc/edocPersonal/approve";
     }
     
     /*
      * @author : 조인환
      * @since : 2024. 07. 18.
-     * Description : 반려문서 리스트 조회
+     * Description : 개인문서함 -> 반려 문서함 조회
      */
     @GetMapping("/approval/reject")
     public String getReject(
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
         String empCode = getEmpCode(session);
+        
         int request = 2;
+        
         List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
         Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
         
         model.addAttribute("pg", paginMap);
         model.addAttribute("list",list);
+        
         return "edoc/edocPersonal/reject";
     }
 }
