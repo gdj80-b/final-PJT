@@ -15,15 +15,7 @@ public interface EdocProcessMapper {
      * Description : 전자결재 데이터 입력
      */
     int insertEdoc(EdocRequestDTO edocRequestDTO);
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 첨부파일 입력
-     */
-    int insertEdocFile(Map<String, Object> insertFile);
-    
-    
+        
     /*
      * @author : 정건희
      * @since : 2024. 07. 15.

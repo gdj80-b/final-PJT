@@ -53,7 +53,14 @@
                                                     <td><span class="fw-medium">${app.edocEnrollDate}</span></td>
                                                     <td><span class="fw-medium">${app.edocTypeName}</span></td>
                                                     <td><span class="fw-medium">${app.edocTitle}</span></td>
-                                                    <td><span class="fw-medium">${app.edocFileName}</span></td>
+                                                    <c:choose>
+                                                        <c:when test="${app.fileName == null}">
+                                                            <td><span class="fw-medium d-flex align-items-center"><i class="tf-icon bx bx-file-blank"></i></span></td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td><span class="fw-medium d-flex align-items-center"><i class="tf-icon bx bx-file"></i></span></td>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${app.edocStatus == '0' }">

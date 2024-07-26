@@ -107,9 +107,9 @@
             edoc.edoc_title edocTitle,
             edoc.edoc_type edocType,
             edoc.edoc_done_date edocDoneDate,
-            edoc.file_name edocFileName,
-            etype.edoc_form_title edocFormTitle,
             edoc.file_name fileName,
+            ef.original_file_name edocOriginalfileName,
+            etype.edoc_form_title edocFormTitle,
             emp.emp_code writerEmpCode,
             emp.emp_kor_name edocWriter,
             team.team_name teamName,
@@ -135,6 +135,8 @@
                     ON edoc.edoc_num = appr1.edoc_num AND appr1.appr_order = '1'
                 LEFT JOIN edoc_approval appr2
                     ON edoc.edoc_num = appr2.edoc_num AND appr2.appr_order = '2'
+                LEFT JOIN edoc_file ef
+                    ON edoc.file_name = ef.file_name
         WHERE
             edoc.edoc_num = #{edocNum} AND
             ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
@@ -147,7 +149,7 @@
              edoc.edoc_title edocTitle,
              edoc.edoc_type edocType,
              etype.edoc_form_title edocTypeName,
-             edoc.file_name edocFileName,
+             edoc.file_name fileName,
              DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
              DATE_FORMAT(edoc.edoc_enroll_date, '%Y년 %m월 %d일') edocEnrollDate,
              edoc.edoc_status edocStatus

@@ -44,9 +44,18 @@
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4">
-                ${edocDetail.edocFileName == null ? '첨부파일 없음':edocDetail.edocFileName }
-                </td>
+                <c:choose>
+                    <c:when test= "${!empty edocDetail.fileName}">
+                        <td class="typeDraftTdTag" colspan="4">
+                            <a class="" href="${pageContext.request.contextPath}/upload/edocfile/${edocDetail.fileName}" target="_blank">
+                               ${edocDetail.edocOriginalfileName}
+                            </a>
+                        </td> 
+                    </c:when>
+                    <c:otherwise>
+                        <td class="typeDraftTdTag" colspan="4">첨부파일 없음</td>  
+                    </c:otherwise>
+                </c:choose>
             </tr>
         </tbody>
     </table>

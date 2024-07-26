@@ -1,15 +1,22 @@
 package com.ga.gaent.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
+import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.mapper.EdocProcessMapper;
+import com.ga.gaent.mapper.FileMapper;
+import com.ga.gaent.util.FileExtension;
+import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.TeamColor;
+import com.ga.gaent.vo.FileVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class EdocProcessService {
     @Autowired EdocProcessMapper edocProcessMapper;
-    
+    @Autowired FileUploadSetting fileUploadSetting;
+    @Autowired FileExtension fileExtension;
+    @Autowired FileMapper fileMapper;
     
     /*
      * @author : 정건희, 조인환
@@ -26,10 +35,52 @@ public class EdocProcessService {
      */
     public int insertEdoc(
             EdocRequestDTO edocRequestDTO,
-            EdocFormTypeDTO edocFormTypeDTO) {
+            EdocFormTypeDTO edocFormTypeDTO,
+            FileReqDTO fileReqDTO
+            ) {
         
         // 공통으로 들어가는 전자결재 문서
-        int edocResult = edocProcessMapper.insertEdoc(edocRequestDTO);
+        int edocResult = -1;
+        // 결재선
+        int approvalResult = -1;
+        // 세부 폼 입력
+        int insertEdocForm = -1;
+        
+        int fileInsertResult = -1;
+        
+        int realFileInsert = -1;   // 실제 파일 static에 업로드
+        
+        String newFileName = null;  // 파일이름 초기화
+        
+        MultipartFile mf = fileReqDTO.getGaFile();
+        if (!fileReqDTO.getGaFile().isEmpty()) {
+            log.debug(TeamColor.RED + "파일이 있습니다!" + TeamColor.RESET);
+            String originalFilename = mf.getOriginalFilename();
+            String fileType = mf.getContentType().toLowerCase();
+            long fileSize = mf.getSize();
+            String prefix = UUID.randomUUID().toString().replace("-", "");
+            String suffix = fileExtension.getFileExtension(originalFilename);
+            newFileName = prefix + suffix;
+            
+            FileVO gaFile = new FileVO();
+            gaFile.setOriginalName(originalFilename);
+            gaFile.setFileType(fileType);
+            gaFile.setFileSize(fileSize);
+            gaFile.setFileName(newFileName); 
+            
+            edocRequestDTO.setFileName(newFileName);
+            
+            // edocFile테이블에 Insert
+            fileInsertResult = fileMapper.insertEdocFile(gaFile);
+            // file 폴더에 업로드
+            realFileInsert =fileUploadSetting.insertFile(newFileName, fileReqDTO, "edocfile");
+            if (fileInsertResult != 1 || realFileInsert != 1) {
+                return -1;
+                // throw new RuntimeException("데이터베이스 입력을 실패하였습니다.");
+            }
+         }
+        // 공통으로 들어가는 전자결재 문서
+        edocResult = edocProcessMapper.insertEdoc(edocRequestDTO);
         
         Integer edocNum = edocRequestDTO.getEdocNum();
         edocRequestDTO.setEdocNum(edocNum);
@@ -38,7 +89,7 @@ public class EdocProcessService {
         String[] approvers = edocRequestDTO.getApprover();
         String[] apprOrders = edocRequestDTO.getApprOrder();
         
-        int approvalResult = -1;
+        
         
         for(int i = 0; i < approvers.length; i++) {
             Map<String, Object> edocMap = new HashMap<>();
@@ -51,7 +102,7 @@ public class EdocProcessService {
         
         String edocType = edocFormTypeDTO.getEdocType();
         
-        int insertEdocForm = -1;
+        
         if(edocType.equals("0")){
             System.out.println("기안서 제출");
             insertEdocForm = edocProcessMapper.insertEdocDraft(edocFormTypeDTO);
@@ -87,20 +138,21 @@ public class EdocProcessService {
      */
     public int insertEdocFile(EdocRequestDTO edocRequestDTO) {
         
-        String originalFileName = edocRequestDTO.getFileName().getOriginalFilename();
-        String fileName = (UUID.randomUUID().toString()).replace("-", "");
-        String fileType = edocRequestDTO.getFileName().getContentType();
-        /* String file = fileName + fileType; */
-        double fileSize = edocRequestDTO.getFileName().getSize();
-        
-        Map<String, Object> insertFile = new HashMap<>();
-        
-        insertFile.put("originalFileName", originalFileName);
-        insertFile.put("fileName", fileName);
-        insertFile.put("fileType", fileType);
-        insertFile.put("fileSize", fileSize);
-        
-        return edocProcessMapper.insertEdocFile(insertFile);
+//        String originalFileName = edocRequestDTO.getFileName().getOriginalFilename();
+//        String fileName = (UUID.randomUUID().toString()).replace("-", "");
+//        String fileType = edocRequestDTO.getFileName().getContentType();
+//        /* String file = fileName + fileType; */
+//        double fileSize = edocRequestDTO.getFileName().getSize();
+//        
+//        Map<String, Object> insertFile = new HashMap<>();
+//        
+//        insertFile.put("originalFileName", originalFileName);
+//        insertFile.put("fileName", fileName);
+//        insertFile.put("fileType", fileType);
+//        insertFile.put("fileSize", fileSize);
+//        
+//        return edocProcessMapper.insertEdocFile(insertFile);
+        return 0;
     }
     
 

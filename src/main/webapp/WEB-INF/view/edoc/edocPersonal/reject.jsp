@@ -48,7 +48,7 @@
                                     <td><span class="fw-medium">${el.edocTypeName}</span></td>
                                     <td><span class="fw-medium">${el.edocTitle}</span></td>
                                     <c:choose>
-                                        <c:when test="${el.edocFileName == null}">
+                                        <c:when test="${el.fileName == null}">
                                             <td><span class="fw-medium d-flex align-items-center"><i class="tf-icon bx bx-file-blank"></i></span></td>
                                         </c:when>
                                         <c:otherwise>

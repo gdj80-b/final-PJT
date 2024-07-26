@@ -24,7 +24,8 @@
         </div>
         <div id="workspace-area" class="subsidebar-from-workspace">
             <div class="edoc">
-                <form method="post" action="approver/edoc">
+                <!-- 폼태그 시작  -->
+                <form method="post" action="approver/edoc" enctype="multipart/form-data">
                     <div class="d-flex mb-3">
                         <span class="display-6 fw-semibold me-3">기안하기</span>
                         <div class="edoc-type-select-box">
