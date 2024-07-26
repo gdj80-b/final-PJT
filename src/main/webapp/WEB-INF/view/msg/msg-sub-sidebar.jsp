@@ -36,7 +36,7 @@
             <a href="#" class="btn btn-success btn-lg btn-Msg-sidebar" id="writeMessageBtn">쪽지쓰기</a>
             <a href="#" class="btn btn-success btn-lg btn-Msg-sidebar" id="writeMessageBtn2">내게쓰기</a>
         </div>
-        <hr style="border:1px solid black;">
+        <hr>
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgList')}">active</c:if>">
                 <a href="/gaent/msg/0" class="menu-link"> 
@@ -151,7 +151,7 @@
         // 폼 제출 시 AJAX 요청으로 쪽지 보내기
         $('#messageForm').submit(function(event){
             event.preventDefault(); // 폼의 기본 제출 동작을 중단
-            let checkReceiver = $('#receiverName').val();
+            let checkReceiver = $('#receiver').val();
             // let formData = $(this).serialize(); // 폼 데이터를 직렬화하여 URL 인코딩된 문자열로 변환
             console.log( );
             if(!checkReceiver){
