@@ -99,7 +99,7 @@
         INSERT INTO
             edoc_project(
                 edoc_num,
-                proejct_title,
+                project_title,
                 project_content,
                 project_estimate
             ) VALUES(
@@ -158,40 +158,27 @@
     </update>
     
     <!-- 첫번째 업데이트 -->
-    <update id="updateEdocStatusFirst" parameterType="map">
+    <update id="updateEdocStatus" parameterType="map">
         UPDATE  
             edoc
         <set>
             edoc_status = #{request},
-            <if test="request == -1">
-                edoc_done_date = NOW(),
+            edoc_enroll_date = NOW(),
+            <if test="request == -1 || last == -1 ">
+               edoc_done_date = NOW()
             </if>
-            edoc_enroll_date = NOW()
         </set>
         WHERE 
             edoc_num = #{edocNum} 
     </update>
     
-    <!--  두번째 업데이트  -->
-    <update id="updateEdocStatusSecond" parameterType="map">
-        UPDATE  
-            edoc
-        <set>
-            edoc_status = #{request},
-            edoc_done_date = NOW(),
-            edoc_enroll_date = NOW()
-        </set>
-        WHERE 
-            edoc_num = #{edocNum} 
-    </update>
-    
-    <select id="checkEdocStatus" parameterType="String">
-        SELECT 
-            edoc_status
-        FROM 
-            edoc
-        WHERE 
-            edoc_num = #{edocNum}
+    <select id="checkApprovalCnt">
+        SELECT
+            COUNT(*) cnt
+        FROM
+            edoc_approval
+        WHERE
+            edoc_num = #{edocNum} AND
+            appr_status = '0'
     </select>
-
 </mapper>

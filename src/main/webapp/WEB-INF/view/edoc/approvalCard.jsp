@@ -14,7 +14,7 @@
                   <span class="badge bg-label-primary">대기</span>
                 </c:when>
                 <c:when test="${el.edocDoneDate == null}">
-                  <span class="badge bg-label-info">진행</span>
+                  <span class="badge bg-label-warning">진행</span>
                 </c:when>
                 <c:otherwise>
                   <span class="badge bg-label-success">완료</span>

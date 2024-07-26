@@ -118,9 +118,9 @@
             appr1.appr_status apprStatus1,
             appr1.appr_reason apprReason1,
             DATE_FORMAT(appr1.appr_date, '%Y.%m.%d') apprDate1,
-            appr2.approver approver2,
+            IFNULL(appr2.approver, 'none') approver2,
             appr2.appr_order apprOrder2,
-            appr2.appr_status apprStatus2,
+            IFNULL(appr2.appr_status, -1 ) apprStatus2,
             appr2.appr_reason apprReason2,
             DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
         FROM

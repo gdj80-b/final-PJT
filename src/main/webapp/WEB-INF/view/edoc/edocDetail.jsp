@@ -225,10 +225,10 @@
             };
           });
           
-        } else if (${loginInfo.empCode == edocDetail.approver2}) { // 2차 승인자인 경우
+        } else if (${loginInfo.empCode == edocDetail.approver2}){ // 2차 승인자인 경우
           console.log('2차승인자입니다');
           $('#approveBtn').click(function() {
-            if( ${edocDetail.apprStatus2} != '0'){
+            if(${edocDetail.apprStatus2} != '0' ){
               alert('이미 결재하신 문서입니다');
             } else {
               $('#approvalModalLabel').text('결재하기');
@@ -239,7 +239,7 @@
           });
 
           $('#rejectBtn').click(function() {
-            if(${edocDetail.apprStatus2}!= '0') {
+            if( ${edocDetail.apprStatus2} != '0' ) {
               alert('이미 결재하신 문서입니다');
             } else {
               $('#approvalModalLabel').text('반려하기');
@@ -266,6 +266,7 @@
                 $('#approvalModal').modal('hide');
                 $('#approvalForm')[0].reset(); // 폼 초기화
                  // window.location.href = '/gaent/approval'; // 전자결재홈으로 이동
+                window.location.reload();
             },
             error: function() {
                 alert('처리에 실패했습니다.');

@@ -125,29 +125,25 @@ public class EdocProcessService {
             map.put("apprStatus", "1" );
         }
         
-        // 승인을 처리하려 할 때 작동
-        // 결재자가 승인 처리를 하면 첫 번째 if문으로 넘어감
-        // 결재자가 반려 처리를 하면 첫 번째 if else로 넘어감
+        // 남아있는 결재자 수를 확인
+        int checkApprovalCnt = edocProcessMapper.checkApprovalCnt(edocNum);
+        log.debug(TeamColor.YELLOW + "결재자 수" + checkApprovalCnt + TeamColor.RESET);
         
-        // select로 edoc의 상태를 확인
-        String status = edocProcessMapper.checkEdocStatus(edocNum);        
-        log.debug(TeamColor.YELLOW + "status : " + status + TeamColor.RESET);
-        
-        // 이미 누군가가 승인처리를 했으면 그다음 결재자는 최종결재자이므로 donDate를 삽입          
-        if(status.equals("1")||status.equals("2") ){ // 두번째 if문
-            // 승인으로 업데이트
-            int s3 = edocProcessMapper.updateEdocStatusSecond(map);
-            log.debug(TeamColor.YELLOW + "두번째 결재" + s3 + TeamColor.RESET);
-        }else {
-            int s2 = edocProcessMapper.updateEdocStatusFirst(map);
-            log.debug(TeamColor.YELLOW + "첫번째 결제" + s2 + TeamColor.RESET);
+        if(checkApprovalCnt == 1) {   // 최종결재자라면
+           map.put("last", -1 );
         }
-       
+
+        int resultEdocUpdate = edocProcessMapper.updateEdocStatus(map);
+        log.debug(TeamColor.YELLOW + "Edoc테이블 업데이트 결과 :  " + resultEdocUpdate + TeamColor.RESET);
         
         
-        int s1 = edocProcessMapper.updateEdocApprovalStatus(map); // 결재선테이블
-        log.debug(TeamColor.YELLOW + "결재선" + s1 + TeamColor.RESET);
+        int resultApprovalUpdate = edocProcessMapper.updateEdocApprovalStatus(map); // 결재선테이블
+        log.debug(TeamColor.YELLOW + "결재선 테이블 업데이트 결과 :" + resultApprovalUpdate + TeamColor.RESET);
         
+        // 변경이 되지 않았으면
+        if(resultEdocUpdate != 1 || resultApprovalUpdate != 1) {
+            return -1;
+        }
         
         return 1;
     }
