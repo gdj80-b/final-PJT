@@ -91,7 +91,7 @@ public class CalendarController {
         if(removeEvent == 1) {
             return "redirect:/calendar";
         }else {
-            return "redirect:/calendar/eventOne?calNum=" + calNum;
+            return "redirect:/calendar";
         }
     }
     

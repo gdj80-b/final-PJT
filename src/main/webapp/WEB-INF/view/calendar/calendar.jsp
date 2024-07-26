@@ -39,10 +39,16 @@
   }
   
   /* 추가한 calendar 크기 조정 스타일 */
-    #calendar {
-        max-height: 600px;
-        margin: 0 auto;
-    }
+	#calendar {
+	    max-height: 600px;
+	    margin: 0 auto;
+	}
+    
+  /* 요일 헤더 색상 변경 */
+  .fc-col-header-cell {
+    background-color: #9b9dfa; /* 배경색 변경 */
+    color: #fff; /* 텍스트 색상 */
+  }
 </style>
 </head>
 <body>
@@ -52,7 +58,7 @@
     </div>
     <div id="sidebar_area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/calendar/cal-sub-sidebar.jsp"></jsp:include>
       </div>
     
 <div id="workspace-area" class="subsidebar-from-workspace">
@@ -307,13 +313,6 @@
                         // 실패 처리 로직 추가
                     }
                 });
-            });
-
-            // 수정 모달이 닫힐 때 초기화 및 후속 처리
-            $('#modifyEventModal').on('hidden.bs.modal', function() {
-                // 수정 폼 초기화 (옵션)
-                $('#modifyEventForm').empty();
-                // 추가적인 후속 처리 추가 가능
             });
         }
       });

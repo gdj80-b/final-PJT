@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
     <ul class="menu-inner py-3">
       <li class="menu-item">
         <a href="/gaent/calendar" class="menu-link">
-          <span>홈</span>
+          <span>메인화면</span>
         </a>
       </li>
       <li class="menu-item">
