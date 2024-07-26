@@ -237,6 +237,7 @@
     
     <select id="selectProjectDetail" parameterType="int" resultType="map" >
         SELECT
+            project_title projectTitle,
             project_content projectContent,
             project_estimate projectExtimate
         FROM

@@ -27,30 +27,26 @@
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
                 <td class="typeDraftTdTag" colspan="3">
-                    <input class="form-control form-control-sm" type="text" name="edocTitle" required>
+                    ${edocDetail.edocTitle}
                 </td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">경조사 종류</th>
-                <td class="typeDraftTdTag">
-                    <select class="form-select form-select-sm" name="eventType" required>
-                        <option value="결혼">경혼</option>
-                        <option value="생일">생일</option>
-                        <option value="장례식">장례</option>
-                    </select>
-                </td>            
+                <td class="typeDraftTdTag">${formDetail.eventType}</td>
                 <th class="text-center typeDraftThTag">날짜</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="eventDate" required></td>
+                <td class="typeDraftTdTag">${formDetail.eventDate}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">장소</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="text" name="eventPlace"></td>
+                <td class="typeDraftTdTag">${formDetail.eventPlace}</td>
                 <th class="text-center typeDraftThTag">비용</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="text" name="eventExpense" required></td>
+                <td class="typeDraftTdTag">${formDetail.eventExpense}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" name="edocFileName"></td>
+                <td class="typeDraftTdTag" colspan="4">
+                ${edocDetail.edocFileName == null ? '첨부파일 없음':edocDetail.edocFileName }
+                </td>
             </tr>
         </tbody>
     </table>

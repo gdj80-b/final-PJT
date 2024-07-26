@@ -26,26 +26,33 @@
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
-                <td class="typeDraftTdTag" colspan="3">
-                <input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
+                <td class="typeDraftTdTag" colspan="3">${edocDetail.edocTitle}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">보고서 종류</th>
-                <td class="typeDraftTdTag" colspan="3"><select class="form-select form-select-sm" name="reportType" required>
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
-                </select></td>
+                <c:choose>
+                    <c:when test="${(formDetail.reportType).equals('근태')}">
+                        <td class="typeDraftTdTag" colspan="3">${formDetail.reportType}</td>
+                    </c:when>
+                    <c:when test="${(formDetail.reportType).equals('범죄')}">
+                        <td class="typeDraftTdTag" colspan="3">${formDetail.reportType}</td>
+                    </c:when>
+                    <c:when test="${(formDetail.reportType).equals('사고')}">
+                        <td class="typeDraftTdTag" colspan="3">${formDetail.reportType}</td>
+                    </c:when>
+                </c:choose>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag" colspan="4">내용</th>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="16" name="reportContent"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="16" name="reportContent" readonly>${formDetail.reportContent}</textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" name="edocFileName"></td>
+                <td class="typeDraftTdTag" colspan="4">
+                ${edocDetail.edocFileName == null ? '첨부파일 없음':edocDetail.edocFileName }
+                </td>
             </tr>
         </tbody>
     </table>

@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.EdocProcessMapper">
 
-
-
     <!--
         @author : 정건희,조인환
         Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
@@ -42,8 +40,6 @@
             )
     </insert>
     
-
-
     <!--
         @author : 정건희
         Description : 전자결재문서 작성 후 등록할 때 입력되는 결재선(1차, 2차)의 정보
@@ -60,9 +56,6 @@
                 #{apprOrder}
             )
     </insert>
-    
-    
-    
 
     <!--
         @author : 정건희
@@ -106,10 +99,12 @@
         INSERT INTO
             edoc_project(
                 edoc_num,
+                proejct_title,
                 project_content,
                 project_estimate
             ) VALUES(
                 #{edocNum},
+                #{projectTitle},
                 #{projectContent},
                 #{projectEstimate}
             )
@@ -147,7 +142,6 @@
                 #{reportContent}
                 )
     </insert>
-
     
     <!-- 결재, 반려처리 -->
     <!-- 결재선 -->
@@ -163,9 +157,6 @@
             approver = #{empCode}
     </update>
     
-    
-   
-           
     <!-- 첫번째 업데이트 -->
     <update id="updateEdocStatusFirst" parameterType="map">
         UPDATE  
@@ -181,7 +172,6 @@
             edoc_num = #{edocNum} 
     </update>
     
-    
     <!--  두번째 업데이트  -->
     <update id="updateEdocStatusSecond" parameterType="map">
         UPDATE  
@@ -195,10 +185,6 @@
             edoc_num = #{edocNum} 
     </update>
     
-    
-   
-    
-    
     <select id="checkEdocStatus" parameterType="String">
         SELECT 
             edoc_status
@@ -207,12 +193,5 @@
         WHERE 
             edoc_num = #{edocNum}
     </select>
-    
-    
-    
-    
-    
-    
-    
 
 </mapper>
