@@ -1,194 +1,187 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>전자결재 - GAEnt.</title>
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/edoc.css"/>
-    <!-- 조직도 관련 CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
-  </head>
-  <body>
+<head>
+<meta charset="UTF-8" />
+<title>전자결재 - GAEnt.</title>
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/edoc.css" />
+<!-- 조직도 관련 CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+</head>
+<body>
     <div id="">
-      <div id="header-area">
-        <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-      </div>
-      <div id="sidebar_area">
-        <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
-      </div>
-      <div id="workspace-area" class="subsidebar-from-workspace">
-        <div class="edoc">
-          <form method="post" action="approver/edoc">
-            <div class="d-flex mb-3">
-              <span class="display-6 fw-semibold me-3">기안하기</span>
-              <div class="edoc-type-select-box">
-                <select id="edoc-type" class="form-select form-select-sm" name="edocType">
-                  <option value="">양식을 선택해주세요.</option>
-                </select>
-              </div>
-            </div>
-            <hr />
-            <div>
-              <div class="mb-3">
-                <span id="edoc-form-title" class="display-6 fw-semibold mb-0">전자문서양식</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <!-- 문서정보 -->
-                <div class="edoc-form-info">
-                  <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered table-sm edoc-form-info-table">
-                      <tbody>
-                        <tr>
-                          <th class="text-center">기안자</th>
-                          <td class="small">
-                            <input name="edocKorName" value="${loginInfo.korName}" readonly />
-                            <input type="hidden" name="edocWriter" value="${loginInfo.empCode}" readonly />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-center">소속</th>
-                          <td class="small">
-                            <input name="edocRankCode" value="${loginInfo.rankCode}" readonly />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-center">기안일</th>
-                          <td class="small">
-                            <input name="edocDate" value="${date}" readonly />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-center">문서번호</th>
-                          <td class="small"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-               <!-- 결재선 시작 -->
-    <div class="d-flex">
-        <div id="edoc-approver-one" class="me-2" style="display: none;">
-            <div class="table-responsive text-nowrap approver-form">
-                <table class="table table-bordered appr-table">
-                    <tr>
-                        <th id="edocApproverOrder1" class="text-center approver-th-tag" rowspan="3">1 차</th>
-                        <td id="edocRankCode1" class="small text-center approver-td-tag">직위</td>
-                    </tr>
-                    <tr>
-                        <td id="edocKorName1" class="small text-center">결재자</td>
-                    </tr>
-                    <tr>
-                        <td id="edocApprovalDate1" class="small text-center approver-td-tag">결재일</td>
-                    </tr>
-                </table>
-                <input type="hidden" name="approver1" id="hiddenEdocApprover1">
-                <input type="hidden" name="apprOrder1" id="hiddenEdocApproverOrder1">
-            </div>
+        <div id="header-area">
+            <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
         </div>
-        <div id="edoc-approver-two" class="me-2" style="display: none;">
-            <div class="table-responsive text-nowrap approver-form">
-                <table class="table table-bordered appr-table">
-                    <tr>
-                        <th id="edocApproverOrder2" class="text-center approver-th-tag" rowspan="3">2 차</th>
-                        <td id="edocRankCode2" class="small text-center approver-td-tag">직위</td>
-                    </tr>
-                    <tr>
-                        <td id="edocKorName2" class="small text-center">결재자</td>
-                    </tr>
-                    <tr>
-                        <td id="edocApprovalDate2" class="small text-center approver-td-tag">결재일</td>
-                    </tr>
-                </table>
-                <input type="hidden" name="approver2" id="hiddenEdocApprover2">
-                <input type="hidden" name="apprOrder2" id="hiddenEdocApproverOrder2">
-            </div>
+        <div id="sidebar_area">
+            <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+            <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
         </div>
-    </div>
-    <!-- 결재선 끝 -->
-            </div>
-            <hr /> 
-            <!-- 기안서 양식 -->
-            <div>
-              <div id="edoc-form-type">
-                <div class="edoc-form-area">양식을 선택해주세요.</div>
-              </div>
-              <hr />
-              <!-- 버튼 -->
-              <div class="text-end">
-                <button class="btn btn-link btn-me" type="submit">
-                  <i class="menu-icon bx bx-save"></i>결재요청
-                </button>
-                <button id="approverModal" class="btn btn-link btn-me" data-bs-toggle="modal" data-bs-target="#approvalModalOrgChart" type="button">
-                  <i class="menu-icon bx bx-info-circle"></i>결재정보
-                </button>
-                <!-- 결재선 정보 모달 시작 -->
-                <div class="modal fade" id="approvalModalOrgChart" tabindex="-1" style="display: none;" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content p-2">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="modalCenterTitle">결재선 선택</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-                      <div class="modal-body d-flex">
-                        <div class="approver-info me-4">
-                          <div id="orgChart"></div>
+        <div id="workspace-area" class="subsidebar-from-workspace">
+            <div class="edoc">
+                <form method="post" action="approver/edoc">
+                    <div class="d-flex mb-3">
+                        <span class="display-6 fw-semibold me-3">기안하기</span>
+                        <div class="edoc-type-select-box">
+                            <select id="edoc-type" class="form-select form-select-sm" name="edocType">
+                                <option value="">양식을 선택해주세요.</option>
+                            </select>
                         </div>
-                        <div class="approver-input">
-                          <hr>
-                          <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                              <h5>1차 결재선</h5>
-                              <button type="button" class="btn btn-outline-primary btn-sm h-25" id="firstApprBtn">초기화</button>
-                            </div>
-                            <div class="d-flex align-items-center text-end mb-2">
-                              <label for="firstApprover">사원번호 :</label>
-                              <input class="form-control form-control-sm" type="text" name="firstEmpCode" id="firstEmpCode" readonly>
-                            </div>
-                            <div class="d-flex align-items-center text-end">
-                              <label for="firstApprover">이름 :</label>
-                              <input class="form-control form-control-sm" type="text" name="firstName" id="firstName" readonly>
-                            </div>
-                          </div>
-                          <hr>
-                          <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                              <h5>2차 결재선</h5>
-                              <button type="button" class="btn btn-outline-primary btn-sm h-25" id="secondApprBtn">초기화</button>
-                            </div>
-                            <div class="d-flex align-items-center text-end mb-2">
-                              <label for="secondApprover">사원번호 :</label>
-                              <input class="form-control form-control-sm" type="text" name="secondEmpCode" id="secondEmpCode" readonly>
-                            </div>
-                            <div class="d-flex align-items-center text-end">
-                              <label for="secondApprover">이름 :</label>
-                              <input class="form-control form-control-sm" type="text" name="secondName" id="secondName" readonly>
-                            </div>
-                          </div>
-                          <hr>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" id="approverSubmit">확인</button>
-                      </div>
                     </div>
-                  </div>
-                </div>
-                <!-- 결재선 정보 모달 끝 -->
-                <a href="approval" class="btn btn-link btn-me">
-                  <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
-                </a>
-              </div>
+                    <hr />
+                    <div>
+                        <div class="mb-3">
+                            <span id="edoc-form-title" class="display-6 fw-semibold mb-0">전자문서양식</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <!-- 문서정보 -->
+                            <div class="edoc-form-info">
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table table-bordered table-sm edoc-form-info-table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">기안자</th>
+                                                <td class="small"><input name="edocKorName" value="${loginInfo.korName}" readonly /> <input type="hidden" name="edocWriter"
+                                                    value="${loginInfo.empCode}" readonly
+                                                /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">소속</th>
+                                                <td class="small"><input name="edocRankCode" value="${loginInfo.rankCode}" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">기안일</th>
+                                                <td class="small"><input name="edocDate" value="${date}" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">문서번호</th>
+                                                <td class="small"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- 결재선 시작 -->
+                            <div class="d-flex">
+                                <div id="edoc-approver-one" class="me-2" style="display: none;">
+                                    <div class="table-responsive text-nowrap approver-form">
+                                        <table class="table table-bordered appr-table">
+                                            <tr>
+                                                <th id="edocApproverOrder1" class="text-center approver-th-tag" rowspan="3">1 차</th>
+                                                <td id="edocRankCode1" class="small text-center approver-td-tag">직위</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocKorName1" class="small text-center">결재자</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocApprovalDate1" class="small text-center approver-td-tag">결재일</td>
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="approver" id="hiddenEdocApprover1"> <input type="hidden" name="apprOrder" id="hiddenEdocApproverOrder1" value="1">
+                                    </div>
+                                </div>
+                                <div id="edoc-approver-two" class="me-2" style="display: none;">
+                                    <div class="table-responsive text-nowrap approver-form">
+                                        <table class="table table-bordered appr-table">
+                                            <tr>
+                                                <th id="edocApproverOrder2" class="text-center approver-th-tag" rowspan="3">2 차</th>
+                                                <td id="edocRankCode2" class="small text-center approver-td-tag">직위</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocKorName2" class="small text-center">결재자</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="edocApprovalDate2" class="small text-center approver-td-tag">결재일</td>
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="approver" id="hiddenEdocApprover2"> <input type="hidden" name="apprOrder" id="hiddenEdocApproverOrder2" value="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 결재선 끝 -->
+                        </div>
+                        <hr />
+                        <!-- 기안서 양식 -->
+                        <div>
+                            <div id="edoc-form-type">
+                                <div class="edoc-form-area">양식을 선택해주세요.</div>
+                            </div>
+                            <hr />
+                            <!-- 버튼 -->
+                            <div class="text-end">
+                                <button class="btn btn-link btn-me" type="submit">
+                                    <i class="menu-icon bx bx-save"></i>결재요청
+                                </button>
+                                <button id="approverModal" class="btn btn-link btn-me" data-bs-toggle="modal" data-bs-target="#approvalModalOrgChart" type="button">
+                                    <i class="menu-icon bx bx-info-circle"></i>결재정보
+                                </button>
+                                <!-- 결재선 정보 모달 시작 -->
+                                <div class="modal fade" id="approvalModalOrgChart" tabindex="-1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                        <div class="modal-content p-2">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalCenterTitle">결재선 선택</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body d-flex">
+                                                <div class="approver-info me-4">
+                                                    <div id="orgChart"></div>
+                                                </div>
+                                                <div class="approver-input">
+                                                    <hr>
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h5>1차 결재선</h5>
+                                                            <button type="button" class="btn btn-outline-primary btn-sm h-25" id="firstApprBtn">초기화</button>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-end mb-2">
+                                                            <label for="firstApprover">사원번호 :</label> <input class="form-control form-control-sm" type="text" name="firstEmpCode" id="firstEmpCode"
+                                                                readonly
+                                                            >
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-end">
+                                                            <label for="firstApprover">이름 :</label> <input class="form-control form-control-sm" type="text" name="firstName" id="firstName" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h5>2차 결재선</h5>
+                                                            <button type="button" class="btn btn-outline-primary btn-sm h-25" id="secondApprBtn">초기화</button>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-end mb-2">
+                                                            <label for="secondApprover">사원번호 :</label> <input class="form-control form-control-sm" type="text" name="secondEmpCode" id="secondEmpCode"
+                                                                readonly
+                                                            >
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-end">
+                                                            <label for="secondApprover">이름 :</label> <input class="form-control form-control-sm" type="text" name="secondName" id="secondName" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                                                <button type="button" class="btn btn-primary" id="approverSubmit">확인</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 결재선 정보 모달 끝 -->
+                                <a href="approval" class="btn btn-link btn-me"> <i class="menu-icon bx bx-chevron-left-circle"></i>돌아가기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </form>
         </div>
-      </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
@@ -371,5 +364,5 @@
           });
       }
     </script>
-  </body>
+</body>
 </html>

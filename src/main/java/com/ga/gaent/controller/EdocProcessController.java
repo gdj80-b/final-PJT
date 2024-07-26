@@ -9,13 +9,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocProcessService;
+import com.ga.gaent.util.TeamColor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class EdocProcessController {
+    
     @Autowired EdocProcessService edocProcessService;
     
-    
-
     /*
      * @author : 정건희
      * @since : 2024. 07. 12.
@@ -26,6 +28,8 @@ public class EdocProcessController {
             EdocRequestDTO edocRequestDTO,
             EdocFormTypeDTO edocFormTypeDTO,
             RedirectAttributes redirectAttributes) {
+        
+        log.debug(TeamColor.BLUE_BG + "edocRequestDTO: " + edocRequestDTO + TeamColor.RESET);
         
         int result = edocProcessService.insertEdoc(edocRequestDTO, edocFormTypeDTO);
         int edocFileResult = -1;
@@ -46,7 +50,6 @@ public class EdocProcessController {
         return "redirect:/approval/wait";
     }
     
-
     /*
      * @author : 조인환
      * @since : 2024. 07. 19.

@@ -35,7 +35,6 @@ public class EdocProcessService {
         edocRequestDTO.setEdocNum(edocNum);
         edocFormTypeDTO.setEdocNum(edocNum);
         
-        
         String[] approvers = edocRequestDTO.getApprover();
         String[] apprOrders = edocRequestDTO.getApprOrder();
         
