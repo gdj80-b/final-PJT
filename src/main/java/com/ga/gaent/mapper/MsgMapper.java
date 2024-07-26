@@ -74,6 +74,10 @@ public interface MsgMapper {
    */
   int eliminateMsgFile();
   
-  
+  /* 
+   * @author : 조인환
+   * @since : 2024. 07. 26.
+   * Description : 쪽지 보낼때 사원 검색
+   */
   List<Map<String,Object>>searchEmpCode(String empName);
 }

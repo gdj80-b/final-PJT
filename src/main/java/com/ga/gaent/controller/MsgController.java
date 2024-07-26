@@ -25,8 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/msg")
 public class MsgController {
-    @Autowired MsgService msgService;    
-    @Autowired FileUploadSetting fileUploadSetting;
+    @Autowired MsgService msgService;
     
     // 세션에서 로그인한사람의 empCode추출
     private String getEmpCode(HttpSession session) {
@@ -91,13 +90,7 @@ public class MsgController {
         int result = -1;
 
         // 쪽지전송
-        String newFileName = msgService.sendMsg(m, fileReqDTO);
-
-        // 업로드 파일이 없을시에만 동작
-        if (!newFileName.equals("empty")) {
-            // 'static/upload/원하는위치' 에저장
-            result = fileUploadSetting.insertFile(newFileName, fileReqDTO, "msgfile");
-        }
+        result = msgService.sendMsg(m, fileReqDTO);
 
         return result;
     }
@@ -105,14 +98,15 @@ public class MsgController {
     /*
      * @author : 조인환
      * @since : 2024. 07. 13.
-     * Description : Ajax를 이용해 메시지 상태 변경
+     * Description : Ajax를 이용해 메시지 상태 변경(삭제,복원)
      */
     @PostMapping("/modifyMsgStatus")
     @ResponseBody
     public int modifyMsgStatus(
-            @RequestParam(name = "empCode") String empCode, 
+            HttpSession session,
             @RequestParam(name = "request") String request, 
             @RequestParam(name = "msgNums", required = false) String[] msgNums) {
+        String empCode = getEmpCode(session);
         
         // 배열의 내용을 보기 위해 Arrays.toString()을 사용
         log.debug(TeamColor.YELLOW + "(컨)번호: " + Arrays.toString(msgNums) + " request: " + request + TeamColor.RESET);
@@ -167,7 +161,8 @@ public class MsgController {
      */
     @GetMapping("/msgNotReadCnt")
     @ResponseBody
-    public int msgNotReadCnt(@RequestParam String empCode) {
+    public int msgNotReadCnt(HttpSession session) {
+        String empCode = getEmpCode(session);
         return msgService.msgNotReadCnt(empCode);
     }
 
@@ -180,9 +175,10 @@ public class MsgController {
     @PostMapping("/readMsg")
     @ResponseBody
     public int readMsg(
-            @RequestParam(name = "empCode") String empCode, 
+            HttpSession session, 
             @RequestParam(name = "msgNums", required = false) String[] msgNums) {
         
+        String empCode = getEmpCode(session);
         // 배열의 내용을 보기 위해 Arrays.toString()을 사용합니다.
         log.debug(TeamColor.YELLOW + "번호: " + Arrays.toString(msgNums) + TeamColor.RESET);
         log.debug(TeamColor.YELLOW + "개수 " + msgNums.length + TeamColor.RESET);
@@ -200,14 +196,9 @@ public class MsgController {
     
     /*
      * @author : 조인환
-     * @since : 2024. 07. 14.
-     * Description : Ajax를 이용해 안읽은 메시지 수 확인
+     * @since : 2024. 07. 26.
+     * Description : 쪽지를 보낼 때 받는 이 검색
      */
-    @GetMapping("/searchEmpCodep")
-    public String s() {
-        return "/msg/searchEmpCode";
-    }
-    
     @PostMapping("/searchEmpCode")
     @ResponseBody
     public List<Map<String,Object>> searchEmpCode(@RequestParam String empName) {

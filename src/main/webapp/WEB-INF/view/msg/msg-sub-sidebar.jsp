@@ -36,7 +36,7 @@
             <a href="#" class="btn btn-success btn-lg btn-Msg-sidebar" id="writeMessageBtn">쪽지쓰기</a>
             <a href="#" class="btn btn-success btn-lg btn-Msg-sidebar" id="writeMessageBtn2">내게쓰기</a>
         </div>
-        <hr>
+        <hr style="border:1px solid black;">
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgList')}">active</c:if>">
                 <a href="/gaent/msg/0" class="menu-link"> 
@@ -74,7 +74,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">                
-                    <h5 class="modal-title" id="messageModalLabel">쪽지쓰기</h5>
+                    <h3 class="modal-title" id="messageModalLabel">쪽지쓰기</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 	               <!-- 쪽지쓰기 폼 -->                    
@@ -82,9 +82,9 @@
                     <div class="modal-body">
                         <!-- 숨겨진 필드에 로그인한 사용자의 ID -->
                         <input type="hidden" id="sender" name="sender" value="${loginInfo.empCode}">
-                        <div class="mb-3">
-                            <label for="search" class="form-label">!직원검색!</label>
-                            <input class="form-control" type="search" name="empName" id="searchEmpCode" autocomplete="off">
+                        <div class="mb-3" id="searchEmpDiv" tabindex="-1">
+                            <label for="search" class="form-label"><span class="fs-6">---직원검색---</span></label>
+                            <input class="form-control" type="search" name="empName" id="searchEmpCode" autocomplete="off" placeholder="입력해주세요..">
                             <select id="resultEmpCode" style="display: none;">
                                 <option value="">직원선택</option>
                             </select>
@@ -122,23 +122,32 @@
     $(document).ready(function(){
         // "쪽지쓰기" 버튼 클릭 시 모달 표시
         $('#writeMessageBtn').click(function(){
-            $('#searchEmpCode').val(''); // 검색 필드를 초기화하고 읽기 전용 해제
-            $('#receiverName').val('').prop('readonly', false);; 
+            $('#searchEmpDiv').css("display","");
+            $('#searchEmpCode').val('').prop('readonly', false); // 검색 필드를 초기화하고 읽기 전용 해제
+            $('#resultEmpCode').empty();
+            $('#resultEmpCode').css('display', 'none');
+            $('#receiverName').val('직원을 검색해주세요');
             $('#receiver').val('').prop('readonly', false); // 받는이 필드를 초기화하고 읽기 전용 해제
             $('#messageModalLabel').text('쪽지쓰기'); // 제목을 "쪽지쓰기"로 설정
             $('#messageModal').modal('show');
         });
 
-        // "내게쓰기" 버튼 클릭 시 receiver 필드에 로그인한 사용자의 ID로 설정하고 readonly로 만들기
+        // "내게쓰기" 버튼 클릭 시 작동
         $('#writeMessageBtn2').click(function(){
             $('#messageModalLabel').text('내게쓰기'); // 제목을 "내게쓰기"로 변경
+            $('#searchEmpDiv').css("display","none");
             $('#searchEmpCode').prop('readonly', true); // 필드 값을 로그인 ID로 설정하고 readonly로 만듦
-            $('#receiverName').val('${loginInfo.korName}').prop('readonly', true); // 필드 값을 로그인 이름으로 설정하고 readonly로 만듦
+            $('#receiverName').val('나').prop('readonly', true); // 필드 값을 로그인 이름으로 설정하고 readonly로 만듦
             $('#receiver').val('${loginInfo.empCode}').prop('readonly', true); // 필드 값을 로그인 ID로 설정하고 readonly로 만듦
             
             $('#messageModal').modal('show');
         });
-
+        
+        // 쪽지 모달이 열리면 검색창으로 커서 이동
+        $('#messageModal').on('shown.bs.modal', function() {
+            $('#searchEmpCode').focus();
+        });
+        
         // 폼 제출 시 AJAX 요청으로 쪽지 보내기
         $('#messageForm').submit(function(event){
             event.preventDefault(); // 폼의 기본 제출 동작을 중단
@@ -159,17 +168,21 @@
                 contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
                 processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
                 success: function(response){
-                    alert('쪽지가 성공적으로 보내졌습니다.');
-                    $('#messageModal').modal('hide');
-                    $('#messageForm')[0].reset(); // 폼 초기화
-                    window.location.href = '/gaent/msg/2'; // 보낸쪽지함으로 이동
+                    if(response<0){
+                    	window.location.href = '/gaent/defaultError'; // 에러페이지로 이동
+                    }else{
+                        alert('쪽지가 성공적으로 보내졌습니다.');
+                        $('#messageModal').modal('hide');
+                        $('#messageForm')[0].reset(); // 폼 초기화
+                        window.location.href = '/gaent/msg/2'; // 보낸쪽지함으로 이동
+                    }
                 },
                 error: function(){
                     alert('쪽지 보내기에 실패했습니다.');
                 }
             });
         });
-/*       
+       
       // 검색창에 입력할 때마다 검색 결과 업데이트
         $('#searchEmpCode').keyup(function() {
             let searchText = $(this).val(); // 입력된 검색어 가져오기
@@ -202,8 +215,8 @@
             $('#receiverName').val(selectedEmpName); // 선택된 직원 이름을 receiverName input 요소에 설정
             $('#receiver').val(selectedEmpCode); // 선택된 직원 코드를 receiver input 요소에 설정
         }); 
-*/
+
         
     });
 </script>
-<script src="${pageContext.request.contextPath}/assets/js/searchEmp.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/assets/js/searchEmp.js"></script> //직원검색 jQuery코드 JavaScript로 바꾼 파일--%>

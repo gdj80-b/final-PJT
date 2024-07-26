@@ -15,12 +15,12 @@
 }
 
 .msg-sub-size {
-	QQwidth: 140px;
+	width: 10rem;
 	text-align: center;
 }
 
 .msg-state-size {
-	QQwidth: 80px;
+	width: 6rem;
 	text-align: center;
 }
 
@@ -115,7 +115,6 @@
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
                 let count = checkedItems.length;
-                let empCode = "${loginInfo.empCode}";
                 if (count > 0) {
                     if (confirm(count + '개 항목을 삭제하시겠습니까?')) {
                         let ids = [];
@@ -128,7 +127,6 @@
                             traditional: true,
                             data: {
                                 msgNums: ids,
-                                empCode: empCode,
                                 request: 1
                             },
                             success: function(result) {
@@ -155,7 +153,6 @@
             $('#readButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
                 let count = checkedItems.length;
-                let empCode = "${loginInfo.empCode}";
                 if (count > 0) {
                     if (confirm(count + '개 항목을 읽음처리하시겠습니까?')) {
                         let ids = [];
@@ -167,8 +164,7 @@
                             type: 'POST',
                             traditional: true,
                             data: {
-                                msgNums: ids,
-                                empCode: empCode
+                                msgNums: ids
                             },
                             success: function(result) {
                                 //if (result != 0) {
@@ -192,7 +188,6 @@
                 $.ajax({
                     url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
                     type: "GET", // GET 메서드를 사용
-                    data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
                     dataType: "json", // 반환 데이터 타입은 int
                     success: function(notReadCnt) { // 요청이 성공하면 실행
                         // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시

@@ -94,7 +94,7 @@
                         <a class="msg-file-text" href="${pageContext.request.contextPath}/upload/msgfile/${m.msgFileName}" target="_blank">
                             ${m.msgOriginalFileName}
                         </a>
-                    </c:if>                      
+                    </c:if>
                 </div>
                     <div class="info-container">
                         <div class="info">보낸사람 : ${m.senderName}</div>
@@ -116,10 +116,8 @@
             let confirmDelete = confirm('정말로 이 메시지를 삭제하시겠습니까?');
             if (confirmDelete) {
                 let msgNum = '${m.msgNum}';
-                let empCode = '${m.receiver}';
                 let requestData = {
                     msgNums: msgNum,
-                    empCode: empCode,
                     request: 1
                 };
 
@@ -129,7 +127,7 @@
                     data: requestData,
                     success: function(result) {
                         alert('선택된 항목이 삭제되었습니다.');
-                        window.location.href = '/gaent/msg/1'; // 보낸쪽지함으로 이동
+                        window.location.href = '/gaent/msg/4'; // 휴지통으로 이동
                     },
                     error: function() {
                         alert('항목 삭제에 실패했습니다.');
@@ -140,6 +138,11 @@
         
         $('#reMsg').click(function() {
             $('#writeMessageBtn').click();
+            $('#messageModalLabel').text('답장하기');
+            $('#searchEmpDiv').css("display","none");
+            $('#searchEmpCode').prop('readonly', true);
+            $('#receiverName').val('${m.senderName}').prop('readonly', true);
+            $('#receiver').val('${m.sender}').prop('readonly', true);
         });
         
     });
