@@ -1,5 +1,6 @@
 package com.ga.gaent.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +69,33 @@ public class CalendarController {
     // 일정조회
     // ajax 데이터 전송 URL
     @GetMapping("/event")
-    public @ResponseBody List<Map<String, Object>> getEventList() {
-
-        return calendarService.selectEventList();
+    public @ResponseBody List<Map<String, Object>> getEventList(
+            @RequestParam(required = false) String empCode,
+            @RequestParam(required = false) String teamCode,
+            @RequestParam(required = false, defaultValue = "all") String filter) {
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("empCode", empCode);
+        map.put("teamCode", teamCode);
+        
+        System.out.println("filter : " + filter);
+        System.out.println("map : " + map);
+        
+        switch (filter) {
+            case "all":
+                return calendarService.selectAllEvents(map);
+            case "personal":
+                return calendarService.selectPersonalEvents(empCode);
+            case "team":
+                return calendarService.selectTeamEvents(teamCode);
+            case "company":
+                return calendarService.selectCompanyEvents();
+            case "artist":
+                return calendarService.selectArtistEvents();
+            default:
+                return calendarService.selectAllEvents(map);
+        }
+        
     }
     
     // 일정상세

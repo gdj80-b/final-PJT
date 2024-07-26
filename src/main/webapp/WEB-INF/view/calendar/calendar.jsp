@@ -166,15 +166,23 @@
     </div>
 </body>
 <script>
+	//JSP에서 서버측 변수를 JavaScript 변수로 전달
+	var empCode = '${loginInfo.empCode}';
+	var teamCode = '${loginInfo.teamCode}'; // teamCode를 적절히 설정해주세요
+
 	//calendar element 취득
     var calendarEl = document.getElementById('calendar');
     var request = $.ajax({
       url: "/gaent/calendar/event",
       method: "get",
+      data: {
+          empCode: empCode, // JSP에서 전달받은 empCode를 추가
+          teamCode: teamCode // JSP에서 전달받은 teamCode를 추가
+      }
     });
     request.done(function(data){
 	  // full-calendar 생성하기
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      window.calendar = new FullCalendar.Calendar(calendarEl, {
    	    height: '700px', // calendar 높이 설정
         expandRows: true, // 화면에 맞게 높이 재설정
         slotMinTime: '08:00', // Day 캘린더에서 시작 시간
@@ -225,7 +233,7 @@
             var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
 
             // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
-            adjustedStartDate.setDate(eventStartDate.getDate());
+            adjustedStartDate.setDate(eventStartDate.getDate() + 1);
             adjustedStartDate.setMonth(eventStartDate.getMonth());
             adjustedStartDate.setFullYear(eventStartDate.getFullYear());
 

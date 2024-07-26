@@ -9,30 +9,23 @@
 <body>
 	<c:forEach var="vo" items="${eventOne}">
 		<form action="/gaent/calendar/modifyEvent" method="post">
-            <div class="row">
+			<div class="row">
               <div class="col mb-3">
-                <label for="nameSmall" class="form-label">부서명</label>
-                <br />
-                <c:choose>
-					<c:when test="${vo.calType eq 'public'}">
-						개인(공개)
-					</c:when>
-					<c:when test="${vo.calType eq 'private'}">
-						개인(제한)
-					</c:when>
-					<c:when test="${vo.calType eq 'tpublic'}">
-						팀(공개)
-					</c:when>
-					<c:when test="${vo.calType eq 'tprivate'}">
-						팀(제한)
-					</c:when>
-					<c:when test="${vo.calType eq 'corp'}">
-						전사(전체)
-					</c:when>
-					<c:when test="${vo.calType eq 'artist'}">
-						아티스트(전체)
-					</c:when>
-				</c:choose>
+                <label for="nameSmall" class="form-label">일정타입</label><br />
+                	<c:choose>
+	                	<c:when test="${vo.calType eq 'personal'}">
+							개인일정
+						</c:when>
+						<c:when test="${vo.calType eq 'team'}">
+							팀 일정
+						</c:when>
+						<c:when test="${vo.calType eq 'company'}">
+							전사일정
+						</c:when>
+						<c:when test="${vo.calType eq 'artist'}">
+							아티스트 일정
+						</c:when>
+					</c:choose>
               </div>
             </div>
             <div class="row">
