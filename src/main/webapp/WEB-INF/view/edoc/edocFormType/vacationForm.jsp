@@ -40,7 +40,7 @@
                 <th class="text-center typeDraftThTag">휴가종류</th>
                 <td class="typeDraftTdTag" colspan="3">
                     <select class="form-select form-select-sm" name="vacType" required>
-                        <option value="일반">일반</option>
+                        <option value="연차">연차</option>
                         <option value="오전반차">오전반차</option>
                         <option value="오후반차">오후반차</option>
                     </select>

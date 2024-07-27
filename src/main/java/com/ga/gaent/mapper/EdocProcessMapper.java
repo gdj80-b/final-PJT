@@ -1,5 +1,6 @@
 package com.ga.gaent.mapper;
 
+import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import com.ga.gaent.dto.EdocFormTypeDTO;
@@ -75,4 +76,5 @@ public interface EdocProcessMapper {
        
     // 결재자 수 확인
     int checkApprovalCnt(String edocNum);
+    
 }

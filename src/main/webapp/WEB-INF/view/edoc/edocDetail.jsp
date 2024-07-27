@@ -89,7 +89,7 @@
                     </div>
                   </c:when>
                 </c:choose>
-                <c:if test="${edocDetail.apprOrder2 == 2}">
+                <c:if test="${edocDetail.approverName2 != null}">
                   <div class="table-responsive text-nowrap approver-form">
                     <table class="table table-bordered" style="background-color: #fff; margin-bottom: 0rem !important">
                       <tbody>
