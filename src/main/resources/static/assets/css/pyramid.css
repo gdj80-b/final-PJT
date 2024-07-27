@@ -76,7 +76,7 @@ right connector from last child*/
 	/* 노드 테두리 선 */
 	border: 1px solid #d1d1ff;
 	background-color: #9595ff;
-	padding: 20px 12px;
+	padding: 10px 9px;
 	text-decoration: none;
 	color: #fff;
 	font-family: arial, verdana, tahoma;
@@ -96,4 +96,8 @@ right connector from last child*/
 	background: #aaaaff;
 	color: #fff;
 	border: 1px solid #aaaaff;
+}
+
+.nodeName{
+	margin-bottom: 3px;
 }

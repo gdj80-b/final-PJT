@@ -12,11 +12,15 @@ pageEncoding="UTF-8"%>
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-3">
       <li class="menu-item">
+        <a href="/gaent/inquiry/main" class="menu-link">
+          <span>조회메인</span>
+        </a>
+      </li>
+      <li class="menu-item">
         <a href="/gaent/inquiry/teamList" class="menu-link">
           <span>그룹조회</span>
         </a>
       </li>
-      <!-- 쪽지함 -->
       <li class="menu-item">
         <a href="/gaent/inquiry/empList" class="menu-link">
           <span>직원조회</span>

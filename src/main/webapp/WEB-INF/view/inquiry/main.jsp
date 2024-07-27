@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조직도</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/pyramid.css">
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>직원조회 메인 - GAEnt.</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/pyramid.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+<style>
         .tree {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -22,13 +26,33 @@
             text-decoration: none;
             color: black;
         }
+        
+        .orgChartSpace{
+        	margin-bottom: 80px;
+        }
     </style>
 </head>
 <body>
-	<div class="tree" id="orgChart">
-	    <!-- 조직도 생성 -->
-	</div>
-
+	<div id="">
+        <div id="header-area">
+            <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+        </div>
+        <div id="sidebar_area">
+            <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
+            <jsp:include page="/WEB-INF/view/inquiry/sub-sidebar.jsp"></jsp:include>
+        </div>
+        <div id="workspace-area" class="subsidebar-from-workspace">
+        <h5 class="fs-4 fw-semibold mb-2">조회 메인</h5>
+    	<hr />
+    	<div class="orgChartSpace"></div>
+        <!-- 피라미드 구조 조직도 시작 -->
+            <div class="tree" id="orgChart">
+	    		<!-- 조직도 생성 공간 -->
+			</div>
+        <!-- 피라미드 구조 조직도 끝 -->
+        </div>
+    </div>
+	
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script>
 	    $(document).ready(function() {
@@ -64,7 +88,7 @@
 	                // 노드의 이름을 포함하는 링크 생성
 	                var link = document.createElement('a');
 	                link.href = '#';
-	                link.innerHTML = item.name + '<br><br>' + item.des;
+	                link.innerHTML = '<div class="nodeName">' + item.name + '</div><div>' + item.des + '</div>';
 	                li.appendChild(link);
 	
 	                ul.appendChild(li);

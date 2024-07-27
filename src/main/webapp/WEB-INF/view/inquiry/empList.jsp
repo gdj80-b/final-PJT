@@ -90,7 +90,6 @@
 		              </div>
 		              <div class="modal-footer">
 		                <button type="button" class="btn btn-outline-primary">쪽지</button>
-		                <button type="button" class="btn btn-outline-primary">채팅</button>
 		                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">닫기</button>
 		              </div>
 		            </div>

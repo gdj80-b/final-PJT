@@ -90,7 +90,7 @@
                 ELSE team_name
             END AS
                 name,
-            team_des des
+            team_eng_name des
         FROM
             team
         ORDER BY
