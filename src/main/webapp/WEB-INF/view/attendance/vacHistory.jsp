@@ -49,7 +49,7 @@
     </div>
     <div id="sidebar_area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/atd/atd-sub-sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/attendance/atd-sub-sidebar.jsp"></jsp:include>
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace ">
         <div class="card vacCard">
