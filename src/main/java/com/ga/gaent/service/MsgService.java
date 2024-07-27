@@ -18,6 +18,7 @@ import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.FileVO;
+import com.ga.gaent.vo.MsgVO;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -76,7 +77,7 @@ public class MsgService {
      * @since : 2024. 07. 13. / 2024. 07. 16.(파일전송추가)
      * @Description : 쪽지보내기
      */
-    public int sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
+    public int sendMsg(MsgVO m, FileReqDTO fileReqDTO) {
         
         int msgInsertResult = -1; // msg테이블에 insert
         int fileInsertResult = -1; // msgFile테이블에 insert
@@ -196,7 +197,7 @@ public class MsgService {
      * @since : 2024. 07. 17.
      * Description : 스케줄러를 이용해 메시지 delete
      */
-    @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
+    @Scheduled(cron = "0 0 0 * * *")   //매일 12시간마다
     void eliminateMsg() {
         int deleteMsg = msgMapper.eliminateMsg();
         int deleteMsgFile = msgMapper.eliminateMsgFile();
@@ -204,6 +205,11 @@ public class MsgService {
        
     }
     
+    /* 
+     * @author : 조인환
+     * @since : 2024. 07. 25.
+     * Description : 쪽지 전송시 이름으로 직원 검색
+     */
     public List<Map<String,Object>>searchEmpCode(String empName){
         return msgMapper.searchEmpCode(empName);
     }

@@ -127,7 +127,7 @@
     
     
     <!-- 쪽지쓰기 -->
-    <insert id="sendMsg" parameterType="com.ga.gaent.dto.MsgDTO">
+    <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
         INSERT INTO
 	       msg(
                msg_sender,
@@ -254,10 +254,14 @@
             msg_send_del_status = 'D' AND
             msg_receive_del_status = 'D'    
     </delete>
-    <!-- 쪽지 영구삭제 -->
+    
+    <!-- 쪽지파일 테이블 내 영구삭제 -->
     <delete id="eliminateMsgFile">
-        DELETE FROM msg_file
-        WHERE file_name IN (
+        DELETE 
+        FROM 
+            msg_file
+        WHERE 
+            file_name IN (
             SELECT file_name
             FROM msg
             WHERE msg_send_del_status = 'D' AND

@@ -18,6 +18,7 @@ import com.ga.gaent.dto.MsgDTO;
 import com.ga.gaent.service.MsgService;
 import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.TeamColor;
+import com.ga.gaent.vo.MsgVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +44,11 @@ public class MsgController {
             HttpSession session, Model model,
             @PathVariable(name = "request", required = false) Integer request, 
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "searchMsg", defaultValue = "") String searchMsg) {      
+            @RequestParam(name = "searchMsg", defaultValue = "") String searchMsg) {
+        
+        if(request != 0 && request != 1 && request != 2 && request != 3 && request != 4 ) {
+          return "/msg/msgFail";
+        }
         
         String empCode = getEmpCode(session);
         
@@ -56,7 +61,9 @@ public class MsgController {
         model.addAttribute("list", list);
         model.addAttribute("pg", pagingMap);
 
-        if (request == 1) { // 받은쪽지함
+        if(request == 0) {// 전체
+            return "/msg/msgList";
+        } else if (request == 1) { // 받은쪽지함
             return "/msg/msgReceiveList";
         } else if (request == 2) { // 보낸쪽지함
             return "/msg/msgSendList";
@@ -64,8 +71,8 @@ public class MsgController {
             return "/msg/msgSelf";
         } else if (request == 4) { // 휴지통
             return "/msg/msgBin";
-        } else { // 전체
-            return "/msg/msgList";
+        } else { 
+            return "/msg/msgFail";
         }
     }
 
@@ -76,7 +83,7 @@ public class MsgController {
      */
     @PostMapping("/sendMessage")
     @ResponseBody
-    public int sendMsg(MsgDTO m, FileReqDTO fileReqDTO) {
+    public int sendMsg(MsgVO m, FileReqDTO fileReqDTO) {
         
         log.debug(TeamColor.RED + "확인 : " + m.getMsgTitle() + TeamColor.RESET);
         log.debug(TeamColor.YELLOW + "원본이름 :" + fileReqDTO.getGaFile() + TeamColor.RESET);
