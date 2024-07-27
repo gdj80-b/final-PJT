@@ -16,7 +16,7 @@
       </div>
       <div id="sidebar_area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/calendar/cal-sub-sidebar.jsp"></jsp:include>
       </div>
       <div id="workspace-area" class="subsidebar-from-workspace">
       <h5 class="fs-4 fw-semibold mb-2">일정등록</h5>
