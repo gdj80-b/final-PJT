@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,5 +76,19 @@ public class InquiryController {
         model.addAttribute("lastPage", lastPage);
         
         return "inquiry/teamList";
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 27.
+     * Description : 직원 상세 조회
+     */
+    @GetMapping("/empDetail/{empCode}")
+    public String getEmpDetail(@PathVariable(name = "empCode") String empCode, Model model) {
+        
+        EmpVO empDetail = inquiryService.selectEmpDetail(empCode, model);
+        model.addAttribute("empDetail", empDetail);
+        
+        return "inquiry/empDetail";
     }
 }

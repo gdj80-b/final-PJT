@@ -42,7 +42,8 @@
 		      <tbody class="table-border-bottom-0 table-light striped"">
 		      <c:forEach var="vo" items="${empList}">
 		        <tr>
-		          <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td>
+		          <td><b><a href="/gaent/inquiry/empDetail/${vo.empCode}">${vo.korName}</a></b></td>
+		          <!-- <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td> -->
 		          <td>${vo.rankName}</td>
 		          <td>${vo.teamName}</td>
 		          <td>${vo.parentTeamName}</td>

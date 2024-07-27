@@ -23,4 +23,11 @@ public interface InquiryMapper {
     
     // 피라미드 조직도 정보 조회
     public List<Map<String, Object>> selectGroupInfo();
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 27.
+     * Description : 직원 상세 조회
+     */
+    public EmpVO selectEmpDetail(String empCode);
 }
