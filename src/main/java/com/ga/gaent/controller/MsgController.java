@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
+import com.ga.gaent.dto.MsgRequestDTO;
 import com.ga.gaent.service.MsgService;
 import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.MsgVO;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -83,8 +88,12 @@ public class MsgController {
      */
     @PostMapping("/sendMessage")
     @ResponseBody
-    public int sendMsg(MsgVO m, FileReqDTO fileReqDTO) {
+    public String sendMsg(
+            @Valid MsgRequestDTO m,
+            Errors errors,
+            FileReqDTO fileReqDTO) {
         
+        int sendMsgResult = -1;
         log.debug(TeamColor.RED + "확인 : " + m.getMsgTitle() + TeamColor.RESET);
         log.debug(TeamColor.YELLOW + "원본이름 :" + fileReqDTO.getGaFile() + TeamColor.RESET);
 
@@ -93,13 +102,26 @@ public class MsgController {
             // 파일 확장자 확인
             fileReqDTO.validateFileType();
         }
-
-        int result = -1;
-
+        System.out.println("에러: "+errors.toString());
+        if (errors.hasErrors()) {
+            // 오류가 있을 경우 오류 메시지들을 리스트로 반환
+            for(FieldError e : errors.getFieldErrors()) {
+                // 에러가 발생한 form 필드 name
+                log.debug(TeamColor.RED_BG + "에러필드: "+ e.getField() + TeamColor.RESET);
+                log.debug(TeamColor.RED_BG + "에러메시지: "+ e.getDefaultMessage() + TeamColor.RESET);
+                return e.getDefaultMessage();
+            }
+        }
+        
         // 쪽지전송
-        result = msgService.sendMsg(m, fileReqDTO);
+        sendMsgResult = msgService.sendMsg(m, fileReqDTO);
 
-        return result;
+        if(sendMsgResult == 1) {
+            return "1";
+        }else {
+            return "-1";
+        }
+        
     }
 
     /*

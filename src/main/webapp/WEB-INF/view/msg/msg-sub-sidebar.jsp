@@ -168,13 +168,15 @@
                 contentType: false,  // FormData 객체를 사용하기 때문에 false로 설정
                 processData: false,  // FormData 객체를 직렬화하지 않기 때문에 false로 설정
                 success: function(response){
-                    if(response<0){
-                    	window.location.href = '/gaent/defaultError'; // 에러페이지로 이동
-                    }else{
-                        alert('쪽지가 성공적으로 보내졌습니다.');
+                    if(response== '1'){
+						alert('쪽지가 성공적으로 보내졌습니다.');
                         $('#messageModal').modal('hide');
                         $('#messageForm')[0].reset(); // 폼 초기화
-                        window.location.href = '/gaent/msg/2'; // 보낸쪽지함으로 이동
+                        window.location.href = '/gaent/msg/2'; // 보낸쪽지함으로 이동                        
+                    }else if(response== '-1'){
+						window.location.href = '/gaent/defaultError'; // 에러페이지로 이동
+                    }else{
+                        alert(response);     // validation 에러표시
                     }
                 },
                 error: function(){

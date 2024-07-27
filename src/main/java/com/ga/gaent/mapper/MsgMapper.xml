@@ -127,7 +127,7 @@
     
     
     <!-- 쪽지쓰기 -->
-    <insert id="sendMsg" parameterType="com.ga.gaent.vo.MsgVO">
+    <insert id="sendMsg" parameterType="com.ga.gaent.dto.MsgRequestDTO">
         INSERT INTO
 	       msg(
                msg_sender,

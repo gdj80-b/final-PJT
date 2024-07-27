@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class MsgVO {
 
-    int msgNum;
-    String sender;
-    String receiver;
-    String msgFileName;
-    String msgTitle;
-    String msgContent;
-    String sendTime;
-    String readTime;
-    String sendDelStatus;
-    String receiveDelStatus;
+    private int msgNum;
+    private String sender;
+    private String receiver;
+    private String msgFileName;
+    private String msgTitle;
+    private String msgContent;
+    private String sendTime;
+    private String readTime;
+    private String sendDelStatus;
+    private String receiveDelStatus;
 }

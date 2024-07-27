@@ -106,7 +106,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'" style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>

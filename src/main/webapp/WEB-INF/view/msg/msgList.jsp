@@ -77,7 +77,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'" style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
                                     <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :
                                          (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>': 

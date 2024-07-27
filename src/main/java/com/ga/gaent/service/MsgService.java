@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.dto.MsgDTO;
+import com.ga.gaent.dto.MsgRequestDTO;
 import com.ga.gaent.mapper.FileMapper;
 import com.ga.gaent.mapper.MsgMapper;
 import com.ga.gaent.util.FileExtension;
@@ -18,7 +19,6 @@ import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.Paging;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.FileVO;
-import com.ga.gaent.vo.MsgVO;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -77,7 +77,7 @@ public class MsgService {
      * @since : 2024. 07. 13. / 2024. 07. 16.(파일전송추가)
      * @Description : 쪽지보내기
      */
-    public int sendMsg(MsgVO m, FileReqDTO fileReqDTO) {
+    public int sendMsg(MsgRequestDTO m, FileReqDTO fileReqDTO) {
         
         int msgInsertResult = -1; // msg테이블에 insert
         int fileInsertResult = -1; // msgFile테이블에 insert
