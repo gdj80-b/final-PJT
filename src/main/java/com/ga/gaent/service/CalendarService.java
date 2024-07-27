@@ -31,12 +31,49 @@ public class CalendarService {
         return addEvent;
     }
     
-    // 일정조회
-    public List<Map<String, Object>> selectEventList() {
+    // 전체 일정조회
+    public List<Map<String, Object>> selectAllEvents(Map<String, Object> map) {
 
-        List<Map<String, Object>> eventList = calendarMapper.selectEventList();
+        List<Map<String, Object>> allEvents = calendarMapper.selectAllEvents(map);
+        log.debug(yellow + "allEvents : " + allEvents + yellow);
         
-        return eventList;
+        return allEvents;
+    }
+    
+    // 개인 일정조회
+    public List<Map<String, Object>> selectPersonalEvents(String empCode) {
+
+        List<Map<String, Object>> personalEvents = calendarMapper.selectPersonalEvents(empCode);
+        log.debug(yellow + "personalEvents : " + personalEvents + yellow);
+        
+        return personalEvents;
+    }
+    
+    // 팀 일정조회
+    public List<Map<String, Object>> selectTeamEvents(String teamCode) {
+
+        List<Map<String, Object>> teamEvents = calendarMapper.selectTeamEvents(teamCode);
+        log.debug(yellow + "teamEvents : " + teamEvents + yellow);
+        
+        return teamEvents;
+    }
+    
+    // 전사 일정조회
+    public List<Map<String, Object>> selectCompanyEvents() {
+
+        List<Map<String, Object>> companyEvents = calendarMapper.selectCompanyEvents();
+        log.debug(yellow + "companyEvents : " + companyEvents + yellow);
+        
+        return companyEvents;
+    }
+    
+    // 전사 일정조회
+    public List<Map<String, Object>> selectArtistEvents() {
+
+        List<Map<String, Object>> artistEvents = calendarMapper.selectArtistEvents();
+        log.debug(yellow + "artistEvents : " + artistEvents + yellow);
+        
+        return artistEvents;
     }
     
     // 일정상세
