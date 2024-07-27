@@ -19,6 +19,19 @@ public class InquiryController {
     
     @Autowired
     InquiryService inquiryService;
+    
+    // 직원 조회 메인 화면
+    @GetMapping("/main")
+    public String main() {  
+        return "inquiry/main";
+    }
+    
+    // 피라미드 조직도 정보 조회
+    @GetMapping("/getGroupInfo")
+    public @ResponseBody List<Map<String, Object>> getGroupInfo(){
+        
+        return inquiryService.selectGroupInfo();
+    }
 
     // 직원 조회
     // 페이징 기능 적용

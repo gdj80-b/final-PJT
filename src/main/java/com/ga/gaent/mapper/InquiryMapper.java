@@ -20,4 +20,7 @@ public interface InquiryMapper {
     
     // 그룹 리스트 카운트
     int selectTeamCount();
+    
+    // 피라미드 조직도 정보 조회
+    public List<Map<String, Object>> selectGroupInfo();
 }

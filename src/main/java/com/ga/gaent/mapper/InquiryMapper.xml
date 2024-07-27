@@ -80,4 +80,20 @@
             team_code != 10
     </select>
     
+    <!-- 피라미드 조직도 정보 조회 -->
+    <select id="selectGroupInfo" resultType="Map">
+        SELECT
+            team_code AS id,
+            parent_team_code AS parentId,
+            CASE 
+                WHEN team_name = 'GAEnt.' THEN '대표이사'
+                ELSE team_name
+            END AS
+                name,
+            team_des des
+        FROM
+            team
+        ORDER BY
+            team_code;
+    </select>
 </mapper>

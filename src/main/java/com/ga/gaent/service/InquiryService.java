@@ -68,4 +68,13 @@ public class InquiryService {
         
         return teamCount;
     }
+    
+    // 피라미드 조직도 정보 조회
+    public List<Map<String, Object>> selectGroupInfo(){
+        
+        List<Map<String, Object>> groupInfo = inquiryMapper.selectGroupInfo();
+        log.debug(yellow + "groupInfo : " + groupInfo + yellow);
+        
+        return groupInfo;
+    }
 }
