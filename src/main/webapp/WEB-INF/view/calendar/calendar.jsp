@@ -39,10 +39,16 @@
   }
   
   /* 추가한 calendar 크기 조정 스타일 */
-    #calendar {
-        max-height: 600px;
-        margin: 0 auto;
-    }
+	#calendar {
+	    max-height: 600px;
+	    margin: 0 auto;
+	}
+    
+  /* 요일 헤더 색상 변경 */
+  .fc-col-header-cell {
+    background-color: #9b9dfa; /* 배경색 변경 */
+    color: #fff; /* 텍스트 색상 */
+  }
 </style>
 </head>
 <body>
@@ -52,7 +58,7 @@
     </div>
     <div id="sidebar_area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/calendar/sub-sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/calendar/cal-sub-sidebar.jsp"></jsp:include>
       </div>
     
 <div id="workspace-area" class="subsidebar-from-workspace">
@@ -160,15 +166,23 @@
     </div>
 </body>
 <script>
+	//JSP에서 서버측 변수를 JavaScript 변수로 전달
+	var empCode = '${loginInfo.empCode}';
+	var teamCode = '${loginInfo.teamCode}'; // teamCode를 적절히 설정해주세요
+
 	//calendar element 취득
     var calendarEl = document.getElementById('calendar');
     var request = $.ajax({
       url: "/gaent/calendar/event",
       method: "get",
+      data: {
+          empCode: empCode, // JSP에서 전달받은 empCode를 추가
+          teamCode: teamCode // JSP에서 전달받은 teamCode를 추가
+      }
     });
     request.done(function(data){
 	  // full-calendar 생성하기
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      window.calendar = new FullCalendar.Calendar(calendarEl, {
    	    height: '700px', // calendar 높이 설정
         expandRows: true, // 화면에 맞게 높이 재설정
         slotMinTime: '08:00', // Day 캘린더에서 시작 시간
@@ -219,7 +233,7 @@
             var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
 
             // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
-            adjustedStartDate.setDate(eventStartDate.getDate());
+            adjustedStartDate.setDate(eventStartDate.getDate() + 1);
             adjustedStartDate.setMonth(eventStartDate.getMonth());
             adjustedStartDate.setFullYear(eventStartDate.getFullYear());
 
@@ -307,13 +321,6 @@
                         // 실패 처리 로직 추가
                     }
                 });
-            });
-
-            // 수정 모달이 닫힐 때 초기화 및 후속 처리
-            $('#modifyEventModal').on('hidden.bs.modal', function() {
-                // 수정 폼 초기화 (옵션)
-                $('#modifyEventForm').empty();
-                // 추가적인 후속 처리 추가 가능
             });
         }
       });
