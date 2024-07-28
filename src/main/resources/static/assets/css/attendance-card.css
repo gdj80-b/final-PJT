@@ -26,12 +26,12 @@
 }
 
 .attendance-year-month {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .time-display {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 500;
   color: rgba(105, 108, 255, 0.6);
 }

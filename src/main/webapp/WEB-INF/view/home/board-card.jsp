@@ -17,29 +17,51 @@
                     <h4 class="card-title">공지사항</h4>
                 </div>
                 <div class="table-responsive text-nowrap d-flex flex-column align-items-center">
-                    <table class="table table-hover text-center">
-                        <thead>
-                            <tr>
-                                <th class="board-category">항목</th>
-                                <th class="board-title">제목</th>
-                                <th class="board-writer">작성자</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            <c:forEach var="n" items="${noticeListToHome}">
-                                <tr onclick="location.href='/gaent/board/notice/boardDetail?boardNum=${n.noticeNum}'">
-                                    <td><span class="fw-medium">항목</span></td>
-                                    <td class="text-start"><span class="fw-medium">${n.noticeTitle}</span></td>
-                                    <td><span class="fw-medium">${n.noticeWriter}</span></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <!-- 페이징시작 -->
-                    <div class="mt-4">
-                        <jsp:include page="/WEB-INF/view/board/board-paging.jsp"></jsp:include>
-                    </div>
-                    <!-- 페이징끝 -->
+                    <c:choose>
+                        <c:when test="${!empty notice}">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="board-category">항목</th>
+                                        <th class="board-title">제목</th>
+                                        <th class="board-writer">작성자</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    <c:forEach var="n" items="${notice}">
+                                        <tr onclick="location.href='/gaent/board/notice/boardDetail?boardNum=${n.noticeNum}'">
+                                            <td><span class="fw-medium">항목</span></td>
+                                            <td class="text-start"><span class="fw-medium">${n.noticeTitle}</span></td>
+                                            <td><span class="fw-medium">${n.noticeWriter}</span></td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            <!-- 페이징시작 -->
+                            <div class="">
+                                <jsp:include page="/WEB-INF/view/home/home-paging.jsp"></jsp:include>
+                            </div>
+                            <!-- 페이징끝 -->
+                        </c:when>
+                        <c:otherwise>
+                            <table class="table table-hover text-center mb-4">
+                                <thead>
+                                    <tr>
+                                        <th class="board-category">항목</th>
+                                        <th class="board-title">제목</th>
+                                        <th class="board-writer">작성자</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                </tbody>
+                            </table>
+                            <!-- 페이징시작 -->
+                            <div class="">
+                                <jsp:include page="/WEB-INF/view/home/home-paging.jsp"></jsp:include>
+                            </div>
+                            <!-- 페이징끝 -->
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

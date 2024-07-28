@@ -3,9 +3,9 @@
 /* 홈 레이아웃 시작 */
 .content-wrapper {
   /* max-width: 100%; */
-  width: 92rem;
+  width: 100rem;
   
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 

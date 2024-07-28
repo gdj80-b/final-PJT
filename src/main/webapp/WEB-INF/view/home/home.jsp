@@ -26,7 +26,7 @@
                             <div class="col-2 mb-3 d-flex justify-content-center">
                                 <jsp:include page="/WEB-INF/view/home/profile-card.jsp"></jsp:include>
                             </div>
-                            <div class="col-4 mb-3 d-flex justify-content-center">
+                            <div class="col-5 mb-3 d-flex justify-content-center">
                                 <jsp:include page="/WEB-INF/view/home/calendar-card.jsp"></jsp:include>
                             </div>
                             <div class="col-5 mb-3 d-flex justify-content-center">
@@ -37,8 +37,11 @@
                             <div class="col-2 mb-3 d-flex justify-content-center">
                                 <jsp:include page="/WEB-INF/view/home/attendance-card.jsp"></jsp:include>
                             </div>
-                            <div class="col-4 mb-3 d-flex justify-content-center">
-                                
+                            <div class="col-2 mb-3 d-flex justify-content-center">
+                                <jsp:include page="/WEB-INF/view/home/edoc-card.jsp"></jsp:include>
+                            </div>
+                            <div class="col-3 mb-3 d-flex justify-content-center">
+                                <jsp:include page="/WEB-INF/view/home/msg-card.jsp"></jsp:include>
                             </div>
                             <div class="col-5 mb-3 d-flex justify-content-center">
                                 <jsp:include page="/WEB-INF/view/home/board-card.jsp"></jsp:include>
