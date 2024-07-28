@@ -30,4 +30,46 @@ public interface InquiryMapper {
      * Description : 직원 상세 조회
      */
     public EmpVO selectEmpDetail(String empCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 부서 상세 조회
+     */
+    public List<Map<String, Object>> selectDeptDetail(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 부서 총원 조회
+     */
+    public int selectDeptTotal(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 관련부서 조회
+     */
+    public List<Map<String, Object>> selectDeptTeam(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 상세 조회
+     */
+    public List<Map<String, Object>> selectTeamDetail(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 멤버 정보 조회
+     */
+    public List<Map<String, Object>> selectMemberDetail(Map<String, Object> map);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 멤버 총 인원 조회
+     */
+    public int selectMemberCount(String teamCode);
 }

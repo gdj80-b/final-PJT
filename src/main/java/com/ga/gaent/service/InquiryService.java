@@ -141,4 +141,90 @@ public class InquiryService {
         
         return empDetail;
     }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 부서 상세 조회
+     */
+    public List<Map<String, Object>> selectDeptDetail(String teamCode){
+        
+        List<Map<String, Object>> deptDetail = inquiryMapper.selectDeptDetail(teamCode);
+        log.debug(yellow + "deptDetail : " + deptDetail + yellow);
+        
+        return deptDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 부서 총원 조회
+     */
+    public int selectDeptTotal(String teamCode) {
+        
+        int deptTotal = inquiryMapper.selectDeptTotal(teamCode);
+        log.debug(yellow + "deptTotal : " + deptTotal + yellow);
+        
+        return deptTotal;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 관련부서 조회
+     */
+    public List<Map<String, Object>> selectDeptTeam(String teamCode){
+        
+        List<Map<String, Object>> deptTeam = inquiryMapper.selectDeptTeam(teamCode);
+        log.debug(yellow + "deptTeam : " + deptTeam + yellow);
+        
+        return deptTeam;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 상세 조회
+     */
+    public List<Map<String, Object>> selectTeamDetail(String teamCode){
+        
+        List<Map<String, Object>> teamDetail = inquiryMapper.selectTeamDetail(teamCode);
+        log.debug(yellow + "teamDetail : " + teamDetail + yellow);
+        
+        return teamDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 멤버 정보 조회
+     */
+    public List<Map<String, Object>> selectMemberDetail(String teamCode, int currentPage, int rowPerPage){
+        
+        int startRow = (currentPage - 1) * rowPerPage;
+        
+        Map<String, Object> map = new HashMap<>();
+        map.put("teamCode", teamCode);
+        map.put("startRow", startRow);
+        map.put("rowPerPage", rowPerPage);
+        
+        List<Map<String, Object>> memberDetail = inquiryMapper.selectMemberDetail(map);
+        log.debug(yellow + "memberDetail : " + memberDetail + yellow);
+        log.debug(yellow + "map : " + map + yellow);
+        
+        return memberDetail;
+    }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 멤버 총 인원 조회
+     */
+    public int selectMemberCount(String teamCode) {
+        
+        int memberCount = inquiryMapper.selectMemberCount(teamCode);
+        log.debug(yellow + "memberCount : " + memberCount + yellow);
+        
+        return memberCount;
+    }
 }

@@ -91,4 +91,49 @@ public class InquiryController {
         
         return "inquiry/empDetail";
     }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 부서 정보 조회
+     */
+    @GetMapping("/deptDetail")
+    public String deptDetail(
+            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name="rowPerPage", defaultValue = "5") int rowPerPage,
+            Model model, String teamCode) {
+        
+        // 부서상세
+        List<Map<String, Object>> deptDetail = inquiryService.selectDeptDetail(teamCode);
+        // 부서총원
+        int deptTotal = inquiryService.selectDeptTotal(teamCode);
+        // 관련부서
+        List<Map<String, Object>> deptTeam = inquiryService.selectDeptTeam(teamCode);
+        // 팀상세
+        List<Map<String, Object>> teamDetail = inquiryService.selectTeamDetail(teamCode);
+        // 팀 멤버 정보 조회
+        List<Map<String, Object>> memberDetail = inquiryService.selectMemberDetail(teamCode, currentPage, rowPerPage);
+        // 팀 총원
+        int memberCount = inquiryService.selectMemberCount(teamCode);
+        
+        int lastPage = memberCount / rowPerPage;
+        if(memberCount % rowPerPage != 0) {
+            lastPage++;
+        }
+        System.out.println("memberCount : " + memberCount);
+        System.out.println("rowPerPage : " + rowPerPage);
+        System.out.println("lastPage : " + lastPage);
+                
+        model.addAttribute("deptDetail", deptDetail);
+        model.addAttribute("deptTotal", deptTotal);
+        model.addAttribute("deptTeam", deptTeam);
+        model.addAttribute("teamDetail", teamDetail);
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("teamCode", teamCode);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
+        
+        return "inquiry/deptDetail";
+    }
 }

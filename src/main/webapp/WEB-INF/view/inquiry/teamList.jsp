@@ -41,7 +41,7 @@
       <tbody class="table-border-bottom-0 table-light striped">
       <c:forEach var="vo" items="${teamList}">
         <tr>
-          <td><b><a href="#teamModal${vo.teamCode}" data-toggle="modal" data-target="#teamModal${vo.teamCode}">${vo.teamName}</a></b></td>
+          <td><b><a href="/gaent/inquiry/deptDetail?teamCode=${vo.teamCode}&currentPage=1&rowPerPage=5">${vo.teamName}</a></b></td>
           <td>${vo.teamDes}</td>
           <td>${vo.teamCode}</td>
           <td>
