@@ -71,7 +71,7 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">받은쪽지함</h2>            
+            <h2 class="card-title" style="margin:50px 0px 0px 30px">내게쓴쪽지함</h2>
             <div class="card-body inbox-container">            
                 <div class="care-body" style="height:600px; position: relative;">
                     <table class="inbox-table">
@@ -89,7 +89,6 @@
                                     </form>
                                 </th>
                                 <th style="text-align:right">
-                                    <button type="button" id="readButton" class="btn btn-success">읽음</button>
                                     <button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
                                 </th>
                             </tr>
@@ -107,7 +106,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>

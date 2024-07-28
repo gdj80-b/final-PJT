@@ -5,14 +5,28 @@
         SELECT
             m.msg_num msgNum,
             m.msg_sender sender,
-            se.emp_kor_name senderName,
+                CASE 
+                    WHEN se.rank_code = 1 THEN CONCAT(se.emp_kor_name, ' 대표')
+                    WHEN se.rank_code = 2 THEN CONCAT(se.emp_kor_name, ' 부장')
+                    WHEN se.rank_code = 3 THEN CONCAT(se.emp_kor_name, ' 팀장')
+                    WHEN se.rank_code = 4 THEN CONCAT(se.emp_kor_name, ' 대리')
+                    WHEN se.rank_code = 5 THEN CONCAT(se.emp_kor_name, ' 사원')
+                ELSE se.emp_kor_name
+            END senderName,
             m.msg_receiver receiver,
-            re.emp_kor_name receiverName,
+                CASE 
+                    WHEN re.rank_code = 1 THEN CONCAT(re.emp_kor_name, ' 대표')
+                    WHEN re.rank_code = 2 THEN CONCAT(re.emp_kor_name, ' 부장')
+                    WHEN re.rank_code = 3 THEN CONCAT(re.emp_kor_name, ' 팀장')
+                    WHEN re.rank_code = 4 THEN CONCAT(re.emp_kor_name, ' 대리')
+                    WHEN re.rank_code = 5 THEN CONCAT(re.emp_kor_name, ' 사원')
+                ELSE re.emp_kor_name
+            END receiverName,
             m.msg_title msgTitle,
             m.file_name msgFileName,
             m.msg_content msgContent,            
-            DATE_FORMAT(m.msg_send_time, '%y/%m/%d %H시%i분') AS sendTime,
-   	        DATE_FORMAT(m.msg_read_time, '%y/%m/%d %H시%i분') AS readTime,
+            DATE_FORMAT(m.msg_send_time, '%y년 %m월 %d일 %H시%i분') AS sendTime,
+   	        DATE_FORMAT(m.msg_read_time, '%y년 %m월 %d일 %H시%i분') AS readTime,
             m.msg_send_del_status sendDelStatus,
             m.msg_receive_del_status receiveDelStatus
         FROM 
@@ -113,7 +127,7 @@
     
     
     <!-- 쪽지쓰기 -->
-    <insert id="sendMsg" parameterType="com.ga.gaent.dto.MsgDTO">
+    <insert id="sendMsg" parameterType="com.ga.gaent.dto.MsgRequestDTO">
         INSERT INTO
 	       msg(
                msg_sender,
@@ -121,12 +135,14 @@
                msg_title,
                msg_content,
                file_name
+               <if test="sender == receiver">, msg_read_time </if>
            ) VALUES(
                #{sender},
                #{receiver},
                #{msgTitle},
                #{msgContent},
                #{msgFileName}
+               <if test="sender == receiver">,NOW()</if>
            )
     </insert>
 
@@ -164,20 +180,34 @@
         SELECT
             m.msg_num msgNum,
             m.msg_sender sender,
-            se.emp_kor_name senderName,
+                CASE 
+                    WHEN se.rank_code = 1 THEN CONCAT(se.emp_kor_name, ' 대표')
+                    WHEN se.rank_code = 2 THEN CONCAT(se.emp_kor_name, ' 부장')
+                    WHEN se.rank_code = 3 THEN CONCAT(se.emp_kor_name, ' 팀장')
+                    WHEN se.rank_code = 4 THEN CONCAT(se.emp_kor_name, ' 대리')
+                    WHEN se.rank_code = 5 THEN CONCAT(se.emp_kor_name, ' 사원')
+                ELSE se.emp_kor_name
+            END senderName,
             m.msg_receiver receiver,
-            re.emp_kor_name receiverName,
+                CASE 
+                    WHEN re.rank_code = 1 THEN CONCAT(re.emp_kor_name, ' 대표')
+                    WHEN re.rank_code = 2 THEN CONCAT(re.emp_kor_name, ' 부장')
+                    WHEN re.rank_code = 3 THEN CONCAT(re.emp_kor_name, ' 팀장')
+                    WHEN re.rank_code = 4 THEN CONCAT(re.emp_kor_name, ' 대리')
+                    WHEN re.rank_code = 5 THEN CONCAT(re.emp_kor_name, ' 사원')
+                ELSE re.emp_kor_name
+            END receiverName,
             m.msg_title msgTitle,
             m.file_name msgFileName,
             f.original_file_name msgOriginalFileName,
             m.msg_content msgContent,            
-            DATE_FORMAT(m.msg_send_time, '%y/%m/%d %H시%i분') AS sendTime,
-            DATE_FORMAT(m.msg_read_time, '%y/%m/%d %H시%i분') AS readTime
+            DATE_FORMAT(m.msg_send_time, '%y년 %m월 %d일 %H시%i분') AS sendTime,
+            DATE_FORMAT(m.msg_read_time, '%y년 %m월 %d일 %H시 %i분') AS readTime
         FROM 
             msg m 
                 JOIN emp re ON m.msg_receiver = re.emp_code
                 JOIN emp se ON m.msg_sender = se.emp_code
-                JOIN msg_file f ON m.file_name = f.file_name 
+                LEFT JOIN msg_file f ON m.file_name = f.file_name 
         WHERE
             m.msg_num = #{msgNum}
     </select>
@@ -224,10 +254,14 @@
             msg_send_del_status = 'D' AND
             msg_receive_del_status = 'D'    
     </delete>
-    <!-- 쪽지 영구삭제 -->
+    
+    <!-- 쪽지파일 테이블 내 영구삭제 -->
     <delete id="eliminateMsgFile">
-        DELETE FROM msg_file
-        WHERE file_name IN (
+        DELETE 
+        FROM 
+            msg_file
+        WHERE 
+            file_name IN (
             SELECT file_name
             FROM msg
             WHERE msg_send_del_status = 'D' AND
@@ -235,4 +269,18 @@
             file_name IS NOT NULL
         )   
     </delete>
+    
+    <select id="searchEmpCode" resultType="map">
+        SELECT emp_code empCode, 
+            CASE 
+                WHEN rank_code = 1 THEN CONCAT(emp_kor_name, ' 대표')
+                WHEN rank_code = 2 THEN CONCAT(emp_kor_name, ' 부장')
+                WHEN rank_code = 3 THEN CONCAT(emp_kor_name, ' 팀장')
+                WHEN rank_code = 4 THEN CONCAT(emp_kor_name, ' 대리')
+                WHEN rank_code = 5 THEN CONCAT(emp_kor_name, ' 사원')
+            ELSE emp_kor_name
+            END AS empName
+        FROM emp 
+        WHERE emp_kor_name LIKE CONCAT('%', #{empName}, '%')
+    </select>
 </mapper>
