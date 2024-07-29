@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+} */
+
+.calendar-card {
+  width: 100%;
+  height: 100%;
+}
+
+.calendar-card .card-header {
+  padding: 0.325rem 1rem 1rem 1rem;
+}
+
+.calendar-card .card-body {
+  padding: 1rem 1rem;
+}
+
+.calendar {
+  /* width: auto; */
+  height: 22.575rem;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* padding: 1rem 1rem 0.25rem 1rem; */
+  /* background: #fff; */
+  /* border-radius: 10px; */
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+/* .monthYear {
+  text-align: center;
+  font-weight: 600;
+  width: 150px;
+} */
+
+.calendar-header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+  text-align: center;
+  padding: 5px;
+  color: #999FA6;
+  font-weight: 500;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  margin: auto;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  transition: 0.2s;
+}
+
+.date:hover, .date.active {
+  background: rgba(105, 108, 255, 0.6);
+  color: #fff;
+}
+
+.date.inactive {
+  color: #d2d2d2 !important;
+}
+
+.date.inactive:hover {
+  color: #fff;
+}
+
+#sat {
+  color: blue;
+}
+
+#sun {
+  color: red;
+}
+
+/* 첫 번째 열(일요일) 스타일 */
+.date:nth-child(7n-6) {
+  color: red; /* 원하는 색상 */
+}
+
+/* 마지막 열(토요일) 스타일 */
+.date:nth-child(7n) {
+  color: blue; /* 원하는 색상 */
+}

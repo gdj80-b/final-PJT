@@ -35,7 +35,7 @@ public class LoginController {
         if( loginInfo != null) {
             
             // log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + TeamColor.RESET);
-            // log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
+            log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
             
             session.setAttribute("loginInfo", loginInfo);
             return "redirect:/home";
