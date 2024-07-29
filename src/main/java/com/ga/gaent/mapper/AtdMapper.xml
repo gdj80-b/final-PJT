@@ -5,10 +5,10 @@
     <!-- 출퇴근확인 -->
     <select id="checkAtdStatus" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
         SELECT 
-            t.atd_num AS atdNum,
-            t.emp_code AS empCode,
-            TIME(t.atd_in_time) AS inTime,
-            TIME(t.atd_out_time) AS outTime,
+            t.atd_num atdNum,
+            t.emp_code empCode,
+            TIME(t.atd_in_time) inTime,
+            TIME(t.atd_out_time) outTime,
             CONCAT(
                 FLOOR(a.weekly_work_minutes / 60), '시간 ',
                 a.weekly_work_minutes % 60, '분'
@@ -19,7 +19,7 @@
             SELECT 
                 emp_code,
                 WEEK(atd_in_time, 1) AS week_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS weekly_work_minutes
+                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) weekly_work_minutes
             FROM 
                 attendance
             GROUP BY 
@@ -38,9 +38,9 @@
     <insert id="atdIn" parameterType="String">
         INSERT INTO 
             attendance
-            ( emp_code, atd_in_time )
+            ( emp_code, atd_in_time , atd_date)
         VALUES( 
-            #{empCode}, NOW() )
+            #{empCode}, NOW(), CURDATE() )
     </insert>
     
     <!-- 퇴근하기 -->
@@ -55,19 +55,35 @@
     </update>
     
     <!-- 출퇴근이력 -->
-    <select id="selectAtdHistory" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
+    <select id="selectAtdHistory" parameterType="map" resultType="com.ga.gaent.dto.AtdDTO">
         SELECT 
-            atd_num atdNum,
-            emp_code empCode,
-            DATE_FORMAT(atd_in_time, '%H시%i분%s초') AS  inTime,
-            DATE_FORMAT(atd_out_time, '%H시%i분%s초') AS  outTime,
-            DATE_FORMAT(atd_in_time, '%Y') as year,
-            DATE_FORMAT(atd_in_time, '%m') as month,
-            DATE_FORMAT(atd_in_time, '%d') as day            
+           atd_num atdNum,
+           emp_code empCode,
+           CASE
+               WHEN atd_in_time IS NOT NULL
+                   THEN DATE_FORMAT(atd_in_time, '%H시%i분%s초')
+               ELSE '출근하지 않았습니다'
+           END AS inTime,
+           CASE
+               WHEN atd_in_time IS NOT NULL
+                   THEN DATE_FORMAT(atd_out_time, '%H시%i분%s초')
+               ELSE '출근하지 않았습니다'
+           END AS outTime,
+           DATE_FORMAT(atd_date, '%Y') AS year,
+           DATE_FORMAT(atd_date, '%m') AS month,
+           DATE_FORMAT(atd_date, '%d') AS day,
+           CASE
+               WHEN atd_in_time IS NULL THEN '결근'
+               WHEN TIME(atd_in_time) > '09:00:00' THEN '지각'
+               WHEN '18:00:00' > TIME(atd_out_time) THEN '조퇴'
+               ELSE '출근'
+           END AS atdStatus
         FROM 
-            attendance
+           attendance
         WHERE
-            emp_code = #{empCode}
+            emp_code = #{empCode} AND
+            YEAR(atd_date) = #{year} AND
+            MONTH(atd_date) = #{month}
     </select>
     
     <!-- 일간 근무 시간 계산 -->
@@ -109,7 +125,7 @@
             FROM 
                 attendance
             WHERE 
-                emp_code = '20110004'
+                emp_code = #{empCode}
             GROUP BY 
                 emp_code,
                 YEAR(atd_in_time),
@@ -117,4 +133,66 @@
             ) a
         WHERE a.month_num = MONTH(CURDATE())
     </select>
+    
+    
+    
+    <select id="selectAtdStatusCount" parameterType="map" resultType="map">
+        SELECT
+            emp_code,
+            COUNT(CASE 
+                  WHEN atd_in_time IS NULL THEN 1 
+                  ELSE NULL 
+              END) AS absenceCount, 
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND TIME(atd_in_time) > '09:00:00' THEN 1 
+                  ELSE NULL 
+              END) AS lateCount,   
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND '18:00:00' > TIME(atd_out_time) THEN 1 
+                  ELSE NULL 
+              END) AS earlyLeaveCount,
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND atd_out_time IS NOT NULL THEN 1 
+                  ELSE NULL 
+              END) AS attendanceCount 
+        FROM 
+            attendance
+        WHERE
+            emp_code = #{empCode} AND
+            YEAR(atd_date) = #{year} AND
+            MONTH(atd_date) = #{month}
+    </select>
+    
+    
+    
+    <select id="getNotAtendEmpCode">
+        SELECT
+            e.emp_code empCode
+        FROM
+           emp e 
+        	LEFT JOIN (   
+        			SELECT emp_code,atd_in_time
+        			from attendance
+        			WHERE 
+        			DATE(atd_in_time) = CURDATE()
+        			) a
+           ON e.emp_code = a.emp_code
+        WHERE 
+        	a.atd_in_time IS NULL
+    </select>
+    
+    <insert id="autoRegisterAtd">
+        INSERT INTO attendance(
+            emp_code, 
+            atd_in_time, 
+            atd_out_time,
+            atd_date
+            )
+        VALUES ( 
+            #{empCode}, 
+            NULL, 
+            NULL,
+            CURDATE()
+                )
+    </insert>
 </mapper>

@@ -47,7 +47,7 @@
     <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
     <div>
         <div class="card" style="height:auto; overflow:inherit; ">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">근태내역</h2>
+            <h2 class="card-title" style="margin:30px 0px 0px 30px">근태내역</h2>
 <%--             tgYear: ${c.tgYear}년 (원하는 연도 ) / tgMonth : ${c.tgMonth}월 (원하는 월 )/ tgDay: ${c.tgDay}일 (원하는 일 )/ tgYoil: ${c.tgYoil}요일 (해당일의 요일 )--%>
 <%--     <br> tgWeek: ${c.tgWeek}번째주 (원하는 일이 달에 몇번째 주인지 )/ tgFullWeek : ${c.tgFullWeek}번째주 (원하는 일이 연에 몇번째 주인지 )/ 마지막일 tgLastDate: ${c.tgLastDate}일 (원하는 일의 달의 마지막일 )--%>
 <%--     <br> preBlank: ${c.preBlank} / totalDiv: ${c.totalDiv} / afterBlank: ${c.afterBlank}      --%>
@@ -73,12 +73,11 @@
 
                     </div>
 
-
-
-                    <div class="card-body" style="height:; positions: relative;">                    
-                    
-
-                    
+                    <div class="card-body pt-1" style="positions: relative;">
+                    <div class="d-flex justify-content-center">
+                        출근: <span id="attendanceCount"></span>  지각: <span id="lateCount"></span>
+                        조퇴: <span id="earlyLeaveCount"></span>  결근: <span id="absenceCount"></span>
+                    </div>
                     <c:set var="currentWeek" value="1"/>
                     <c:set var="previousWeek" value="1"/>
                 
@@ -112,6 +111,7 @@
                                             <th>날짜</th>
                                             <th>출근시간</th>
                                             <th>퇴근시간</th>
+                                            <th>상태</th>
                                         </tr>
                         </c:if>
                         <!-- 오늘날짜 스타일처리 -->
@@ -147,6 +147,14 @@
                                     </c:if>
                                 </c:forEach>
                             </td>
+                            <td>
+                                <!-- 퇴근 시간을 출력 -->
+                                <c:forEach var="vo" items="${list}">
+                                    <c:if test="${vo.year == c.tgYear && vo.month == c.tgMonth && vo.day == day}">
+                                        ${vo.atdStatus}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
                         </tr>
                         <c:if test="${day == c.tgLastDate}">
                             </table>
@@ -171,6 +179,7 @@
         
         }
          
+        atdStatusCnt();
         
     });
     
@@ -192,6 +201,26 @@
         }); 
     }
 
+    function  atdStatusCnt(){
+        $.ajax({
+            url: "/gaent/atd/getAtdStatusCnt", // 데이터를 가져올 URL
+            type: "POST", // GET 메서드를 사용
+            data: {"year" : ${c.tgYear} , "month" : ${c.tgMonth} },
+            dataType: "json", 
+            success: function(data) {
+                $("#absenceCount").text(data.absenceCount + "회");
+                $("#lateCount").text(data.lateCount+ "회");
+                $("#earlyLeaveCount").text(data.earlyLeaveCount+ "회");
+                $("#attendanceCount").text(data.attendanceCount+ "회"); 
+            },
+            error: function() { 
+                alert("상태확인레어"); // 에러 메시지 출력
+            }
+        });
+    }
+    
+    
+    
 </script>
 </body>
 </html>
