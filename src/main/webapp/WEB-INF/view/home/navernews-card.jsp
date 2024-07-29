@@ -86,15 +86,19 @@
                 page: newsCurrentPage
             },
             success: function(data) {
-                displayResults(data);
-                updateNewPagingStates(newsCurrentPage);
+   				if (data.startsWith('error')) {
+                    alert(data);
+                } else {
+                    displayResults(data);
+                    updateNewPagingStates(newsCurrentPage);
+                }
             },
-            error: function() {
+            error : function() {
                 alert('검색에 실패했습니다.');
             },
         });
     }
-    
+
     // 검색 결과를 화면에 출력
     function displayResults(data) {
         let results = JSON.parse(data);
@@ -115,7 +119,7 @@
             resultDiv.append('<p>검색 결과가 없습니다.</p>');
         }
     }
-    
+
     // 버튼 상태 업데이트
     function updateNewPagingStates(newsCurrentPage) {
         if (newsCurrentPage <= 1) {
