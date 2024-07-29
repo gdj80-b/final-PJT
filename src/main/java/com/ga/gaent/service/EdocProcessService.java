@@ -130,31 +130,6 @@ public class EdocProcessService {
     
     
 
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 첨부파일 데이터 입력
-     */
-    public int insertEdocFile(EdocRequestDTO edocRequestDTO) {
-        
-//        String originalFileName = edocRequestDTO.getFileName().getOriginalFilename();
-//        String fileName = (UUID.randomUUID().toString()).replace("-", "");
-//        String fileType = edocRequestDTO.getFileName().getContentType();
-//        /* String file = fileName + fileType; */
-//        double fileSize = edocRequestDTO.getFileName().getSize();
-//        
-//        Map<String, Object> insertFile = new HashMap<>();
-//        
-//        insertFile.put("originalFileName", originalFileName);
-//        insertFile.put("fileName", fileName);
-//        insertFile.put("fileType", fileType);
-//        insertFile.put("fileSize", fileSize);
-//        
-//        return edocProcessMapper.insertEdocFile(insertFile);
-        return 0;
-    }
-    
 
     
     /*
@@ -162,9 +137,10 @@ public class EdocProcessService {
      * @since : 2024. 07. 19.
      * Description : 결재 상태 승인,반려 처리
      */ 
-    public int updateEdocProcess(int empCode,String edocNum,String apprReason, int request) {
+    public int updateEdocProcess(String empCode,String edocNum,String apprReason, int request) {
         
         String requestEnum =  String.valueOf(request);
+        
         Map<String,Object>map = new HashMap<>();
         map.put("empCode", empCode);
         map.put("edocNum", edocNum);
@@ -177,6 +153,7 @@ public class EdocProcessService {
             map.put("apprStatus", "1" );
         }
         
+        
         // 남아있는 결재자 수를 확인
         int checkApprovalCnt = edocProcessMapper.checkApprovalCnt(edocNum);
         log.debug(TeamColor.YELLOW + "결재자 수" + checkApprovalCnt + TeamColor.RESET);
@@ -188,6 +165,8 @@ public class EdocProcessService {
         int resultEdocUpdate = edocProcessMapper.updateEdocStatus(map);
         log.debug(TeamColor.YELLOW + "Edoc테이블 업데이트 결과 :  " + resultEdocUpdate + TeamColor.RESET);
         
+        // 에러
+        log.debug(TeamColor.GREEN_BG + empCode + " & " + edocNum+ " & " + apprReason+ " & " + request  + TeamColor.RESET);
         
         int resultApprovalUpdate = edocProcessMapper.updateEdocApprovalStatus(map); // 결재선테이블
         log.debug(TeamColor.YELLOW + "결재선 테이블 업데이트 결과 :" + resultApprovalUpdate + TeamColor.RESET);

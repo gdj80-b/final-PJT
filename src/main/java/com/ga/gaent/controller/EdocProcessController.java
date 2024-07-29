@@ -65,7 +65,7 @@ public class EdocProcessController {
     @PostMapping("/edoc/updateEdocProcess")
     @ResponseBody
     public int updateEdocProcess(
-            @RequestParam(name = "empCode") int empCode,
+            @RequestParam(name = "empCode") String empCode,
             @RequestParam(name = "edocNum") String edocNum,
             @RequestParam(name = "apprReason", defaultValue = "") String apprReason,
             @RequestParam(name = "request") Integer request

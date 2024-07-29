@@ -25,12 +25,6 @@
 
     <!--
         @author : 정건희
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 첨부파일의 정보
-    -->
-    
-    
-    <!--
-        @author : 정건희
         Description : 전자결재문서 작성 후 등록할 때 입력되는 결재선(1차, 2차)의 정보
     -->
     <insert id="insertApprover" parameterType="Map">
@@ -138,9 +132,9 @@
         UPDATE 
             edoc_approval
         SET 
-            appr_reason = #{apprReason},
             appr_status = #{apprStatus},
-            appr_date = NOW()
+            appr_reason = #{apprReason},
+            appr_date = CURDATE()
         WHERE 
             edoc_num = #{edocNum} AND
             approver = #{empCode}
@@ -168,6 +162,7 @@
             edoc_approval
         WHERE
             edoc_num = #{edocNum} AND
+            approver != '' AND
             appr_status = '0'
     </select>
 </mapper>
