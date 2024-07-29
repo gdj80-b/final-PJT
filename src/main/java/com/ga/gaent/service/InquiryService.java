@@ -227,4 +227,17 @@ public class InquiryService {
         
         return memberCount;
     }
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 정보 모달 조회
+     */
+    public List<Map<String, Object>> selectTeamModal(String teamCode){
+        
+        List<Map<String, Object>> teamModal = inquiryMapper.selectTeamModal(teamCode);
+        log.debug(yellow + "teamModal : " + teamModal + yellow);
+        
+        return teamModal;
+    }
 }

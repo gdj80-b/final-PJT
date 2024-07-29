@@ -239,4 +239,17 @@
         WHERE
             team_code = #{teamCode}
     </select>
+    
+    <!-- 팀 정보 모달 조회 -->
+    <select id="selectTeamModal" parameterType="String" resultType="Map">
+        SELECT
+            team_code teamCode,
+            team_name teamName,
+            parent_team_code parentTeamCode,
+            team_des teamDes
+        FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+    </select>
 </mapper>

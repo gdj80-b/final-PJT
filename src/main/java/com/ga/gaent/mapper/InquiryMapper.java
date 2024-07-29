@@ -72,4 +72,11 @@ public interface InquiryMapper {
      * Description : 팀 멤버 총 인원 조회
      */
     public int selectMemberCount(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 28.
+     * Description : 팀 정보 모달 조회
+     */
+    public List<Map<String, Object>> selectTeamModal(String teamCode);
 }

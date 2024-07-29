@@ -23,7 +23,11 @@ public class InquiryController {
     
     // 직원 조회 메인 화면
     @GetMapping("/main")
-    public String main() {  
+    public String main(Model model, String teamCode) {
+        
+        List<Map<String, Object>> teamModal = inquiryService.selectTeamDetail(teamCode);
+        model.addAttribute("teamModal", teamModal);
+        
         return "inquiry/main";
     }
     
