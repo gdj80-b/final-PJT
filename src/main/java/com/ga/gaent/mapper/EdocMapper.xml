@@ -44,7 +44,7 @@
         WHERE 
             app.approver = #{empCode}
             <choose>
-                <when test="request == 0">  <!--  결재 대기문서 -->
+                <when test="request == 0"> <!-- 결재 대기문서 -->
                     AND edoc.edoc_done_date IS NULL
                     AND app.appr_status = '0'
                 </when>
@@ -80,7 +80,7 @@
         WHERE 
             app.approver = #{empCode}
             <choose>
-                <when test="request == 0">  <!--  결재 대기문서 -->
+                <when test="request == 0"> <!--  결재 대기문서 -->
                     AND edoc.edoc_done_date IS NULL
                     AND app.appr_status = '0'
                 </when>
@@ -138,8 +138,11 @@
                 LEFT JOIN edoc_file ef
                     ON edoc.file_name = ef.file_name
         WHERE
-            edoc.edoc_num = #{edocNum} AND
-            ( emp.emp_code = #{empCode} OR appr1.approver = #{empCode} OR appr2.approver = #{empCode} )
+            edoc.edoc_num = #{edocNum} AND(
+                emp.emp_code = #{empCode}
+                OR appr1.approver = #{empCode}
+                OR appr2.approver = #{empCode}
+            )
     </select>
     
     <!-- 내 결재 대기,진행,완료문서 (개인문서)   -->
@@ -156,7 +159,7 @@
         FROM
             edoc
                 JOIN edoc_form_type etype
-                    ON edoc.edoc_type = etype.edoc_type 
+                    ON edoc.edoc_type = etype.edoc_type
         WHERE 
             edoc.edoc_writer = #{empCode}
             <choose>
@@ -275,8 +278,29 @@
             emp_kor_name empKorName
         FROM
             emp
-        WHERE 
-            emp_code = #{empCode} 
+        WHERE
+            emp_code = #{empCode}
+    </select>
+    
+    <select id="waitEdocCnt" parameterType="Map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            edoc_approval app
+                JOIN edoc e ON app.edoc_num = e.edoc_num 
+        WHERE
+            app.approver = #{empCode}
+            <choose>
+                <when test="request == 0"> <!-- 결재 대기문서 -->
+                    AND e.edoc_done_date IS NULL
+                    AND app.appr_status = '0'
+                </when>
+                <when test="request == 1"> <!-- 결재 진행문서 -->
+                    AND e.edoc_done_date IS NULL
+                    AND e.edoc_status != '0'
+                    AND app.appr_status != '0'
+                </when>
+            </choose>
     </select>
     
 </mapper>

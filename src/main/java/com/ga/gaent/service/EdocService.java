@@ -225,7 +225,7 @@ public class EdocService {
      * @author : 조인환
      * @since : 2024. 07. 24.
      * Description : 각 전자문서 종류별 세부사항 조회
-     */ 
+     */
     public Map<String,Object>selectDraftDetail(int edocNum){
         // 기안서
         return edocMapper.selectDraftDetail(edocNum);
@@ -249,5 +249,20 @@ public class EdocService {
     public Map<String, Object> selectReportDetail(int edocNum) {
         // 보고서(경위서)
         return edocMapper.selectReportDetail(edocNum);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 28.
+     * Description : 결재대기문서 갯수 확인
+     */ 
+    public int waitEdocCnt(String empCode, int request) {
+        
+        Map<String, Object> paramMap = new HashMap<>();
+        
+        paramMap.put("empCode", empCode);
+        paramMap.put("request", request);
+        
+        return edocMapper.waitEdocCnt(paramMap);
     }
 }

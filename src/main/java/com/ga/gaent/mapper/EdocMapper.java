@@ -95,4 +95,11 @@ public interface EdocMapper {
      * Description : empCode에 해당하는 한글 이름 조회
      */
     String findKorName(String empCode);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : empCode에 해당하는 한글 이름 조회
+     */
+    int waitEdocCnt(Map<String, Object> paramMap);
 }
