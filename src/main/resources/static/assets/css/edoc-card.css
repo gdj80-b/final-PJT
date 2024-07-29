@@ -22,5 +22,6 @@
 }
 
 .edoc-card .edoc-status {
-  width: 9.25rem;
+  max-width: 10rem;
+  width: 10rem;
 }

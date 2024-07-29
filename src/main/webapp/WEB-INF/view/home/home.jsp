@@ -53,52 +53,27 @@
         </div>
         <script>
             $(document).ready(function () {
-                function getMyProfileInfo() {
-                    $.ajax({
-                        url: '/gaent/myPage',
-                        type: 'GET',
-                        data: {
-                            empCode: '${loginInfo.empCode}',
-                        },
-                        success: function (data) {
-                            // console.log(data);
-                            $('#checkResultMsg').text(data);
-                            $('#imgPreview').html(
-                                '<img src="${pageContext.request.contextPath}/upload/profile/' + data.profile + '" alt="imgPreview">'
-                            );
-                            $('#myPageKorName').text(data.korName);
-                            $('#myPageAge').text(data.age);
-                            let tmpbirth = data.birth;
-                            let birth = tmpbirth.slice(0, 4) + '-' + tmpbirth.slice(4, 6) + '-' + tmpbirth.slice(6, 8);
-                            $('#myPageBirth').text(birth);
-                            $('#myPageTeamName').text(data.teamName);
-                            $('#myPageRankName').text(data.rankName);
-                            $('#myPageEmpId').val(data.empId);
-                            let tmpphone = data.phone;
-                            let phone = tmpphone.slice(0, 3) + '-' + tmpphone.slice(3, 7) + '-' + tmpphone.slice(7, 11);
-                            $('#myPagePhone').val(phone);
-                        },
-                        error: function (e) {
-                            alert(e);
-                        },
-                    });
-                }
+                
+                $('#modalClose').on('click', function() {
+                    $('#myPageInputForm')[0].reset();
+                    $('#passMessage').html('');
+                });
                 
                 $('#myPageInputForm').submit(function (e) {
                     e.preventDefault();
                     let formData = new FormData($('#myPageInputForm')[0]);
-                    let empCode = $('#myEmpCode').val();
 
                     $.ajax({
-                        url: '/gaent/hr/modifyEmp',
+                        url: '/gaent/modifyMyPageInfo',
                         type: 'POST',
                         data: formData,
                         contentType: false,
                         processData: false,
-                        success: function (response) {
+                        success: function (data) {
+                            console.log(data);
                             alert('성공');
                             $('#myPageInputForm')[0].reset();
-                            window.location.reload;
+                            window.location.reload();
                         },
                         error: function (e) {
                             console.log(e);
@@ -106,7 +81,50 @@
                         },
                     });
                 });
+                
+                $('#myPageEmpPasswordCheck').on('input', function() {
+                    let pw1 = $('#myPageEmpPassword').val();
+                    let pw2 = $('#myPageEmpPasswordCheck').val();
+                    
+                    if(pw1 != pw2) {
+                        $('#passMessage').html('비밀번호가 서로 일치하지 않습니다.').css('color', 'red');
+                    } else {
+                        $('#passMessage').html('비밀번호가 일치합니다.').css('color', 'green');
+                    }
+                });
+                
             });
+            
+            function getMyProfileInfo() {
+                $.ajax({
+                    url: '/gaent/myPage',
+                    type: 'GET',
+                    data: {
+                        empCode: '${loginInfo.empCode}',
+                    },
+                    success: function (data) {
+                        // console.log(data);
+                        $('#checkResultMsg').text(data);
+                        $('#imgPreview').html(
+                            '<img src="${pageContext.request.contextPath}/upload/profile/' + data.profile + '" alt="imgPreview">'
+                        );
+                        $('#myPageKorName').text(data.korName);
+                        $('#myPageAge').text(data.age);
+                        let tmpbirth = data.birth;
+                        let birth = tmpbirth.slice(0, 4) + '-' + tmpbirth.slice(4, 6) + '-' + tmpbirth.slice(6, 8);
+                        $('#myPageBirth').text(birth);
+                        $('#myPageTeamName').text(data.teamName);
+                        $('#myPageRankName').text(data.rankName);
+                        $('#myPageEmpId').val(data.empId);
+                        let tmpphone = data.phone;
+                        let phone = tmpphone.slice(0, 3) + '-' + tmpphone.slice(3, 7) + '-' + tmpphone.slice(7, 11);
+                        $('#myPagePhone').val(phone);
+                    },
+                    error: function (e) {
+                        alert(e);
+                    },
+                });
+            }
             
             function idCheck() {
                 let checkEmpId = $('#myPageEmpId').val();
@@ -119,7 +137,7 @@
                     },
                     success: function (data) {
                         $('#checkResultMsg').text(data);
-                        $('#checkEmpIdModal').modal('show');
+                        $('#checkModal').modal('show');
                         console.log(data);
                     },
                     error: function (e) {

@@ -2,7 +2,6 @@
 
 /* 홈 레이아웃 시작 */
 .content-wrapper {
-  /* max-width: 100%; */
   width: 100rem;
   
   overflow-y: hidden;

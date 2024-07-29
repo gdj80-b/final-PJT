@@ -5,16 +5,20 @@
   height: 100%;
 }
 
+.attendance-card .attd {
+  height: 22.575rem;
+}
+
 .attendance-card h4 {
   margin: 0;
 }
 
 .attendance-card .card-body {
-  padding-bottom: 1rem;
+  padding: 1rem 1rem;
 }
 
-.card-header {
-  padding: 1.5rem 1rem 1rem 1rem;
+.attendance-card .card-header {
+  padding: 1rem 1rem;
 }
 
 .card-text {

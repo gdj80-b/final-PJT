@@ -11,7 +11,7 @@
         <div class="edoc-card">
             <div class="card edoc">
                 <div class="card-body">
-                    <div class="card-header d-flex align-items-center justify-content-start">
+                    <div class="card-header d-flex align-items-center justify-content-center">
                         <div class="d-flex flex-column">
                             <div class="d-flex align-items-center mb-4">
                                 <i class="bx bx-briefcase fs-4 me-2"></i>
@@ -20,23 +20,23 @@
                             <div class="d-flex flex-column align-items-center justify-content-center">
                                 <div class="card edoc-card mt-2">
                                     <div class="card-header d-flex align-items-center justify-content-between">
-                                        <div class="d-flex flex-column edoc-status">
+                                        <div class="d-flex flex-column align-items-center edoc-status">
                                             <div class="mb-3">
                                                 <label>결재 대기 문서</label>
                                                 <span id="toDoApprovalCnt"></span>개
                                             </div>
-                                            <button onclick="location.href='/gaent/approval/toDo'" class="btn btn-sm btn-outline-secondary">이동하기</button>
+                                            <button onclick="location.href='/gaent/approval/toDo'" class="btn btn-sm btn-outline-secondary w-100">이동하기</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card edoc-card mt-4">
                                     <div class="card-header d-flex align-items-center justify-content-between">
-                                        <div class="d-flex flex-column edoc-status mt-2">
+                                        <div class="d-flex flex-column align-items-center edoc-status mt-2">
                                             <div class="mb-3">
                                                 <label>결재 진행 문서</label>
                                                 <span id="upComingApprovalCnt"></span>개
                                             </div>
-                                            <button onclick="location.href='/gaent/approval/upComing'" class="btn btn-sm btn-outline-secondary">이동하기</button>
+                                            <button onclick="location.href='/gaent/approval/upComing'" class="btn btn-sm btn-outline-secondary w-100">이동하기</button>
                                         </div>
                                     </div>
                                 </div>

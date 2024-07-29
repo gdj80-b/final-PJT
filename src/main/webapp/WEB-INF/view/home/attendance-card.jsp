@@ -6,12 +6,11 @@
     </head>
     <body>
         <div class="attendance-card">
-            <div class="card text-center">
-                <div class="card-header">
-                    <h4 class="card-title">근태관리</h4>
-                    <hr>
-                </div>
+            <div class="card attd text-center">
                 <div class="card-body d-flex flex-column align-items-center">
+                    <div class="card-header">
+                        <h4 class="card-title">근태관리</h4>
+                    </div>
                     <div class="time-wrapper d-flex flex-column align-items-center mb-3">
                         <div id="date" class="card-text attendance-year-month"></div>
                         <div id="time" class="card-text time-display"></div>
