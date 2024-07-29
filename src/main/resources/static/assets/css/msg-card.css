@@ -21,6 +21,14 @@
   padding: 1rem 1rem;
 }
 
+.msg-card .msg-sender {
+  font-size: 12px;
+}
+
+.msg-card .msg-title {
+  font-size: 12px;
+}
+
 .msg-card .msg-time {
   font-size: 10px;
 }
