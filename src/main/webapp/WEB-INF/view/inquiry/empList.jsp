@@ -42,7 +42,8 @@
 		      <tbody class="table-border-bottom-0 table-light striped"">
 		      <c:forEach var="vo" items="${empList}">
 		        <tr>
-		          <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td>
+		          <td><b><a href="/gaent/inquiry/empDetail/${vo.empCode}">${vo.korName}</a></b></td>
+		          <!-- <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td> -->
 		          <td>${vo.rankName}</td>
 		          <td>${vo.teamName}</td>
 		          <td>${vo.parentTeamName}</td>
@@ -90,7 +91,6 @@
 		              </div>
 		              <div class="modal-footer">
 		                <button type="button" class="btn btn-outline-primary">쪽지</button>
-		                <button type="button" class="btn btn-outline-primary">채팅</button>
 		                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">닫기</button>
 		              </div>
 		            </div>
@@ -110,7 +110,7 @@
             </c:if>
             <c:if test="${currentPage == lastPage}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>
@@ -129,13 +129,10 @@
             </c:if>
             <c:if test="${(1 < currentPage) && (currentPage < lastPage)}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage-2}&rowPerPage=${rowPerPage}">${currentPage-2}</a>
               </li>
               <li class="page-item">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">${currentPage-1}</a>
@@ -145,9 +142,6 @@
               </li>
               <li class="page-item">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">${currentPage+1}</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage+2}&rowPerPage=${rowPerPage}">${currentPage+2}</a>
               </li>
               <li class="page-item next">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/empList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-right"></i></a>
