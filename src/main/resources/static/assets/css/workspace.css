@@ -12,6 +12,7 @@
     top: 0 !important;
     left: 0 !important;
     
+    margin-top: 58px;
     margin-right: 0 !important;
     margin-left: 2.75rem !important;
     padding-top: 1.5rem;
@@ -22,17 +23,22 @@
     width: inherit;
     height: 100% !important;
     will-change: transform, -webkit-transform;
+    
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1200px) {
   .sidebar-from-workspace {
+    margin-top: 58px;
     margin-left: 13rem;
     
     padding-top: 1.5rem;
     padding-right: 2rem;
     padding-left: 2rem;
     padding-bottom: 2rem;
+    
+    overflow-x: hidden;
   }
 }
 
@@ -42,6 +48,7 @@
     top: 0 !important;
     left: 0 !important;
     
+    margin-top: 58px;
     margin-right: 0 !important;
     margin-left: 18.75rem !important;
     padding-top: 1.5rem;
@@ -52,17 +59,22 @@
     width: inherit;
     height: 100% !important;
     will-change: transform, -webkit-transform;
+    
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1200px) {
   .subsidebar-from-workspace {
+    margin-top: 58px;
     margin-left: 29rem;
     
     padding-top: 1.5rem;
     padding-right: 2rem;
     padding-left: 2rem;
     padding-bottom: 2rem;
+    
+    overflow-x: hidden;
   }
 }
 
@@ -72,6 +84,7 @@
     top: 0 !important;
     left: 0 !important;
     
+    margin-top: 58px;
     margin-right: 0 !important;
     margin-left: 2.75rem !important;
     padding-top: 1.5rem;
@@ -81,11 +94,14 @@
     
     width: 26rem;
     will-change: transform, -webkit-transform;
+    
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1200px) {
   .chat-list-from-workspace {
+    margin-top: 58px;
     margin-left: 29rem;
     
     padding-top: 1.5rem;
@@ -103,6 +119,7 @@
     top: 0 !important;
     left: 0 !important;
     
+    margin-top: 58px;
     margin-right: 0 !important;
     /* margin-left: 2.75rem !important; */
     padding-top: 1.5rem;
@@ -113,11 +130,14 @@
     width: 60rem;
     height: 100% !important;
     will-change: transform, -webkit-transform;
+    
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1200px) {
   .chat-history-from-workspace {
+    margin-top: 58px;
     /* margin-left: 49rem; */
     
     padding-top: 1.5rem;
@@ -126,5 +146,7 @@
     padding-bottom: 2rem;
 
     width: 60rem;
+    
+    overflow-x: hidden;
   }
 }

@@ -10,7 +10,8 @@ import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
 
 @Mapper
-public interface EdocMapper {    
+public interface EdocMapper {
+    
     /*
      * @author : 정건희
      * @since : 2024. 07. 16.
@@ -52,24 +53,28 @@ public interface EdocMapper {
      * Description : 기안서 상세 조회
      */
     Map<String,Object>selectDraftDetail(int edocNum);
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
      * Description : 휴가신청서 상세 조회
      */
     Map<String,Object>selectVactionDetail(int edocNum);
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
      * Description : 프로젝트 지출 경비서 상세 조회
      */
     Map<String,Object>selectProjectDetail(int edocNum);
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
      * Description : 경조사 지출 결의서 상세 조회
      */
     Map<String,Object>selectEventDetail(int edocNum);
+    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
@@ -84,7 +89,6 @@ public interface EdocMapper {
      */
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
     
-    
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
@@ -98,4 +102,11 @@ public interface EdocMapper {
      * Description : empCode에 해당하는 한글 이름 조회
      */
     String findKorName(String empCode);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : empCode에 해당하는 한글 이름 조회
+     */
+    int waitEdocCnt(Map<String, Object> paramMap);
 }
