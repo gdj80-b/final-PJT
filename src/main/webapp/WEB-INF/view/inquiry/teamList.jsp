@@ -130,7 +130,7 @@
             </c:if>
             <c:if test="${currentPage == lastPage}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>
@@ -149,7 +149,7 @@
             </c:if>
             <c:if test="${(1 < currentPage) && (currentPage < lastPage)}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>

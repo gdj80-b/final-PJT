@@ -51,6 +51,7 @@ public class InquiryController {
         if(lastPage % rowPerPage != 0) {
             lastPage++;
         }
+        System.out.println("lastPage : " + lastPage);
         
         model.addAttribute("empList", empList);
         model.addAttribute("currentPage", currentPage);

@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
     <ul class="menu-inner py-3">
       <li class="menu-item">
         <a href="/gaent/inquiry/main" class="menu-link">
-          <span>조회메인</span>
+          <span>직원조회 홈</span>
         </a>
       </li>
       <li class="menu-item">

@@ -47,8 +47,6 @@
             <jsp:include page="/WEB-INF/view/inquiry/sub-sidebar.jsp"></jsp:include>
         </div>
         <div id="workspace-area" class="subsidebar-from-workspace">
-            <h5 class="fs-4 fw-semibold mb-2">조회 메인</h5>
-            <hr />
             <div class="orgChartSpace"></div>
             <!-- 피라미드 구조 조직도 시작 -->
             <div class="tree" id="orgChart">
