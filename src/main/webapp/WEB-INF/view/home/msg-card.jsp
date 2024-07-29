@@ -18,7 +18,7 @@
                         </div>
                         <div class="d-flex">
                             <label>안읽은 쪽지함</label>
-                            <span id="unreadMessageCnt"></span>개 / ${pg.lastRow}개
+                            <span id="unreadMessageCnt"></span>개 / ${pg.totalRow}개
                         </div>
                     </div>
                     <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between text-center">
