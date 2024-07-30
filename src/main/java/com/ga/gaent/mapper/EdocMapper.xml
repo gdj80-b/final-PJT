@@ -18,20 +18,6 @@
     </select>
 
     <!--
-        @author : 정건희
-        Description : 새 결재 진행에서 결재선에 들어갈 직원에 대한 정보 
-    -->
-    <select id="selectApprover" resultType="com.ga.gaent.vo.EmpVO">
-        SELECT
-            emp_code empCode,
-            team_code teamCode,
-            rank_code rankCode,
-            emp_kor_name korName
-        FROM
-            emp
-    </select>
-
-    <!--
         @author : 조인환
         Description : 내가 결재(승인, 반려)해야 할 대기 문서의 정보
     -->
@@ -75,7 +61,8 @@
             edoc.edoc_enroll_date DESC,
             edoc.edoc_num DESC
             <if test="startRow != null">
-                LIMIT #{startRow}, 10
+                LIMIT
+                    #{startRow}, 10
             </if>
     </select>
     
@@ -107,7 +94,6 @@
                 </when>
             </choose>
     </select>
-    
 
     <!--
         @author : 조인환
@@ -121,9 +107,9 @@
             edoc.edoc_title edocTitle,
             edoc.edoc_type edocType,
             edoc.edoc_done_date edocDoneDate,
-            edoc.file_name edocFileName,
-            etype.edoc_form_title edocFormTitle,
             edoc.file_name fileName,
+            ef.original_file_name edocOriginalfileName,
+            etype.edoc_form_title edocFormTitle,
             emp.emp_code writerEmpCode,
             emp.emp_kor_name edocWriter,
             team.team_name teamName,
@@ -132,9 +118,9 @@
             appr1.appr_status apprStatus1,
             appr1.appr_reason apprReason1,
             DATE_FORMAT(appr1.appr_date, '%Y.%m.%d') apprDate1,
-            appr2.approver approver2,
+            IFNULL(appr2.approver, 'none') approver2,
             appr2.appr_order apprOrder2,
-            appr2.appr_status apprStatus2,
+            IFNULL(appr2.appr_status, -1 ) apprStatus2,
             appr2.appr_reason apprReason2,
             DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
         FROM
@@ -145,12 +131,12 @@
                     ON emp.team_code = team.team_code
                 JOIN edoc_form_type etype
                     ON edoc.edoc_type = etype.edoc_type
-                JOIN edoc_approval appr1
-                    ON edoc.edoc_num = appr1.edoc_num
-                        AND appr1.appr_order = '1'
-                JOIN edoc_approval appr2
-                    ON edoc.edoc_num = appr2.edoc_num
-                        AND appr2.appr_order = '2'
+                LEFT JOIN edoc_approval appr1
+                    ON edoc.edoc_num = appr1.edoc_num AND appr1.appr_order = '1'
+                LEFT JOIN edoc_approval appr2
+                    ON edoc.edoc_num = appr2.edoc_num AND appr2.appr_order = '2'
+                LEFT JOIN edoc_file ef
+                    ON edoc.file_name = ef.file_name
         WHERE
             edoc.edoc_num = #{edocNum} AND(
                 emp.emp_code = #{empCode}
@@ -166,7 +152,7 @@
              edoc.edoc_title edocTitle,
              edoc.edoc_type edocType,
              etype.edoc_form_title edocTypeName,
-             edoc.file_name edocFileName,
+             edoc.file_name fileName,
              DATE_FORMAT(edoc.edoc_done_date, '%Y년 %m월 %d일') edocDoneDate,
              DATE_FORMAT(edoc.edoc_enroll_date, '%Y년 %m월 %d일') edocEnrollDate,
              edoc.edoc_status edocStatus
@@ -177,7 +163,7 @@
         WHERE 
             edoc.edoc_writer = #{empCode}
             <choose>
-                <when test="request == 0">  <!-- 결재대기문서 -->
+                <when test="request == 0"> <!-- 결재대기문서 -->
                     AND edoc.edoc_done_date IS NULL
                 </when>
                 <when test="request == 1"> <!-- 결재승인문서 -->
@@ -195,6 +181,10 @@
             </choose>
         ORDER BY
             edoc.edoc_enroll_date DESC
+            <if test="startRow != null">
+                LIMIT
+                    #{startRow}, #{rowPerPage}
+            </if>
     </select>
     
     <!-- 내 결재 대기,진행,완료문서   -->
@@ -204,11 +194,11 @@
         FROM
             edoc
                 JOIN edoc_form_type etype
-                    ON edoc.edoc_type = etype.edoc_type 
-        WHERE 
-            edoc.edoc_writer = #{empCode} 
+                    ON edoc.edoc_type = etype.edoc_type
+        WHERE
+            edoc.edoc_writer = #{empCode}
             <choose>
-                <when test="request == 0">  <!-- 결재대기문서 -->
+                <when test="request == 0"> <!-- 결재대기문서 -->
                     AND edoc.edoc_done_date IS NULL
                 </when>
                 <when test="request == 1"> <!-- 결재승인문서 -->
@@ -227,7 +217,7 @@
     </select>
     
     <select id="selectDraftDetail" parameterType="int" resultType="map" >
-        SELECT 
+        SELECT
             DATE_FORMAT(prop_start_date,'%Y년 %m월 %d일') propStartDate,
             DATE_FORMAT(prop_end_date,'%Y년 %m월 %d일') propEndDate,
             prop_title propTitle,
@@ -252,6 +242,7 @@
     
     <select id="selectProjectDetail" parameterType="int" resultType="map" >
         SELECT
+            project_title projectTitle,
             project_content projectContent,
             project_estimate projectExtimate
         FROM

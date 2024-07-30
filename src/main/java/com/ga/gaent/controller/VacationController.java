@@ -25,6 +25,11 @@ public class VacationController {
         return (String) loginInfo.get("empCode");
     }
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 19.
+     * Description : 휴가 이력 조회
+     */
     @PostMapping("/myVacStatus")
     @ResponseBody
     public Map<String,Object>selectMyVacStatus(HttpSession session){
@@ -35,6 +40,11 @@ public class VacationController {
         return map;
     }
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 19.
+     * Description : 휴가이력리스트 조회
+     */
     @GetMapping("/vacation")
     public String getVacationHistory(
             HttpSession session, Model model,
@@ -50,7 +60,7 @@ public class VacationController {
         
         model.addAttribute("pg", paginMap);
         model.addAttribute("list", list);
-        return "atd/vacHistory";
+        return "attendance/vacHistory";
     }
 
     

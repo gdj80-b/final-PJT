@@ -27,34 +27,41 @@
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
                 <td class="typeDraftTdTag" colspan="3">
-                    <input class="form-control form-control-sm" type="text" name="edocTitle" required>
+                    ${edocDetail.edocTitle}
                 </td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">시작일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacStartDate" required></td>
+                <td class="typeDraftTdTag">${formDetail.vacStartDate}</td>
                 <th class="text-center typeDraftThTag">종료일자</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="date" name="vacEndDate" required></td>
+                <td class="typeDraftTdTag">${formDetail.vacEndDate}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">휴가종류</th>
                 <td class="typeDraftTdTag" colspan="3">
-                    <select class="form-select form-select-sm" name="vacType" required>
-                        <option value="일반">일반</option>
-                        <option value="오전반차">오전반차</option>
-                        <option value="오후반차">오후반차</option>
-                    </select>
+                   ${formDetail.vacType}
                 </td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag" colspan="4">사유</th>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="4" name="vacReason"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="4" name="vacReason" readonly>${formDetail.vacReason}</textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" name="edocFileName"></td>
+                <c:choose>
+                    <c:when test= "${!empty edocDetail.fileName}">
+                        <td class="typeDraftTdTag" colspan="4">
+                            <a class="" href="${pageContext.request.contextPath}/upload/edocfile/${edocDetail.fileName}" target="_blank">
+                               ${edocDetail.edocOriginalfileName}
+                            </a>
+                        </td> 
+                    </c:when>
+                    <c:otherwise>
+                        <td class="typeDraftTdTag" colspan="4">첨부파일 없음</td>  
+                    </c:otherwise>
+                </c:choose>
             </tr>
         </tbody>
     </table>
