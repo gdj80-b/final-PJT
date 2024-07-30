@@ -11,7 +11,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="card-header">
+                    <div class="card-header d-flex align-items-center">
+                        <i class="bx bx-news fs-4 me-2"></i>
                         <h4 class="card-title">뉴스</h4>
                     </div>
                     <form id="searchForm">
@@ -86,15 +87,19 @@
                 page: newsCurrentPage
             },
             success: function(data) {
-                displayResults(data);
-                updateNewPagingStates(newsCurrentPage);
+   				if (data.startsWith('error')) {
+                    alert(data);
+                } else {
+                    displayResults(data);
+                    updateNewPagingStates(newsCurrentPage);
+                }
             },
-            error: function() {
+            error : function() {
                 alert('검색에 실패했습니다.');
             },
         });
     }
-    
+
     // 검색 결과를 화면에 출력
     function displayResults(data) {
         let results = JSON.parse(data);
@@ -106,7 +111,7 @@
                 let trimmedTitle = item.title.substring(0, 45) + (item.title.length > 30 ? '...' : '');
                 let title = '<p class="news-title"><b><a href="' + item.link + '" target="_blank">' + trimmedTitle + '</a></b></p>';
                 // 원본 item.description에서 앞 45글자를 가져와서 "..."을 붙여 출력
-                let trimmedDescription = item.description.substring(0, 60) + (item.description.length > 30 ? '...' : '');
+                let trimmedDescription = item.description.substring(0, 55) + (item.description.length > 30 ? '...' : '');
                 let description = '<p class="news-desc">' + trimmedDescription + '</p>';
                 let hr = '<hr>';
                 resultDiv.append(title + description + hr);
@@ -115,7 +120,7 @@
             resultDiv.append('<p>검색 결과가 없습니다.</p>');
         }
     }
-    
+
     // 버튼 상태 업데이트
     function updateNewPagingStates(newsCurrentPage) {
         if (newsCurrentPage <= 1) {

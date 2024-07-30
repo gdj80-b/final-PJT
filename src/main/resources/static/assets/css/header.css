@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .mypage .mypage-table th {
-  width: 4rem;
+  width: 6rem;
   text-align: right;
 }
 
@@ -25,10 +25,11 @@
 
 .mypage .remove-img-btn button {
   width: 6rem;
-  height: 1.6rem;
+  height: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 10px;
 }
 
 .mypage .img-preview img {
@@ -39,4 +40,8 @@
 
 .mypage .img-preview span {
   cursor: pointer;
+}
+
+.mypage input {
+  width: 16rem;
 }

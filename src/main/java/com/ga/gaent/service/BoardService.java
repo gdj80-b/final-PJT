@@ -107,12 +107,12 @@ public class BoardService {
      * @since : 2024. 07. 24.
      * Description : 게시글(자유게시판, 공지사항) 메인 호출
      */
-    public List<Map<String, Object>> selectCommunityToMain() {
-        return boardMapper.selectCommunityToMain();
+    public List<Map<String, Object>> selectCommunityAtMain() {
+        return boardMapper.selectCommunityAtMain();
     }
     
-    public List<Map<String, Object>> selectNoticeToMain() {
-        return boardMapper.selectNoticeToMain();
+    public List<Map<String, Object>> selectNoticeAtMain() {
+        return boardMapper.selectNoticeAtMain();
     }
     
     /*
@@ -137,7 +137,7 @@ public class BoardService {
         
         Map<String, Object> pagingMap = new HashMap<>();
         
-        int totalRow = boardMapper.selectCommunityListTotal();
+        int totalRow = boardMapper.selectCommunityListCnt();
         
         Paging page = new Paging();
         pagingMap = page.Paging(nowPage, totalRow);
@@ -150,7 +150,7 @@ public class BoardService {
         
         Map<String, Object> pagingMap = new HashMap<>();
         
-        int totalRow = boardMapper.selectNoticeListTotal();
+        int totalRow = boardMapper.selectNoticeListCnt();
         
         Paging page = new Paging();
         pagingMap = page.Paging(nowPage, totalRow);

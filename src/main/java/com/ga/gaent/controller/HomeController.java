@@ -49,69 +49,10 @@ public class HomeController {
     // 받은 쪽지함 요청
     final int RECEVIE_REQUEST = 1;
 
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 28.
-     * Description : 홈(메인)으로 이동, 홈에서 공지사항 조회
-     */
+    // 홈으로 이동
     @GetMapping("/home")
-    public String home(
-            HttpSession session, Model model,
-            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name = "searchMsg", defaultValue = "") String searchMsg) {
-        
-        String empCode = getSessionEmpCode.getEmpCode(session);
-        Map<String, String> empInfoMap = new HashMap<>();
-        
-        EmpVO empVO = homeService.selectMyPageInfo(empCode);
-        
-        empInfoMap.put("profile", empVO.getProfile());
-        empInfoMap.put("teamName", empVO.getTeamName());
-        empInfoMap.put("korName", empVO.getKorName());
-        empInfoMap.put("rankName", empVO.getRankName());
-        empInfoMap.put("empId", empVO.getEmpId());
-        empInfoMap.put("phone", empVO.getPhone());
-        
-        List<Map<String, Object>> noticeListToHome = boardService.selectNoticeToMain();
-        List<MsgDTO> msgListToHome = msgService.getMsgList(empCode, RECEVIE_REQUEST, currentPage, searchMsg);
-        Map<String, Object> pagingMap = msgService.getPagingIdx(empCode, RECEVIE_REQUEST, currentPage, searchMsg);
-        
-        model.addAttribute("empInfo", empInfoMap);
-        model.addAttribute("notice", noticeListToHome);
-        model.addAttribute("msg", msgListToHome);
-        model.addAttribute("pg", pagingMap);
-        log.debug(TeamColor.PURPLE_BG + "profile: " + empVO.getProfile() + TeamColor.RESET);
-        log.debug(TeamColor.PURPLE_BG + "noticeListToHome: " + noticeListToHome + TeamColor.RESET);
-        log.debug(TeamColor.PURPLE_BG + "msgListToHome: " + msgListToHome + TeamColor.RESET);
-        
+    public String home() {
         return "home/home";
-    }
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 28.
-     * Description : 홈(메인)에서 읽지 않은 메세지 조회
-     */
-    @GetMapping("/unreadMessage")
-    @ResponseBody
-    public int unreadMessageAtHome(HttpSession session) {
-        
-        String empCode = getSessionEmpCode.getEmpCode(session);
-        return msgService.msgNotReadCnt(empCode);
-    }
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 28.
-     * Description : 홈(메인)에서 결재대기문서 조회
-     */
-    @GetMapping("/approval/{request}")
-    @ResponseBody
-    public int approvalCntAtHome(HttpSession session,
-            @PathVariable(name = "request", required = false) Integer request) {
-        
-        String empCode = getSessionEmpCode.getEmpCode(session);
-        return edocService.waitEdocCnt(empCode, request);
     }
     
     /*
@@ -125,6 +66,11 @@ public class HomeController {
         return homeService.selectMyPageInfo(empCode);
     }
     
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 28.
+     * Description : 헤더(메인)에서 마이페이지 내 정보 수정
+     */
     @PostMapping("/modifyMyPageInfo")
     @ResponseBody
     public void modifyMyPageInfo(HttpSession session,
@@ -149,4 +95,86 @@ public class HomeController {
         }
     }
     
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 30.
+     * Description : 홈(메인)에서 프로필 카드
+     */
+    @GetMapping("/home/profile")
+    @ResponseBody
+    public EmpVO homeProfile(HttpSession session) {
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return homeService.selectMyPageInfo(empCode);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 28.
+     * Description : 홈(메인)에서 전자결재문서 조회
+     */
+    @GetMapping("/approval/{request}")
+    @ResponseBody
+    public int approvalAtHome(HttpSession session,
+            @PathVariable(name = "request", required = false) Integer request) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return edocService.waitEdocCnt(empCode, request);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 29.
+     * Description : 홈(메인) 쪽지함 조회
+     */
+    @GetMapping("/home/message")
+    @ResponseBody
+    public List<MsgDTO> homeMessage(HttpSession session,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return homeService.selectMessageListAtHome(empCode, currentPage);
+    }
+    
+    @GetMapping("/home/message/page")
+    @ResponseBody
+    public Map<String, Object> homeMessagePaging(HttpSession session,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return homeService.selectMessagePagingAtHome(empCode, RECEVIE_REQUEST, currentPage);
+    }
+     
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 28.
+     * Description : 홈(메인)에서 읽지 않은 메세지 조회
+     */
+    @GetMapping("/unreadMessage")
+    @ResponseBody
+    public int unreadMessageAtHome(HttpSession session) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return msgService.msgNotReadCnt(empCode);
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 29.
+     * Description : 홈(메인) 공지사항 조회
+     */
+    @GetMapping("/home/notice")
+    @ResponseBody
+    public List<Map<String, Object>> homeNotice(@RequestParam(name = "currentPage") int currentPage) {
+        
+        return homeService.selectNoticeListAtHome(currentPage);
+    }
+    
+    @GetMapping("/home/notice/page")
+    @ResponseBody
+    public Map<String, Object> homeNoticePaging(HttpSession session,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return homeService.selectNoticePagingAtHome(currentPage);
+    }
 }
