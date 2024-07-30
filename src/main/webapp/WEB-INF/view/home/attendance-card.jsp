@@ -105,7 +105,7 @@
                     dataType : 'json', // 데이터 타입은 JSON
                     success : function(data) {
                         // 요청이 성공하면 실행
-                        console.log('출퇴근확인: ', data);
+                        // console.log('출퇴근: ', data);
                         $('#weeklyWorkTime').text(data.weeklyWorkTime); // 주간누적근무시간 표시
                         if (data.inTime == null) {
                             // 출근을 아직 안한 상태

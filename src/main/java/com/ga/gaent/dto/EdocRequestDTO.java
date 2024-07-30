@@ -1,6 +1,5 @@
 package com.ga.gaent.dto;
 
-import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class EdocRequestDTO {
 
     private String edocType;
     private String edocWriter;
-    private MultipartFile fileName;
+    private String fileName;
     private String[] approver;
     private String[] apprOrder;
     private String edocTitle;

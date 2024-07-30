@@ -48,7 +48,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCenterTitle">마이페이지</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="modalCloseTopBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="myPageInputForm" class="input-form-group" enctype="multipart/form-data">
@@ -60,7 +60,7 @@
                                     <div class="remove-img-btn">
                                         <input class="form-control" type="file" id="profile" name="gaFile" style="display: none"/>
                                         <input type="hidden" id="myEmpCode" value="${loginInfo.empCode}"/>
-                                        <button type="button" class="btn btn-outline-secondary" id="removeImgBtn">삭제</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="removeImgBtn">초기화</button>
                                     </div>
                                 </td>
                             </tr>
@@ -88,7 +88,7 @@
                                 <th><span>이메일(ID)</span></th>
                                 <td>
                                     <div class="d-flex">
-                                        <input class="form-control form-control-sm w-75" type="text" id="myPageEmpId" name="myPageEmpId"/>
+                                        <input class="form-control form-control-sm" type="text" id="myPageEmpId" name="myPageEmpId"/>
                                         <button onclick="idCheck()" type="button" class="btn btn-sm btn-outline-primary ms-2">중복검사</button>
                                     </div>
                                 </td>
@@ -96,28 +96,28 @@
                             <tr>
                                 <th rowspan="2"><span>비밀번호</span></th>
                                 <td>
-                                    <input class="form-control form-control-sm w-75" type="password" id="myPageEmpPassword" name="myPageEmpPassword" placeholder="변경할 비밀번호를 입력해주세요." autocomplete="new-password"/>
+                                    <input class="form-control form-control-sm" type="password" id="myPageEmpPassword" name="myPageEmpPassword" placeholder="변경할 비밀번호를 입력해주세요." autocomplete="new-password"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input class="form-control form-control-sm w-75" type="password" id="myPageEmpPasswordCheck" name="myPageEmpPasswordCheck" placeholder="한번 더 입력해주세요." autocomplete="new-password"/>
+                                    <input class="form-control form-control-sm" type="password" id="myPageEmpPasswordCheck" name="myPageEmpPasswordCheck" placeholder="한번 더 입력해주세요." autocomplete="new-password"/>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span>연락처</span></th>
                                 <td>
-                                    <input class="form-control form-control-sm w-75" type="text" id="myPagePhone" name="myPagePhone"/>
+                                    <input class="form-control form-control-sm" type="text" id="myPagePhone" name="myPagePhone"/>
                                 </td>
                             </tr>
                         </table>
-                        <div class="modal-footer d-flex justify-content-evenly">
-                            <span id="passMessage" style="color: red;"></span>
+                        <div class="modal-footer d-flex flex-column align-items-center justify-content-center">
                             <div>
                                 <input type="hidden" name="myPageEmpCode" value="${loginInfo.empCode}">
                                 <button type="submit" class="btn btn-sm btn-outline-primary">수정</button>
-                                <button id="modalClose" type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                                <button id="modalCloseBottomBtn" type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
                             </div>
+                            <span id="passMessage" style="color: red;"></span>
                         </div>
                     </form>
                 </div>
