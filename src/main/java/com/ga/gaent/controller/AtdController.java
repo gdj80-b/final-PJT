@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.service.AtdService;
 import com.ga.gaent.util.TeamColor;
-import com.ga.gaent.util.atdCalender.AtdCalendar;
 import com.ga.gaent.util.atdCalender.AtdHistory;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -151,85 +150,6 @@ public class AtdController {
         return map;
     }
     
-    
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 14. 
-     * Description : 개인 출근 이력 리스트 조회
-     */
-    @GetMapping("/team/atd")
-    public String teamAtdHistory(Model model,HttpSession session,
-               @RequestParam(name="teamCode", required=false) String teamCode, 
-               @RequestParam(name="year", required=false) String year,
-               @RequestParam(name="week", required=false) String fullWeek
-               ) {
-        
-        if(teamCode ==null) {
-            Map<String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo"));
-            teamCode = (String) loginInfo.get("teamCode");
-        }
-       
-        if(fullWeek == null) {
-            fullWeek = " ";
-        }
-        
-        // 날짜 파라미터 가져오기
-        Map<String, Object> target = new AtdCalendar().targetCalendar(year, null,fullWeek) ;
-        year = String.valueOf( target.get("tgYear"));
-        fullWeek = String.valueOf( target.get("tgFullWeek"));
-        
-        
-        log.debug(TeamColor.GREEN + "파라미터확인 " + teamCode +  target.get("tgYear") + fullWeek  + TeamColor.RESET); 
-        List< Map<String, Object>>list = atdService.getTeamAtdStatus(teamCode,year,fullWeek);
-        
-        model.addAttribute("t",teamCode);
-        model.addAttribute("c", target);
-        model.addAttribute("list", list);
-
-        return "attendance/teamAtdStatus";
-    }
-    
-    
-    @PostMapping("/team/atdTeamStatus")
-    @ResponseBody
-    public Map<String,Object>getTeamAtdStatus(
-           HttpSession session,
-            @RequestParam(name="teamCode", required=false) String teamCode, 
-            @RequestParam(name="year", required=false) String year,
-            @RequestParam(name="week", required=false) String fullWeek
-            
-            ){
-        
-        if(teamCode ==null) {
-            Map<String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo"));
-            teamCode = (String) loginInfo.get("teamCode");
-            
-        }
-        Calendar today = Calendar.getInstance();
-        
-        String mWeek  = null;
-        year = String.valueOf(today.get(Calendar.YEAR));
-        
-        if(fullWeek == null ) {
-            fullWeek = String.valueOf(today.get(Calendar.WEEK_OF_YEAR));
-            mWeek = String.valueOf(today.get(Calendar.WEEK_OF_MONTH));
-
-            String month = String.format("%02d", today.get(Calendar.MONTH) + 1);
-            log.debug(TeamColor.RED + "확인 " + year + "&" + month + "&" + fullWeek + TeamColor.RESET);
-        }
-
-        if(Integer.parseInt(fullWeek) <= 0) {
-            year = String.valueOf( Integer.parseInt(year) -1);
-            
-        }
-        
-        Map<String, Object>map = atdService.getTeamAtdStatusCount(teamCode, year, fullWeek);
-        log.debug(TeamColor.GREEN + "map확인 " + map  + TeamColor.RESET); 
-        
-        return map;
-    }
-    
-    
+ 
 
 }

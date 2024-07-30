@@ -9,7 +9,7 @@
             <jsp:include page="/WEB-INF/view/attendance/attendance-card.jsp"></jsp:include>
             <li class="menu-item-edoc mt-4">
                 <div class="menu-link">
-                    <span class="display-6 fw-semibold mb-0">전자결재</span>
+                    <span class="display-6 fw-semibold mb-0">근태관리</span>
                 </div>
                 <ul class="menu-item mt-2">
                     <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/atdHistory') ? 'active' : '' }">

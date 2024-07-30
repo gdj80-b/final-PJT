@@ -205,7 +205,7 @@
         e.team_code AS teamCode,
         DATE_FORMAT(a.atd_date, '%y년 %m월 %d일' ) AS atdDate,
         CASE
-            WHEN a.atd_in_time IS NOT NULL AND a.atd_in_time != a.atd_out_time
+            WHEN a.atd_in_time IS NOT NULL
                 THEN DATE_FORMAT(a.atd_in_time, '%H시%i분')
             ELSE a.atd_in_time
         END AS inTime,
@@ -214,10 +214,10 @@
                 THEN DATE_FORMAT(a.atd_out_time, '%H시%i분')
             ELSE a.atd_out_time
         END AS outTime,
-        DATE_FORMAT(a.atd_in_time, '%Y') AS year,
-        DATE_FORMAT(a.atd_in_time, '%m') AS month,
-        DATE_FORMAT(a.atd_in_time, '%d') AS day,
-        DATE_FORMAT(a.atd_in_time, '%w') AS yoil,
+        DATE_FORMAT(a.atd_date, '%Y') AS year,
+        DATE_FORMAT(a.atd_date, '%m') AS month,
+        DATE_FORMAT(a.atd_date, '%d') AS day,
+        DATE_FORMAT(a.atd_date, '%w') AS yoil,
         CASE
             WHEN a.atd_in_time IS NULL OR a.atd_in_time = a.atd_out_time THEN '결근'
             WHEN TIME(a.atd_in_time) > '09:00:00' THEN '지각'
@@ -230,22 +230,22 @@
         attendance a ON e.emp_code = a.emp_code
     WHERE
         YEAR(a.atd_date) = '2024' AND
-        WEEK(a.atd_date,1) = #{week} and
+        WEEK(a.atd_date,1) = #{week} AND
         e.team_code = #{teamCode} 
      ORDER BY
-        teamCode ASC,
-        empCode ASC,
+        e.rank_code ASC,
+        empCode DESC,
         yoil ASC
     </select>
     
     <select id="selectTeamAtdStatusCount" parameterType="map" resultType="map">
         SELECT
            COUNT(CASE 
-                 WHEN a.atd_in_time IS NULL AND a.atd_out_time IS NULL THEN 1 
+                 WHEN a.atd_in_time IS NULL THEN 1 
                  ELSE NULL 
              END) AS absenceCount, 
            COUNT(CASE 
-                 WHEN a.atd_in_time IS NOT NULL AND TIME(a.atd_in_time) > '09:00:00' AND a.atd_out_time IS NOT NULL THEN 1 
+                 WHEN a.atd_in_time IS NOT NULL AND TIME(a.atd_in_time) > '09:00:00' THEN 1 
                  ELSE NULL 
              END) AS lateCount,   
            COUNT(CASE 
@@ -259,9 +259,9 @@
         FROM 
            emp e LEFT JOIN attendance a ON e.emp_code = a.emp_code
         WHERE
-           e.team_code = #{teamCode} AND
            YEAR(a.atd_date) = '2024' AND
-           WEEK(a.atd_date,1) = #{week}
+            WEEK(a.atd_date,1) = #{week} AND
+            e.team_code = #{teamCode} 
     </select>
     
     
