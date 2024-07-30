@@ -14,6 +14,9 @@
     text-align: center;
 }
 </style>
+<!-- Bootstrap CSS 및 JS 링크 추가 필요 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<c:forEach var="vo" items="${eventOne}">
@@ -281,44 +284,20 @@
 		    </div>
 		  </div>
 		  <div class="footer-btn">
-			  <a href="/gaent/calendar/removeEvent?calNum=${vo.calNum}" class="delete-link btn btn-danger">삭제</a>
-			  <!-- 삭제 확인용 모달 시작 -->
-	            <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-	              <div class="modal-dialog modal-sm" role="document">
-	                <div class="modal-content">
-	                  <div class="modal-header">
-	                    <h5 class="modal-title" id="exampleModalLabel2">일정삭제</h5>
-	                  </div>
-	                  <div class="modal-body del-confirm">일정을 삭제하시겠습니까?</div>
-	                  <div class="modal-footer">
-	                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-	                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">삭제</button>
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	            <script>
-	            // 삭제 링크 클릭 시 모달 띄우기
-	            $(document).ready(function() {
-	              $('a.delete-link').on('click', function(e) {
-	                e.preventDefault(); // 기본 동작(링크 이동) 방지
-	    
-	                let deleteUrl = $(this).attr('href'); // 삭제할 링크 주소 가져오기
-	                $('#deleteModal').modal('show'); // 모달 띄우기
-	    
-	                // 모달 안의 삭제 버튼 클릭 시
-	                $('#confirmDeleteBtn').on('click', function() {
-	                  window.location.href = deleteUrl; // 삭제할 링크로 이동
-	                });
-	              });
-	            });
-	          </script>
-	          <!-- 삭제 확인용 모달 시작 -->
+			  <button type="button" class="btn btn-danger" onclick="confirmDelete('${vo.calNum}')">삭제</button>
 			  <button type="submit" class="btn btn-primary">수정</button>
 			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 		  </div>
-	</form>
+		</form>
 	</c:forEach>
 
+<script>
+function confirmDelete(calNum) {
+    if (confirm('일정을 삭제하시겠습니까?')) {
+        // 삭제 요청을 위해 링크로 이동
+        window.location.href = '/gaent/calendar/removeEvent?calNum=' + calNum;
+    }
+}
+</script>
 </body>
 </html>
