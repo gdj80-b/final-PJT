@@ -97,7 +97,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
       <li
         class="menu-item ${fn:contains(pageContext.request.requestURI, '/inquiry') ? 'active' : '' }"
       >
-        <a href="/gaent/inquiry/teamList" class="menu-link">
+        <a href="/gaent/inquiry/main" class="menu-link">
           <i class="menu-icon tf-icons bx bx-archive"></i> <span>직원조회</span>
         </a>
       </li>
