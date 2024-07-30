@@ -36,13 +36,15 @@
             cal_start_date AS start,
             cal_end_date AS end,
             CASE
+                WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'yellow'
                 WHEN cal_type LIKE 'p%' THEN 'blue'
-                WHEN cal_type LIKE 't%' THEN 'yellow'
+                WHEN cal_type LIKE 't%' THEN 'orange'
                 WHEN cal_type LIKE 'c%' THEN 'green'
                 WHEN cal_type LIKE 'a%' THEN 'pink'
                 ELSE NULL
             END AS color,
             CASE
+                WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'black'
                 WHEN cal_type LIKE 'p%' THEN 'white'
                 WHEN cal_type LIKE 't%' THEN 'black'
                 WHEN cal_type LIKE 'c%' THEN 'white'
@@ -63,14 +65,16 @@
             cal_start_date start,
             cal_end_date end,
         CASE
+            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'yellow'
             WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 't%' THEN 'orange'
             WHEN cal_type LIKE 'c%' THEN 'green'
             WHEN cal_type LIKE 'a%' THEN 'pink'
             ELSE NULL
         END AS
             color,
         CASE
+            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'black'
             WHEN cal_type LIKE 'p%' THEN 'white'
             WHEN cal_type LIKE 't%' THEN 'black'
             WHEN cal_type LIKE 'c%' THEN 'white'
@@ -93,7 +97,7 @@
             cal_end_date end,
         CASE
             WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 't%' THEN 'orange'
             WHEN cal_type LIKE 'c%' THEN 'green'
             WHEN cal_type LIKE 'a%' THEN 'pink'
             ELSE NULL

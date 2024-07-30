@@ -25,43 +25,42 @@
 		    <div class="card mb-4">
 		      <div class="card-body">
 		      	<form action="/gaent/calendar/addEvent" method="post">
-		      	<div class="mb-3">
-		          <input type="hidden" name="calWriter" value="${loginInfo.empCode}">
-		          <label for="calType" class="form-label">일정타입</label>
-		          <select name="calType" id="calType" class="form-select">
-		            <c:forEach var="event" items="${eventType}">
-			            <option value="${event.calType}">${event.calTypeName}</option>
-					</c:forEach>
-		          </select>
-		        </div>
-		        <div class="mb-3">
-		          <label for="calTitle" class="form-label">제목</label>
-		          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요.">
-		        </div>
-		        <div class="mb-3">
-		          <label for="calContent" class="form-label">내용</label>
-		          <input name="calContent" id="calContent" class="form-control" type="text" placeholder="내용을 입력해주세요.">
-		        </div>
-		        <div class="mb-3">
-		          <label for="calStartDate" class="form-label">시작시간</label>
-		          <input name="calStartDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
-		        </div>
-		        <div class="mb-3">
-		          <label for="calEndDate" class="form-label">종료시간</label>
-		          <input name="calEndDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
-		        </div>
-				<div class="mb-3">
-		          <label for="calTargetType" class="form-label">일정분류</label>
-		          <select name="calTargetType" id="calTargetType" class="form-select">
-		            <option value="${loginInfo.empCode}">개인</option>
-				    <c:forEach var="target" items="${eventTarget}">
-				    	<option value="${target.teamCode}">${target.teamName}</option>
-				    </c:forEach>
-		          </select>
-		        </div>
-		        <button type="submit" class="btn btn-primary">등록</button>
-		        <a href="/gaent/calendar" class="btn btn-secondary">취소</a>
-		        
+			      	<div class="mb-3">
+			          <input type="hidden" name="calWriter" value="${loginInfo.empCode}">
+			          <label for="calType" class="form-label">일정타입</label>
+			          <select name="calType" id="calType" class="form-select">
+			            <c:forEach var="event" items="${eventType}">
+				            <option value="${event.calType}">${event.calTypeName}</option>
+						</c:forEach>
+			          </select>
+			        </div>
+			        <div class="mb-3">
+			          <label for="calTitle" class="form-label">제목</label>
+			          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요.">
+			        </div>
+			        <div class="mb-3">
+			          <label for="calContent" class="form-label">내용</label>
+			          <input name="calContent" id="calContent" class="form-control" type="text" placeholder="내용을 입력해주세요.">
+			        </div>
+			        <div class="mb-3">
+			          <label for="calStartDate" class="form-label">시작시간</label>
+			          <input name="calStartDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
+			        </div>
+			        <div class="mb-3">
+			          <label for="calEndDate" class="form-label">종료시간</label>
+			          <input name="calEndDate" class="form-control" type="datetime-local" id="html5-datetime-local-input">
+			        </div>
+					<div class="mb-3">
+			          <label for="calTargetType" class="form-label">일정분류</label>
+			          <select name="calTargetType" id="calTargetType" class="form-select">
+			            <option value="${loginInfo.empCode}">개인</option>
+					    <c:forEach var="target" items="${eventTarget}">
+					    	<option value="${target.teamCode}">${target.teamName}</option>
+					    </c:forEach>
+			          </select>
+			        </div>
+			        <button type="submit" class="btn btn-primary">등록</button>
+			        <a href="/gaent/calendar" class="btn btn-secondary">취소</a>
 		        </form>
 		      </div>
 		    </div>

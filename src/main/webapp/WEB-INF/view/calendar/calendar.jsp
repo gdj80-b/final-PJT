@@ -92,7 +92,7 @@
           <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="addEventModalTitle">일정 추가</h5>
+                <h5 class="modal-title" id="addEventModalTitle">일정등록</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">

@@ -315,7 +315,7 @@
 	          </script>
 	          <!-- 삭제 확인용 모달 시작 -->
 			  <button type="submit" class="btn btn-primary">수정</button>
-			  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 		  </div>
 	</form>
 	</c:forEach>
