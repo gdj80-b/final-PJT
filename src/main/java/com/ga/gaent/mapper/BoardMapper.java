@@ -28,8 +28,8 @@ public interface BoardMapper {
      * @since : 2024. 07. 24.
      * Description : 게시글(자유게시판, 공지사항) 메인 호출
      */
-    List<Map<String, Object>> selectCommunityToMain();
-    List<Map<String, Object>> selectNoticeToMain();
+    List<Map<String, Object>> selectCommunityAtMain();
+    List<Map<String, Object>> selectNoticeAtMain();
     
     /*
      * @author : 정건희
@@ -37,10 +37,10 @@ public interface BoardMapper {
      * Description : 게시글(자유게시판, 공지사항) 리스트 호출, 게시글 총 갯수
      */
     List<Map<String, Object>> selectCommunityList(int startRow, int rowPerPage);
-    int selectCommunityListTotal();
+    int selectCommunityListCnt();
     
     List<Map<String, Object>> selectNoticeList(int startRow, int rowPerPage);
-    int selectNoticeListTotal();
+    int selectNoticeListCnt();
     
     /*
      * @author : 정건희
