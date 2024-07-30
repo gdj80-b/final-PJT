@@ -163,36 +163,40 @@
             MONTH(atd_date) = #{month}
     </select>
     
-    
-    
-    <select id="getNotAtendEmpCode">
-        SELECT
-            e.emp_code empCode
-        FROM
-           emp e 
-        	LEFT JOIN (   
-        			SELECT emp_code,atd_in_time
-        			from attendance
-        			WHERE 
-        			DATE(atd_in_time) = CURDATE()
-        			) a
-           ON e.emp_code = a.emp_code
-        WHERE 
-        	a.atd_in_time IS NULL
-    </select>
+  
     
     <insert id="autoRegisterAtd">
-        INSERT INTO attendance(
+        INSERT INTO attendance (
             emp_code, 
             atd_in_time, 
             atd_out_time,
             atd_date
-            )
-        VALUES ( 
-            #{empCode}, 
-            NULL, 
-            NULL,
-            CURDATE()
-                )
+        )
+            SELECT
+                e.emp_code,
+                NULL,
+                NULL,
+                CURDATE()
+            FROM
+                emp e
+            LEFT JOIN (
+                SELECT emp_code, atd_in_time
+                FROM attendance
+                WHERE DATE(atd_in_time) = CURDATE()
+            ) a ON e.emp_code = a.emp_code
+        WHERE a.atd_in_time IS NULL
     </insert>
+    
+    <update id="autoGetOffWork">
+        UPDATE 
+            attendance 
+        SET
+            atd_out_time = CONCAT(CURDATE(), ' 18:00:00') 
+        WHERE 
+            atd_date = CURDATE() AND 
+            atd_out_time IS NULL
+    </update>
+    
+    
+    
 </mapper>

@@ -139,19 +139,18 @@ public class AtdService {
     /*
      * @author : 조인환
      * @since : 2024. 07. 29. 
-     * Description : 출근하지 않은사람들 자동등록되는 매서드
-     */
+     * Description : 퇴근하지 않은사람들은 자동으로 퇴근처리되고 출근하지 않은사람들은  NULL로 자동등록되는 매서드
+    */
     @Scheduled(cron = "0 55 11 * * 1-5")
     void registerAtdByScheduler() {
           
-        int success = 0;
-        List<String>empCodeList = atdMapper.getNotAtendEmpCode();
-        for( String empCode : empCodeList) {
+        // 퇴근을 누르지 않은 사람들 18시로 자동등록
+        int autoGetOffWorkSuccess = atdMapper.autoGetOffWork(); 
+        // 출근하지 않은 사람들 NULL로 자동등록
+        int autoGetInSuccess = atdMapper.autoRegisterAtd();
+        
             
-           success = success + atdMapper.autoRegisterAtd(empCode);
-                      
-        }
-      
-        log.debug(TeamColor.RED + "자동 입력: " + success + TeamColor.RESET);
+        log.debug(TeamColor.RED + "퇴근 자동 입력: " + autoGetOffWorkSuccess + TeamColor.RESET);
+        log.debug(TeamColor.RED + "출근 자동 입력: " + autoGetInSuccess + TeamColor.RESET);
     }
 }
