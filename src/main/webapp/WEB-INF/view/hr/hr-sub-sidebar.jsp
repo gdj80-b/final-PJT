@@ -5,42 +5,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
-<style>
-  .scroll {
-    width: 16rem !important;
-    height: 30rem !important;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-</style>
 <body>
-  <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">
+  <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav hr-sub-sidebar">
     <div class="menu-inner-shadow"></div>
-    <ul class="menu-inner py-3">
-      <li class="menu-item">
+    <ul class="menu-inner pt-3">
+      <li class="menu-item-edoc hr-shadow">
         <div class="menu-link">
           <span class="display-6 fw-semibold mb-0">인사관리</span>
         </div>
+        <ul class="menu-item">
+          <li class="menu-item">
+            <a href="/gaent/hr" class="menu-link" style="padding-bottom: 0;"><span>인사관리 홈</span></a>
+          </li>
+        </ul>
       </li>
-      <li class="menu-item">
-        <div class="menu-link">
-          <a href="/gaent/hr/addTeam" class="btn btn-primary"><span>부서등록</span></a>
-        </div>
-      </li>
-      <li class="menu-item">
-        <div class="menu-link">
-          <a href="/gaent/hr/addEmp" class="btn btn-primary"><span>직원등록</span></a>
-        </div>
-      </li>
-      <li class="menu-item"><a href="/gaent/hr/empList" class="menu-link"><span>인사현황</span></a></li>
-      <li class="menu-item"><a href="/gaent/hr/teamList" class="menu-link"><span>부서현황</span></a></li>
-      <li class="menu-item scroll">
-        <div class="menu-link">
-          <!-- 조직도 시작 -->
-          <div id="orgChart"></div>
-          <!-- 조직도 끝 -->
-        </div>
-      </li>
+      <div class="scroll">
+        <!-- 조직도 시작 -->
+        <div id="orgChart"></div>
+        <!-- 조직도 끝 -->
+      </div>
     </ul>
   </aside>
   

@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.hr-sub-sidebar {
+  flex: 0 1 auto;
+}
+
+.scroll {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+  padding-top: 1rem;
+}
+
+.img-box {
+  width: 120px;
+  height: 160px;
+  background-color: rgba(105, 108, 255, 0.6);
+  border-radius: 4px;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hr-shadow {
+  width: 100%;
+  box-shadow: 0 6px 6px 0 rgba(67, 89, 113, 0.12);
+}
