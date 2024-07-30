@@ -4,24 +4,18 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.tags.shaded.org.apache.xpath.objects.XNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.ga.gaent.dto.EdocFormTypeDTO;
-import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.util.getSessionEmpCode;
 import com.ga.gaent.vo.EdocFormTypeVO;
 import com.ga.gaent.vo.EdocVO;
-import com.ga.gaent.vo.EmpVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,6 +76,11 @@ public class EdocController {
         return "edoc/edoc";
     }
     
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 15.
+     * Description : 전자결재문서 양식 호출
+     */
     @GetMapping("/edocType")
     @ResponseBody
     public List<EdocFormTypeVO> getEdocType() {
@@ -97,15 +96,15 @@ public class EdocController {
     public String getEdocType(@PathVariable(name = "request", required = false) Integer request) {
         
         if(request == 0) {
-            return "edoc/edocFormType/draftForm";
+            return "edoc/edoc-form-type/draftForm";
         } else if (request == 1){
-            return "edoc/edocFormType/vacationForm";
+            return "edoc/edoc-form-type/vacationForm";
         } else if (request == 2){
-            return "edoc/edocFormType/projectForm";
+            return "edoc/edoc-form-type/projectForm";
         } else if (request == 3){
-            return "edoc/edocFormType/eventForm";
+            return "edoc/edoc-form-type/eventForm";
         } else if (request == 4) {
-            return "edoc/edocFormType/reportForm";
+            return "edoc/edoc-form-type/reportForm";
         } else {
             return "edoc/보고서";
         }
@@ -132,7 +131,7 @@ public class EdocController {
         model.addAttribute("pg", pagingMap);
         model.addAttribute("toDoList", list);
         
-        return "edoc/edocAppr/toDo";
+        return "edoc/edoc-approval-list/toDo";
     }
     
     /*
@@ -154,7 +153,7 @@ public class EdocController {
         model.addAttribute("pg", pagingMap);
         model.addAttribute("list", list);
         
-        return "edoc/edocAppr/upComing";
+        return "edoc/edoc-approval-list/upComing";
     }
     
     
@@ -178,7 +177,7 @@ public class EdocController {
         model.addAttribute("pg", pagingMap);
         model.addAttribute("list", list);
         
-        return "edoc/edocAppr/apprHistory";
+        return "edoc/edoc-approval-list/apprHistory";
     }
     
     /*
@@ -229,19 +228,20 @@ public class EdocController {
     @GetMapping("/approval/wait")
     public String getDraft(
             HttpSession session, Model model,
-            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 0;
         
-        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
-        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
+        List<EdocVO> list = edocService.selectMyEdocSubmitList(empCode, request, currentPage, rowPerPage);
+        Map<String, Object> pagingMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request, rowPerPage);
         
-        model.addAttribute("pg", paginMap);
-        model.addAttribute("list",list);
+        model.addAttribute("pg", pagingMap);
+        model.addAttribute("list", list);
         
-        return "edoc/edocPersonal/wait";
+        return "edoc/edoc-personal-list/wait";
     }
     
     /*
@@ -251,19 +251,20 @@ public class EdocController {
      */
     @GetMapping("/approval/approve")
     public String getApprove(HttpSession session, Model model,
-            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 1;
         
-        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
-        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
+        List<EdocVO> list = edocService.selectMyEdocSubmitList(empCode, request, currentPage, rowPerPage);
+        Map<String, Object> pagingMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request, rowPerPage);
         
-        model.addAttribute("pg", paginMap);
-        model.addAttribute("list",list);
+        model.addAttribute("pg", pagingMap);
+        model.addAttribute("list", list);
         
-        return "edoc/edocPersonal/approve";
+        return "edoc/edoc-personal-list/approve";
     }
     
     /*
@@ -274,18 +275,19 @@ public class EdocController {
     @GetMapping("/approval/reject")
     public String getReject(
             HttpSession session, Model model,
-            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
         String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 2;
         
-        List<EdocVO>list = edocService.selectMyEdocSubmitList(empCode, request);
-        Map<String, Object>paginMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request);
+        List<EdocVO> list = edocService.selectMyEdocSubmitList(empCode, request, currentPage, rowPerPage);
+        Map<String, Object> pagingMap = edocService.getPersonalEdocPagingIdx(empCode, currentPage, request, rowPerPage);
         
-        model.addAttribute("pg", paginMap);
-        model.addAttribute("list",list);
+        model.addAttribute("pg", pagingMap);
+        model.addAttribute("list", list);
         
-        return "edoc/edocPersonal/reject";
+        return "edoc/edoc-personal-list/reject";
     }
 }

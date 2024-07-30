@@ -122,3 +122,31 @@
 .home-draft-list {
   height: 22rem;
 }
+
+
+
+/* ---------- 개인문서함 스타일 시작 ---------- */
+.edoc-personal-list {
+  height: 80vh;
+}
+
+.edoc-enroll-date {
+  width: 80px !important;
+}
+
+.edoc-type {
+  width: 80px !important;
+}
+
+.edoc-title {
+  width: 440px !important;
+}
+
+.edoc-file {
+  width: 30px !important;
+}
+
+.edoc-done-date {
+  width: 80px !important;
+}
+/* ---------- 개인문서함 스타일 종료 ---------- */

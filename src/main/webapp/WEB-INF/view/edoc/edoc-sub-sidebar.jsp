@@ -11,12 +11,12 @@
         </div>
         <ul class="menu-item">
           <li class="menu-item">
-            <a href="/gaent/approval" class="menu-link"><span>전자결재 홈</span></a>
+            <a href="/gaent/approval" class="menu-link" style="padding-bottom: 0;"><span>전자결재 홈</span></a>
           </li>
         </ul>
       </li>
       <li class="menu-item edoc-btn">
-        <div class="menu-link">
+        <div class="menu-link" style="padding-top: 0;">
           <button class="btn btn-primary btn-lg" onclick="location.href='/gaent/edoc'">새 결재 진행</button>
         </div>
       </li>

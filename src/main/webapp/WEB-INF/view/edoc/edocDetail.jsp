@@ -131,19 +131,19 @@
             <div id="edoc-form-type">
               <c:choose>
                 <c:when test="${edocDetail.edocType == 0}">
-                  <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/draftDetail.jsp"></jsp:include>
+                  <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/draftDetail.jsp"></jsp:include>
                 </c:when>
                 <c:when test="${edocDetail.edocType == 1}">
-                  <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/vacationDetail.jsp"></jsp:include>
+                  <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/vacationDetail.jsp"></jsp:include>
                 </c:when>
                 <c:when test="${edocDetail.edocType == 2}">
-                  <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/projectDetail.jsp"></jsp:include>
+                  <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/projectDetail.jsp"></jsp:include>
                 </c:when>
                 <c:when test="${edocDetail.edocType == 3}">
-                  <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/eventDetail.jsp"></jsp:include>
+                  <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/eventDetail.jsp"></jsp:include>
                 </c:when>
                 <c:when test="${edocDetail.edocType == 4}">
-                  <jsp:include page="/WEB-INF/view/edoc/edocFormDetail/reportDetail.jsp"></jsp:include>
+                  <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/reportDetail.jsp"></jsp:include>
                 </c:when>
                 <c:otherwise>
                   <div class="edoc-form-area">양식을 선택해주세요.</div>

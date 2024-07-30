@@ -166,12 +166,14 @@ public class EdocService {
      * @since : 2024. 07. 24.
      * Description : 개인 문서함 -> 대기, 승인, 반려 이력 조회
      */ 
-    public List<EdocVO>selectMyEdocSubmitList(String empCode, int request){
+    public List<EdocVO>selectMyEdocSubmitList(String empCode, int request, int currentPage, int rowPerPage){
         
-        Map<String,Object>map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         
         map.put("empCode", empCode);
         map.put("request", request);
+        map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("rowPerPage", rowPerPage);
         
         List<EdocVO>list = edocMapper.selectMyEdocSubmitList(map);
         
@@ -183,18 +185,18 @@ public class EdocService {
      * @since : 2024. 07. 24.
      * Description : 개인 문서함 -> 결재 올린 문서에 대한 페이징
      */
-    public Map<String, Object> getPersonalEdocPagingIdx(String empCode, int currentPage, int request) {
+    public Map<String, Object> getPersonalEdocPagingIdx(String empCode, int currentPage, int request, int rowPerPage) {
         
-        Map<String, Object> m = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         
-        m.put("empCode", empCode);
-        m.put("request", request);
+        map.put("empCode", empCode);
+        map.put("request", request);
         
-        int totalRow = edocMapper.edocSubmitListCnt(m);
+        int totalRow = edocMapper.edocSubmitListCnt(map);
         
-        Paging v = new Paging();
+        RowPerPaging rowPerPaging = new RowPerPaging();
         
-        Map<String, Object> pagingMap = v.Paging(currentPage, 0);
+        Map<String, Object> pagingMap = rowPerPaging.Paging(currentPage, rowPerPage, totalRow);
         
         return pagingMap;
     }

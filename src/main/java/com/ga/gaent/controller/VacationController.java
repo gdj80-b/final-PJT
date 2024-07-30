@@ -60,7 +60,7 @@ public class VacationController {
         
         model.addAttribute("pg", paginMap);
         model.addAttribute("list", list);
-        return "atd/vacHistory";
+        return "attendance/vacHistory";
     }
 
     
