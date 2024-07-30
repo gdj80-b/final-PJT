@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 public class AtdHistory {
 public Map<String,Object> makeCalendar(String year, String month) {
         
-
-        // 
         Calendar currentDate = Calendar.getInstance();
         int currentYear = currentDate.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH) + 1;
@@ -25,7 +23,7 @@ public Map<String,Object> makeCalendar(String year, String month) {
             intYear -= 1;
         }
 
-        Map<String, Object> target = new AtdCalendar().targetCalendar(String.valueOf(intYear), String.valueOf(intMonth));
+        Map<String, Object> target = new AtdCalendar().targetCalendar(String.valueOf(intYear), String.valueOf(intMonth) , null);
         int prevMonth = intMonth - 1;
         int nextMonth = intMonth + 1;
         int prevYear = intYear;

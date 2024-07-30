@@ -26,12 +26,7 @@
             height: auto;
         }
         
-        .vacInfo{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin:0px;
-        }
+   
         
     </style>
 </head>
@@ -57,12 +52,12 @@
                             <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">◀</a> ${c.tgYear}년 ${c.tgMonth}월 <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">▶</a>
                         </h4>
                     </div>
-                    <div class="vacInfo" style="padding: 0em 14em;">
-                        <table class="table" style="border: 1px solid black;">
+                    <div class=" justify-content-center ">
+                        <table border="1" class="table" style="text-align:center; margin:0 auto; border-radius: 30px; width:auto;  ">
                             <tr>
-                                <td>금일 근무 시간</td>
-                                <td>이번주 누적</td>
-                                <td>이번달 누적</td>
+                                <td class="w-25">금일 근무 시간</td>
+                                <td class="w-25">이번주 누적</td>
+                                <td class="w-25 justify-content-end">이번달 누적</td>
                             </tr>
                             <tr>
                                 <td><span id="daily"></span></td>
@@ -70,13 +65,14 @@
                                 <td><span id="monthly"></span></td>
                             </tr>
                         </table>
-
                     </div>
 
                     <div class="card-body pt-1" style="positions: relative;">
-                    <div class="d-flex justify-content-center">
-                        출근: <span id="attendanceCount"></span>  지각: <span id="lateCount"></span>
-                        조퇴: <span id="earlyLeaveCount"></span>  결근: <span id="absenceCount"></span>
+                    <div class="d-flex justify-content-end">
+                    
+                         <span class="pe-3" id="attendanceCount"></span> <span class="pe-3" id="lateCount"></span>
+                        <span class="pe-3" id="earlyLeaveCount"></span> <span class="pe-3" id="absenceCount"></span>
+                        
                     </div>
                     <c:set var="currentWeek" value="1"/>
                     <c:set var="previousWeek" value="1"/>
@@ -91,7 +87,7 @@
                                     <table>
                                         <tr>
                                             <td><td>
-                                        </tr>                                    
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -208,10 +204,10 @@
             data: {"year" : ${c.tgYear} , "month" : ${c.tgMonth} },
             dataType: "json", 
             success: function(data) {
-                $("#absenceCount").text(data.absenceCount + "회");
-                $("#lateCount").text(data.lateCount+ "회");
-                $("#earlyLeaveCount").text(data.earlyLeaveCount+ "회");
-                $("#attendanceCount").text(data.attendanceCount+ "회"); 
+                $("#absenceCount").text("결근: " + data.absenceCount + "회");
+                $("#lateCount").text("지각: " +data.lateCount+ "회");
+                $("#earlyLeaveCount").text("조퇴: " +data.earlyLeaveCount+ "회");
+                $("#attendanceCount").text("출근: " +data.attendanceCount+ "회"); 
             },
             error: function() { 
                 alert("상태확인레어"); // 에러 메시지 출력

@@ -30,13 +30,12 @@ public interface AtdMapper {
      */
     int atdOut(String empCode);
     
-    
-    
-    // 출퇴근이력
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 개인 출퇴근이력조히
+     */
     List<AtdDTO> selectAtdHistory(Map<String, Object>m);
-    
-    
-    
     
     /*
      * @author : 조인환
@@ -80,4 +79,10 @@ public interface AtdMapper {
      * Description : 자동 퇴근입력
      */
     int autoGetOffWork();
+    
+    
+    
+    List<Map<String, Object>>selectTeamAtdStatus(Map<String,Object>m); 
+    
+    Map<String, Object>selectTeamAtdStatusCount(Map<String, Object>m);
 }

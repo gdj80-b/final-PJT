@@ -124,13 +124,12 @@ public class AtdService {
      * @since : 2024. 07. 29. 
      * Description : 근무 상태 횟수 조회
      */
-    public Map<String, Object>getAtdStatusCnt(String empCode,String year,String month){
-        
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, Object>getAtdStatusCnt(String empCode,String year,String fullWeek){
+        ;
         Map<String, Object>m = new HashMap<>();
         m.put("empCode", empCode);
         m.put("year", year);
-        m.put("month", month);
+        m.put("month", fullWeek);
         
         return atdMapper.selectAtdStatusCount(m);
     }
@@ -153,4 +152,33 @@ public class AtdService {
         log.debug(TeamColor.RED + "퇴근 자동 입력: " + autoGetOffWorkSuccess + TeamColor.RESET);
         log.debug(TeamColor.RED + "출근 자동 입력: " + autoGetInSuccess + TeamColor.RESET);
     }
+    
+    
+    public List< Map<String, Object>>getTeamAtdStatus(String teamCode,String year,String week){
+        
+        
+        Map<String, Object>m = new HashMap<>();
+        m.put("teamCode", teamCode);
+        m.put("year", year);
+        m.put("week", week);
+        
+        
+        List<Map<String, Object>>list = atdMapper.selectTeamAtdStatus(m);
+        
+        return list;
+    }
+    
+    
+ public Map<String, Object>getTeamAtdStatusCount(String teamCode,String year,String week){
+        
+        
+        Map<String, Object>m = new HashMap<>();
+        m.put("teamCode", teamCode);
+        m.put("year", year);
+        m.put("week", week);
+        
+        
+        return atdMapper.selectTeamAtdStatusCount(m);
+    }
+    
 }

@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class AtdCalendar {
         // 주어진 년도와 월에 대한 달력 정보를 계산하는 메서드
-        public Map<String, Object> targetCalendar(String tgYear, String tgMonth) {
-
+        public Map<String, Object> targetCalendar(String tgYear, String tgMonth , String fullWeek) {
+            
         // Calendar 인스턴스를 초기화하고, 대상 년도와 월의 첫째 날로 설정
         Calendar targetDate = Calendar.getInstance();
         
@@ -17,15 +17,22 @@ public class AtdCalendar {
         int todayWeek = targetDate.get(Calendar.WEEK_OF_MONTH);
         int todayMonth = targetDate.get(Calendar.MONTH)+1;
         int todayYear = targetDate.get(Calendar.YEAR);
+        if(tgYear==null) {
+            tgYear= String.valueOf(todayYear);
+        }
+        
+        
         
         
         targetDate.set(Calendar.YEAR, Integer.parseInt(tgYear)); // 대상 년도 설정
-        targetDate.set(Calendar.MONTH, Integer.parseInt(tgMonth) - 1); // 대상 월 설정 (0부터 시작하므로 -1)
+        if(tgMonth != null) {
+            targetDate.set(Calendar.MONTH, Integer.parseInt(tgMonth) - 1); // 대상 월 설정 (0부터 시작하므로 -1)
+        }
         
         
-        
-        
-        targetDate.set(Calendar.DATE, 1); // 1일로 설정
+        if(fullWeek == null) {
+            targetDate.set(Calendar.DATE, 1); // 1일로 설정 
+        }
 
         // 달의 첫째 날
         int tgDay = targetDate.get(Calendar.DAY_OF_MONTH);
