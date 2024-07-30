@@ -97,13 +97,13 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td class="msg-sender-size">${m.receiverName}</td>
                                     <td class="msg-title-size">
-                                        <a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}">
+                                        <a href="/gaent/msg/msgDetail/${m.msgNum}">
                                             ${m.msgTitle}
                                         </a>
                                     </td>
@@ -113,35 +113,11 @@
                         </tbody>
                     </table>
                     <!-- 페이징 -->
-                    <nav aria-label="Page navigation" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-                        <ul class="pagination">
-                            <li class="page-item first <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/2?currentPage=1">
-                                    <i class="tf-icon bx bx-chevrons-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item prev <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/2?currentPage=${pg.currentPage-1}">
-                                    <i class="tf-icon bx bx-chevron-left"></i>
-                                </a>
-                            </li>
-                            <c:forEach var="i" begin="${pg.firstPage}" end="${pg.lastPage}">
-                                <li class="page-item <c:if test="${pg.currentPage==i}"> active</c:if>">
-                                    <a class="page-link" href="/gaent/msg/2?currentPage=${i}">${i}</a>
-                                </li>
-                            </c:forEach>
-                            <li class="page-item next <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/2?currentPage=${pg.currentPage+1}">
-                                    <i class="tf-icon bx bx-chevron-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item last <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/2?currentPage=${pg.totalPage}">
-                                    <i class="tf-icon bx bx-chevrons-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div>
+                        <jsp:include page="/WEB-INF/view/common/paging.jsp">
+                            <jsp:param name="extraParam" value="&searchMsg=${param.searchMsg}"/>
+                        </jsp:include>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,7 +173,6 @@
                 $.ajax({
                     url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
                     type: "GET", // GET 메서드를 사용
-                    data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
                     dataType: "json", // 반환 데이터 타입은 int
                     success: function(notReadCnt) { // 요청이 성공하면 실행
                         // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시

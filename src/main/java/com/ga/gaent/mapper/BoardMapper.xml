@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.BoardMapper">
+
+    <!-- 자유게시판 글 작성 -->
+    <insert id="insertBoard" parameterType="com.ga.gaent.dto.BoardRequestDTO">
+        INSERT INTO
+            community(
+                comm_writer,
+                file_name,
+                comm_title,
+                comm_content
+            ) VALUES(
+                #{empCode},
+                #{fileName},
+                #{articleTitle},
+                #{articleContent}
+            )
+    </insert>
+
+    <!-- 공지사항 글 작성 -->
+    <insert id="insertNotice" parameterType="com.ga.gaent.dto.BoardRequestDTO">
+        INSERT INTO
+            notice(
+                notice_writer,
+                file_name,
+                notice_title,
+                notice_content
+            ) VALUES(
+                #{empCode},
+                #{fileName},
+                #{articleTitle},
+                #{articleContent}
+            )
+    </insert>
+    
+    <!-- 메인에서 보여줄 자유게시판 조회 -->
+    <select id="selectCommunityToMain" resultType="Map">
+        SELECT
+            c.comm_num commNum,
+            c.comm_writer commEmpCode,
+            e.emp_kor_name commWriter,
+            f.original_file_name commFileName,
+            c.comm_title commTitle,
+            c.comm_content commContent,
+            DATE_FORMAT(c.comm_create_date, '%y-%m-%d') AS commCreateDate,
+            DATE_FORMAT(c.comm_update_date, '%y-%m-%d') AS commUpdateDate,
+            c.comm_count commCount
+        FROM
+            community c
+                LEFT OUTER JOIN emp e ON c.comm_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON c.file_name = f.file_name
+        ORDER BY
+            c.comm_num DESC
+        LIMIT
+            0, 5
+    </select>
+    
+    <!-- 메인에서 보여줄 공지사항 조회 -->
+    <select id="selectNoticeToMain" resultType="Map">
+        SELECT
+            n.notice_num noticeNum,
+            n.notice_writer noticeEmpCode,
+            e.emp_kor_name noticeWriter,
+            f.original_file_name noticeFileName,
+            n.notice_title noticeTitle,
+            n.notice_content noticeContent,
+            DATE_FORMAT(n.notice_create_date, '%y-%m-%d') AS noticeCreateDate,
+            DATE_FORMAT(n.notice_update_date, '%y-%m-%d') AS noticeUpdateDate,
+            n.notice_count noticeCount
+        FROM
+            notice n
+                LEFT OUTER JOIN emp e ON n.notice_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON n.file_name = f.file_name
+        ORDER BY
+            n.notice_num DESC
+        LIMIT
+            0, 5
+    </select>
+    
+    <!-- 자유게시판 리스트 조회 -->
+    <select id="selectCommunityList" parameterType="int" resultType="Map">
+        SELECT
+            c.comm_num commNum,
+            c.comm_writer commEmpCode,
+            e.emp_kor_name commWriter,
+            f.original_file_name commFileName,
+            c.comm_title commTitle,
+            c.comm_content commContent,
+            DATE_FORMAT(c.comm_create_date, '%y-%m-%d') AS commCreateDate,
+            DATE_FORMAT(c.comm_update_date, '%y-%m-%d') AS commUpdateDate,
+            c.comm_count commCount
+        FROM
+            community c
+                LEFT OUTER JOIN emp e ON c.comm_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON c.file_name = f.file_name
+        ORDER BY
+            c.comm_num DESC
+        LIMIT
+            #{startRow}, #{rowPerPage}
+    </select>
+    
+    <!-- 자유게시판 리스트 총 갯수 -->
+    <select id="selectCommunityListTotal" resultType="int">
+        SELECT COUNT(*) FROM community
+    </select>
+    
+    <!-- 공지사항 리스트 조회 -->
+    <select id="selectNoticeList" parameterType="int" resultType="Map">
+        SELECT
+            n.notice_num noticeNum,
+            n.notice_writer noticeEmpCode,
+            e.emp_kor_name noticeWriter,
+            f.original_file_name noticeFileName,
+            n.notice_title noticeTitle,
+            n.notice_content noticeContent,
+            DATE_FORMAT(n.notice_create_date, '%y-%m-%d') AS noticeCreateDate,
+            DATE_FORMAT(n.notice_update_date, '%y-%m-%d') AS noticeUpdateDate,
+            n.notice_count noticeCount
+        FROM
+            notice n
+                LEFT OUTER JOIN emp e ON n.notice_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON n.file_name = f.file_name
+        ORDER BY
+            n.notice_num DESC
+        LIMIT
+            #{startRow}, #{rowPerPage}
+    </select>
+    
+    <!-- 공지사항 리스트 총 갯수 -->
+    <select id="selectNoticeListTotal" resultType="int">
+        SELECT COUNT(*) FROM notice
+    </select>
+    
+    <!-- 자유게시판 상세 조회 -->
+    <select id="selectCommunityDetail" parameterType="int">
+        SELECT
+            c.comm_num commNum,
+            c.comm_writer commEmpCode,
+            e.emp_kor_name commWriter,
+            f.original_file_name commFileName,
+            c.comm_title commTitle,
+            c.comm_content commContent,
+            DATE_FORMAT(c.comm_create_date, '%y.%m.%d %H:%i:%S') AS commCreateDate,
+            DATE_FORMAT(c.comm_update_date, '%y.%m.%d %H:%i:%S') AS commUpdateDate
+        FROM
+            community c
+                LEFT OUTER JOIN emp e ON c.comm_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON c.file_name = f.file_name
+        WHERE
+            c.comm_num = #{boardNum}
+    </select>
+    
+    <!-- 공지사항 상세 조회 -->
+    <select id="selectNoticeDetail" parameterType="int">
+        SELECT
+            n.notice_num noticeNum,
+            n.notice_writer noticeEmpCode,
+            e.emp_kor_name noticeWriter,
+            f.original_file_name noticeFileName,
+            n.notice_title noticeTitle,
+            n.notice_content noticeContent,
+            DATE_FORMAT(n.notice_create_date, '%y.%m.%d %H:%i:%S') AS noticeCreateDate,
+            DATE_FORMAT(n.notice_update_date, '%y.%m.%d %H:%i:%S') AS noticeUpdateDate
+        FROM
+            notice n
+                LEFT OUTER JOIN emp e ON n.notice_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON n.file_name = f.file_name
+        WHERE
+            n.notice_num = #{boardNum}
+    </select>
+    
+    <update id="updateCommunityContent" parameterType="Map">
+        UPDATE
+            community
+        SET(
+            comm_title = #{articleTitle},
+            comm_content = #{articleContent},
+            comm_update_date = NOW()
+        )
+        WHERE
+            comm_num = #{boardNum} AND
+            comm_writer = #{empCode}
+    </update>
+    
+    <update id="updateNoticeContent" parameterType="Map">
+        UPDATE
+            notice
+        SET(
+            notice_title = #{articleTitle},
+            notice_content = #{articleContent},
+            notice_update_date = NOW()
+        )
+        WHERE
+            notice_num = #{boardNum} AND
+            notice_writer = #{empCode}
+    </update>
+    
+    <!-- 자유게시판 삭제 -->
+    <delete id="deleteCommunityContent" parameterType="int">
+        DELETE FROM
+            community
+        WHERE
+            comm_num = #{boardNum}
+    </delete>
+    
+    <!-- 공지사항 삭제 -->
+    <delete id="deleteNoticeContent" parameterType="int">
+        DELETE FROM
+            notice
+        WHERE
+            notice_num = #{boardNum}
+    </delete>
+
+</mapper>

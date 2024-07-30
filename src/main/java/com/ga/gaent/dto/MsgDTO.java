@@ -5,17 +5,18 @@ import lombok.Data;
 @Data
 public class MsgDTO {
     
-    int msgNum;
-    String sender;
-    String senderName;
-    String receiver;
-    String receiverName;
-    String msgFileName;
-    String msgTitle;
-    String msgContent;
-    String sendTime;
-    String readTime;
-    String sendDelStatus;
-    String receiveDelStatus;
+    private int msgNum;
+    private String sender;
+    private String senderName;
+    private String receiver;
+    private String receiverName;
+    private String msgFileName;
+    private String msgOriginalFileName;
+    private String msgTitle;
+    private String msgContent;
+    private String sendTime;
+    private String readTime;
+    private String sendDelStatus;
+    private String receiveDelStatus;
     
 }

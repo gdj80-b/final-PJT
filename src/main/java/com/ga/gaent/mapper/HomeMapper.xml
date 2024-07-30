@@ -19,5 +19,23 @@
         WHERE
             e.emp_code = #{empCode}
     </select>
+    
+    <update id="updateMyPageInfo" parameterType="com.ga.gaent.dto.MyPageRequestDTO">
+        UPDATE
+            emp
+        <set>
+            <if test="myPageProfile != null and myPageProfile != ''">
+                emp_profile = #{myPageProfile},
+            </if>
+            <if test="myPagePhone != null and myPagePhone != ''">
+                emp_phone = #{myPagePhone},
+            </if>
+                emp_id = #{myPageEmpId},
+                emp_pw = #{myPageEmpPassword},
+                emp_update_date = NOW(),
+                final_modifier = #{myPageEmpCode}
+        </set>
+         WHERE emp_code = #{myPageEmpCode}
+    </update>
 
 </mapper>

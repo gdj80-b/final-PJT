@@ -11,7 +11,21 @@ import com.ga.gaent.vo.EmpVO;
 
 @Mapper
 public interface EdocMapper {
-
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 16.
+     * Description : 결재 대기 문서 조회
+     */
+    List<Map<String, String>> selectApprList(Map<String, Object> map);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 23.
+     * Description : 결재 문서 페이징
+     */
+    int apprListCnt(Map<String, Object>m);
+    
     /*
      * @author : 정건희
      * @since : 2024. 07. 15.
@@ -27,71 +41,72 @@ public interface EdocMapper {
     List<EmpVO> selectApprover();
     
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 데이터 입력
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 전자결재 문서 공통 사항 상세 조회
      */
-    int insertEdoc(EdocRequestDTO edocRequestDTO);
-    
+    Map<String, Object> selectEdocDetail(Map<String, Object> m);
+
     /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 첨부파일 입력
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 기안서 상세 조회
      */
-    int insertEdocFile(Map<String, Object> insertFile);
-    
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 결재선 데이터 입력
-     */
-    int insertApprover(Map<String, Object> edocMap);
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
-     * Description : 결재 대기 문서 조회
-     */
-    List<Map<String, String>> selectToDo(Map<String, Object> todoMap);
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 16.
-     * Description : 전자결재 문서 상세 조회
-     */
-    Map<String, Object> selectEdocDetail(int edocNum);
-    
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 기안서 데이터 입력
-     */
-    int insertEdocDraft(EdocFormTypeDTO edocFormTypeDTO);
-    
+    Map<String,Object>selectDraftDetail(int edocNum);
     
     /*
      * @author : 조인환
-     * @since : 2024. 07. 17.
-     * Description : 전자결재 기안서 데이터 입력
+     * @since : 2024. 07. 24.
+     * Description : 휴가신청서 상세 조회
      */
-    // 휴가신청서
-    int insertEdocVacation(EdocFormTypeDTO edocFormTypeDTO);
-    // 지출결의서
-    int insertEdocProject(EdocFormTypeDTO edocFormTypeDTO);
-    // 경조사 지출 결의서
-    int insertEdocEvent(EdocFormTypeDTO edocFormTypeDTO);
-    // 차량이용신청서
-    int insertEdocCar(EdocFormTypeDTO edocFormTypeDTO);
-    // 보고서
-    int insertEdocReport(EdocFormTypeDTO edocFormTypeDTO);
+    Map<String,Object>selectVactionDetail(int edocNum);
     
-    // 결재선에서 상태수정 (edoc approval)
-    int updateEdocApprovalStatus(Map<String,Object>m);
-    // edoc테이블에서의 상태수정
-    int updateEdocStatus(Map<String,Object>m);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 프로젝트 지출 경비서 상세 조회
+     */
+    Map<String,Object>selectProjectDetail(int edocNum);
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 경조사 지출 결의서 상세 조회
+     */
+    Map<String,Object>selectEventDetail(int edocNum);
     
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 보고서 상세 조회
+     */
+    Map<String,Object>selectReportDetail(int edocNum);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
+     */
     List<EdocVO>selectMyEdocSubmitList(Map<String,Object>m);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : 본인이 작성한 전자문서 (대기,승인,반려)이력 조회
+     */
+    int edocSubmitListCnt(Map<String,Object>m);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : empCode에 해당하는 한글 이름 조회
+     */
+    String findKorName(String empCode);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 24.
+     * Description : empCode에 해당하는 한글 이름 조회
+     */
+    int waitEdocCnt(Map<String, Object> paramMap);
 }

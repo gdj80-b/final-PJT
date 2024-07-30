@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.edoc-card {
+  width: 100%;
+  height: 100%;
+}
+
+.edoc-card .edoc {
+  height: 22.575rem;
+}
+
+.edoc-card h4 {
+  margin: 0;
+}
+
+.edoc-card .card-header {
+  padding: 1rem 1rem;
+}
+
+.edoc-card .card-body {
+  padding: 1rem 1rem;
+}
+
+.edoc-card .edoc-status {
+  max-width: 10rem;
+  width: 10rem;
+}

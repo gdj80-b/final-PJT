@@ -71,7 +71,7 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">받은쪽지함</h2>            
+            <h2 class="card-title" style="margin:50px 0px 0px 30px">내게쓴쪽지함</h2>
             <div class="card-body inbox-container">            
                 <div class="care-body" style="height:600px; position: relative;">
                     <table class="inbox-table">
@@ -89,7 +89,6 @@
                                     </form>
                                 </th>
                                 <th style="text-align:right">
-                                    <button type="button" id="readButton" class="btn btn-success">읽음</button>
                                     <button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
                                 </th>
                             </tr>
@@ -107,7 +106,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
@@ -123,35 +122,11 @@
                         </tbody>
                     </table>
                     <!-- 페이징 -->
-                    <nav aria-label="Page navigation" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-                        <ul class="pagination">
-                            <li class="page-item first <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=1">
-                                    <i class="tf-icon bx bx-chevrons-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item prev <c:if test="${pg.currentPage==1}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.currentPage-1}">
-                                    <i class="tf-icon bx bx-chevron-left"></i>
-                                </a>
-                            </li>
-                            <c:forEach var="i" begin="${pg.firstPage}" end="${pg.lastPage}">
-                                <li class="page-item <c:if test="${pg.currentPage==i}"> active</c:if>">
-                                    <a class="page-link" href="/gaent/msg/3?currentPage=${i}">${i}</a>
-                                </li>
-                            </c:forEach>
-                            <li class="page-item next <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.currentPage+1}">
-                                    <i class="tf-icon bx bx-chevron-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item last <c:if test="${pg.currentPage==pg.totalPage}">disabled</c:if>">
-                                <a class="page-link" href="/gaent/msg/3?currentPage=${pg.totalPage}">
-                                    <i class="tf-icon bx bx-chevrons-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div>
+                        <jsp:include page="/WEB-INF/view/common/paging.jsp">
+                            <jsp:param name="extraParam" value="&searchMsg=${param.searchMsg}"/>
+                        </jsp:include>
+                    </div>
                 </div>
             </div>
         </div>

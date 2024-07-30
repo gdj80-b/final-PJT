@@ -27,14 +27,14 @@
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
                 <td class="typeDraftTdTag" colspan="3">
-                    <input class="form-control form-control-sm" type="text" name="ecodTitle" required>
+                    <input class="form-control form-control-sm" type="text" name="edocTitle" required>
                 </td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">경조사 종류</th>
                 <td class="typeDraftTdTag">
                     <select class="form-select form-select-sm" name="eventType" required>
-                        <option value="결혼">경혼</option>
+                        <option value="결혼">결혼</option>
                         <option value="생일">생일</option>
                         <option value="장례식">장례</option>
                     </select>

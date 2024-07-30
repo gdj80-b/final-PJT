@@ -41,7 +41,7 @@
       <tbody class="table-border-bottom-0 table-light striped">
       <c:forEach var="vo" items="${teamList}">
         <tr>
-          <td><b><a href="#teamModal${vo.teamCode}" data-toggle="modal" data-target="#teamModal${vo.teamCode}">${vo.teamName}</a></b></td>
+          <td><b><a href="/gaent/inquiry/deptDetail?teamCode=${vo.teamCode}&currentPage=1&rowPerPage=5">${vo.teamName}</a></b></td>
           <td>${vo.teamDes}</td>
           <td>${vo.teamCode}</td>
           <td>
@@ -130,7 +130,7 @@
             </c:if>
             <c:if test="${currentPage == lastPage}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>
@@ -149,7 +149,7 @@
             </c:if>
             <c:if test="${(1 < currentPage) && (currentPage < lastPage)}">
               <li class="page-item first">
-                <a class="page-link" href=""><i class="tf-icon bx bx-chevrons-left"></i></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=1&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevrons-left"></i></a>
               </li>
               <li class="page-item prev">
                 <a class="page-link" href="${pageContext.request.contextPath}/inquiry/teamList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}"><i class="tf-icon bx bx-chevron-left"></i></a>

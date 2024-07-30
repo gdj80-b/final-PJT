@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+/* 홈 레이아웃 시작 */
+.content-wrapper {
+  width: 100rem;
+  
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.home-container {
+  padding: 0 !important;
+}
+/* 홈 레이아웃 종료 */

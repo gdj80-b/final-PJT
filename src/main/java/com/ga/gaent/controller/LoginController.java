@@ -1,6 +1,5 @@
 package com.ga.gaent.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,7 @@ public class LoginController {
         Map<String, Object> loginInfo = loginService.selectLoginCheck(loginRequestDTO);
         if( loginInfo != null) {
             
-            log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + TeamColor.RESET);
+            // log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + TeamColor.RESET);
             log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
             
             session.setAttribute("loginInfo", loginInfo);
@@ -66,7 +65,7 @@ public class LoginController {
         
         session.invalidate();
         
-        redirectAttributes.addFlashAttribute("message", "로그아웃 되었습니다");
+        redirectAttributes.addFlashAttribute("message", "로그아웃 요청 성공");
         
         return "redirect:/login";
     }
@@ -84,20 +83,20 @@ public class LoginController {
     @PostMapping("/findId")
     public String findId(LoginRequestDTO loginRequestDTO, RedirectAttributes redirectAttributes) {
         
-        log.debug(TeamColor.BLUE_BG + "name: " + loginRequestDTO.getName() + " phone: " + loginRequestDTO.getPhone() + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "name: " + loginRequestDTO.getName() + " phone: " + loginRequestDTO.getPhone() + TeamColor.RESET);
         
         Map<String, String> loginInfo = loginService.selectEmpId(loginRequestDTO);
-        log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
         
         if(loginInfo != null) {
             redirectAttributes.addFlashAttribute("messageType", "true");
-            redirectAttributes.addFlashAttribute("message", "아이디 찾기에 성공하셨습니다.");
+            redirectAttributes.addFlashAttribute("message", "아이디 찾기에 성공했습니다.");
             redirectAttributes.addFlashAttribute("loginInfo", loginInfo);
             return "redirect:/login";
         }
         
         redirectAttributes.addFlashAttribute("messageType", "false");
-        redirectAttributes.addFlashAttribute("message", "아이디 찾기에 실패하셨습니다.");
+        redirectAttributes.addFlashAttribute("message", "아이디 찾기에 실패했습니다.");
         
         return "user/findId";
     }
@@ -115,10 +114,10 @@ public class LoginController {
     @PostMapping("/findPw")
     public String findPw(LoginRequestDTO loginRequestDTO, RedirectAttributes redirectAttributes) {
         
-        log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " name: " + loginRequestDTO.getName() + " phone: " + loginRequestDTO.getPhone() + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " name: " + loginRequestDTO.getName() + " phone: " + loginRequestDTO.getPhone() + TeamColor.RESET);
         
         Map<String, String> loginInfo = loginService.selectEmpPw(loginRequestDTO);
-        log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "loginInfo: " + loginInfo + TeamColor.RESET);
         
         if(loginInfo != null) {
             redirectAttributes.addFlashAttribute("loginInfo", loginInfo);
@@ -141,7 +140,7 @@ public class LoginController {
     @PostMapping("/resetPw")
     public String resetPw(LoginRequestDTO loginRequestDTO, RedirectAttributes redirectAttributes) {
         
-        log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + " name: " + loginRequestDTO.getName() + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "id: " + loginRequestDTO.getEmail() + " password: " + loginRequestDTO.getPassword() + " name: " + loginRequestDTO.getName() + TeamColor.RESET);
         
         loginRequestDTO.validatePasswordCheck();
         
@@ -149,12 +148,12 @@ public class LoginController {
         
         if(result == 0) {
             redirectAttributes.addFlashAttribute("messageType", "false");
-            redirectAttributes.addFlashAttribute("message", "비밀번호 변경에 실패하셨습니다.");
+            redirectAttributes.addFlashAttribute("message", "비밀번호 변경에 실패했습니다.");
             return "redirect:/resetPw";
         }
         
         redirectAttributes.addFlashAttribute("messageType", "true");
-        redirectAttributes.addFlashAttribute("message", "비밀번호가 변경에 성공하셨습니다.");
+        redirectAttributes.addFlashAttribute("message", "비밀번호 변경에 성공했습니다.");
         
         return "redirect:/login";
     }

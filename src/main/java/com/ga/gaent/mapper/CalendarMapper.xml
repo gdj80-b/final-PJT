@@ -16,9 +16,9 @@
             cal_update_date
             )
         VALUES(
+            #{calWriter},
             #{calType},
             #{calTargetType},
-            #{calWriter},
             #{calTitle},
             #{calContent},
             #{calStartDate},
@@ -28,34 +28,176 @@
             )
     </insert>
     
-    <!-- 일정조회 -->
-    <select id="selectEventList" resultType="Map">
+    <!-- 전체 일정조회 -->
+    <select id="selectAllEvents" parameterType="String" resultType="Map">
         SELECT
-        	cal_num id,
+            cal_num AS id,
+            cal_title AS title,
+            cal_start_date AS start,
+            cal_end_date AS end,
+            CASE
+                WHEN cal_type LIKE 'p%' THEN 'blue'
+                WHEN cal_type LIKE 't%' THEN 'yellow'
+                WHEN cal_type LIKE 'c%' THEN 'green'
+                WHEN cal_type LIKE 'a%' THEN 'pink'
+                ELSE NULL
+            END AS color,
+            CASE
+                WHEN cal_type LIKE 'p%' THEN 'white'
+                WHEN cal_type LIKE 't%' THEN 'black'
+                WHEN cal_type LIKE 'c%' THEN 'white'
+                WHEN cal_type LIKE 'a%' THEN 'black'
+                ELSE NULL
+            END AS textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type IN (#{empCode}, #{teamCode}, 10, 900);
+    </select>
+    
+    <!-- 개인 일정조회 -->
+    <select id="selectPersonalEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
             cal_title title,
             cal_start_date start,
-            cal_end_date end
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
         FROM
-        	calendar
+            calendar
+        WHERE
+            cal_target_type = #{empCode}
+    </select>
+    
+    <!-- 팀 일정조회 -->
+    <select id="selectTeamEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = #{teamCode}
+    </select>
+    
+    <!-- 전사 일정조회 -->
+    <select id="selectCompanyEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = 10
+    </select>
+    
+    <!-- 아티스트 일정조회 -->
+    <select id="selectArtistEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = 900
     </select>
     
     <!-- 일정상세 -->
     <select id="selectEventOne" parameterType="int" resultType="com.ga.gaent.vo.CalendarVO">
         SELECT
-            cal_num calNum,
-            cal_writer calWriter,
-            cal_type calType,
-            cal_target_type calTargetType,
-            cal_title calTitle,
-            cal_content calContent,
-            cal_start_date calStartDate,
-            cal_end_date calEndDate,
-            cal_create_date calCreateDate,
-            cal_update_date calUpdateDate
+            c.cal_num AS calNum,
+            CONCAT(e.emp_kor_name, ' ', 
+                CASE e.rank_code
+                    WHEN 1 THEN '대표이사'
+                    WHEN 2 THEN '부장'
+                    WHEN 3 THEN '팀장'
+                    WHEN 4 THEN '대리'
+                    WHEN 5 THEN '사원'
+                END
+            ) AS calWriter,
+            c.cal_type AS calType,
+            c.cal_target_type AS calTargetType,
+            c.cal_title AS calTitle,
+            c.cal_content AS calContent,
+            c.cal_start_date AS calStartDate,
+            c.cal_end_date AS calEndDate,
+            c.cal_create_date AS calCreateDate,
+            c.cal_update_date AS calUpdateDate
         FROM
-            calendar
+            calendar c
+        JOIN
+            emp e ON c.cal_writer = e.emp_code
         WHERE
-            cal_num = ${calNum}
+            c.cal_num = ${calNum}
     </select>
     
     <!-- 일정삭제 -->
@@ -66,7 +208,7 @@
             cal_num = ${calNum}
     </delete>
     
-    <!-- 일정삭제 -->
+    <!-- 일정수정 -->
     <update id="updateEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         UPDATE
             calendar
@@ -81,4 +223,38 @@
         WHERE
             cal_num = ${calNum}
     </update>
+    
+    <!-- 일정타입 조회 -->
+    <select id="selectEventType" resultType="Map">
+        SELECT DISTINCT
+            cal_type calType,
+        CASE cal_type
+            WHEN 'personal' THEN '개인일정'
+            WHEN 'team' THEN '팀 일정'
+            WHEN 'company' THEN '전사일정'
+            WHEN 'artist' THEN '아티스트 일정'
+        END AS
+            calTypeName
+        FROM
+            calendar
+        ORDER BY
+            calTypeName
+    </select>
+    
+    <!-- 일정분류 조회 -->
+    <select id="selectEventTarget" resultType="Map">
+        SELECT
+            team_code teamCode,
+        CASE
+            WHEN team_code = 10 THEN '전사'
+            ELSE team_name
+        END AS
+            teamName
+        FROM
+            team
+        WHERE
+            team_name NOT LIKE '%부'
+        ORDER BY
+            teamCode
+    </select>
 </mapper>
