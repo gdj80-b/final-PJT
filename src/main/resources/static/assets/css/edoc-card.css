@@ -5,6 +5,10 @@
   height: 100%;
 }
 
+.edoc-card .table {
+  height: 14rem;
+}
+
 .edoc-card .edoc {
   height: 22.575rem;
 }
@@ -23,5 +27,5 @@
 
 .edoc-card .edoc-status {
   max-width: 10rem;
-  width: 10rem;
+  width: 8rem;
 }

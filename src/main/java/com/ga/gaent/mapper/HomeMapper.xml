@@ -83,7 +83,7 @@
             END receiverName,
             m.msg_title msgTitle,
             m.msg_content msgContent,
-            DATE_FORMAT(m.msg_send_time, '%y년 %m월 %d일 %H시') AS sendTime
+            DATE_FORMAT(m.msg_send_time, '%y/%m/%d') AS sendTime
         FROM 
             msg m 
                 JOIN emp re ON m.msg_receiver = re.emp_code

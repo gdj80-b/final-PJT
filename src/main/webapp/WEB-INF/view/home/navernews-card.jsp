@@ -11,7 +11,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="card-header">
+                    <div class="card-header d-flex align-items-center">
+                        <i class="bx bx-news fs-4 me-2"></i>
                         <h4 class="card-title">뉴스</h4>
                     </div>
                     <form id="searchForm">

@@ -5,6 +5,10 @@
   height: 100%;
 }
 
+.msg-card .table {
+  height: 14rem;
+}
+
 .msg-card .msg {
   height: 22.575rem;
 }
@@ -29,7 +33,7 @@
   font-size: 12px;
 }
 
-.msg-card .msg-time {
+.msg-card .msg-date {
   font-size: 10px;
 }
 

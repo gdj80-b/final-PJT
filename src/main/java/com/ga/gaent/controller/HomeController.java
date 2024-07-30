@@ -164,8 +164,17 @@ public class HomeController {
      */
     @GetMapping("/home/notice")
     @ResponseBody
-    public List<Map<String, Object>> homeNotice() {
+    public List<Map<String, Object>> homeNotice(@RequestParam(name = "currentPage") int currentPage) {
         
-        return boardService.selectNoticeAtMain();
+        return homeService.selectNoticeListAtHome(currentPage);
+    }
+    
+    @GetMapping("/home/notice/page")
+    @ResponseBody
+    public Map<String, Object> homeNoticePaging(HttpSession session,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
+        
+        String empCode = getSessionEmpCode.getEmpCode(session);
+        return homeService.selectNoticePagingAtHome(currentPage);
     }
 }

@@ -27,36 +27,91 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="sender">보낸이</th>
-                                    <th class="content">내용</th>
-                                    <th class="time">시간</th>
+                                    <th>보낸이</th>
+                                    <th>내용</th>
+                                    <th>날짜</th>
                                 </tr>
                             </thead>
                             <tbody id="messageTableBody" class="table-border-bottom-0"></tbody>
                         </table>
-                        <!-- 페이징시작 -->
                         <div class="mt-2">
-                            <jsp:include page="/WEB-INF/view/home/home-msg-paging.jsp"></jsp:include>
+                            <nav aria-label="Page navigation" style="">
+                                <ul class="pagination">
+                                    <li id="messagePrev" class="page-item prev">
+                                        <button id="messagePrevBtn" class="page-link"><i class="tf-icon bx bx-chevron-left"></i></button>
+                                    </li>
+                                    <li id="messageNowPage" class="page-item">
+                                    </li>
+                                    <li id="messageNext" class="page-item next">
+                                        <button id="messageNextBtn" class="page-link"><i class="tf-icon bx bx-chevron-right"></i></button>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <!-- 페이징끝 -->
                     </div>
                 </div>
             </div>
         </div>
         <script>
+            // 첫 번째, 마지막 페이지 초기값
+            let messageFirstPage = 1;
+            let messageTotalPage = 0;
+        
             $(document).ready(function() {
-                getHomeMessage();
+                
+                // 현재 페이지 초기값
+                let messagePage = 1;
+                
+                // 쪽지함 조회
+                getHomeMessage(messagePage);
+                
+                // 읽지 않은 쪽지 갯수 조회
                 ureadMessage();
+                
+                // 받은 쪽지의 총 갯수 조회
                 getMessageCnt();
+                
+                // 현재 페이지
+                updatePageDisplay(messagePage);
+                
+                // 이전 버튼
+                $('#messagePrevBtn').click(function() {
+                    if(messagePage > messageFirstPage) {
+                        messagePage--;
+                        messageUpdatePage(messagePage);
+                    }
+                });
+                
+                // 다음 버튼
+                $('#messageNextBtn').click(function() {
+                    if(messagePage < messageTotalPage) {
+                        messagePage++;
+                        messageUpdatePage(messagePage);
+                    }
+                });
             });
             
-            function getHomeMessage() {
+            function messageUpdatePage(messageNewPage) {
+                messagePage = messageNewPage;
+                getHomeMessage(messagePage);
+                getMessageCnt(messagePage);
+                updatePageDisplay(messagePage);
+            }
+            
+            function updatePageDisplay(messagePage) {
+                $('#messageNowPage').html('<a class="page-link">' + messagePage + '</a>');
+                $('#messagePrevBtn').toggleClass('disabled', messagePage <= messageFirstPage);
+                $('#messageNextBtn').toggleClass('disabled', messagePage >= messageTotalPage);
+            }
+            
+            function getHomeMessage(messagePage) {
                 $.ajax({
-                    url: '/gaent/home/message',
+                    url: '/gaent/home/message?currentPage=' + messagePage,
                     type: 'GET',
                     success: function(data) {
+                        // console.log(data);
                         const tableBody = $('#messageTableBody');
-                        tableBody.empty(); // 기존 데이터를 지웁니다.
+                        tableBody.empty();
                         
                         data.slice(0, 5).forEach((el) => {
                             const row = $('<tr>').css('cursor', 'pointer').on('click', function() {
@@ -72,7 +127,7 @@
                             );
 
                             const dateCell = $('<td>').append(
-                                $('<div>').addClass('text-light msg-time ms-2').text(el.sendTime.substring(0, 10))
+                                $('<div>').addClass('text-light msg-date ms-2').text(el.sendTime.substring(0, 10))
                             );
 
                             row.append(senderCell, titleCell, dateCell);
@@ -87,30 +142,31 @@
             
             function ureadMessage() {
                 $.ajax({
-                    url: "/gaent/unreadMessage", // 데이터를 가져올 URL
-                    type: "GET", // GET 메서드를 사용
-                    dataType: "json", // 반환 데이터 타입은 int
-                    success: function(data) { // 요청이 성공하면 실행
-                        // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
-                        $("#unreadMessageCnt").text(data);
+                    url: '/gaent/unreadMessage',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#unreadMessageCnt').text(data);
                     },
-                    error: function() { // 요청이 실패하면 실행
-                        alert("error"); // 에러 메시지 출력
+                    error: function(e) {
+                        console.log(e);
+                        alert('error');
                     }
                 });
             }
             
-            function getMessageCnt() {
+            function getMessageCnt(messagePage) {
                 $.ajax({
-                    url: "/gaent/home/message/page", // 데이터를 가져올 URL
-                    type: "GET", // GET 메서드를 사용
-                    success: function(data) { // 요청이 성공하면 실행
+                    url: '/gaent/home/message/page',
+                    type: 'GET',
+                    data: messagePage,
+                    success: function(data) {
                         // console.log(data);
-                        // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
-                        $("#messageCnt").text(data.lastRow);
+                        $('#messageCnt').text(data.lastRow);
+                        messageTotalPage = data.totalPage;
                     },
-                    error: function() { // 요청이 실패하면 실행
-                        alert("error"); // 에러 메시지 출력
+                    error: function(e) {
+                        console.log(e);
+                        alert('error');
                     }
                 });
             }

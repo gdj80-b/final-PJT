@@ -11,7 +11,8 @@
         <div class="notice-card">
             <div class="card notice">
                 <div class="card-body">
-                    <div class="card-header">
+                    <div class="card-header d-flex align-items-center">
+                        <i class="bx bx-conversation fs-4 me-2"></i>
                         <h4 class="card-title">공지사항</h4>
                     </div>
                     <div class="table-responsive text-nowrap d-flex flex-column align-items-center">
@@ -25,25 +26,83 @@
                             </thead>
                             <tbody id="noticeTableBody" class="table-border-bottom-0"></tbody>
                         </table>
-                        <!-- 페이징시작 -->
                         <div class="mt-2">
-                            <jsp:include page="/WEB-INF/view/home/home-notice-paging.jsp"></jsp:include>
+                            <nav aria-label="Page navigation" style="">
+                                <ul class="pagination">
+                                    <li id="boardPrev" class="page-item prev">
+                                        <button id="boardPrevBtn" class="page-link"><i class="tf-icon bx bx-chevron-left"></i></button>
+                                    </li>
+                                    <li id="boardNowPage" class="page-item">
+                                    </li>
+                                    <li id="boardNext" class="page-item next">
+                                        <button id="boardNextBtn" class="page-link"><i class="tf-icon bx bx-chevron-right"></i></button>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <!-- 페이징끝 -->
                     </div>
                 </div>
             </div>
         </div>
     </body>
     <script>
+        // 첫 번째, 마지막 페이지 초기값
+        let firstPage = 1;
+        let totalPage = 0;
+        
         $(document).ready(function() {
-            getHomeNotice();
-            // getNoticeCnt();
+            
+            // 현재 페이지 초기값
+            let page = 1;
+            
+            // 공지사항 조회
+            getHomeNotice(page);
+            
+            // 공지사항 글 총 갯수 조회
+            getNoticeCnt();
+            
+            // 현재 페이지
+            $('#boardNowPage').html('<a class="page-link">' + page + '</a>');
+            
+            // 이전 버튼
+            $('#boardPrevBtn').click(function() {
+                page = page - 1;
+                updatePage(page);
+                getNoticeCnt(page);
+                $('#boardNowPage').html('<a class="page-link">' + page + '</a>')
+            });
+            
+            // 다음 버튼
+            $('#boardNextBtn').click(function() {
+                page = page + 1;
+                updatePage(page);
+                getNoticeCnt(page);
+                $('#boardNowPage').html('<a class="page-link">' + page + '</a>')
+            });
         });
         
-        function getHomeNotice() {
+        function updatePage(newPage) {
+            if(newPage === firstPage) {
+                $('#boardPrev').addClass('disabled');
+            } else {
+                $('#boardPrev').removeClass('disabled');
+            }
+            
+            if(newPage === totalPage) {
+                $('#boardNext').addClass('disabled');
+                return;
+            } else {
+                $('#boardNext').removeClass('disabled');
+            }
+            
+            page = newPage;
+            getHomeNotice(page);
+            getNoticeCnt(page);
+        }
+        
+        function getHomeNotice(page) {
             $.ajax({
-                url: '/gaent/home/notice',
+                url: '/gaent/home/notice?currentPage=' + page,
                 type: 'GET',
                 success: function(data) {
                     // console.log(data);
@@ -72,22 +131,24 @@
                     });
                 },
                 error: function(e) {
+                    console.log(e);
                     alert('공지사항 내용을 불러오는데 실패했습니다.');
                 }
             });
         }
         
-        function getNoticeCnt() {
+        function getNoticeCnt(page) {
             $.ajax({
-                url: "/gaent/home/message/page", // 데이터를 가져올 URL
-                type: "GET", // GET 메서드를 사용
-                success: function(data) { // 요청이 성공하면 실행
-                    console.log(data);
-                    // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
-                    $("#messageCnt").text(data.lastRow);
+                url: '/gaent/home/notice/page',
+                type: 'GET',
+                data: page,
+                success: function(data) {
+                    // console.log(data);
+                    totalPage = data.totalPage;
                 },
-                error: function() { // 요청이 실패하면 실행
-                    alert("error"); // 에러 메시지 출력
+                error: function(e) {
+                    console.log(e);
+                    alert('error');
                 }
             });
         }
