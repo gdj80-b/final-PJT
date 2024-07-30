@@ -18,6 +18,7 @@ import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
 import com.ga.gaent.service.EdocService;
 import com.ga.gaent.util.TeamColor;
+import com.ga.gaent.util.getSessionEmpCode;
 import com.ga.gaent.vo.EdocFormTypeVO;
 import com.ga.gaent.vo.EdocVO;
 import com.ga.gaent.vo.EmpVO;
@@ -28,18 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class EdocController {
     
-    @Autowired EdocService edocService;
+    @Autowired private EdocService edocService;
     
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 16.
-     * Description : 로그인 사용자 정보 세션에서 꺼내기(공통코드)
-     */
-    private String getEmpCode(HttpSession session) {
-        Map<String, Object> loginInfo = (Map<String, Object>) (session.getAttribute("loginInfo"));
-        return (String) loginInfo.get("empCode");
-    }
-
+    @Autowired private getSessionEmpCode getSessionEmpCode;
+    
     /*
      * @author : 정건희
      * @since : 2024. 07. 15.
@@ -50,19 +43,19 @@ public class EdocController {
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
             @RequestParam(name = "rowPerPage", defaultValue = "5") int rowPerPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         // 전자결재 페이지에서 보이는 카드(결재하기 -> 결재 대기 문서)
         List<Map<String, String>> toDoList = edocService.selectToDoInHome(empCode);
-        log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET);
         
         // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)
         List<EdocVO> draftList = edocService.selectDraftInHome(currentPage, rowPerPage, empCode);
-        log.debug(TeamColor.BLUE_BG + "draftList: " + draftList + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "draftList: " + draftList + TeamColor.RESET);
         
         // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)에 대한 페이징
         Map<String, Object> pagingMap = edocService.getDraftPagingInHome(currentPage, rowPerPage, empCode, 0);
-        log.debug(TeamColor.BLUE_BG + "pagingMap: " + pagingMap + TeamColor.RESET);
+        // log.debug(TeamColor.BLUE_BG + "pagingMap: " + pagingMap + TeamColor.RESET);
         
         model.addAttribute("toDoList", toDoList);
         model.addAttribute("draftList", draftList);
@@ -129,7 +122,7 @@ public class EdocController {
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
             @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         List<Map<String, String>> list = edocService.selectToDo(currentPage, rowPerPage, empCode);
         /* log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET); */
@@ -153,7 +146,7 @@ public class EdocController {
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
             @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         List<Map<String, String>> list = edocService.selectUpComing(currentPage, rowPerPage, empCode);
         Map<String, Object> pagingMap = edocService.getApprPagingIdx(empCode,currentPage,1);
@@ -177,7 +170,7 @@ public class EdocController {
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
             @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         List<Map<String, String>> list = edocService.selectApprHistory(currentPage, rowPerPage, empCode);
         Map<String, Object> pagingMap = edocService.getApprPagingIdx(empCode,currentPage,2);
@@ -199,7 +192,7 @@ public class EdocController {
             @PathVariable(name = "edocType") Integer edocType,
             @PathVariable(name = "edocNum") Integer edocNum) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         Map<String, Object> edocDetail = edocService.selectEdocDetail(edocNum,empCode);
         log.debug(TeamColor.BLUE_BG + "edocDetail: " + edocDetail + TeamColor.RESET);
@@ -238,7 +231,7 @@ public class EdocController {
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 0;
         
@@ -260,7 +253,7 @@ public class EdocController {
     public String getApprove(HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 1;
         
@@ -283,7 +276,7 @@ public class EdocController {
             HttpSession session, Model model,
             @RequestParam(name = "currentPage", defaultValue = "1") int currentPage) {
         
-        String empCode = getEmpCode(session);
+        String empCode = getSessionEmpCode.getEmpCode(session);
         
         int request = 2;
         
