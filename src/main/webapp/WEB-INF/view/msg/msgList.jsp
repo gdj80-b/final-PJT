@@ -40,13 +40,13 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin: 50px 0px 0px 30px">전체쪽지함</h2>
+            <h2 style="margin: 50px 0px 0px 30px">전체쪽지함</h2>
             <div class="card-body">
                 <div class="care-body" style="height: 700px;">
                     <table class="table table-bordered ">
                         <thead>
                             <tr>
-                                <th colspan="2" class="align-middle fs-6" >전체 : ${pg.lastRow}개</th>
+                                <th colspan="2" class="align-middle fs-6" >전체 : ${pg.totalRow}개</th>
                                 <th colspan="2">
                                     <form action="/gaent/msg/0">
                                         <div class="d-flex justify-content-between">
@@ -78,7 +78,7 @@
                             </c:if>
                             <c:forEach var="m" items="${list}">
                                 <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'" style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
-                                    <td class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
+                                    <td onclick="event.stopPropagation();" class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
                                     <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :
                                          (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>': 
                                          '<span class="badge bg-label-warning fs-6">발신</span>') }

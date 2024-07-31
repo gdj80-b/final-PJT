@@ -85,7 +85,7 @@
         <div class="card inbox-container">
             <div class="card-header d-flex align-items-start justify-content-between ps-3 pt-3" style="padding-top: ">
                 <h2 class="title pt-3">${m.msgTitle}</h2>
-                <button onclick="javascript:history.back()" class="btn-close fs-4"></button>
+                <button onclick="reloadPreviousPage()" class="btn-close fs-4"></button>
             </div>
             <div class="care-body">
                 <div class="info" style="display: flex; font-weight: bold" >
@@ -147,11 +147,15 @@
         
     });
     
-    function reply() {
-        // 답장 기능을 여기에 구현
-        // 예시로 alert 창만 띄우는 방식으로 표시
-        alert('답장 기능은 구현되지 않았습니다.');
-    }
+    function reloadPreviousPage() {
+        // 현재 페이지의 URL을 새로 고침하여 이전 페이지를 다시 로드합니다.
+        const previousPageUrl = document.referrer;
+        if (previousPageUrl) {
+          window.location.replace(previousPageUrl); // 페이지 새로고침
+        } else {
+          window.location.href = '/gaent/defaultError'; // 에러페이지로이동
+        }
+      }
 </script>
 </body>
 </html>
