@@ -223,10 +223,10 @@
                     return;
                 }
                 
-                let formData = new FormData($('#myPageInputForm')[0]);
+                let formData = new FormData($('#edocInputForm')[0]);
 
                 $.ajax({
-                    url: '/gaent/modifyMyPageInfo',
+                    url: '/gaent/approver/edoc',
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -234,8 +234,8 @@
                     success: function (data) {
                         console.log(data);
                         alert('성공');
-                        $('#myPageInputForm')[0].reset();
-                        window.location.reload();
+                        $('#edocInputForm')[0].reset();
+                        window.location.href='/gaent/approval/wait';
                     },
                     error: function (e) {
                         console.log(e);
@@ -342,16 +342,16 @@
 
             function selectType() {
                 $.ajax({
-                    url : '/gaent/edocType',
-                    method : 'GET',
-                    success : function(data) {
+                    url: '/gaent/edocType',
+                    method: 'GET',
+                    success: function(data) {
                         // console.log(data);
                         data.forEach(function(el) {
                             // console.log(el);
                             $('#edoc-type').append('<option value="' + el.edocType + '">' + el.edocFormTitle + '</option>');
                         });
                     },
-                    error : function(error) {
+                    error: function(error) {
                         console.log(error);
                     },
                 });
@@ -386,14 +386,14 @@
                     }
 
                     $.ajax({
-                        url : url,
-                        method : 'GET',
-                        success : function(data) {
-                            console.log(data);
+                        url: url,
+                        method: 'GET',
+                        success: function(data) {
+                            // console.log(data);
                             $('#edoc-form-title').text(title);
                             $('#edoc-form-type').empty().append(data);
                         },
-                        error : function(error) {
+                        error: function(error) {
                             console.log(error);
                         },
                     });
