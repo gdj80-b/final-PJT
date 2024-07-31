@@ -54,7 +54,7 @@
         FROM
             calendar
         WHERE
-            cal_target_type IN (#{empCode}, #{teamCode}, 10, 900);
+            cal_target_type IN (#{empCode}, #{teamCode}, CONCAT(SUBSTRING(#{teamCode}, 1, 1), '00'), 10, 900)
     </select>
     
     <!-- 개인 일정조회 -->
@@ -115,6 +115,7 @@
             calendar
         WHERE
             cal_target_type = #{teamCode}
+            OR cal_target_type = CONCAT(SUBSTRING(#{teamCode}, 1, 1), '00')
     </select>
     
     <!-- 전사 일정조회 -->
@@ -189,6 +190,12 @@
                 END
             ) AS calWriter,
             c.cal_type AS calType,
+            CASE
+                WHEN c.cal_target_type = 10 THEN '전사'
+                WHEN t.team_name IS NOT NULL THEN t.team_name
+                ELSE '기타'
+            END AS teamName,
+            t.team_code teamCode,
             c.cal_target_type AS calTargetType,
             c.cal_title AS calTitle,
             c.cal_content AS calContent,
@@ -200,6 +207,8 @@
             calendar c
         JOIN
             emp e ON c.cal_writer = e.emp_code
+        LEFT JOIN
+            team t ON c.cal_target_type = t.team_code
         WHERE
             c.cal_num = ${calNum}
     </select>

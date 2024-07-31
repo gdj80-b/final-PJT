@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.CalendarService;
+import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.CalendarVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,6 +56,8 @@ public class CalendarController {
     @PostMapping("/addEvent")
     public String addEventAction(CalendarVO calendar) {
         
+        log.debug(TeamColor.BLUE_BG + "calStartDate: " + calendar.getCalStartDate() + TeamColor.RESET);
+        log.debug(TeamColor.GREEN_BG + "calEndDate: " + calendar.getCalEndDate() + TeamColor.RESET);
         calendar.formatDate(calendar.getCalStartDate(), calendar.getCalEndDate());
         
         int addEvent = calendarService.insertEvent(calendar);

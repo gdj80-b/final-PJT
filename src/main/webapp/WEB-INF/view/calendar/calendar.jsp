@@ -78,11 +78,7 @@
                 <div id="eventDetails">
             		<!-- 여기에 일정 상세 정보를 동적으로 채웁니다. -->
           		</div>
-              </div>
-              <div class="modal-footer">
-              	<button type="button" class="btn btn-primary" id="modifyEventBtn">수정</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              </div>
+              </div>             
             </div>
           </div>
         </div>
@@ -95,7 +91,7 @@
             <h5 class="modal-title" id="addEventModalTitle">일정등록</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="/gaent/calendar/addEvent" method="post" id="addEventForm">
+          <form action="/gaent/calendar/addEvent" method="post">
 		      <div class="modal-body">
 				<!-- 작성자 --> 
 			    <div class="card mb-4">
@@ -103,12 +99,43 @@
 			      	<div class="mb-3">
 			          <input type="hidden" name="calWriter" value="${loginInfo.empCode}">
 			          <label for="calType" class="form-label">일정타입</label>
-			          <select name="calType" id="calType" class="form-select">
-			          	<c:forEach var="event" items="${eventType}">
-			            	<option value="${event.calType}">${event.calTypeName}</option>
-					    </c:forEach>
-			          </select>
+			          <c:if test="${loginInfo.rankCode == 1}">
+                        <select name="calType" id="calType" class="form-select" onchange="updateCategoryOptions()">
+                            <option value="">-- 선택하세요 --</option>
+                            <option value="personal">개인일정</option>
+                            <option value="company">전사일정</option>
+                            <option value="artist">아티스트일정</option>
+                        </select>
+                    </c:if>
+                    <c:if test="${loginInfo.rankCode == 2 || loginInfo.rankCode == 3}">
+                        <select name="calType" id="calType" class="form-select" onchange="updateCategoryOptions()">
+                            <option value="">-- 선택하세요 --</option>
+                            <option value="personal">개인일정</option>
+                            <option value="team">팀일정</option>
+                            <option value="company">전사일정</option>
+                            <option value="artist">아티스트일정</option>
+                        </select>
+                    </c:if>
+                    <c:if test="${loginInfo.rankCode == 4}">
+                        <select name="calType" id="calType" class="form-select" onchange="updateCategoryOptions()">
+                            <option value="">-- 선택하세요 --</option>
+                            <option value="personal">개인일정</option>
+                            <option value="team">팀일정</option>
+                        </select>
+                    </c:if>
+                    <c:if test="${loginInfo.rankCode == 5}">
+                        <select name="calType" id="calType" class="form-select" onchange="updateCategoryOptions()">
+                            <option value="">-- 선택하세요 --</option>
+                            <option value="personal">개인일정</option>
+                        </select>
+                    </c:if>
 			        </div>
+					<div class="mb-3">
+			          <label for="calTargetType" class="form-label">일정분류</label>
+			          <select name="calTargetType" id="calTargetType" class="form-select">
+                        <!-- 동적으로 옵션 추가 -->
+                    </select>
+			      </div>
 			        <div class="mb-3">
 			          <label for="calTitle" class="form-label">제목</label>
 			          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요." required="required">
@@ -125,20 +152,11 @@
 			          <label for="calEndDate" class="form-label">종료시간</label>
 			          <input name="calEndDate" class="form-control" type="datetime-local" id="calEndDate" required="required">
 			        </div>
-					<div class="mb-3">
-			          <label for="calTargetType" class="form-label">일정분류</label>
-			          <select name="calTargetType" id="calTargetType" class="form-select">
-			            <option value="${loginInfo.empCode}">개인</option>
-			            <c:forEach var="target" items="${eventTarget}">
-					    	<option value="${target.teamCode}">${target.teamName}</option>
-					    </c:forEach>
-			          </select>
-			      </div>
 			    </div>
 			  </div>
 		    </div>
           <div class="modal-footer">
-	        <button type="submit" class="btn btn-primary" id="saveEventBtn">등록</button>
+	        <button type="submit" class="btn btn-primary">등록</button>
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 	      </div>
 	      </form>
@@ -146,22 +164,22 @@
       </div>
     </div>
         
-        <!-- 수정 모달 -->
-<div class="modal fade" id="modifyEventModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modifyEventModalTitle">일정수정</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="modifyEventForm">
-                    <!-- 일정 수정을 위한 폼이 여기에 들어갑니다. -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- 수정 모달 -->
+	<div class="modal fade" id="modifyEventModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-sm" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="modifyEventModalTitle">일정수정</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	                <div id="modifyEventForm">
+	                    <!-- 일정 수정을 위한 폼이 여기에 들어갑니다. -->
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
     <!-- 부트스트랩 modal 부분 끝 -->
     </div>
 </body>
@@ -169,6 +187,32 @@
 	//JSP에서 서버측 변수를 JavaScript 변수로 전달
 	var empCode = '${loginInfo.empCode}';
 	var teamCode = '${loginInfo.teamCode}'; // teamCode를 적절히 설정해주세요
+	
+	//일정타입에 따른 일정분류 옵션 설정
+	const categoryOptions = {
+	    "personal": [{value: "${loginInfo.empCode}", text: "개인"}],
+	    "team": [{value: "${loginInfo.teamCode}", text: "${loginInfo.teamName}"}],
+	    "company": [{value: "10", text: "전사"}],
+	    "artist": [{value: "900", text: "아티스트"}]
+	};
+	
+	function updateCategoryOptions() {
+	    const calTypeSelect = document.getElementById('calType');
+	    const calTargetTypeSelect = document.getElementById('calTargetType');
+	    const selectedType = calTypeSelect.value;
+	    
+	    // 일정분류 옵션 초기화
+	    calTargetTypeSelect.innerHTML = '';
+	    
+	    // 새 옵션 추가
+	    const options = categoryOptions[selectedType] || [];
+	    options.forEach(option => {
+	        const opt = document.createElement('option');
+	        opt.value = option.value;
+	        opt.textContent = option.text;
+	        calTargetTypeSelect.appendChild(opt);
+	    });
+	}
 
 	//calendar element 취득
     var calendarEl = document.getElementById('calendar');
@@ -222,7 +266,7 @@
           select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
             
             $('#addEventModal').modal('show');
-          
+          	
          	// 클릭한 이벤트의 시작 날짜와 시간을 가져온다.
             var eventStartDate = arg.start;
 
@@ -233,7 +277,7 @@
             var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
 
             // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
-            adjustedStartDate.setDate(eventStartDate.getDate() + 1);
+            adjustedStartDate.setDate(eventStartDate.getDate()+1);
             adjustedStartDate.setMonth(eventStartDate.getMonth());
             adjustedStartDate.setFullYear(eventStartDate.getFullYear());
 
@@ -242,77 +286,6 @@
 
             // 입력 필드에 설정한다.
             $('input[name="calStartDate"]').val(formattedStartDate);
-            
-            $('#saveEventBtn').on('click', function() {
-                
-             	// 폼 제출을 방지
-                event.preventDefault();
-             
-             	// 입력 값 가져오기
-                var title = $('input[name="calTitle"]').val().trim();
-                var content = $('input[name="calContent"]').val().trim();
-                var startDate = $('input[name="calStartDate"]').val().trim();
-                var endDate = $('input[name="calEndDate"]').val().trim();
-                
-             	// Validation logic 추가
-                if (title === '') {
-                    alert('제목이 입력되지 않았습니다.');
-                    return;
-                }
-
-                if (content === '') {
-                    alert('내용이 입력되지 않았습니다.');
-                    return;
-                }
-                
-                if (endDate === '') {
-                    alert('일정 종료일이 입력되지 않았습니다.');
-                    return;
-                }
-                
-                var startDateTime = new Date(startDate);
-                var endDateTime = new Date(endDate);
-                
-                // 일정비교
-                if (endDateTime <= startDateTime) {
-                    alert('일정 종료일은 시작일 이후여야 합니다');
-                    return false;
-                }
-                
-                
-                var eventObj = {
-                        calWriter: $('input[name="calWriter"]:checked').val(), // 작성자 정보는 직접 설정하거나 다른 방식으로 가져올 수 있음
-                        calType: $('input[name="calType"]:checked').val(),
-                        calTitle: $('input[name="calTitle"]').val(),
-                        calContent: $('input[name="calContent"]').val(),
-                        calStartDate: $('input[name="calStartDate"]').val(),
-                        calEndDate: $('input[name="calEndDate"]').val(),
-                        calTargetType: $('input[name="calTargetType"]:checked').val()
-                    };
-
-                    // 서버로 데이터 전송
-                    $.ajax({
-                        url: '/gaent/calendar/addEvent',
-                        method: 'post',
-                        contentType: 'application/json',
-                        data: JSON.stringify(eventObj),
-                        success: function(response) {
-                            console.log('일정 추가 성공:', response);
-                            // 성공 처리 로직
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('일정 추가 실패:', error);
-                            // 실패 처리 로직
-                        }
-                    });
-                
-            // 폼 초기화 및 모달 닫기
-            $('#addEventModal').modal('hide');
-
-            // 캘린더 선택 해제
-            calendar.unselect();
-            
-            });
           },
           
           // 이벤트 
@@ -360,6 +333,12 @@
         }
       });
       calendar.render();		
+    });
+    
+ 	// 일정 등록 모달이 닫힐 때 폼 내용 초기화
+    $('#addEventModal').on('hidden.bs.modal', function () {
+        $(this).find('form')[0].reset(); // 폼 리셋
+        $('#calTargetType').empty(); // 일정분류 옵션 초기화
     });
   </script>
 </html>
