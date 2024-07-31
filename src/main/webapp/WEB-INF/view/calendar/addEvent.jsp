@@ -35,7 +35,7 @@
         });
     }
 	
-    // 유효성 검사
+    // 일정등록 유효성 검사
     function validateForm() {
         var type = document.getElementById('calType').value.trim();
         var title = document.getElementById('calTitle').value.trim();

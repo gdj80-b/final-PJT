@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.CalendarMapper">
     
-    <!-- 일정등록 -->
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 14.
+        Description : 일정등록
+    -->
     <insert id="insertEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         INSERT INTO calendar(
             cal_writer,
@@ -28,7 +33,11 @@
             )
     </insert>
     
-    <!-- 전체 일정조회 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 14.
+        Description : 전체 일정조회
+    -->
     <select id="selectAllEvents" parameterType="String" resultType="Map">
         SELECT
             cal_num AS id,
@@ -57,126 +66,12 @@
             cal_target_type IN (#{empCode}, #{teamCode}, CONCAT(SUBSTRING(#{teamCode}, 1, 1), '00'), 10, 900)
     </select>
     
-    <!-- 개인 일정조회 -->
-    <select id="selectPersonalEvents" parameterType="String" resultType="Map">
-        SELECT
-            cal_num id,
-            cal_title title,
-            cal_start_date start,
-            cal_end_date end,
-        CASE
-            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'yellow'
-            WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'orange'
-            WHEN cal_type LIKE 'c%' THEN 'green'
-            WHEN cal_type LIKE 'a%' THEN 'pink'
-            ELSE NULL
-        END AS
-            color,
-        CASE
-            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'black'
-            WHEN cal_type LIKE 'p%' THEN 'white'
-            WHEN cal_type LIKE 't%' THEN 'black'
-            WHEN cal_type LIKE 'c%' THEN 'white'
-            WHEN cal_type LIKE 'a%' THEN 'black'
-            ELSE NULL
-        END AS
-            textColor
-        FROM
-            calendar
-        WHERE
-            cal_target_type = #{empCode}
-    </select>
     
-    <!-- 팀 일정조회 -->
-    <select id="selectTeamEvents" parameterType="String" resultType="Map">
-        SELECT
-            cal_num id,
-            cal_title title,
-            cal_start_date start,
-            cal_end_date end,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'orange'
-            WHEN cal_type LIKE 'c%' THEN 'green'
-            WHEN cal_type LIKE 'a%' THEN 'pink'
-            ELSE NULL
-        END AS
-            color,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'white'
-            WHEN cal_type LIKE 't%' THEN 'black'
-            WHEN cal_type LIKE 'c%' THEN 'white'
-            WHEN cal_type LIKE 'a%' THEN 'black'
-            ELSE NULL
-        END AS
-            textColor
-        FROM
-            calendar
-        WHERE
-            cal_target_type = #{teamCode}
-            OR cal_target_type = CONCAT(SUBSTRING(#{teamCode}, 1, 1), '00')
-    </select>
-    
-    <!-- 전사 일정조회 -->
-    <select id="selectCompanyEvents" parameterType="String" resultType="Map">
-        SELECT
-            cal_num id,
-            cal_title title,
-            cal_start_date start,
-            cal_end_date end,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'yellow'
-            WHEN cal_type LIKE 'c%' THEN 'green'
-            WHEN cal_type LIKE 'a%' THEN 'pink'
-            ELSE NULL
-        END AS
-            color,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'white'
-            WHEN cal_type LIKE 't%' THEN 'black'
-            WHEN cal_type LIKE 'c%' THEN 'white'
-            WHEN cal_type LIKE 'a%' THEN 'black'
-            ELSE NULL
-        END AS
-            textColor
-        FROM
-            calendar
-        WHERE
-            cal_target_type = 10
-    </select>
-    
-    <!-- 아티스트 일정조회 -->
-    <select id="selectArtistEvents" parameterType="String" resultType="Map">
-        SELECT
-            cal_num id,
-            cal_title title,
-            cal_start_date start,
-            cal_end_date end,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'blue'
-            WHEN cal_type LIKE 't%' THEN 'yellow'
-            WHEN cal_type LIKE 'c%' THEN 'green'
-            WHEN cal_type LIKE 'a%' THEN 'pink'
-            ELSE NULL
-        END AS
-            color,
-        CASE
-            WHEN cal_type LIKE 'p%' THEN 'white'
-            WHEN cal_type LIKE 't%' THEN 'black'
-            WHEN cal_type LIKE 'c%' THEN 'white'
-            WHEN cal_type LIKE 'a%' THEN 'black'
-            ELSE NULL
-        END AS
-            textColor
-        FROM
-            calendar
-        WHERE
-            cal_target_type = 900
-    </select>
-    
-    <!-- 일정상세 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 14.
+        Description : 일정상세
+    -->
     <select id="selectEventOne" parameterType="int" resultType="com.ga.gaent.vo.CalendarVO">
         SELECT
             c.cal_num AS calNum,
@@ -213,7 +108,11 @@
             c.cal_num = ${calNum}
     </select>
     
-    <!-- 일정삭제 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 14.
+        Description : 일정삭제
+    -->
     <delete id="deleteEvent" parameterType="int">
         DELETE FROM
             calendar
@@ -221,7 +120,11 @@
             cal_num = ${calNum}
     </delete>
     
-    <!-- 일정수정 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 14.
+        Description : 일정수정
+    -->
     <update id="updateEvent" parameterType="com.ga.gaent.vo.CalendarVO">
         UPDATE
             calendar
@@ -237,7 +140,11 @@
             cal_num = ${calNum}
     </update>
     
-    <!-- 일정타입 조회 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 23.
+        Description : 일정타입 조회
+    -->
     <select id="selectEventType" resultType="Map">
         SELECT DISTINCT
             cal_type calType,
@@ -254,8 +161,11 @@
             calTypeName
     </select>
     
-    <!-- 일정분류 조회 -->
-    <select id="selectEventTarget" resultType="Map">
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 23.
+        Description : 일정분류 조회
+    -->    <select id="selectEventTarget" resultType="Map">
         SELECT
             team_code teamCode,
         CASE
@@ -269,5 +179,140 @@
             team_name NOT LIKE '%부'
         ORDER BY
             teamCode
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 26.
+        Description : 개인 일정조회
+    -->
+    <select id="selectPersonalEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'yellow'
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'orange'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' AND (cal_title LIKE '%연차%' OR cal_title LIKE '%반차%') THEN 'black'
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = #{empCode}
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 26.
+        Description : 팀 일정조회
+    -->
+    <select id="selectTeamEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'orange'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = #{teamCode}
+            OR cal_target_type = CONCAT(SUBSTRING(#{teamCode}, 1, 1), '00')
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 26.
+        Description : 전사 일정조회
+    -->
+    <select id="selectCompanyEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = 10
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 26.
+        Description : 아티스트 일정조회
+    -->
+    <select id="selectArtistEvents" parameterType="String" resultType="Map">
+        SELECT
+            cal_num id,
+            cal_title title,
+            cal_start_date start,
+            cal_end_date end,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'blue'
+            WHEN cal_type LIKE 't%' THEN 'yellow'
+            WHEN cal_type LIKE 'c%' THEN 'green'
+            WHEN cal_type LIKE 'a%' THEN 'pink'
+            ELSE NULL
+        END AS
+            color,
+        CASE
+            WHEN cal_type LIKE 'p%' THEN 'white'
+            WHEN cal_type LIKE 't%' THEN 'black'
+            WHEN cal_type LIKE 'c%' THEN 'white'
+            WHEN cal_type LIKE 'a%' THEN 'black'
+            ELSE NULL
+        END AS
+            textColor
+        FROM
+            calendar
+        WHERE
+            cal_target_type = 900
     </select>
 </mapper>

@@ -7,6 +7,51 @@
 <head>
   <meta charset="UTF-8">
   <title>캘린더 - GAEnt.</title>
+  <script>
+//일정등록 유효성 검사
+  function validateForm() {
+      var type = document.getElementById('calType').value.trim();
+      var title = document.getElementById('calTitle').value.trim();
+      var content = document.getElementById('calContent').value.trim();
+      var startDate = document.getElementById('calStartDate').value.trim();
+      var endDate = document.getElementById('calEndDate').value.trim();
+      if (type === '') {
+          alert('일정타입이 선택되지 않았습니다');
+          return false;
+      }
+      
+      if (title === '') {
+          alert('제목이 입력되지 않았습니다');
+          return false;
+      }
+      
+      if (content === '') {
+          alert('내용이 입력되지 않았습니다');
+          return false;
+      }
+      
+      if (startDate === '') {
+          alert('일정시작일이 입력되지 않았습니다');
+          return false;
+      }
+      
+      if (endDate === '') {
+          alert('일정종료일이 입력되지 않았습니다');
+          return false;
+      }
+      
+      var startDateTime = new Date(startDate);
+      var endDateTime = new Date(endDate);
+      
+      // 일정비교
+      if (endDateTime <= startDateTime) {
+          alert('일정 종료일은 시작일 이후로 지정해야 합니다');
+          return false;
+      }
+      
+      return true;
+  }
+  </script>
   <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <!-- jquery CDN -->
@@ -18,7 +63,6 @@
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
   <!-- Bootstrap 스크립트 추가 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
-  
   <style>
   /* body 스타일 */
   html, body {
@@ -91,7 +135,7 @@
             <h5 class="modal-title" id="addEventModalTitle">일정등록</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="/gaent/calendar/addEvent" method="post">
+          <form action="/gaent/calendar/addEvent" method="post" onsubmit="return validateForm()">
 		      <div class="modal-body">
 				<!-- 작성자 --> 
 			    <div class="card mb-4">
@@ -138,19 +182,19 @@
 			      </div>
 			        <div class="mb-3">
 			          <label for="calTitle" class="form-label">제목</label>
-			          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요." required="required">
+			          <input name="calTitle" id="calTitle" class="form-control" type="text" placeholder="제목을 입력해주세요.">
 			        </div>
 			        <div class="mb-3">
 			          <label for="calContent" class="form-label">내용</label>
-			          <input name="calContent" id="calContent" class="form-control" type="text" placeholder="내용을 입력해주세요." required="required">
+			          <input name="calContent" id="calContent" class="form-control" type="text" placeholder="내용을 입력해주세요.">
 			        </div>
 			        <div class="mb-3">
 			          <label for="calStartDate" class="form-label">시작시간</label>
-			          <input name="calStartDate" class="form-control" type="datetime-local" id="calStartDate" required="required">
+			          <input name="calStartDate" class="form-control" type="datetime-local" id="calStartDate">
 			        </div>
 			        <div class="mb-3">
 			          <label for="calEndDate" class="form-label">종료시간</label>
-			          <input name="calEndDate" class="form-control" type="datetime-local" id="calEndDate" required="required">
+			          <input name="calEndDate" class="form-control" type="datetime-local" id="calEndDate">
 			        </div>
 			    </div>
 			  </div>
@@ -304,35 +348,9 @@
                   $('#eventModal').modal('show');
                 }
               });
-            
-         // 이벤트 상세 모달에서 수정 버튼 클릭 시 처리
-            $('#modifyEventBtn').on('click', function() {
-             	// 일정상세 모달 닫기
-                $('#eventModal').modal('hide');
-                
-                // 현재 표시된 이벤트의 calNum 값 가져오기
-                var calNum = $('#eventDetails').find('.calNum').val(); // 예시에서는 .calNum이 해당 값을 가리키는 클래스로 가정합니다.
-
-                // 수정 모달에서 데이터를 동적으로 로드하기 위한 AJAX 요청
-                $.ajax({
-                    url: '/gaent/calendar/modifyEvent',
-                    method: 'get',
-                    data: {
-                        calNum: info.event.id
-                    },
-                    success: function(response) {
-                        $('#modifyEventForm').html(response); // 수정 폼에 데이터 채우기
-                        $('#modifyEventModal').modal('show'); // 수정 모달 표시
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('일정 상세 정보 가져오기 실패:', error);
-                        // 실패 처리 로직 추가
-                    }
-                });
-            });
-        }
+        	}
       });
-      calendar.render();		
+      calendar.render();
     });
     
  	// 일정 등록 모달이 닫힐 때 폼 내용 초기화

@@ -106,6 +106,34 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
 		</form>
+		
+		<script>
+			//이벤트 상세 모달에서 수정 버튼 클릭 시 처리
+			$('#modifyEventBtn').on('click', function() {
+			 	// 일정상세 모달 닫기
+			    $('#eventModal').modal('hide');
+			    
+			    // 현재 표시된 이벤트의 calNum 값 가져오기
+			    var calNum = $('#eventDetails').find('.calNum').val(); // 예시에서는 .calNum이 해당 값을 가리키는 클래스로 가정합니다.
+			
+			    // 수정 모달에서 데이터를 동적으로 로드하기 위한 AJAX 요청
+			    $.ajax({
+			        url: '/gaent/calendar/modifyEvent',
+			        method: 'get',
+			        data: {
+			            calNum: ${vo.calNum}
+			        },
+			        success: function(response) {
+			            $('#modifyEventForm').html(response); // 수정 폼에 데이터 채우기
+			            $('#modifyEventModal').modal('show'); // 수정 모달 표시
+			        },
+			        error: function(xhr, status, error) {
+			            console.error('일정 상세 정보 가져오기 실패:', error);
+			            // 실패 처리 로직 추가
+			        }
+			    });
+			});
+		</script>
 	</c:forEach>
 </body>
 </html>
