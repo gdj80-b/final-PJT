@@ -22,7 +22,6 @@ public interface CalendarMapper {
      */
     List<Map<String, Object>> selectAllEvents(Map<String, Object> map);
     
-    
     /*
      * @author : 김형호
      * @since : 2024. 07. 14.
