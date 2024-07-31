@@ -8,11 +8,6 @@
   <meta charset="UTF-8">
   <title>인사관리 - GAEnt.</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
-  <!-- 부트스트랩 JS 및 jQuery (필수) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <!-- 부트스트랩 CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div id="">
