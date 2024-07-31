@@ -5,6 +5,19 @@
   height: 100%;
 }
 
+.attendance-card-in-subsidebar {
+  width: 100%;
+}
+
+.attendance-card-in-subsidebar .card {
+  height: 100%;
+  border-radius: 0;
+}
+
+.attendance-card-in-subsidebar .card-body {
+  padding-top: 0.5rem;
+}
+
 .attendance-card .attd {
   height: 22.575rem;
 }

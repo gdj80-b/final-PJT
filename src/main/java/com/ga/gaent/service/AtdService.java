@@ -1,5 +1,6 @@
 package com.ga.gaent.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.mapper.AtdMapper;
+import com.ga.gaent.util.TeamColor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -55,8 +57,8 @@ public class AtdService {
      * @since : 2024. 07. 15. 
      * Description : 퇴근등록
      */
-    public int atdOut(String empCode) {      
-        return atdMapper.atdOut(empCode);        
+    public int atdOut(String empCode) {
+        return atdMapper.atdOut(empCode);
     }
     
     
@@ -65,9 +67,14 @@ public class AtdService {
      * @since : 2024. 07. 14. 
      * Description : 개인 출근 이력 리스트 조회
      */
-    public List<AtdDTO> getAtdHistory(String empCode){
+    public List<AtdDTO> getAtdHistory(String empCode,String year,String month){
         
-        return atdMapper.selectAtdHistory(empCode);
+        Map<String, Object>m = new HashMap<>();
+        m.put("empCode", empCode);
+        m.put("year", year);
+        m.put("month", month);
+        
+        return atdMapper.selectAtdHistory(m);
     }
     
     /*
@@ -75,41 +82,48 @@ public class AtdService {
      * @since : 2024. 07. 22. 
      * Description : 개인 근무시간 조회
      */
-    public Map<String, Object>getAtdStatus(String empCode){
-        
-        Map<String, Object>map = new HashMap<>();
-        
-        Integer daily = atdMapper.dailyWorkMinutes(empCode);
-        Integer weekly = atdMapper.weeklyWorkMinutes(empCode);
-        Integer montly = atdMapper.monthlyWorkMinutes(empCode);
-      
-      if(daily != null) {
-          
-        String dailyWorkTime  =  (daily/60) + "시간" + (daily%60) + "분"  ;
-        String weeklyWorkTime  =  (weekly/60) + "시간" + (weekly%60) + "분"  ;
-        String montlyWorkTime  =  (montly/60) + "시간" + (montly%60) + "분"  ;        
-            
-        map.put("dailyWorkTime", dailyWorkTime);
-        map.put("weeklyWorkTime", weeklyWorkTime);
-        map.put("montlyWorkTime", montlyWorkTime);
-        
-          
-      }
-       
-        
-   
-        return map;
-        
-    }
-    
-    
-    @Scheduled(cron = "0 12 * * * *")   //매일 12시간마다
-    void eliminateMsg() {
+    public Map<String, Object>getWorkMinutes(String empCode){
 
-//        
-//        System.out.println(dailyWorkTime);
-//        System.out.println(weeklyWorkTime);
-//        System.out.println(montlyWorkTime);
+        Map<String, Object> data = atdMapper.selectWorkMinutes(empCode);
+        log.debug(TeamColor.GREEN_BG + "근무 시간 확인: " + data + TeamColor.RESET);
+   
+        return data;
         
     }
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 29. 
+     * Description : 근무 상태 횟수 조회
+     */
+    public Map<String, Object>getAtdStatusCnt(String empCode,String year,String fullWeek){
+        ;
+        Map<String, Object>m = new HashMap<>();
+        m.put("empCode", empCode);
+        m.put("year", year);
+        m.put("month", fullWeek);
+        
+        return atdMapper.selectAtdStatusCount(m);
+    }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 29. 
+     * Description : 퇴근하지 않은사람들은 자동으로 퇴근처리되고 출근하지 않은사람들은  NULL로 자동등록되는 매서드
+    */
+    @Scheduled(cron = "0 55 23 * * 1-5")
+    void registerAtdByScheduler() {
+          
+        // 퇴근을 누르지 않은 사람들 18시로 자동등록
+        int autoGetOffWorkSuccess = atdMapper.autoGetOffWork(); 
+        // 출근하지 않은 사람들 NULL로 자동등록
+        int autoGetInSuccess = atdMapper.autoRegisterAtd();
+        
+            
+        log.debug(TeamColor.RED + "퇴근 자동 입력: " + autoGetOffWorkSuccess + TeamColor.RESET);
+        log.debug(TeamColor.RED + "출근 자동 입력: " + autoGetInSuccess + TeamColor.RESET);
+    }
+
+    
 }
