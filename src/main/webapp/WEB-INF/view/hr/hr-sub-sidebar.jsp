@@ -31,35 +31,40 @@
     <script type="text/javascript">
         $(function() {
             $('#orgChart').jstree({
-                'core' : {
-                    'data' : {
-                        'url' : '/gaent/hr/tree',
-                        'dataType' : 'json'
+                'core': {
+                    'data': {
+                        'url': '/gaent/hr/tree',
+                        'dataType': 'json'
                     },
-                    'themes' : {
-                        'icons' : true,
-                        'dots' : true,
-                        'responsive' : true
+                    'themes': {
+                        'icons': true,
+                        'dots': true,
+                        'responsive': true
                     },
-                    'expand_all' : true,
+                    'expand_all': true,
                 },
-                'plugins' : [ 'themes', 'json_data', 'state' ]
+                'plugins': [ 'themes', 'json_data', 'state' ]
             });
 
             $('#orgChart').on('select_node.jstree', function(e, data) {
-                e.preventDefault(); // 기본 이벤트 동작 막기
-
+                e.preventDefault();
+                
                 let nodeId = data.node.id;
-                // nodeId 값의 길이 체크
-                if (nodeId.length >= 4) {
-                    // nodeId 값이 4자리 이상일 경우 다른 경로로 이동
-                    window.location.href = '/gaent/hr/empDetail/' + nodeId;
+                let empCode = null;
+                let teamCode = null;
+                let deptCode = null;
+                
+                if(nodeId.length >= 4) {
+                    empCode = data.node.id;
+                    window.location.href = '/gaent/hr/empDetail/' + empCode;
+                } else if(nodeId[1] == 0) {
+                    deptCode = data.node.id;
+                    window.location.href = '/gaent/hr/deptDetail?teamCode=' + deptCode + "&currentPage=1&rowPerPage=5";
                 } else {
-                    // nodeId 값이 4자리 미만일 경우 기존 경로로 이동
-                    window.location.href = '/gaent/hr/deptDetail?teamCode=' + nodeId + "&currentPage=1&rowPerPage=5";
+                    teamCode = data.node.id;
+                    window.location.href = '/gaent/hr/teamDetail?teamCode=' + teamCode + "&currentPage=1&rowPerPage=5";
                 }
 
-                // 선택된 노드 해제
                 $('#orgChart').jstree(true).deselect_node(nodeId);
             });
         });

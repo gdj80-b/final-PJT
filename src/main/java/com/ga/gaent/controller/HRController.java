@@ -1,6 +1,5 @@
 package com.ga.gaent.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -391,5 +390,39 @@ public class HRController {
         model.addAttribute("lastPage", lastPage);
         
         return "hr/team/deptDetail";
+    }
+    
+    /*
+     * @author : 정건희
+     * @since : 2024. 07. 31.
+     * Description : 조직도 활용 팀 정보 조회
+     */
+    @GetMapping("/teamDetail")
+    public String teamDetail(
+            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name="rowPerPage", defaultValue = "5") int rowPerPage,
+            Model model, String teamCode) {
+        
+        // 팀상세
+        List<Map<String, Object>> teamDetail = hrService.selectTeamDetail(teamCode);
+        
+        // 팀 멤버 정보 조회
+        List<Map<String, Object>> memberDetail = hrService.selectMemberDetail(teamCode, currentPage, rowPerPage);
+        
+        int memberCount = hrService.selectMemberCount(teamCode);
+        
+        int lastPage = memberCount / rowPerPage;
+        if(memberCount % rowPerPage != 0) {
+            lastPage++;
+        }
+        
+        model.addAttribute("teamDetail", teamDetail);
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("teamCode", teamCode);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
+        
+        return "hr/team/teamDetail";
     }
 }

@@ -8,10 +8,10 @@
         <meta charset="UTF-8" />
         <title>인사관리 - GAEnt.</title>
         <!-- 부트스트랩 JS 및 jQuery (필수) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
         <!-- 부트스트랩 CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
         <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/pyramid.css">
@@ -76,23 +76,28 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nameSmall" class="form-label">부서명</label><br />
+                                <label for="nameSmall" class="form-label">부서명</label>
+                                <br />
                                 <div id="modalTitle">부서명</div>
                             </div>
                         </div>
                         <div class="row g-2">
                             <div class="col mb-0">
-                                <label class="form-label" for="emailSmall">구분코드</label><br />
+                                <label class="form-label" for="emailSmall">구분코드</label>
+                                <br />
                                 <div id="modalTeamCode">부서코드</div>
                             </div>
                             <div class="col mb-0">
-                                <label for="dobSmall" class="form-label">소속부서</label><br />
+                                <label for="dobSmall" class="form-label">소속부서</label>
+                                <br />
                                 <div id="modalParentTeam">소속부서</div>
                             </div>
-                        </div><br />
+                        </div>
+                        <br />
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nameSmall" class="form-label">Responsibilities</label><br />
+                                <label for="nameSmall" class="form-label">Responsibilities</label>
+                                <br />
                                 <div id="modalDescription">담당업무</div>
                             </div>
                         </div>
@@ -104,13 +109,14 @@
             </div>
         </div>
         <!-- 그룹 상세 모달창 끝 -->
+        
         <script>
             $(document).ready(function() {
                 $.ajax({
                     url : '/gaent/inquiry/getGroupInfo',
                     method : 'GET',
                     success : function(data) {
-                        console.log(data);
+                        // console.log(data);
                         generateOrgChart(data);
                     },
                     error : function(xhr, status, error) {
@@ -119,38 +125,39 @@
                 });
 
                 function generateOrgChart(data) {
-                    var orgChart = document.getElementById('orgChart');
+                    let orgChart = document.getElementById('orgChart');
 
                     // 데이터를 기반으로 조직도 구성
                     buildHierarchy(orgChart, data, '#'); // 최상위 노드의 parentId는 '#'으로 설정
                 }
 
                 function buildHierarchy(parentNode, items, parentId) {
-                    var filteredItems = items.filter(function(item) {
+                    let filteredItems = items.filter(function(item) {
                         return item.parentId === parentId;
                     });
 
                     if (filteredItems.length > 0) {
-                        var ul = document.createElement('ul');
+                        let ul = document.createElement('ul');
                         filteredItems.forEach(function(item) {
-                            var li = document.createElement('li');
+                            let li = document.createElement('li');
 
                             // 노드의 이름을 포함하는 링크 생성
-                            var link = document.createElement('a');
+                            let link = document.createElement('a');
                             link.href = '#';
                             link.innerHTML = '<div class="nodeName">' + item.name + '</div><div>' + item.des + '</div>';
                             link.onclick = function() {
+                                
                                 // 모달에 정보 설정
                                 document.getElementById('modalTeamCode').textContent = item.id;
                                 document.getElementById('modalTitle').textContent = item.name;
                                 document.getElementById('modalDescription').textContent = item.des;
 
                                 // item.parentId 값에 따른 처리
-                                var parentTeamElement = document.getElementById('modalParentTeam');
+                                let parentTeamElement = document.getElementById('modalParentTeam');
                                 if (item.parentId === '#' || item.parentId === '10') {
                                     parentTeamElement.textContent = '-';
                                 } else {
-                                    var parentItem = items.find(function(parent) {
+                                    let parentItem = items.find(function(parent) {
                                         return parent.id === item.parentId;
                                     });
                                     parentTeamElement.textContent = parentItem ? parentItem.name : 'Unknown';
