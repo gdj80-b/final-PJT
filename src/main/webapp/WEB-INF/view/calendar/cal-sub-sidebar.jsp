@@ -5,17 +5,17 @@
 />
 <style>
 	.btn {
-	width: 120px;
+		width: 120px;
 	}
 	
 	.artist {
-	border: 1px solid #f792a4;
-	color: #f792a4;
+		border: 1px solid #f792a4;
+		color: #f792a4;
 	}
 	
 	.artist:hover{
-	background-color: #f792a4;
-	border: 1px solid #f792a4;
+		background-color: #f792a4;
+		border: 1px solid #f792a4;
 	}
 </style>
 <body>
