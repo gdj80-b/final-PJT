@@ -13,17 +13,17 @@
         margin-bottom: 0rem !important;
       }
 
-      .typeDraftThTag {
+      .type-draft-th-tag {
         color: #fff !important;
         background-color: rgba(105, 108, 255, 0.6) !important;
         padding: 0.1rem !important;
       }
 
-      .typeDraftTdTag {
+      .type-draft-td-tag {
         background-color: rgba(255, 255, 255, 1) !important;
       }
 
-      .typeDraftTdTag textarea {
+      .type-draft-td-tag textarea {
         resize: none;
       }
 
@@ -50,19 +50,19 @@
             <table class="table table-bordered edocForm">
               <tbody>
                 <tr>
-                  <th class="text-center typeDraftThTag">팀 이름</th>
-                  <td class="typeDraftTdTag">
+                  <th class="text-center type-draft-th-tag">팀 이름</th>
+                  <td class="type-draft-td-tag">
                     <input class="form-control form-control-sm" type="text" id="teamName" name="teamName" placeholder="팀 이름을 입력해주세요." required="required"/>
                   </td>
                 </tr>
                 <tr>
-                  <th class="text-center typeDraftThTag">팀 코드</th>
-                  <td class="typeDraftTdTag">
+                  <th class="text-center type-draft-th-tag">팀 코드</th>
+                  <td class="type-draft-td-tag">
                     <input id="teamCode" class="form-control form-control-sm d-inline" type="text" name="teamCode" placeholder="팀 코드를 입력해주세요." maxlength="3" pattern="[0-9]{3}"/>
                     <button type="button" class="btn btn-primary" onclick="checkTeamCode()">중복검사</button>
                   </td>
-                  <th class="text-center typeDraftThTag">소속 그룹</th>
-                  <td class="typeDraftTdTag">
+                  <th class="text-center type-draft-th-tag">소속 그룹</th>
+                  <td class="type-draft-td-tag">
                     <div class="edoc-type-select-box">
                       <select id="edoc-type" class="form-select form-select-sm" name="parentTeamCode">
                         <option value="10">대표이사</option>
@@ -76,8 +76,8 @@
                   </td>
                 </tr>
                 <tr>
-                  <th class="text-center typeDraftThTag">팀 설명</th>
-                  <td class="typeDraftTdTag" colspan="3">
+                  <th class="text-center type-draft-th-tag">팀 설명</th>
+                  <td class="type-draft-td-tag" colspan="3">
                     <textarea class="form-control" rows="12" name="teaDes"></textarea>
                   </td>
                 </tr>

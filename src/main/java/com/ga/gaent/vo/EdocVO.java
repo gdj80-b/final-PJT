@@ -8,7 +8,7 @@ public class EdocVO {
     private String edocType;
     private String edocTypeName;
     private String edocWriter;
-    private String edocFileName;
+    private String fileName;
     private String edocTitle;
     private String edocDoneDate;
     private String edocEnrollDate;

@@ -27,8 +27,8 @@ public class EmpVO {
     private String postCode;
     private String address;
     private String detailAddress;
-    private int totalLeave;
-    private int useLeave;
+    private double totalLeave;
+    private double useLeave;
     private String ext;
     private String hireDate;
     private String resignDate;

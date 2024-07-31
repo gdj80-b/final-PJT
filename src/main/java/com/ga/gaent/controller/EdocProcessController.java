@@ -8,14 +8,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.EdocFormTypeDTO;
 import com.ga.gaent.dto.EdocRequestDTO;
+import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.service.EdocProcessService;
+import com.ga.gaent.util.TeamColor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class EdocProcessController {
+    
     @Autowired EdocProcessService edocProcessService;
     
-    
-
     /*
      * @author : 정건희
      * @since : 2024. 07. 12.
@@ -25,14 +28,22 @@ public class EdocProcessController {
     public String approvalRequest(
             EdocRequestDTO edocRequestDTO,
             EdocFormTypeDTO edocFormTypeDTO,
+            FileReqDTO fileReqDTO,
             RedirectAttributes redirectAttributes) {
         
-        int result = edocProcessService.insertEdoc(edocRequestDTO, edocFormTypeDTO);
-        int edocFileResult = -1;
+        log.debug(TeamColor.BLUE_BG + "edocRequestDTO: " + edocRequestDTO + TeamColor.RESET);
+        log.debug(TeamColor.YELLOW + "원본이름 :" + fileReqDTO.getGaFile() + TeamColor.RESET);
         
-        if(edocRequestDTO.getFileName() != null) {
-            edocFileResult = edocProcessService.insertEdocFile(edocRequestDTO);
+        // 파일을 업로드 했을 시에만 동작
+        if (!fileReqDTO.getGaFile().isEmpty()) {
+            // 파일 확장자 확인
+            fileReqDTO.validateFileType();
         }
+        
+        
+        int result = edocProcessService.insertEdoc(edocRequestDTO, edocFormTypeDTO, fileReqDTO);
+        
+        
         
         String fail = "결재 요청에 실패하셨습니다.";
         String pass = "결재 요청에 성공하셨습니다.";
@@ -46,7 +57,6 @@ public class EdocProcessController {
         return "redirect:/approval/wait";
     }
     
-
     /*
      * @author : 조인환
      * @since : 2024. 07. 19.
@@ -55,7 +65,7 @@ public class EdocProcessController {
     @PostMapping("/edoc/updateEdocProcess")
     @ResponseBody
     public int updateEdocProcess(
-            @RequestParam(name = "empCode") int empCode,
+            @RequestParam(name = "empCode") String empCode,
             @RequestParam(name = "edocNum") String edocNum,
             @RequestParam(name = "apprReason", defaultValue = "") String apprReason,
             @RequestParam(name = "request") Integer request

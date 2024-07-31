@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+/* .edoc-home {
+  height: 84vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+} */
+
+.card-size {
+  width: 14rem !important;
+}
+
+.edoc-card-area {
+  height: 15rem;
+}
+
+.edoc-list-area {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.edoc {
+  max-width: 100%;
+  width: 880px;
+  height: 780px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.edoc-type-select-box {
+  width: 200px;
+}
+
+.edoc-form-info {
+  width: 300px;
+}
+
+.edoc-form-info-table {
+  background-color: #fff;
+  margin-bottom: 0rem !important;
+}
+
+.edoc-form-info-table > tbody > tr > th {
+  width: 80px;
+  color: #fff !important;
+  background-color: rgba(105, 108, 255, 0.6);
+}
+
+.edoc-form-info-table > tbody > tr > td > input {
+  border: none;
+  outline: none;
+}
+
+.edoc-form-area {
+  background-color: #fff;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-me {
+  margin-right: -1rem !important;
+}
+
+.approver-info {
+  width: 100%;
+  height: 30rem !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.approver-input {
+  width: 28rem;
+  text-align: left;
+}
+
+.approver-input label {
+  width: 50px;
+  font-size: 12px;
+  margin-right: 0.625rem;
+}
+
+.approver-input input {
+  width: 75%;
+}
+
+.approver-form {
+  width: 8.25rem;
+}
+
+.approver-th-tag {
+  width: 30px;
+  height: 122px;
+  color: #fff !important;
+  background-color: rgba(105, 108, 255, 0.6) !important;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  padding: 0.1rem !important;
+}
+
+.approver-td-tag {
+  height: 20px !important;
+  padding: 0.1rem !important;
+}
+
+.appr-table {
+  background-color: #fff;
+  margin-bottom: 0rem !important;
+}
+
+.edoc-btn {
+  width: 100% !important;
+}
+
+.edoc-btn button {
+  width: 100%;
+}
+
+.home-draft-list {
+  height: 22rem;
+}
+
+
+
+/* ---------- 개인문서함 스타일 시작 ---------- */
+.edoc-personal-list {
+  height: 80vh;
+}
+
+.edoc-enroll-date {
+  width: 80px !important;
+}
+
+.edoc-type {
+  width: 80px !important;
+}
+
+.edoc-title {
+  width: 440px !important;
+}
+
+.edoc-file {
+  width: 30px !important;
+}
+
+.edoc-done-date {
+  width: 80px !important;
+}
+/* ---------- 개인문서함 스타일 종료 ---------- */

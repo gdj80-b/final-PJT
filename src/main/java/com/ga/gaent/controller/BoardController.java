@@ -44,8 +44,8 @@ public class BoardController {
     @GetMapping("")
     public String board(Model model) {
         
-        List<Map<String, Object>> communityListToMain = boardService.selectCommunityToMain();
-        List<Map<String, Object>> noticeListToMain = boardService.selectNoticeToMain();
+        List<Map<String, Object>> communityListToMain = boardService.selectCommunityAtMain();
+        List<Map<String, Object>> noticeListToMain = boardService.selectNoticeAtMain();
         
         model.addAttribute("communityListToMain", communityListToMain);
         model.addAttribute("noticeListToMain", noticeListToMain);
@@ -121,6 +121,8 @@ public class BoardController {
      */
     @GetMapping("/community/boardDetail")
     public String getCommunityDetail(@RequestParam(name = "boardNum") int boardNum, Model model) {
+        
+        // int intBoardNum = Integer.parseInt(boardNum);
         
         Map<String, Object> boardDetail = boardService.selectCommunityDetail(boardNum);
         model.addAttribute("boardDetail", boardDetail);

@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+.msg-card {
+  width: 100%;
+  height: 100%;
+}
+
+.msg-card .table {
+  height: 14rem;
+}
+
+.msg-card .msg {
+  height: 22.575rem;
+}
+
+.msg-card h4 {
+  margin: 0;
+}
+
+.msg-card .card-header {
+  padding: 1rem 1rem;
+}
+
+.msg-card .card-body {
+  padding: 1rem 1rem;
+}
+
+.msg-card .msg-sender {
+  font-size: 12px;
+}
+
+.msg-card .msg-title {
+  font-size: 12px;
+}
+
+.msg-card .msg-date {
+  font-size: 10px;
+}
+
+.msg-card .table > tbody > tr > td {
+  padding: 0.5rem;
+}

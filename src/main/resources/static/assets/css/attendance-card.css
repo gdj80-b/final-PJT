@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+.attendance-card {
+  width: 100%;
+  height: 100%;
+}
+
+.attendance-card-in-subsidebar {
+  width: 100%;
+}
+
+.attendance-card-in-subsidebar .card {
+  height: 100%;
+  border-radius: 0;
+}
+
+.attendance-card-in-subsidebar .card-body {
+  padding-top: 0.5rem;
+}
+
+.attendance-card .attd {
+  height: 22.575rem;
+}
+
+.attendance-card h4 {
+  margin: 0;
+}
+
+.attendance-card .card-body {
+  padding: 1rem 1rem;
+}
+
+.attendance-card .card-header {
+  padding: 1rem 1rem;
+}
+
+.card-text {
+  font-size: 12px;
+}
+
+.time-wrapper {
+  width: 100%;
+}
+
+.attendance-year-month {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.time-display {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: rgba(105, 108, 255, 0.6);
+}

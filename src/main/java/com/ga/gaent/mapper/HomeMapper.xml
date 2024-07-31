@@ -19,5 +19,82 @@
         WHERE
             e.emp_code = #{empCode}
     </select>
+    
+    <update id="updateMyPageInfo" parameterType="com.ga.gaent.dto.MyPageRequestDTO">
+        UPDATE
+            emp
+        <set>
+            <if test="myPageProfile != null and myPageProfile != ''">
+                emp_profile = #{myPageProfile},
+            </if>
+            <if test="myPagePhone != null and myPagePhone != ''">
+                emp_phone = #{myPagePhone},
+            </if>
+                emp_id = #{myPageEmpId},
+                emp_pw = #{myPageEmpPassword},
+                emp_update_date = NOW(),
+                final_modifier = #{myPageEmpCode}
+        </set>
+         WHERE
+            emp_code = #{myPageEmpCode}
+    </update>
+    
+    <select id="selectNoticeListAtHome" parameterType="Map" resultType="Map">
+        SELECT
+            n.notice_num noticeNum,
+            n.notice_writer noticeEmpCode,
+            e.emp_kor_name noticeWriter,
+            f.original_file_name noticeFileName,
+            n.notice_title noticeTitle,
+            n.notice_content noticeContent,
+            DATE_FORMAT(n.notice_create_date, '%y-%m-%d') AS noticeCreateDate,
+            DATE_FORMAT(n.notice_update_date, '%y-%m-%d') AS noticeUpdateDate,
+            n.notice_count noticeCount
+        FROM
+            notice n
+                LEFT OUTER JOIN emp e ON n.notice_writer = e.emp_code
+                LEFT OUTER JOIN forum_file f ON n.file_name = f.file_name
+        ORDER BY
+            n.notice_num DESC
+        LIMIT
+            #{startRow}, 5
+    </select>
+    
+    <select id="selectMessageListAtHome" parameterType="Map" resultType="com.ga.gaent.dto.MsgDTO">
+        SELECT
+            m.msg_num msgNum,
+            m.msg_sender sender,
+            CASE 
+                WHEN se.rank_code = 1 THEN CONCAT(se.emp_kor_name, ' 대표')
+                WHEN se.rank_code = 2 THEN CONCAT(se.emp_kor_name, ' 부장')
+                WHEN se.rank_code = 3 THEN CONCAT(se.emp_kor_name, ' 팀장')
+                WHEN se.rank_code = 4 THEN CONCAT(se.emp_kor_name, ' 대리')
+                WHEN se.rank_code = 5 THEN CONCAT(se.emp_kor_name, ' 사원')
+                ELSE se.emp_kor_name
+            END senderName,
+            m.msg_receiver receiver,
+            CASE 
+                WHEN re.rank_code = 1 THEN CONCAT(re.emp_kor_name, ' 대표')
+                WHEN re.rank_code = 2 THEN CONCAT(re.emp_kor_name, ' 부장')
+                WHEN re.rank_code = 3 THEN CONCAT(re.emp_kor_name, ' 팀장')
+                WHEN re.rank_code = 4 THEN CONCAT(re.emp_kor_name, ' 대리')
+                WHEN re.rank_code = 5 THEN CONCAT(re.emp_kor_name, ' 사원')
+                ELSE re.emp_kor_name
+            END receiverName,
+            m.msg_title msgTitle,
+            m.msg_content msgContent,
+            DATE_FORMAT(m.msg_send_time, '%y/%m/%d') AS sendTime
+        FROM 
+            msg m 
+                JOIN emp re ON m.msg_receiver = re.emp_code
+                JOIN emp se ON m.msg_sender = se.emp_code
+        WHERE
+            m.msg_receiver = #{empCode} AND
+            m.msg_receive_del_status = 'N'
+        ORDER BY
+            m.msg_send_time DESC
+        LIMIT
+            #{startRow}, 5
+    </select>
 
 </mapper>
