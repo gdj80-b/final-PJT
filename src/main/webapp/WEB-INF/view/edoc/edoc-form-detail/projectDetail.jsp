@@ -25,24 +25,35 @@
     <table class="table table-bordered edocForm">
         <tr>
             <th class="text-center typeDraftThTag">제목</th>
-            <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
+            <td class="typeDraftTdTag" colspan="3">${edocDetail.edocTitle}</td>
         </tr>
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">프로젝트 이름</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="text" name="projectTitle" required></td>
+                <td class="typeDraftTdTag">${formDetail.projectTitle}</td>
                 <th class="text-center typeDraftThTag">프로젝트 예상 산정비용</th>
-                <td class="typeDraftTdTag"><input class="form-control form-control-sm" type="text" name="projectEstimate" required></td>
+                <td class="typeDraftTdTag">${formDetail.projectExtimate}</td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag" colspan="4">내용</th>
             </tr>
             <tr>
-                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="8" name="projectContent"></textarea></td>
+                <td class="typeDraftTdTag" colspan="4"><textarea class="form-control" rows="8" name="projectContent" readonly>${formDetail.projectContent}</textarea></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">파일첨부</th>
-                <td class="typeDraftTdTag" colspan="4"><input class="form-control form-control-sm" type="file" id="formFileMultiple" name="edocFileName"></td>
+                <c:choose>
+                    <c:when test= "${!empty edocDetail.fileName}">
+                        <td class="typeDraftTdTag" colspan="4">
+                            <a class="" href="${pageContext.request.contextPath}/upload/edocfile/${edocDetail.fileName}" target="_blank">
+                               ${edocDetail.edocOriginalfileName}
+                            </a>
+                        </td> 
+                    </c:when>
+                    <c:otherwise>
+                        <td class="typeDraftTdTag" colspan="4">첨부파일 없음</td>  
+                    </c:otherwise>
+                </c:choose>
             </tr>
         </tbody>
     </table>

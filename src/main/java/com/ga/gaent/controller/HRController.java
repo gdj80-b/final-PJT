@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.dto.EmpRequestDTO;
 import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.service.HRService;
+import com.ga.gaent.service.InquiryService;
 import com.ga.gaent.util.FileUploadSetting;
 import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.EmpVO;
@@ -29,6 +30,9 @@ public class HRController {
 
     @Autowired private HRService hrService;
     
+    @Autowired private InquiryService inquiryService;
+    
+    
     @Autowired private FileUploadSetting fileUploadSetting;
     
     // 세션에서 로그인한사람의 empCode추출
@@ -39,7 +43,13 @@ public class HRController {
 
     // 인사관리 첫 페이지
     @GetMapping("")
-    public String hr() {
+    public String hr(Model model, String teamCode) {
+        
+        List<Map<String, Object>> teamModal = inquiryService.selectTeamDetail(teamCode);
+        log.debug(TeamColor.PURPLE_BG + "teamModal: " + teamModal + TeamColor.RESET);
+        
+        model.addAttribute("teamModal", teamModal);
+        
         return "hr/hr";
     }
     

@@ -20,4 +20,7 @@ public interface FileMapper {
     
     /* 게시글 첨부파일 */
     int insertBoardFile(FileVO file);
+    
+    /* 전자결재 첨부파일 */
+    int insertEdocFile(FileVO file);
 }

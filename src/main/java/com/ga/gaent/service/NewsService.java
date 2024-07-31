@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.ga.gaent.dto.NewsRequestDTO;
 
 @Service
 public class NewsService {
@@ -21,10 +22,14 @@ public class NewsService {
     String clientId;
     @Value("${navernews-clientsecret-key}") 
     String clientSecret;
-    
-    public String naverSearch(String search,int page) {
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 16.
+     * Description : 네이버 뉴스검색 API
+     */
+    public String naverSearch(NewsRequestDTO newsRequestDTO,int page) {
         
-        String text = search; // Ajax로 전달된 검색어 사용
+        String text = newsRequestDTO.getNaverSearch(); // Ajax로 전달된 검색어 사용
         try {
             text = URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
