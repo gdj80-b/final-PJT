@@ -1,5 +1,6 @@
 package com.ga.gaent.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,43 +82,14 @@ public class AtdService {
      * @since : 2024. 07. 22. 
      * Description : 개인 근무시간 조회
      */
-    public Map<String, Object>getAtdStatus(String empCode){
-        
-        
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, Object>getWorkMinutes(String empCode){
 
-        Integer daily = atdMapper.dailyWorkMinutes(empCode);
-        Integer weekly = atdMapper.weeklyWorkMinutes(empCode);
-        Integer montly = atdMapper.monthlyWorkMinutes(empCode);
-
-        
-
-        if (montly != null) {
-            String montlyWorkTime = (montly / 60) + "시간" + (montly % 60) + "분";
-            map.put("montlyWorkTime", montlyWorkTime);
-        }else {
-            map.put("montlyWorkTime", "0시간 0분");
-        }
-
-        
-        if (weekly != null) {
-            String weeklyWorkTime = (weekly / 60) + "시간" + (weekly % 60) + "분";
-            map.put("weeklyWorkTime", weeklyWorkTime);
-        }else {
-            map.put("weeklyWorkTime", "0시간 0분");
-        }
-
-        if (daily != null) {
-            String dailyWorkTime = (daily / 60) + "시간" + (daily % 60) + "분";
-            map.put("dailyWorkTime", dailyWorkTime);
-        }else {
-            map.put("dailyWorkTime", "0시간 0분");
-        }
-      
-        return map;
+        Map<String, Object> data = atdMapper.selectWorkMinutes(empCode);
+        log.debug(TeamColor.GREEN_BG + "근무 시간 확인: " + data + TeamColor.RESET);
+   
+        return data;
         
     }
-    
     
     /*
      * @author : 조인환
@@ -140,7 +112,7 @@ public class AtdService {
      * @since : 2024. 07. 29. 
      * Description : 퇴근하지 않은사람들은 자동으로 퇴근처리되고 출근하지 않은사람들은  NULL로 자동등록되는 매서드
     */
-    @Scheduled(cron = "0 55 11 * * 1-5")
+    @Scheduled(cron = "0 55 23 * * 1-5")
     void registerAtdByScheduler() {
           
         // 퇴근을 누르지 않은 사람들 18시로 자동등록
@@ -152,33 +124,6 @@ public class AtdService {
         log.debug(TeamColor.RED + "퇴근 자동 입력: " + autoGetOffWorkSuccess + TeamColor.RESET);
         log.debug(TeamColor.RED + "출근 자동 입력: " + autoGetInSuccess + TeamColor.RESET);
     }
-    
-    
-    public List< Map<String, Object>>getTeamAtdStatus(String teamCode,String year,String week){
-        
-        
-        Map<String, Object>m = new HashMap<>();
-        m.put("teamCode", teamCode);
-        m.put("year", year);
-        m.put("week", week);
-        
-        
-        List<Map<String, Object>>list = atdMapper.selectTeamAtdStatus(m);
-        
-        return list;
-    }
-    
-    
- public Map<String, Object>getTeamAtdStatusCount(String teamCode,String year,String week){
-        
-        
-        Map<String, Object>m = new HashMap<>();
-        m.put("teamCode", teamCode);
-        m.put("year", year);
-        m.put("week", week);
-        
-        
-        return atdMapper.selectTeamAtdStatusCount(m);
-    }
+
     
 }

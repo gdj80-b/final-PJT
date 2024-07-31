@@ -80,7 +80,7 @@ public class AtdController {
     public Map<String, Object> atdStatus(HttpSession session) {
         
         String empCode = getEmpCode(session);
-        Map<String, Object>map = atdService.getAtdStatus(empCode);
+        Map<String, Object>map = atdService.getWorkMinutes(empCode);
         
         return map;
     }

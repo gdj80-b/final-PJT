@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ga.gaent.mapper.TeamAtdMapper">
+
+    <select id="selectTeamAtdStatus"  parameterType="map" resultType="map">
+    SELECT 
+        a.atd_num AS atdNum,
+        e.emp_code AS empCode,
+        e.emp_kor_name AS empName,
+        CASE 
+                WHEN e.rank_code = 1 THEN '대표'
+                WHEN e.rank_code = 2 THEN '부장'
+                WHEN e.rank_code = 3 THEN '팀장'
+                WHEN e.rank_code = 4 THEN '대리'
+                WHEN e.rank_code = 5 THEN '사원'
+            ELSE ' '
+        END empRank,
+        e.team_code AS teamCode,
+        a.atd_date AS atdDate,
+        CASE
+            WHEN a.atd_in_time IS NOT NULL
+                THEN DATE_FORMAT(a.atd_in_time, '%H시%i분')
+            ELSE a.atd_in_time
+        END AS inTime,
+        CASE
+            WHEN a.atd_in_time IS NOT NULL AND a.atd_in_time != a.atd_out_time
+                THEN DATE_FORMAT(a.atd_out_time, '%H시%i분')
+            ELSE a.atd_out_time
+        END AS outTime,
+        DATE_FORMAT(a.atd_date, '%Y') AS year,
+        DATE_FORMAT(a.atd_date, '%m') AS month,
+        DATE_FORMAT(a.atd_date, '%d') AS day,
+        DATE_FORMAT(a.atd_date, '%w') AS yoil,
+        CASE
+            WHEN a.atd_in_time IS NULL OR a.atd_in_time = a.atd_out_time THEN '결근'
+            WHEN TIME(a.atd_in_time) > '09:01:00' THEN '지각'
+            WHEN '18:00:00' > TIME(a.atd_out_time) THEN '조퇴'
+            ELSE '출근'
+        END AS atdStatus
+    FROM 
+        emp e
+    JOIN 
+        attendance a ON e.emp_code = a.emp_code
+    WHERE
+        YEAR(a.atd_date) = #{year} AND
+        WEEK(a.atd_date,1) = #{week} AND
+        e.team_code = #{teamCode} 
+     ORDER BY
+        e.rank_code ASC,
+        empCode DESC,
+        yoil ASC
+    </select>
+    
+    <select id="selectTeamAtdStatusCount" parameterType="map" resultType="map">
+        SELECT
+           COUNT(CASE 
+                 WHEN a.atd_in_time IS NULL THEN 1 
+                 ELSE NULL 
+             END) AS absenceCount, 
+           COUNT(CASE 
+                 WHEN a.atd_in_time IS NOT NULL AND TIME(a.atd_in_time) > '09:01:00' THEN 1 
+                 ELSE NULL 
+             END) AS lateCount,   
+           COUNT(CASE 
+                 WHEN a.atd_in_time IS NOT NULL AND '18:00:00' > TIME(a.atd_out_time) THEN 1 
+                 ELSE NULL 
+             END) AS earlyLeaveCount,
+           COUNT(CASE 
+                 WHEN a.atd_in_time IS NOT NULL AND a.atd_out_time IS NOT NULL THEN 1 
+                 ELSE NULL 
+             END) AS attendanceCount 
+        FROM 
+           emp e LEFT JOIN attendance a ON e.emp_code = a.emp_code
+        WHERE
+           YEAR(a.atd_date) = #{year} AND
+            WEEK(a.atd_date,1) = #{week} AND
+            e.team_code = #{teamCode} 
+    </select>
+
+</mapper>

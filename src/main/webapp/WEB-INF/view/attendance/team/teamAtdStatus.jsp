@@ -35,24 +35,17 @@
     <div id="workspace-area" class="subsidebar-from-workspace ">
         <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
             <div>
-
-                <h2 class="card-title mt-2 ms-2">부서근태현황</h2>
+                <h2 class="card-title fw-bold mt-2 ms-2">부서근태현황</h2>
                 <div class="card p-3" style="height: auto; overflow: inherit;">
                     <div style="text-align: center">
                         <h4>
-                            <a href="/gaent/team/atd?teamCode=${t}&week=${c.fullWeek-1}">◀</a> 
+                            <a href="/gaent/team/atd?teamCode=${c.teamCode}&year=${c.year}&week=${c.fullWeek-1}">◀</a> 
                                 ${c.year}년 ${c.fullWeek}번째 주 
-                            <a onclick="nextBtn()">▶</a>
+                            <a href="/gaent/team/atd?teamCode=${c.teamCode}&year=${c.year}&week=${c.fullWeek+1}">▶</a>
                         </h4>
                     </div>
                     <div class="justify-content-center ">
                         <table border="1" class="table w-75" style="text-align: center; margin: 0 auto; border-radius: 30px; width: auto;">
-                            <tr>
-                                <td class="w-25 justify-content-end">출근</td>
-                                <td class="w-25 justify-content-end">지각</td>
-                                <td class="w-25 justify-content-end">조퇴</td>
-                                <td class="w-25 justify-content-end">결근</td>
-                            </tr>
                             <tr>
                                 <td><span class="pe-3" id="attendanceCount"></span></td>
                                 <td><span class="pe-3" id="lateCount"></span></td>
@@ -68,16 +61,19 @@
                             <table class="table w-100">
                                 <tr>
                                     <th>이름</th>
-                                    <th class="yoilDay">월<br><span>${list[0].atdDate}</span></th>
-                                    <th class="yoilDay">화<br><span>${list[1].atdDate}</span></th>
-                                    <th class="yoilDay">수<br><span>${list[2].atdDate}</span></th>
-                                    <th class="yoilDay">목<br><span>${list[3].atdDate}</span></th>
-                                    <th class="yoilDay">금<br><span>${list[4].atdDate}</span></th> 
+                                    <th class="yoilDay">월<br><span>${c.date1}</span></th>
+                                    <th class="yoilDay">화<br><span>${c.date2}</span></th>
+                                    <th class="yoilDay">수<br><span>${c.date3}</span></th>
+                                    <th class="yoilDay">목<br><span>${c.date4}</span></th>
+                                    <th class="yoilDay">금<br><span>${c.date5}</span></th> 
                                 </tr>
-                                
+                                <c:if test="${empty list}">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; height:10rem;">데이터가 없습니다</td>
+                                    </tr>
+                                </c:if>
                                 <c:set var="name" value="a"></c:set>
                                 <c:set var="badge" value=""></c:set>
-                                
                                 
                                 <c:forEach var="m" items="${list}">
                                      <c:choose>
@@ -95,14 +91,11 @@
                                         </c:when>
                                     </c:choose>
                                 
-                                
-                                
                                     <c:if test="${name = 'a' || name != m.empName }">
                                      <tr>
-                                        <td>${m.empName}</td>
+                                        <td>${m.empName}<br>${m.empRank}</td>
                                     </c:if>
                                         <c:set var="name" value="${m.empName}" />
-                                        
                                         
                                     <c:choose>
                                         <c:when test="${m.yoil == '1' }">
@@ -140,7 +133,9 @@ function  atdTeamStatusCnt(){
     $.ajax({
         url: "/gaent/team/atdTeamStatus", // 데이터를 가져올 URL
         type: "POST", // GET 메서드를 사용
-        data: {"week" : ${c.fullWeek},
+        data: {
+           		"teamCode" : ${c.teamCode},
+				"week" : ${c.fullWeek},
 				"year" : ${c.year}
         } ,
         dataType: "json", 
@@ -154,18 +149,6 @@ function  atdTeamStatusCnt(){
             alert("상태확인레어"); // 에러 메시지 출력
         }
     });
-}
-
-
-function nextBtn(){
-	console.log(${c.fullWeek} + '&' + ${c.nowWeek});
-	
-	if(${c.nowWeek == c.fullWeek}){
-    	alert('데이터가 없습니다');
-	}else{
-   	 	window.location.href ="/gaent/team/atd?teamCode=${t}&week=${c.fullWeek+1}";
-	}
-    
 }
 
 </script>

@@ -86,8 +86,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
       </li>
       <!-- 근태관리 -->
       <li
-        class="menu-item ${fn:contains(pageContext.request.requestURI, '/atd') ? 'active' : '' }"
-      >
+        class="menu-item ${fn:contains(pageContext.request.requestURI, '/attendance') && !fn:contains(pageContext.request.requestURI, 'team') ? 'active' : '' }" >
         <a href="/gaent/atd" class="menu-link">
           <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
           <span>근태관리</span>
@@ -139,7 +138,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         </a>
       </li>
       <!-- 부서 근태관리 -->
-      <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/attendance/team') ? 'active' : '' }">
+      <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team/teamAtdStatus') ? 'active' : '' }">
         <a href="/gaent/team/atd" class="menu-link">
           <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
           <span>부서 근태현황</span>

@@ -30,8 +30,13 @@
     .inbox-table th {
         background-color: #f9f9f9;
     }
-    .inbox-table tr:hover {
-        background-color: #f1f1f1;
+    
+    .inbox-table td > a {
+        color: blue;
+    }
+    
+    .inbox-table td > a:hover {
+        color: red;
     }
     
     .vacInfo{
@@ -52,23 +57,25 @@
         <jsp:include page="/WEB-INF/view/attendance/atd-sub-sidebar.jsp"></jsp:include>
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace ">
-        <div class="card vacCard">
-            <h2 class="card-title" style="margin:50px 0px 0px 40px"><strong>휴가내역</strong></h2>
-            <div class="vacInfo" style="padding:0em 14em; margin-top:3em;">
-                    <table class="table" style="border:1px solid black;">
-                        <tr>
-                            <td>총연차</td>
-                            <td>사용연차</td>
-                            <td>잔여연차</td> 
-                        </tr>
-                        <tr>
-                            <td>${loginInfo.totalLeave}일</td>
-                            <td>${loginInfo.useLeave}일</td>
-                            <td>${loginInfo.totalLeave-loginInfo.useLeave}일</td> 
-                        </tr>
-                    
-                    </table>
+    
+        
+         <h2 class="card-title  mt-2 ms-2 fw-bold ">휴가내역</h2>
+        <div class="card vacCard">    
             
+            <div class="vacInfo" style="padding:0em 14em; margin-top:3em;">
+                <table class="table" style="border:1px solid black; text-align:center;">
+                    <tr>
+                        <td>총연차</td>
+                        <td>사용연차</td>
+                        <td>잔여연차</td> 
+                    </tr>
+                    <tr>
+                        <td>${loginInfo.totalLeave}일</td>
+                        <td>${loginInfo.useLeave}일</td>
+                        <td>${loginInfo.totalLeave-loginInfo.useLeave}일</td> 
+                    </tr>
+                
+                </table>
             </div>
             <div class="card-body" style="padding:2em 6em 0em 6em ;">
                <table class="inbox-table">
@@ -79,6 +86,7 @@
                         <th style="width:">연차사용기간</th>
                         <th style="width:">사용 연차</th>
                         <th style="width:">사유</th>
+                        <th style="width:">문서확인</th>
                     </tr>
                   </thead>
                     <tbody>
@@ -95,6 +103,7 @@
                                 <td>${m.vacStartDate} ~ ${m.vacEndDate}</td>
                                 <td>${m.vacPeriod}일</td>
                                 <td>${m.vacReason}</td>
+                                <td><a href="/gaent/edocDetail/1/${m.edocNum}">LINK</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -114,8 +123,6 @@
 <script>
     $(document).ready(function() {
       	vacationStatus();
-      
- 
     });
 </script>
 </body>

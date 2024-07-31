@@ -42,22 +42,8 @@ public interface AtdMapper {
      * @since : 2024. 07. 22. 
      * Description : 일간 근무시간 조회
      */
-    Integer dailyWorkMinutes(String empCode);
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 22. 
-     * Description : 주간 근무시간 조회
-     */
-    Integer weeklyWorkMinutes(String empCode);
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 22. 
-     * Description : 월간 근무시간 조회
-     */
-    Integer monthlyWorkMinutes(String empCode);
-
-    
+    Map<String,Object >selectWorkMinutes(String empCode);
+       
     /*
      * @author : 조인환
      * @since : 2024. 07. 29
@@ -79,10 +65,4 @@ public interface AtdMapper {
      * Description : 자동 퇴근입력
      */
     int autoGetOffWork();
-    
-    
-    
-    List<Map<String, Object>>selectTeamAtdStatus(Map<String,Object>m); 
-    
-    Map<String, Object>selectTeamAtdStatusCount(Map<String, Object>m);
 }

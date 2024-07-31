@@ -19,13 +19,9 @@
             <jsp:include page="/WEB-INF/view/attendance/atd-sub-sidebar.jsp"></jsp:include>
         </div>
             <div id="workspace-area" class="subsidebar-from-workspace ">
-                <div class="attd">
-                    <div>
-                        <div class="card">
-                            <h2 class="card-title" style="margin: 30px 0px 0px 30px">근태내역</h2>
-                            <%-- tgYear: ${c.tgYear}년 (원하는 연도 ) / tgMonth : ${c.tgMonth}월 (원하는 월 )/ tgDay: ${c.tgDay}일 (원하는 일 )/ tgYoil: ${c.tgYoil}요일 (해당일의 요일 ) --%>
-                            <%-- <br> tgWeek: ${c.tgWeek}번째주 (원하는 일이 달에 몇번째 주인지 )/ tgFullWeek : ${c.tgFullWeek}번째주 (원하는 일이 연에 몇번째 주인지 )/ 마지막일 tgLastDate: ${c.tgLastDate}일 (원하는 일의 달의 마지막일 ) --%>
-                            <%-- <br> preBlank: ${c.preBlank} / totalDiv: ${c.totalDiv} / afterBlank: ${c.afterBlank} --%>
+                <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
+                    <h2 class="card-title  mt-2 ms-2 fw-bold">근태내역</h2>
+                        <div class="card p-3">
                             <div style="text-align: center">
                                 <h4>
                                     <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">◀</a> ${c.tgYear}년 ${c.tgMonth}월 <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">▶</a>
@@ -45,13 +41,13 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="card-body pt-1" style="positions: relative;">
-                                <div class="d-flex justify-content-end">
-                                    <span class="pe-3" id="attendanceCount"></span>
-                                    <span class="pe-3" id="lateCount"></span>
-                                    <span class="pe-3" id="earlyLeaveCount"></span>
-                                    <span class="pe-3" id="absenceCount"></span>
-                                </div>
+                             <div class="d-flex justify-content-end">
+                                <span class="pe-3" id="attendanceCount"></span>
+                                <span class="pe-3" id="lateCount"></span>
+                                <span class="pe-3" id="earlyLeaveCount"></span>
+                                <span class="pe-3" id="absenceCount"></span>
+                            </div><hr class="m-0" style="  border: 1px solid black">
+                            <div class="card-body pt-0" style="positions: relative;">
                                 <c:set var="currentWeek" value="1"/>
                                 <c:set var="previousWeek" value="1"/>
                                 <c:forEach var="day" begin="1" end="${c.tgLastDate}">
@@ -132,8 +128,7 @@
                                         </div>
                                     </div>
                                 </c:if>
-                            </c:forEach>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -159,20 +154,17 @@
         <!-- 출퇴근 버튼 모달 종료 -->
         <script>
             $(document).ready(function() {
-                
                 atdStatus();
-                
                 if(${c.tgMonth == c.todayMonth && c.tgYear == c.todayYear}){
                     $("#${c.todayWeek}주차colBtn").click();
                 }
-                
                 atdStatusCnt();
             });
             
             function atdStatus(){
                 $.ajax({
                     url: "/gaent/atd/atdStatus", // 데이터를 가져올 URL
-                    type: "POST", // POST 메서드를 사용
+                    type: "POST", 
                     dataType: "json",
                     success: function(data) {
                         $("#daily").text(data.dailyWorkTime);
@@ -188,8 +180,8 @@
             
             function atdStatusCnt(){
                 $.ajax({
-                    url: "/gaent/atd/getAtdStatusCnt", // 데이터를 가져올 URL
-                    type: "POST", // POST 메서드를 사용
+                    url: "/gaent/atd/getAtdStatusCnt",
+                    type: "POST",
                     data: {
                         "year": ${c.tgYear},
                         "month": ${c.tgMonth}
@@ -202,7 +194,6 @@
                         $("#attendanceCount").text("출근: " +data.attendanceCount+ "회"); 
                     },
                     error: function() { 
-                        alert("상태확인레어"); // 에러 메시지 출력
                     }
                 });
             }

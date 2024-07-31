@@ -29,7 +29,7 @@
         ) a ON t.emp_code = a.emp_code AND a.week_num = WEEK(CURDATE(), 1)
         WHERE
             t.emp_code = #{empCode} AND
-            DATE(t.atd_in_time) = CURDATE()
+            IFNULL(DATE(t.atd_in_time),CURDATE() ) = CURDATE()
         ORDER BY 
             t.atd_in_time DESC
     </select>
@@ -74,7 +74,7 @@
            DATE_FORMAT(atd_date, '%d') AS day,
            CASE
                WHEN atd_in_time IS NULL THEN '결근'
-               WHEN TIME(atd_in_time) > '09:00:00' THEN '지각'
+               WHEN TIME(atd_in_time) > '09:01:00' THEN '지각'
                WHEN '18:00:00' > TIME(atd_out_time) THEN '조퇴'
                ELSE '출근'
            END AS atdStatus
@@ -86,56 +86,35 @@
             MONTH(atd_date) = #{month}
     </select>
     
-    <!-- 일간 근무 시간 계산 -->
-    <select id="dailyWorkMinutes">
-        SELECT 
-            TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL( atd_out_time, NOW() ) ) dailyWorkMinutes 
-        FROM 
-            attendance
-        WHERE 
-            DATE(atd_in_time) = CURDATE()
-            AND emp_code = #{empCode}
-    </select>
-    <!-- 주간 근무 시간 계산 -->
-    <select id="weeklyWorkMinutes">
-        SELECT 
-            a.weekly_work_minutes weeklyWorkMinutes
-        FROM
-            (
-            SELECT
-                WEEK(atd_in_time, 1) AS week_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS weekly_work_minutes
-            FROM
-                attendance
-            WHERE
-                emp_code= #{empCode}
-            GROUP BY
-                YEAR(atd_in_time),
-                WEEK(atd_in_time, 1)
-            )a
-        WHERE a.week_num = WEEK(CURDATE(), 1)
-    </select>
-    <!-- 월간 근무 시간 계산 -->
-    <select id="monthlyWorkMinutes">
-        SELECT a.monthly_work_minutes AS monthlyWorkMinutes
+    <!-- 일간,주간,월간 근무 시간 계산 -->
+    <select id="selectWorkMinutes" resultType="map">
+        SELECT
+            IFNULL(CONCAT(FLOOR(dailyWorkMinutes / 60),'시간 ', dailyWorkMinutes % 60, '분'),'아직출근하지않았습니다') AS dailyWorkTime,
+            CONCAT(FLOOR(weeklyWorkMinutes / 60), '시간 ', weeklyWorkMinutes % 60, '분') AS weeklyWorkTime,
+            CONCAT(FLOOR(monthlyWorkMinutes / 60), '시간 ', monthlyWorkMinutes % 60, '분') AS montlyWorkTime 
         FROM (
             SELECT
-                MONTH(atd_in_time) AS month_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS monthly_work_minutes
-            FROM 
-                attendance
-            WHERE 
-                emp_code = #{empCode}
-            GROUP BY 
-                emp_code,
-                YEAR(atd_in_time),
-                MONTH(atd_in_time)
-            ) a
-        WHERE a.month_num = MONTH(CURDATE())
+<!--                  일일 작업 시간 -->
+                (SELECT TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW()))
+                 FROM attendance
+                 WHERE DATE(atd_in_time) = CURDATE() AND emp_code = #{empCode}) AS dailyWorkMinutes,
+        
+<!--                 주간 작업 시간 -->
+                (SELECT SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW())))
+                 FROM attendance
+                 WHERE emp_code = #{empCode}
+                 AND YEAR(atd_in_time) = YEAR(CURDATE())
+                 AND WEEK(atd_in_time, 1) = WEEK(CURDATE(), 1)) AS weeklyWorkMinutes,
+        
+<!--                  월간 작업 시간 -->
+                (SELECT SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW())))
+                 FROM attendance
+                 WHERE emp_code = #{empCode}
+                 AND YEAR(atd_in_time) = YEAR(CURDATE())
+                 AND MONTH(atd_in_time) = MONTH(CURDATE())) AS monthlyWorkMinutes
+        ) AS aggregated_work_time
     </select>
-    
-    
-    
+
     <select id="selectAtdStatusCount" parameterType="map" resultType="map">
         SELECT
             emp_code,
@@ -144,7 +123,7 @@
                   ELSE NULL 
               END) AS absenceCount, 
             COUNT(CASE 
-                  WHEN atd_in_time IS NOT NULL AND TIME(atd_in_time) > '09:00:00' THEN 1 
+                  WHEN atd_in_time IS NOT NULL AND TIME(atd_in_time) > '09:01:00' THEN 1 
                   ELSE NULL 
               END) AS lateCount,   
             COUNT(CASE 
@@ -162,8 +141,6 @@
             YEAR(atd_date) = #{year} AND
             MONTH(atd_date) = #{month}
     </select>
-    
-  
     
     <insert id="autoRegisterAtd">
         INSERT INTO attendance (
@@ -196,73 +173,5 @@
             atd_date = CURDATE() AND 
             atd_out_time IS NULL
     </update>
-    
-    <select id="selectTeamAtdStatus"  parameterType="map" resultType="map">
-    SELECT 
-        a.atd_num AS atdNum,
-        e.emp_code AS empCode,
-        e.emp_kor_name AS empName,
-        e.team_code AS teamCode,
-        DATE_FORMAT(a.atd_date, '%y년 %m월 %d일' ) AS atdDate,
-        CASE
-            WHEN a.atd_in_time IS NOT NULL
-                THEN DATE_FORMAT(a.atd_in_time, '%H시%i분')
-            ELSE a.atd_in_time
-        END AS inTime,
-        CASE
-            WHEN a.atd_in_time IS NOT NULL AND a.atd_in_time != a.atd_out_time
-                THEN DATE_FORMAT(a.atd_out_time, '%H시%i분')
-            ELSE a.atd_out_time
-        END AS outTime,
-        DATE_FORMAT(a.atd_date, '%Y') AS year,
-        DATE_FORMAT(a.atd_date, '%m') AS month,
-        DATE_FORMAT(a.atd_date, '%d') AS day,
-        DATE_FORMAT(a.atd_date, '%w') AS yoil,
-        CASE
-            WHEN a.atd_in_time IS NULL OR a.atd_in_time = a.atd_out_time THEN '결근'
-            WHEN TIME(a.atd_in_time) > '09:00:00' THEN '지각'
-            WHEN '18:00:00' > TIME(a.atd_out_time) THEN '조퇴'
-            ELSE '출근'
-        END AS atdStatus
-    FROM 
-        emp e
-    JOIN 
-        attendance a ON e.emp_code = a.emp_code
-    WHERE
-        YEAR(a.atd_date) = '2024' AND
-        WEEK(a.atd_date,1) = #{week} AND
-        e.team_code = #{teamCode} 
-     ORDER BY
-        e.rank_code ASC,
-        empCode DESC,
-        yoil ASC
-    </select>
-    
-    <select id="selectTeamAtdStatusCount" parameterType="map" resultType="map">
-        SELECT
-           COUNT(CASE 
-                 WHEN a.atd_in_time IS NULL THEN 1 
-                 ELSE NULL 
-             END) AS absenceCount, 
-           COUNT(CASE 
-                 WHEN a.atd_in_time IS NOT NULL AND TIME(a.atd_in_time) > '09:00:00' THEN 1 
-                 ELSE NULL 
-             END) AS lateCount,   
-           COUNT(CASE 
-                 WHEN a.atd_in_time IS NOT NULL AND '18:00:00' > TIME(a.atd_out_time) THEN 1 
-                 ELSE NULL 
-             END) AS earlyLeaveCount,
-           COUNT(CASE 
-                 WHEN a.atd_in_time IS NOT NULL AND a.atd_out_time IS NOT NULL THEN 1 
-                 ELSE NULL 
-             END) AS attendanceCount 
-        FROM 
-           emp e LEFT JOIN attendance a ON e.emp_code = a.emp_code
-        WHERE
-           YEAR(a.atd_date) = '2024' AND
-            WEEK(a.atd_date,1) = #{week} AND
-            e.team_code = #{teamCode} 
-    </select>
-    
     
 </mapper>

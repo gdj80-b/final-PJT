@@ -15,12 +15,15 @@
     
     <select id="selectMyVacList" parameterType="map" resultType="com.ga.gaent.dto.VacationDTO">
         SELECT
-            edoc.edoc_num edocNum,
+            vac.edoc_num edocNum,
             edoc.edoc_title vacTitle,
             vac.vac_type vacType,
             vac.vac_start_date vacStartDate,
             vac.vac_end_date vacEndDate,
-            DATEDIFF(vac.vac_end_date,vac.vac_start_date)+1 AS vacPeriod,
+            CASE
+                WHEN vac.vac_type LIKE '%반차%' THEN '0.5'
+                ELSE DATEDIFF(vac.vac_end_date,vac.vac_start_date)+1
+            END AS vacPeriod,
             vac.vac_reason vacReason
         FROM 
             edoc
@@ -101,7 +104,6 @@
         UPDATE
             emp
         SET 
-            total_leave = total_leave - #{useLeave},
             use_leave = use_leave + #{useLeave}
         WHERE
             emp_code = #{empCode}
