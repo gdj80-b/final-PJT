@@ -1,9 +1,24 @@
 @charset "UTF-8";
 
-.edoc-home {
+/* .edoc-home {
   height: 84vh;
   overflow-x: hidden;
   overflow-y: auto;
+} */
+
+.approval-reason-table table > tbody > tr > th {
+  width: 6rem;
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(105, 108, 255, 0.6) !important;
+  text-align: center;
+  padding: 0.325rem !important;
+}
+
+.approval-reason-table table > tbody > tr > td {
+  background-color: rgba(255, 255, 255, 1) !important;
+  padding: 0.325rem !important;
+  padding-left: 0.5rem !important;
+  display: flex;
 }
 
 .card-size {

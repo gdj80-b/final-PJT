@@ -127,7 +127,7 @@
                                             <div class="modal-content p-2">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalCenterTitle">결재선 선택</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    <button id="modalTopCloseBtn" type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body d-flex">
                                                     <div class="approver-info me-4">
@@ -168,7 +168,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                                                    <button id="modalBottomCloseBtn" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
                                                     <button type="button" class="btn btn-primary" id="approverSubmit">확인</button>
                                                 </div>
                                             </div>
@@ -256,7 +256,7 @@
                     alert('결재선에는 직원만 선택 가능합니다.');
                     return;
                 }
-
+                
                 let firstEmpCode = $('#firstEmpCode');
                 let firstName = $('#firstName');
 
@@ -303,6 +303,20 @@
 
             // 2차 결재선 초기화
             $('#secondApprBtn').on('click', function() {
+                $('#secondEmpCode').val('');
+                $('#secondName').val('');
+            });
+            
+            $('#modalTopCloseBtn').on('click', function() {
+                $('#firstEmpCode').val('');
+                $('#firstName').val('');
+                $('#secondEmpCode').val('');
+                $('#secondName').val('');
+            });
+            
+            $('#modalBottomCloseBtn').on('click', function() {
+                $('#firstEmpCode').val('');
+                $('#firstName').val('');
                 $('#secondEmpCode').val('');
                 $('#secondName').val('');
             });
