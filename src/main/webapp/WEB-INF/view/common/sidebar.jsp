@@ -86,8 +86,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
       </li>
       <!-- 근태관리 -->
       <li
-        class="menu-item ${fn:contains(pageContext.request.requestURI, '/atd') ? 'active' : '' }"
-      >
+        class="menu-item ${fn:contains(pageContext.request.requestURI, '/attendance') && !fn:contains(pageContext.request.requestURI, 'team') ? 'active' : '' }" >
         <a href="/gaent/atd" class="menu-link">
           <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
           <span>근태관리</span>
@@ -133,16 +132,16 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
         <span class="menu-header-text">관리자 메뉴</span>
       </li>
       <!-- 인사관리 -->
-      <li class="menu-item">
+      <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/hr/hr') ? 'active' : '' }">
         <a href="/gaent/hr" class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i> <span>인사관리</span>
         </a>
       </li>
       <!-- 부서 근태관리 -->
-      <li class="menu-item">
-        <a onclick="alert('준비중인 기능입니다.')" class="menu-link">
+      <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/team/teamAtdStatus') ? 'active' : '' }">
+        <a href="/gaent/team/atd" class="menu-link">
           <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
-          <span>부서 근태관리</span>
+          <span>부서 근태현황</span>
         </a>
       </li>
       <!-- 사내구매 현황 -->
