@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-.edoc-home {
+/* .edoc-home {
   height: 84vh;
   overflow-x: hidden;
   overflow-y: auto;
-}
+} */
 
 .card-size {
   width: 14rem !important;
