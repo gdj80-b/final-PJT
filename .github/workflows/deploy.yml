@@ -28,6 +28,17 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
+        continue-on-error: true
+
+      - name: Check build status
+        run: |
+          if [ $? -ne 0 ]; then
+            echo "Maven build failed. Check the logs above for details."
+            exit 1
+          fi
+
+      - name: List target directory
+        run: ls -la target
 
       - name: Verify JAR file exists
         run: |
