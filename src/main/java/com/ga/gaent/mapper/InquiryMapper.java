@@ -9,20 +9,33 @@ import com.ga.gaent.vo.TeamVO;
 @Mapper
 public interface InquiryMapper {
 
-    // 직원 리스트 정보 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 리스트 정보 조회
+     */
     List<EmpVO> selectEmpList(Map<String, Object> map);
     
-    // 직원 리스트 카운트
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 리스트 카운트
+     */
     int selectEmpCount(String searchEmp);
     
-    // 그룹 리스트 정보 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 리스트 정보 조회
+     */
     List<TeamVO> selectTeamList(Map<String, Integer> map);
     
-    // 그룹 리스트 카운트
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 리스트 카운트
+     */
     int selectTeamCount();
-    
-    // 피라미드 조직도 정보 조회
-    public List<Map<String, Object>> selectGroupInfo();
     
     /*
      * @author : 김형호

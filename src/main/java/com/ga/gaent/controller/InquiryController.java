@@ -30,15 +30,12 @@ public class InquiryController {
         
         return "inquiry/main";
     }
-    
-    // 피라미드 조직도 정보 조회
-    @GetMapping("/getGroupInfo")
-    public @ResponseBody List<Map<String, Object>> getGroupInfo(){
-        
-        return inquiryService.selectGroupInfo();
-    }
 
-    // 직원 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 조회
+     */
     // 페이징 기능 적용
     @GetMapping("/empList")
     public String empList(Model model,
@@ -63,7 +60,11 @@ public class InquiryController {
         return "inquiry/empList";
     }
     
-    // 그룹 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 조회
+     */
     // 페이징 기능 적용
     @GetMapping("/teamList")
     public String teamList(Model model,
