@@ -24,13 +24,15 @@ public class InquiryService {
     InquiryMapper inquiryMapper;
     
     // 직원 리스트 정보 조회
-    public List<EmpVO> selectEmpList(int currentPage, int rowPerPage){
+    public List<EmpVO> selectEmpList(int currentPage, int rowPerPage, String searchEmp){
         
         int startRow = (currentPage - 1) * rowPerPage;
         
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("startRow", startRow);
         map.put("rowPerPage", rowPerPage);
+        map.put("searchEmp", searchEmp);
+        log.debug(yellow + "empListMap : " + map + yellow);
         
         List<EmpVO> empList = inquiryMapper.selectEmpList(map);
         log.debug(yellow + "empList : " + empList + yellow);
@@ -39,9 +41,9 @@ public class InquiryService {
     }
     
     // 직원 리스트 카운트
-    public int selectEmpCount() {
+    public int selectEmpCount(String searchEmp) {
         
-        int empCount = inquiryMapper.selectEmpCount();
+        int empCount = inquiryMapper.selectEmpCount(searchEmp);
         log.debug(yellow + "empCount : " + empCount + yellow);
         
         return empCount;

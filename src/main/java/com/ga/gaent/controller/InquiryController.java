@@ -43,15 +43,17 @@ public class InquiryController {
     @GetMapping("/empList")
     public String empList(Model model,
             @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage) {
+            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage,
+            @RequestParam(name="searchEmp", defaultValue = "") String searchEmp) {
         
-        List<EmpVO> empList = inquiryService.selectEmpList(currentPage, rowPerPage);
+        List<EmpVO> empList = inquiryService.selectEmpList(currentPage, rowPerPage, searchEmp);
         
-        int lastPage = inquiryService.selectEmpCount() / rowPerPage;
-        if(lastPage % rowPerPage != 0) {
+        int lastPage = inquiryService.selectEmpCount(searchEmp) / rowPerPage;
+        if(inquiryService.selectEmpCount(searchEmp) % rowPerPage != 0) {
             lastPage++;
         }
         System.out.println("lastPage : " + lastPage);
+        System.out.println("currentPage : " + currentPage);
         
         model.addAttribute("empList", empList);
         model.addAttribute("currentPage", currentPage);

@@ -10,10 +10,10 @@ import com.ga.gaent.vo.TeamVO;
 public interface InquiryMapper {
 
     // 직원 리스트 정보 조회
-    List<EmpVO> selectEmpList(Map<String, Integer> map);
+    List<EmpVO> selectEmpList(Map<String, Object> map);
     
     // 직원 리스트 카운트
-    int selectEmpCount();
+    int selectEmpCount(String searchEmp);
     
     // 그룹 리스트 정보 조회
     List<TeamVO> selectTeamList(Map<String, Integer> map);

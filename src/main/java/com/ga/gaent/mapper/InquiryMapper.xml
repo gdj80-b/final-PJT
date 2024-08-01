@@ -39,6 +39,12 @@
             team t ON e.team_code = t.team_code
         LEFT JOIN
             team parentTeam ON t.parent_team_code = parentTeam.team_code
+        WHERE
+            1=1
+            <if test="searchEmp != null">
+            AND
+                ( e.emp_kor_name LIKE CONCAT('%', #{searchEmp}, '%') )
+            </if>
         ORDER BY
             rankCode, teamCode, korName
         LIMIT
@@ -51,6 +57,12 @@
             COUNT(*)
         FROM
             emp
+        WHERE
+            1=1
+            <if test="searchEmp != null">
+            AND
+                emp_kor_name LIKE CONCAT('%', #{searchEmp}, '%')
+            </if>
     </select>
     
     <!-- 그룹 리스트 정보 조회 -->
@@ -83,8 +95,8 @@
     <!-- 피라미드 조직도 정보 조회 -->
     <select id="selectGroupInfo" resultType="Map">
         SELECT
-            team_code AS id,
-            parent_team_code AS parentId,
+            team_code id,
+            parent_team_code parentId,
             CASE 
                 WHEN team_name = 'GAEnt.' THEN '대표이사'
                 ELSE team_name
