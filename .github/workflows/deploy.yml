@@ -46,14 +46,26 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Rename WAR file
+        run: mv target/*.war target/gaent.war
+
       - name: Deploy WAR file to Lightsail
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ env.LIGHTSAIL_USERNAME }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "target/*.war"
+          source: "target/gaent.war"
           target: "/home/ubuntu/tomcat/apache-tomcat-10.1.24/webapps/"
+
+      - name: Set permissions for deployed WAR file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          username: ${{ env.LIGHTSAIL_USERNAME }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          script: |
+            chmod 644 /home/ubuntu/tomcat/apache-tomcat-10.1.24/webapps/gaent.war
 
       - name: Restart Tomcat
         uses: appleboy/ssh-action@master
