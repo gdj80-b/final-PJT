@@ -38,13 +38,14 @@ public class TeamAtdContoller {
         
         log.debug(TeamColor.PURPLE + "파라미터확인 " + teamCode + year + fullWeek  + TeamColor.RESET); 
        
+       
         // 날짜 관련 데이터 가져오기
         Map<String, Object> map = teamAtdService.getDateOfWeek(year, fullWeek);
         // 데이터 호출
         List< Map<String, Object>>list = teamAtdService.getTeamAtdStatus(teamCode,(String)map.get("year"),(String)map.get("fullWeek"));
         
         map.put("teamCode",teamCode);
-        log.debug(TeamColor.CYAN + "dateMap: " + map+ "&" + list.size() +  TeamColor.RESET);
+        log.debug(TeamColor.CYAN + "dateMap: " + map + TeamColor.RESET);
         
         model.addAttribute("c", map);
         model.addAttribute("list", list);
@@ -60,6 +61,7 @@ public class TeamAtdContoller {
     @PostMapping("/team/atdTeamStatus")
     @ResponseBody
     public Map<String,Object>getTeamAtdStatus(
+           HttpSession session,
             @RequestParam(name="teamCode", required=false) String teamCode, 
             @RequestParam(name="year", required=false) String year,
             @RequestParam(name="week", required=false) String week
@@ -72,20 +74,5 @@ public class TeamAtdContoller {
         return map;
     }
     
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 31. 
-     * Description : 주간별 팀 개인 출근 현황 횟수 조회
-     */
-    @PostMapping("/team/atdPersonalStatus")
-    @ResponseBody
-    public List<Map<String, Object>>getPersonalAtdStatus(
-            @RequestParam(name="teamCode", required=false) String teamCode, 
-            @RequestParam(name="year", required=false) String year,
-            @RequestParam(name="week", required=false) String week
-            ){
-        
-        List<Map<String, Object>>list = teamAtdService.getPersonalAtdStatus(teamCode, year, week);
-        return list;
-    }
+    
 }

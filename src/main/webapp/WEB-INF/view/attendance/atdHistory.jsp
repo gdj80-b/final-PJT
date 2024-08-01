@@ -78,9 +78,9 @@
                                             <div class="card card-body">
                                                 <table class="table table-bordered">
                                                     <tr>
-                                                        <th class="w-25">날짜</th>
-                                                        <th class="w-25">출근시간</th>
-                                                        <th class="w-25">퇴근시간</th>
+                                                        <th>날짜</th>
+                                                        <th>출근시간</th>
+                                                        <th>퇴근시간</th>
                                                         <th>상태</th>
                                                     </tr>
                                         </c:if>
