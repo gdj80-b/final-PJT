@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>받은쪽지함</title>
+    <title>내게쓴쪽지함</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     <style>
         body {
@@ -135,13 +135,10 @@
     <script>
         $(document).ready(function() {
             checkNotReadMsg();
-            
-            
             // 한번에 체크
             $('#selectAll').click(function() {
                 $('input[name="msgNum"]').prop('checked', this.checked);
             });
-            
 			<!-- 삭제버튼-->
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
