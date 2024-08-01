@@ -23,14 +23,20 @@ public class InquiryService {
     @Autowired
     InquiryMapper inquiryMapper;
     
-    // 직원 리스트 정보 조회
-    public List<EmpVO> selectEmpList(int currentPage, int rowPerPage){
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 리스트 정보 조회
+     */
+    public List<EmpVO> selectEmpList(int currentPage, int rowPerPage, String searchEmp){
         
         int startRow = (currentPage - 1) * rowPerPage;
         
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("startRow", startRow);
         map.put("rowPerPage", rowPerPage);
+        map.put("searchEmp", searchEmp);
+        log.debug(yellow + "empListMap : " + map + yellow);
         
         List<EmpVO> empList = inquiryMapper.selectEmpList(map);
         log.debug(yellow + "empList : " + empList + yellow);
@@ -38,16 +44,24 @@ public class InquiryService {
         return empList;
     }
     
-    // 직원 리스트 카운트
-    public int selectEmpCount() {
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 리스트 카운트
+     */
+    public int selectEmpCount(String searchEmp) {
         
-        int empCount = inquiryMapper.selectEmpCount();
+        int empCount = inquiryMapper.selectEmpCount(searchEmp);
         log.debug(yellow + "empCount : " + empCount + yellow);
         
         return empCount;
     }
     
-    // 그룹 리스트 정보 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 리스트 정보 조회
+     */
     public List<TeamVO> selectTeamList(int currentPage, int rowPerPage){
        
         int startRow = (currentPage - 1) * rowPerPage;
@@ -62,22 +76,17 @@ public class InquiryService {
         return teamList;
     }
     
-    // 그룹 리스트 카운트
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 리스트 카운트
+     */
     public int selectTeamCount() {
         
         int teamCount = inquiryMapper.selectTeamCount();
         log.debug(yellow + "teamCount : " + teamCount + yellow);
         
         return teamCount;
-    }
-    
-    // 피라미드 조직도 정보 조회
-    public List<Map<String, Object>> selectGroupInfo(){
-        
-        List<Map<String, Object>> groupInfo = inquiryMapper.selectGroupInfo();
-        log.debug(yellow + "groupInfo : " + groupInfo + yellow);
-        
-        return groupInfo;
     }
     
     /*
