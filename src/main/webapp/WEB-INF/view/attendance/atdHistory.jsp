@@ -172,7 +172,6 @@
                         $("#monthly").text(data.montlyWorkTime);
                     },
                     error: function() {
-                        console.error("에러 발생"); // 에러 메시지 출력
                         alert("근무시간 조회중 에러가 발생했습니다."); // 에러 메시지 출력
                     }
                 }); 
