@@ -15,12 +15,12 @@
 }
 
 .msg-sub-size {
-	QQwidth: 140px;
+	width: 10rem;
 	text-align: center;
 }
 
 .msg-state-size {
-	QQwidth: 80px;
+	width: 6rem;
 	text-align: center;
 }
 
@@ -77,11 +77,11 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'" style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
                                     <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :
-                                         (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>'
-                                         : '<span class="badge bg-label-warning fs-6">발신</span>') }
+                                         (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>': 
+                                         '<span class="badge bg-label-warning fs-6">발신</span>') }
                                     </td>
                                     <td class="msg-sub-size">${m.receiver == m.sender ? '내게쓰기' : (m.receiver == loginInfo.empCode ? m.senderName : m.receiverName) }</td>
                                     <td class="msg-title-size"><a href="/gaent/msg/msgDetail/${m.msgNum}" style="color: ${m.readTime == null ? 'black' : '#A0A0A0'}"> ${m.msgTitle} </a></td>
@@ -115,7 +115,6 @@
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
                 let count = checkedItems.length;
-                let empCode = "${loginInfo.empCode}";
                 if (count > 0) {
                     if (confirm(count + '개 항목을 삭제하시겠습니까?')) {
                         let ids = [];
@@ -128,7 +127,6 @@
                             traditional: true,
                             data: {
                                 msgNums: ids,
-                                empCode: empCode,
                                 request: 1
                             },
                             success: function(result) {
@@ -155,7 +153,6 @@
             $('#readButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
                 let count = checkedItems.length;
-                let empCode = "${loginInfo.empCode}";
                 if (count > 0) {
                     if (confirm(count + '개 항목을 읽음처리하시겠습니까?')) {
                         let ids = [];
@@ -167,8 +164,7 @@
                             type: 'POST',
                             traditional: true,
                             data: {
-                                msgNums: ids,
-                                empCode: empCode
+                                msgNums: ids
                             },
                             success: function(result) {
                                 //if (result != 0) {
@@ -192,7 +188,6 @@
                 $.ajax({
                     url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
                     type: "GET", // GET 메서드를 사용
-                    data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
                     dataType: "json", // 반환 데이터 타입은 int
                     success: function(notReadCnt) { // 요청이 성공하면 실행
                         // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시

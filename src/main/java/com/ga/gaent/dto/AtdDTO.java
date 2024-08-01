@@ -4,19 +4,21 @@ import lombok.Data;
 
 @Data
 public class AtdDTO {
-    int msgNum;
+    private int msgNum;
     
-    String empCode;
+    private String empCode;
     
-    String inTime;
+    private String inTime;
     
-    String outTime;
+    private String outTime;
     
-    String year;
-    String month;
-    String day;
+    private String year;
+    private String month;
+    private String day;
     
-    String dailyWorkTime;
-    String weeklyWorkTime;
-    String monthlyWorkTime;
+    private String atdStatus; 
+    
+    private String dailyWorkTime;
+    private String weeklyWorkTime;
+    private String monthlyWorkTime;
 }

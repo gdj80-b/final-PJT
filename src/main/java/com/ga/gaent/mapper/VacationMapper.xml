@@ -15,12 +15,15 @@
     
     <select id="selectMyVacList" parameterType="map" resultType="com.ga.gaent.dto.VacationDTO">
         SELECT
-            edoc.edoc_num edocNum,
+            vac.edoc_num edocNum,
             edoc.edoc_title vacTitle,
             vac.vac_type vacType,
             vac.vac_start_date vacStartDate,
             vac.vac_end_date vacEndDate,
-            DATEDIFF(vac.vac_end_date,vac.vac_start_date)+1 AS vacPeriod,
+            CASE
+                WHEN vac.vac_type LIKE '%반차%' THEN '0.5'
+                ELSE DATEDIFF(vac.vac_end_date,vac.vac_start_date)+1
+            END AS vacPeriod,
             vac.vac_reason vacReason
         FROM 
             edoc
@@ -30,7 +33,7 @@
                 ON edoc.edoc_num = vac.edoc_num
         WHERE
             emp_code = #{empCode} AND
-            edoc.edoc_status IN ('0','1','2')
+            edoc.edoc_status IN ('1','2')
         ORDER BY
             edoc.edoc_num DESC
     </select>
@@ -46,11 +49,79 @@
                 ON edoc.edoc_num = vac.edoc_num
         WHERE
             emp_code = #{empCode} AND
-            edoc.edoc_status IN ('0','1','2')
+            edoc.edoc_status IN ('1','2')
         ORDER BY
-            edoc.edoc_enroll_date DESC
+            edoc.edoc_num DESC
+    </select>
+    
+    <!--  승인된 휴가조회 -->
+    <select id="checkApprovedVacation" parameterType="map">
+        SELECT
+        	e.edoc_num,
+        	e.edoc_writer empCode,
+        	vac.vac_type calTitle,
+        	e.edoc_title calContent,	
+        	DATE_FORMAT(vac.vac_start_date, '%Y-%m-%d') calStartDate,
+        	DATE_FORMAT(vac.vac_end_date, '%Y-%m-%d') calEndDate,
+            DATEDIFF(vac.vac_end_date,vac.vac_start_date)+1 vacPeriod
+        FROM 
+        	edoc e
+        	JOIN edoc_vacation vac
+        	ON e.edoc_num = vac.edoc_num
+        WHERE
+        	e.edoc_type = '1' AND 
+        	e.edoc_status IN ('1' , '2') AND
+        	e.edoc_done_date = CURDATE()
     </select>
     
     
+    <insert id="registerVacation" parameterType="com.ga.gaent.vo.CalendarVO">
+        INSERT INTO calendar(
+            cal_writer,
+            cal_type,
+            cal_target_type,
+            cal_title,
+            cal_content,
+            cal_start_date,
+            cal_end_date,
+            cal_create_date,
+            cal_update_date
+            )
+        VALUES(
+            #{calWriter},
+            #{calType},
+            #{calTargetType},
+            #{calTitle},
+            #{calContent},
+            #{calStartDate},
+            #{calEndDate},
+            NOW(),
+            NOW()
+            )
+    </insert>
     
+    <update id="deductVacation" parameterType="map">
+        UPDATE
+            emp
+        SET 
+            use_leave = use_leave + #{useLeave}
+        WHERE
+            emp_code = #{empCode}
+    </update>
+    
+    <update id="resetVacation">
+        UPDATE
+           emp
+        SET 
+            use_leave = 0,
+            total_leave = 
+        	   CASE
+                    WHEN rank_code = '1' THEN 20
+                    WHEN rank_code = '2' THEN 19
+                    WHEN rank_code = '3' THEN 18
+                    WHEN rank_code = '4' THEN 16
+                    WHEN rank_code = '5' THEN 15
+                    ELSE total_leave
+                END
+    </update>
 </mapper>

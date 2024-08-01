@@ -21,6 +21,7 @@ public class EdocFormTypeDTO {
     private String vacReason;
     
     // 지출결의서
+    private String projectTitle;
     private String projectContent;
     private String projectEstimate;
     

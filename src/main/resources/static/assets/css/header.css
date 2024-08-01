@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.mypage .mypage-table th {
+  width: 6rem;
+  text-align: right;
+}
+
+.mypage .mypage-table td {
+  width: 8rem;
+}
+
+.mypage .img-preview {
+  width: 6rem;
+  height: 8rem;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.mypage .remove-img-btn button {
+  width: 6rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.mypage .img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mypage .img-preview span {
+  cursor: pointer;
+}
+
+.mypage input {
+  width: 16rem;
+}

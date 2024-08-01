@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.notice-card {
+  width: 100%;
+  height: 100%;
+}
+
+.notice-card .notice {
+  height: 22.575rem;
+}
+
+.notice-card h4 {
+  margin: 0;
+}
+
+.notice-card .card-header {
+  padding: 1rem 1rem;
+}
+
+.notice-card .card-body {
+  padding: 1rem 1rem;
+}
+
+.notice-card .board-category {
+  font-size: 12px;
+}
+
+.notice-card .board-title {
+  font-size: 12px;
+}
+
+.notice-card .board-writer {
+  font-size: 10px;
+}
+
+.notice-card .table > tbody > tr > td {
+  padding: 0.5rem;
+}

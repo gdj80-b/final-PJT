@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.InquiryMapper">
     
-    <!-- 직원 리스트 정보 조회 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 18.
+        Description : 직원 리스트 정보 조회
+    -->
     <select id="selectEmpList" resultType="com.ga.gaent.vo.EmpVO">
         SELECT
             e.emp_code empCode,
@@ -39,21 +43,41 @@
             team t ON e.team_code = t.team_code
         LEFT JOIN
             team parentTeam ON t.parent_team_code = parentTeam.team_code
+        WHERE
+            1=1
+            <if test="searchEmp != null">
+            AND
+                ( e.emp_kor_name LIKE CONCAT('%', #{searchEmp}, '%') )
+            </if>
         ORDER BY
             rankCode, teamCode, korName
         LIMIT
             ${startRow}, ${rowPerPage}
     </select>
     
-    <!-- 직원 리스트 카운트 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 18.
+        Description : 직원 리스트 카운트
+    -->
     <select id="selectEmpCount" resultType="int">
         SELECT
             COUNT(*)
         FROM
             emp
+        WHERE
+            1=1
+            <if test="searchEmp != null">
+            AND
+                emp_kor_name LIKE CONCAT('%', #{searchEmp}, '%')
+            </if>
     </select>
     
-    <!-- 그룹 리스트 정보 조회 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 19.
+        Description : 그룹 리스트 정보 조회
+    -->
     <select id="selectTeamList" resultType="com.ga.gaent.vo.TeamVO">
         SELECT
             team_code teamCode,
@@ -70,7 +94,11 @@
             ${startRow}, ${rowPerPage}
     </select>
     
-    <!-- 그룹 리스트 카운트 -->
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 19.
+        Description : 그룹 리스트 카운트
+    -->
     <select id="selectTeamCount" resultType="int">
         SELECT
             COUNT(*)
@@ -80,4 +108,191 @@
             team_code != 10
     </select>
     
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 27.
+        Description : 직원 상세 조회
+    -->
+    <select id="selectEmpDetail" parameterType="String" resultType="com.ga.gaent.vo.EmpVO">
+        SELECT
+            e.emp_code empCode,
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.parent_team_code parentTeamCode,
+            e.rank_code rankCode,
+            e.emp_profile profile,
+            e.emp_id empId,
+            e.emp_pw empPw,
+            e.emp_kor_name korName,
+            e.emp_eng_name engName,
+            e.emp_reg_no regNo,
+            e.emp_gender gender,
+            e.emp_phone phone,
+            e.emergency_phone_relation emergencyPhoneRelation,
+            e.emergency_phone emergencyPhone,
+            e.post_code postCode,
+            e.address address,
+            e.detail_address detailAddress,
+            e.total_leave totalLeave,
+            e.use_leave useLeave,
+            e.emp_ext ext,
+            e.emp_hire_date hireDate,
+            e.emp_resign_date resignDate,
+            e.emp_update_date updateDate,
+            e.final_modifier finalModifier
+        FROM
+            emp e
+                LEFT OUTER JOIN team t ON e.team_code = t.team_code
+        WHERE
+            e.emp_code = #{empCode}
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 부서 상세 조회
+    -->
+    <select id="selectDeptDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode} AND e.rank_code = 2
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 부서총원 조회
+    -->
+    <select id="selectDeptTotal" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            emp
+        WHERE
+            LEFT(team_code, 1) = LEFT(#{teamCode}, 1)
+        AND
+            team_code != '10'
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 관련부서 조회
+    -->
+    <select id="selectDeptTeam" parameterType="String" resultType="Map">
+        SELECT
+            t.team_name AS teamName,
+            t.team_des AS teamDes,
+            e.emp_kor_name AS empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.parent_team_code = #{teamCode} 
+            AND e.rank_code = 3
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 팀상세 조회
+    -->
+    <select id="selectTeamDetail" parameterType="String" resultType="Map">
+        SELECT
+            t.team_code teamCode,
+            t.team_name teamName,
+            t.team_des teamDes,
+            e.emp_kor_name empName,
+            (SELECT COUNT(*)
+             FROM emp
+             WHERE team_code = t.team_code) AS cnt
+        FROM
+            team t
+        JOIN
+            emp e ON t.team_code = e.team_code
+        WHERE
+            t.team_code = #{teamCode}
+        AND
+            e.rank_code = 3
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 팀 멤버 정보 조회
+    -->
+    <select id="selectMemberDetail" parameterType="String" resultType="Map">
+        SELECT
+            emp_code empCode,
+            team_code teamCode,
+            emp_kor_name empName,
+        CASE rank_code
+            WHEN 1 THEN '대표이사'
+            WHEN 2 THEN '부장'
+            WHEN 3 THEN '팀장'
+            WHEN 4 THEN '대리'
+            WHEN 5 THEN '사원'
+            ELSE '기타'
+        END
+            as rank,
+        CONCAT(
+                SUBSTRING(emp_phone, 1, 3), '-',
+                SUBSTRING(emp_phone, 4, 4), '-',
+                SUBSTRING(emp_phone, 8, 4)
+            ) phone,
+            emp_id email,
+            emp_ext ext,
+            emp_profile profile
+        FROM
+            emp
+        WHERE
+            team_code = #{teamCode}
+        ORDER BY
+            rank_code, empName
+        LIMIT
+            ${startRow}, ${rowPerPage}
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 팀 멤버 총 인원 조회
+    -->
+    <select id="selectMemberCount" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            emp
+        WHERE
+            team_code = #{teamCode}
+    </select>
+    
+    <!--
+        @author : 김형호
+        @since : 2024. 07. 28.
+        Description : 팀 정보 모달 조회
+    -->
+    <select id="selectTeamModal" parameterType="String" resultType="Map">
+        SELECT
+            team_code teamCode,
+            team_name teamName,
+            parent_team_code parentTeamCode,
+            team_des teamDes
+        FROM
+            team
+        WHERE
+            team_code = #{teamCode}
+    </select>
 </mapper>

@@ -8,25 +8,80 @@ import com.ga.gaent.vo.CalendarVO;
 
 @Mapper
 public interface CalendarMapper {
-
-    // 일정등록
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정등록
+     */
     int insertEvent(CalendarVO calendar);
     
-    // 일정조회
-    List<Map<String, Object>> selectEventList();
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 전체 일정조회
+     */
+    List<Map<String, Object>> selectAllEvents(Map<String, Object> map);
     
-    // 일정상세
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정상세
+     */
     List<String> selectEventOne(int calNum);
     
-    // 일정삭제
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정삭제
+     */
     int deleteEvent(int calNum);
     
-    // 일정수정
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 15.
+     * Description : 일정수정
+     */
     int updateEvent(CalendarVO calendar);
     
-    // 일정타입 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 23.
+     * Description : 일정타입 조회
+     */
     List<Map<String, Object>> selectEventType();
     
-    // 일정분류 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 23.
+     * Description : 일정분류 조회
+     */
     List<Map<String, Object>> selectEventTarget();
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 26.
+     * Description : 개인 일정조회
+     */
+    List<Map<String, Object>> selectPersonalEvents(String empCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 26.
+     * Description : 팀 일정조회
+     */
+    List<Map<String, Object>> selectTeamEvents(String teamCode);
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 26.
+     * Description : 전사 일정조회
+     */
+    List<Map<String, Object>> selectCompanyEvents();
+    
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 26.
+     * Description : 아티스트 일정조회
+     */
+    List<Map<String, Object>> selectArtistEvents();
 }

@@ -5,10 +5,10 @@
     <!-- 출퇴근확인 -->
     <select id="checkAtdStatus" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
         SELECT 
-            t.atd_num AS atdNum,
-            t.emp_code AS empCode,
-            TIME(t.atd_in_time) AS inTime,
-            TIME(t.atd_out_time) AS outTime,
+            t.atd_num atdNum,
+            t.emp_code empCode,
+            TIME(t.atd_in_time) inTime,
+            TIME(t.atd_out_time) outTime,
             CONCAT(
                 FLOOR(a.weekly_work_minutes / 60), '시간 ',
                 a.weekly_work_minutes % 60, '분'
@@ -19,7 +19,7 @@
             SELECT 
                 emp_code,
                 WEEK(atd_in_time, 1) AS week_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS weekly_work_minutes
+                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) weekly_work_minutes
             FROM 
                 attendance
             GROUP BY 
@@ -29,7 +29,7 @@
         ) a ON t.emp_code = a.emp_code AND a.week_num = WEEK(CURDATE(), 1)
         WHERE
             t.emp_code = #{empCode} AND
-            DATE(t.atd_in_time) = CURDATE()
+            IFNULL(DATE(t.atd_in_time),CURDATE() ) = CURDATE()
         ORDER BY 
             t.atd_in_time DESC
     </select>
@@ -38,9 +38,9 @@
     <insert id="atdIn" parameterType="String">
         INSERT INTO 
             attendance
-            ( emp_code, atd_in_time )
+            ( emp_code, atd_in_time , atd_date)
         VALUES( 
-            #{empCode}, NOW() )
+            #{empCode}, NOW(), CURDATE() )
     </insert>
     
     <!-- 퇴근하기 -->
@@ -55,66 +55,123 @@
     </update>
     
     <!-- 출퇴근이력 -->
-    <select id="selectAtdHistory" parameterType="String" resultType="com.ga.gaent.dto.AtdDTO">
+    <select id="selectAtdHistory" parameterType="map" resultType="com.ga.gaent.dto.AtdDTO">
         SELECT 
-            atd_num atdNum,
-            emp_code empCode,
-            DATE_FORMAT(atd_in_time, '%H시%i분%s초') AS  inTime,
-            DATE_FORMAT(atd_out_time, '%H시%i분%s초') AS  outTime,
-            DATE_FORMAT(atd_in_time, '%Y') as year,
-            DATE_FORMAT(atd_in_time, '%m') as month,
-            DATE_FORMAT(atd_in_time, '%d') as day            
+           atd_num atdNum,
+           emp_code empCode,
+           CASE
+               WHEN atd_in_time IS NOT NULL
+                   THEN DATE_FORMAT(atd_in_time, '%H시%i분%s초')
+               ELSE '출근하지 않았습니다'
+           END AS inTime,
+           CASE
+               WHEN atd_in_time IS NOT NULL
+                   THEN DATE_FORMAT(atd_out_time, '%H시%i분%s초')
+               ELSE '출근하지 않았습니다'
+           END AS outTime,
+           DATE_FORMAT(atd_date, '%Y') AS year,
+           DATE_FORMAT(atd_date, '%m') AS month,
+           DATE_FORMAT(atd_date, '%d') AS day,
+           CASE
+               WHEN atd_in_time IS NULL THEN '결근'
+               WHEN TIME(atd_in_time) > '09:01:00' THEN '지각'
+               WHEN '18:00:00' > TIME(atd_out_time) THEN '조퇴'
+               ELSE '출근'
+           END AS atdStatus
+        FROM 
+           attendance
+        WHERE
+            emp_code = #{empCode} AND
+            YEAR(atd_date) = #{year} AND
+            MONTH(atd_date) = #{month}
+    </select>
+    
+    <!-- 일간,주간,월간 근무 시간 계산 -->
+    <select id="selectWorkMinutes" resultType="map">
+        SELECT
+            IFNULL(CONCAT(FLOOR(dailyWorkMinutes / 60),'시간 ', dailyWorkMinutes % 60, '분'),'아직출근하지않았습니다') AS dailyWorkTime,
+            CONCAT(FLOOR(weeklyWorkMinutes / 60), '시간 ', weeklyWorkMinutes % 60, '분') AS weeklyWorkTime,
+            CONCAT(FLOOR(monthlyWorkMinutes / 60), '시간 ', monthlyWorkMinutes % 60, '분') AS montlyWorkTime 
+        FROM (
+            SELECT
+<!--                  일일 작업 시간 -->
+                (SELECT TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW()))
+                 FROM attendance
+                 WHERE DATE(atd_in_time) = CURDATE() AND emp_code = #{empCode}) AS dailyWorkMinutes,
+        
+<!--                 주간 작업 시간 -->
+                (SELECT SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW())))
+                 FROM attendance
+                 WHERE emp_code = #{empCode}
+                 AND YEAR(atd_in_time) = YEAR(CURDATE())
+                 AND WEEK(atd_in_time, 1) = WEEK(CURDATE(), 1)) AS weeklyWorkMinutes,
+        
+<!--                  월간 작업 시간 -->
+                (SELECT SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW())))
+                 FROM attendance
+                 WHERE emp_code = #{empCode}
+                 AND YEAR(atd_in_time) = YEAR(CURDATE())
+                 AND MONTH(atd_in_time) = MONTH(CURDATE())) AS monthlyWorkMinutes
+        ) AS aggregated_work_time
+    </select>
+
+    <select id="selectAtdStatusCount" parameterType="map" resultType="map">
+        SELECT
+            emp_code,
+            COUNT(CASE 
+                  WHEN atd_in_time IS NULL THEN 1 
+                  ELSE NULL 
+              END) AS absenceCount, 
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND TIME(atd_in_time) > '09:01:00' THEN 1 
+                  ELSE NULL 
+              END) AS lateCount,   
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND '18:00:00' > TIME(atd_out_time) THEN 1 
+                  ELSE NULL 
+              END) AS earlyLeaveCount,
+            COUNT(CASE 
+                  WHEN atd_in_time IS NOT NULL AND atd_out_time IS NOT NULL THEN 1 
+                  ELSE NULL 
+              END) AS attendanceCount 
         FROM 
             attendance
         WHERE
-            emp_code = #{empCode}
+            emp_code = #{empCode} AND
+            YEAR(atd_date) = #{year} AND
+            MONTH(atd_date) = #{month}
     </select>
     
-    <!-- 일간 근무 시간 계산 -->
-    <select id="dailyWorkMinutes">
-        SELECT 
-            TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL( atd_out_time, NOW() ) ) dailyWorkMinutes 
-        FROM 
-            attendance
-        WHERE 
-            DATE(atd_in_time) = CURDATE()
-            AND emp_code = #{empCode}
-    </select>
-    <!-- 주간 근무 시간 계산 -->
-    <select id="weeklyWorkMinutes">
-        SELECT 
-            a.weekly_work_minutes weeklyWorkMinutes
-        FROM
-            (
+    <insert id="autoRegisterAtd">
+        INSERT INTO attendance (
+            emp_code, 
+            atd_in_time, 
+            atd_out_time,
+            atd_date
+        )
             SELECT
-                WEEK(atd_in_time, 1) AS week_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS weekly_work_minutes
+                e.emp_code,
+                NULL,
+                NULL,
+                CURDATE()
             FROM
-                attendance
-            WHERE
-                emp_code= #{empCode}
-            GROUP BY
-                YEAR(atd_in_time),
-                WEEK(atd_in_time, 1)
-            )a
-        WHERE a.week_num = WEEK(CURDATE(), 1)
-    </select>
-    <!-- 월간 근무 시간 계산 -->
-    <select id="monthlyWorkMinutes">
-        SELECT a.monthly_work_minutes AS monthlyWorkMinutes
-        FROM (
-            SELECT
-                MONTH(atd_in_time) AS month_num,
-                SUM(TIMESTAMPDIFF(MINUTE, atd_in_time, IFNULL(atd_out_time, NOW() ) ) ) AS monthly_work_minutes
-            FROM 
-                attendance
-            WHERE 
-                emp_code = '20110004'
-            GROUP BY 
-                emp_code,
-                YEAR(atd_in_time),
-                MONTH(atd_in_time)
-            ) a
-        WHERE a.month_num = MONTH(CURDATE())
-    </select>
+                emp e
+            LEFT JOIN (
+                SELECT emp_code, atd_in_time
+                FROM attendance
+                WHERE DATE(atd_in_time) = CURDATE()
+            ) a ON e.emp_code = a.emp_code
+        WHERE a.atd_in_time IS NULL
+    </insert>
+    
+    <update id="autoGetOffWork">
+        UPDATE 
+            attendance 
+        SET
+            atd_out_time = CONCAT(CURDATE(), ' 18:00:00') 
+        WHERE 
+            atd_date = CURDATE() AND 
+            atd_out_time IS NULL
+    </update>
+    
 </mapper>

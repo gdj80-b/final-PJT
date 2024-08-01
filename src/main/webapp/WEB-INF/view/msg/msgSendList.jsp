@@ -97,7 +97,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="m" items="${list}">
-                                <tr>
+                                <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
                                     <td class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
@@ -173,7 +173,6 @@
                 $.ajax({
                     url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
                     type: "GET", // GET 메서드를 사용
-                    data: {'empCode': '${loginInfo.empCode}'}, // empCode 값을 문자열로 전달
                     dataType: "json", // 반환 데이터 타입은 int
                     success: function(notReadCnt) { // 요청이 성공하면 실행
                         // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시

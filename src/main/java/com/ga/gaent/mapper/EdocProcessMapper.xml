@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ga.gaent.mapper.EdocProcessMapper">
 
-
-
     <!--
         @author : 정건희,조인환
         Description : 전자결재문서 작성 후 등록할 때 입력되는 정보
@@ -13,36 +11,17 @@
             edoc(
                 edoc_title,
                 edoc_type,
+                file_name,
                 edoc_writer,
                 edoc_enroll_date
             ) VALUES(
                 #{edocTitle},
                 #{edocType},
+                #{fileName},
                 #{edocWriter},
                 NOW()
             )
     </insert>
-
-    <!--
-        @author : 정건희
-        Description : 전자결재문서 작성 후 등록할 때 입력되는 첨부파일의 정보
-    -->
-    <insert id="insertEdocFile" parameterType="Map">
-        INSERT INTO
-            edoc_file(
-                file_name,
-                original_file_name,
-                file_type,
-                file_size,
-            ) VALUES(
-                #{fileName},
-                #{orginalFileName},
-                #{fileType},
-                #{fileSize}
-            )
-    </insert>
-    
-
 
     <!--
         @author : 정건희
@@ -60,9 +39,6 @@
                 #{apprOrder}
             )
     </insert>
-    
-    
-    
 
     <!--
         @author : 정건희
@@ -106,10 +82,12 @@
         INSERT INTO
             edoc_project(
                 edoc_num,
+                project_title,
                 project_content,
                 project_estimate
             ) VALUES(
                 #{edocNum},
+                #{projectTitle},
                 #{projectContent},
                 #{projectEstimate}
             )
@@ -147,7 +125,6 @@
                 #{reportContent}
                 )
     </insert>
-
     
     <!-- 결재, 반려처리 -->
     <!-- 결재선 -->
@@ -155,64 +132,37 @@
         UPDATE 
             edoc_approval
         SET 
-            appr_reason = #{apprReason},
             appr_status = #{apprStatus},
-            appr_date = NOW()
+            appr_reason = #{apprReason},
+            appr_date = CURDATE()
         WHERE 
             edoc_num = #{edocNum} AND
             approver = #{empCode}
     </update>
     
-    
-   
-           
     <!-- 첫번째 업데이트 -->
-    <update id="updateEdocStatusFirst" parameterType="map">
+    <update id="updateEdocStatus" parameterType="map">
         UPDATE  
             edoc
         <set>
             edoc_status = #{request},
-            <if test="request == -1">
-                edoc_done_date = NOW(),
+            edoc_enroll_date = NOW(),
+            <if test="request == -1 || last == -1 ">
+               edoc_done_date = NOW()
             </if>
-            edoc_enroll_date = NOW()
         </set>
         WHERE 
             edoc_num = #{edocNum} 
     </update>
     
-    
-    <!--  두번째 업데이트  -->
-    <update id="updateEdocStatusSecond" parameterType="map">
-        UPDATE  
-            edoc
-        <set>
-            edoc_status = #{request},
-            edoc_done_date = NOW(),
-            edoc_enroll_date = NOW()
-        </set>
-        WHERE 
-            edoc_num = #{edocNum} 
-    </update>
-    
-    
-   
-    
-    
-    <select id="checkEdocStatus" parameterType="String">
-        SELECT 
-            edoc_status
-        FROM 
-            edoc
-        WHERE 
-            edoc_num = #{edocNum}
+    <select id="checkApprovalCnt">
+        SELECT
+            COUNT(*) cnt
+        FROM
+            edoc_approval
+        WHERE
+            edoc_num = #{edocNum} AND
+            approver != '' AND
+            appr_status = '0'
     </select>
-    
-    
-    
-    
-    
-    
-    
-
 </mapper>

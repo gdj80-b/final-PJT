@@ -17,4 +17,10 @@ public interface FileMapper {
     
     /* 직원 프로필 이미지 삭제 */
     int deleteProfile(String profile);
+    
+    /* 게시글 첨부파일 */
+    int insertBoardFile(FileVO file);
+    
+    /* 전자결재 첨부파일 */
+    int insertEdocFile(FileVO file);
 }

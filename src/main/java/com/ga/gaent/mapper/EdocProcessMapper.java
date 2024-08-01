@@ -1,5 +1,6 @@
 package com.ga.gaent.mapper;
 
+import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import com.ga.gaent.dto.EdocFormTypeDTO;
@@ -15,15 +16,7 @@ public interface EdocProcessMapper {
      * Description : 전자결재 데이터 입력
      */
     int insertEdoc(EdocRequestDTO edocRequestDTO);
-    
-    /*
-     * @author : 정건희
-     * @since : 2024. 07. 15.
-     * Description : 전자결재 첨부파일 입력
-     */
-    int insertEdocFile(Map<String, Object> insertFile);
-    
-    
+        
     /*
      * @author : 정건희
      * @since : 2024. 07. 15.
@@ -77,22 +70,11 @@ public interface EdocProcessMapper {
     /*
      * @author : 조인환
      * @since : 2024. 07. 24.
-     * Description : 첫번째 결재자 edoc테이블 결재 상태 수정
+     * Description : edoc테이블 결재 상태 수정
      */ 
-    int updateEdocStatusFirst(Map<String,Object>m);
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 24.
-     * Description : 전자결재문서 결재 여부 확인
-     */ 
-    String checkEdocStatus(String edocNum);
-    
-    /*
-     * @author : 조인환
-     * @since : 2024. 07. 24.
-     * Description : 최종 결재자 edoc테이블 결재 상태 수정
-     */ 
-    int updateEdocStatusSecond(Map<String,Object>m);
+    int updateEdocStatus(Map<String,Object>m);
+       
+    // 결재자 수 확인
+    int checkApprovalCnt(String edocNum);
     
 }
