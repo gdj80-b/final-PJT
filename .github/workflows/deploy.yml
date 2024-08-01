@@ -28,22 +28,14 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
-        continue-on-error: true
-
-      - name: Check build status
-        run: |
-          if [ $? -ne 0 ]; then
-            echo "Maven build failed. Check the logs above for details."
-            exit 1
-          fi
 
       - name: List target directory
         run: ls -la target
 
-      - name: Verify JAR file exists
+      - name: Verify WAR file exists
         run: |
-          if [ ! -f target/*.jar ]; then
-            echo "JAR file not found in target directory" >&2
+          if [ ! -f target/*.war ]; then
+            echo "WAR file not found in target directory" >&2
             exit 1
           fi
 
@@ -60,7 +52,7 @@ jobs:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ env.LIGHTSAIL_USERNAME }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "target/*.jar"
+          source: "target/*.war"
           target: "/home/ubuntu/app/"
 
       - name: 프로그램 재시작
@@ -71,4 +63,4 @@ jobs:
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
             pkill -f 'java -jar' || true
-            nohup java -jar /home/ubuntu/app/$(ls /home/ubuntu/app | grep .jar) > /dev/null 2>&1 &
+            nohup java -jar /home/ubuntu/app/$(ls /home/ubuntu/app | grep .war) > /dev/null 2>&1 &
