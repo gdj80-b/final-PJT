@@ -62,7 +62,7 @@
             edoc.edoc_num DESC
             <if test="startRow != null">
                 LIMIT
-                    #{startRow}, 10
+                    #{startRow}, #{rowPerPage}
             </if>
     </select>
     
