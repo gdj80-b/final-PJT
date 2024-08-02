@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ga.gaent.dto.EmpRequestDTO;
 import com.ga.gaent.dto.FileReqDTO;
 import com.ga.gaent.service.HRService;
@@ -40,14 +41,30 @@ public class HRController {
         return (String) loginInfo.get("empCode");
     }
 
-    // 인사관리 첫 페이지
+    /*
+     * @author : 김형호
+     * @since : 2024. 08. 02.
+     * Description : 인사관리 홈
+     */
     @GetMapping("")
-    public String hr(Model model, String teamCode) {
+    public String hr(Model model,
+            @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage,
+            @RequestParam(name="searchEmp", defaultValue = "") String searchEmp) {
         
-        List<Map<String, Object>> teamModal = inquiryService.selectTeamDetail(teamCode);
-        log.debug(TeamColor.PURPLE_BG + "teamModal: " + teamModal + TeamColor.RESET);
+        List<EmpVO> empList = inquiryService.selectEmpList(currentPage, rowPerPage, searchEmp);
         
-        model.addAttribute("teamModal", teamModal);
+        int lastPage = inquiryService.selectEmpCount(searchEmp) / rowPerPage;
+        if(inquiryService.selectEmpCount(searchEmp) % rowPerPage != 0) {
+            lastPage++;
+        }
+        System.out.println("lastPage : " + lastPage);
+        System.out.println("currentPage : " + currentPage);
+        
+        model.addAttribute("empList", empList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowPerPage", rowPerPage);
+        model.addAttribute("lastPage", lastPage);
         
         return "hr/hr";
     }
@@ -230,7 +247,7 @@ public class HRController {
     }
     
     /*
-     * @author : 정건
+     * @author : 정건희
      * @since : 2024. 07. 22.
      * Description : 직원 삭제
      */
@@ -298,14 +315,16 @@ public class HRController {
      * Description : 부서 삭제
      */
     @GetMapping("/removeTeam")
-    public String removeTeam(int teamCode) {
+    public String removeTeam(int teamCode, RedirectAttributes rattr) {
         
         int removeTeam = hrService.deleteTeam(teamCode);
         
         if(removeTeam == 1) {
-            return "redirect:/hr/teamList";
+            rattr.addFlashAttribute("message", "부서정보를 삭제하였습니다.");
+            return "redirect:/hr";
         }else {
-            return "redirect:/hr/teamList";
+            rattr.addFlashAttribute("message", "부서원이 존재하여 정보 삭제에 실패했습니다.");
+            return "redirect:/hr/deptDetail?teamCode=" + teamCode;
         }
     }
     

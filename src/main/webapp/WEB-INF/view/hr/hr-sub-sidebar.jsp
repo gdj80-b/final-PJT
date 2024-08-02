@@ -59,7 +59,11 @@
                     window.location.href = '/gaent/hr/empDetail/' + empCode;
                 } else if(nodeId[1] == 0) {
                     deptCode = data.node.id;
-                    window.location.href = '/gaent/hr/deptDetail?teamCode=' + deptCode + "&currentPage=1&rowPerPage=5";
+                    if(deptCode == 10){
+                        window.location.href = '/gaent/hr';
+                    }else{                        
+                    	window.location.href = '/gaent/hr/deptDetail?teamCode=' + deptCode + "&currentPage=1&rowPerPage=5";
+                    }
                 } else {
                     teamCode = data.node.id;
                     window.location.href = '/gaent/hr/teamDetail?teamCode=' + teamCode + "&currentPage=1&rowPerPage=5";
