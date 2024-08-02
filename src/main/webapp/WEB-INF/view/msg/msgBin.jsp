@@ -83,7 +83,7 @@
                         <thead>
                             <tr>
                                 <th colspan="3">
-                                    전체 : ${pg.lastRow}개
+                                    전체 : ${pg.totalRow}개
                                 </th>
                                 <th style="padding-left:80px">
                                     <form class="d-flex align-items-center" action="/gaent/msg/0">
@@ -114,7 +114,7 @@
                             </c:if>
                             <c:forEach var="m" items="${list}">
                                 <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
-                                    <td class="checkbox">
+                                    <td onclick="event.stopPropagation()" class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :

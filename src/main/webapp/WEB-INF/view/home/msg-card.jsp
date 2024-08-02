@@ -17,7 +17,7 @@
                             <h4>쪽지함</h4>
                         </div>
                         <div class="d-flex">
-                            <label>안읽은 쪽지함&nbsp;</label>
+                            <label>안읽은 쪽지&nbsp;</label>
                             <span id="unreadMessageCnt"></span>개
                             <span>&nbsp;/&nbsp;</span>
                             <span id="messageCnt"></span>개
@@ -28,7 +28,7 @@
                             <thead>
                                 <tr>
                                     <th>보낸이</th>
-                                    <th>내용</th>
+                                    <th>제목</th>
                                     <th>날짜</th>
                                 </tr>
                             </thead>

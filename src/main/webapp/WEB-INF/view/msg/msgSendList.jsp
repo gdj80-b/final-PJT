@@ -66,13 +66,13 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">보낸쪽지함</h2>            
+            <h2 class="card-title" style="margin:50px 0px 0px 30px">보낸쪽지함</h2>
             <div class="card-body inbox-container">            
                 <div class="care-body" style="height:600px; position: relative;">
                     <table class="inbox-table">
                         <thead>
                             <tr>
-                                <th colspan="2"></th>
+                                <th colspan="2">전체 : ${pg.totalRow}개</th>
                                 <th style="padding-left:80px">
                                     <form class="d-flex align-items-center" action="/gaent/msg/2">
                                         <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg" style="max-width:80%">
@@ -98,7 +98,7 @@
                             </c:if>
                             <c:forEach var="m" items="${list}">
                                 <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
-                                    <td class="checkbox">
+                                    <td onclick="event.stopPropagation()" class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td class="msg-sender-size">${m.receiverName}</td>
