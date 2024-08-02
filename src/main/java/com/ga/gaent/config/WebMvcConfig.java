@@ -19,7 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     .addResourceLocations("file:/home/ubuntu/upload/");
         */
 
-        
         /* 업로드 파일 불러오기, 배포 전 */
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations("classpath:/static/upload/");
