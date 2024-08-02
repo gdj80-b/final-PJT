@@ -78,9 +78,9 @@
                                             <div class="card card-body">
                                                 <table class="table table-bordered">
                                                     <tr>
-                                                        <th>날짜</th>
-                                                        <th>출근시간</th>
-                                                        <th>퇴근시간</th>
+                                                        <th class="w-25">날짜</th>
+                                                        <th class="w-25">출근시간</th>
+                                                        <th class="w-25">퇴근시간</th>
                                                         <th>상태</th>
                                                     </tr>
                                         </c:if>
@@ -172,7 +172,6 @@
                         $("#monthly").text(data.montlyWorkTime);
                     },
                     error: function() {
-                        console.error("에러 발생"); // 에러 메시지 출력
                         alert("근무시간 조회중 에러가 발생했습니다."); // 에러 메시지 출력
                     }
                 }); 
