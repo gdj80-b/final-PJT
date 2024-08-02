@@ -62,7 +62,7 @@
             edoc.edoc_num DESC
             <if test="startRow != null">
                 LIMIT
-                    #{startRow}, 10
+                    #{startRow}, #{rowPerPage}
             </if>
     </select>
     
@@ -117,12 +117,12 @@
             appr1.appr_order apprOrder1,
             appr1.appr_status apprStatus1,
             appr1.appr_reason apprReason1,
-            DATE_FORMAT(appr1.appr_date, '%Y.%m.%d') apprDate1,
+            DATE_FORMAT(appr1.appr_date, '%Y-%m-%d %H:%m') apprDate1,
             IFNULL(appr2.approver, 'none') approver2,
             appr2.appr_order apprOrder2,
             IFNULL(appr2.appr_status, -1 ) apprStatus2,
             appr2.appr_reason apprReason2,
-            DATE_FORMAT(appr2.appr_date, '%Y.%m.%d') apprDate2
+            DATE_FORMAT(appr2.appr_date, '%Y-%m-%d %H:%m') apprDate2
         FROM
             edoc
                 JOIN emp

@@ -20,4 +20,11 @@ public interface TeamAtdMapper {
      * Description : 주간별 팀 출근 현황 횟수 조회
      */
     Map<String, Object>selectTeamAtdStatusCount(Map<String, Object>m);
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 31. 
+     * Description : 주간별 팀 개인 출근 현황 횟수 조회
+     */
+    List<Map<String, Object>>selectPersonalAtdStatus(Map<String,Object>m); 
 }

@@ -26,7 +26,7 @@
         <tbody>
             <tr>
                 <th class="text-center typeDraftThTag">제목</th>
-                <td class="typeDraftTdTag" colspan="3"><input class="form-control form-control-sm" type="text" name="edocTitle" required></td>
+                <td class="typeDraftTdTag" colspan="3"><input id="edocTitle" class="form-control form-control-sm" type="text" name="edocTitle" required></td>
             </tr>
             <tr>
                 <th class="text-center typeDraftThTag">보고서 종류</th>
