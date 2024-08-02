@@ -6,25 +6,7 @@
   overflow-y: auto;
 } */
 
-.approval-reason-table table > tbody > tr > th {
-  width: 6rem;
-  color: rgba(255, 255, 255, 1) !important;
-  background-color: rgba(105, 108, 255, 0.6) !important;
-  text-align: center;
-  padding: 0.325rem !important;
-}
-
-.approval-reason-table table > tbody > tr > td {
-  background-color: rgba(255, 255, 255, 1) !important;
-  padding: 0.325rem !important;
-  padding-left: 0.5rem !important;
-  display: flex;
-}
-
-.card-size {
-  width: 14rem !important;
-}
-
+/* ---------- 전자결재 홈 스타일 시작 ---------- */
 .edoc-card-area {
   height: 15rem;
 }
@@ -34,76 +16,48 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+/* ---------- 전저결재 홈 스타일 종료 ---------- */
 
+/* ---------- 새 결재 진행(전자문서 작성하기) 스타일 시작 ---------- */
 .edoc {
-  max-width: 100%;
-  width: 880px;
-  height: 780px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  width: 100%;
+  height: 100%;
 }
+/* ---------- 새 결재 진행(전자문서 작성하기) 스타일 종료 ---------- */
 
-.edoc-type-select-box {
-  width: 200px;
-}
-
-.edoc-form-info {
-  width: 300px;
-}
-
-.edoc-form-info-table {
-  background-color: #fff;
-  margin-bottom: 0rem !important;
-}
-
-.edoc-form-info-table > tbody > tr > th {
-  width: 80px;
-  color: #fff !important;
-  background-color: rgba(105, 108, 255, 0.6);
-}
-
-.edoc-form-info-table > tbody > tr > td > input {
-  border: none;
-  outline: none;
-}
-
-.edoc-form-area {
-  background-color: #fff;
-  height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-me {
-  margin-right: -1rem !important;
-}
-
+/* ---------- 결재선 선택 스타일 종료 ---------- */
 .approver-info {
   width: 100%;
-  height: 30rem !important;
+  height: 50vh !important;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: left;
 }
 
-.approver-input {
-  width: 28rem;
+.approver-input-group {
+  width: 30vw;
   text-align: left;
 }
 
-.approver-input label {
+.approver-input-group label {
   width: 50px;
   font-size: 12px;
   margin-right: 0.625rem;
 }
 
-.approver-input input {
+.approver-input-group input {
   width: 75%;
 }
 
 .approver-form {
   width: 8.25rem;
+}
+/* ---------- 결재선 선택 스타일 종료 ---------- */
+
+/* ---------- 결재선 스타일 시작 ---------- */
+.appr-table {
+  background-color: #fff;
+  margin-bottom: 0rem !important;
 }
 
 .approver-th-tag {
@@ -120,23 +74,24 @@
   height: 20px !important;
   padding: 0.1rem !important;
 }
+/* ---------- 결재선 스타일 종료 ---------- */
 
-.appr-table {
-  background-color: #fff;
-  margin-bottom: 0rem !important;
+/* ---------- 문서 상세보기 결재의견 스타일 시작 ---------- */
+.approval-reason-table table > tbody > tr > th {
+  width: 6rem;
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(105, 108, 255, 0.6) !important;
+  text-align: center;
+  padding: 0.325rem !important;
 }
 
-.edoc-btn {
-  width: 100% !important;
+.approval-reason-table table > tbody > tr > td {
+  background-color: rgba(255, 255, 255, 1) !important;
+  padding: 0.325rem !important;
+  padding-left: 0.5rem !important;
+  display: flex;
 }
-
-.edoc-btn button {
-  width: 100%;
-}
-
-.home-draft-list {
-  height: 22rem;
-}
+/* ---------- 문서 상세보기 결재의견 스타일 종료 ---------- */
 
 /* ---------- 개인문서함 스타일 시작 ---------- */
 .edoc-personal-list {
@@ -163,3 +118,52 @@
   width: 80px !important;
 }
 /* ---------- 개인문서함 스타일 종료 ---------- */
+
+.edoc-type-select-box {
+  width: 10rem;
+}
+
+.edoc-form-info {
+  width: 15rem;
+}
+
+.edoc-form-info-table {
+  background-color: #fff;
+  margin-bottom: 0rem !important;
+}
+
+.edoc-form-info-table > tbody > tr > th {
+  width: 2rem;
+  color: #fff !important;
+  background-color: rgba(105, 108, 255, 0.6);
+}
+
+.edoc-form-info-table > tbody > tr > td > input {
+  width: 6rem;
+  border: none;
+  outline: none;
+}
+
+.edoc-form-area {
+  background-color: #fff;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-me {
+  margin-right: -1rem !important;
+}
+
+.edoc-btn {
+  width: 100% !important;
+}
+
+.edoc-btn button {
+  width: 100%;
+}
+
+.home-draft-list {
+  height: 22rem;
+}

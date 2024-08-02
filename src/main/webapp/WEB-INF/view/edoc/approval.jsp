@@ -39,10 +39,10 @@
                     </div>
                     <div class="edoc-list-area">
                         <div class="card my-3 px-4 py-2">
-                            <h5 class="card-header-edoc">기안 대기 문서</h5>
+                            <h5>기안 대기 문서</h5>
                             <c:choose>
                                 <c:when test="${!empty draftList}">
-                                    <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-between">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -90,7 +90,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-center">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-center">
                                         <h5>내 대기 문서가 없습니다.</h5>
                                     </div>
                                 </c:otherwise>
