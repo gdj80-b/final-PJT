@@ -30,28 +30,27 @@ public class InquiryController {
         
         return "inquiry/main";
     }
-    
-    // 피라미드 조직도 정보 조회
-    @GetMapping("/getGroupInfo")
-    public @ResponseBody List<Map<String, Object>> getGroupInfo(){
-        
-        return inquiryService.selectGroupInfo();
-    }
 
-    // 직원 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 18.
+     * Description : 직원 조회
+     */
     // 페이징 기능 적용
     @GetMapping("/empList")
     public String empList(Model model,
             @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage) {
+            @RequestParam(name="rowPerPage", defaultValue = "10") int rowPerPage,
+            @RequestParam(name="searchEmp", defaultValue = "") String searchEmp) {
         
-        List<EmpVO> empList = inquiryService.selectEmpList(currentPage, rowPerPage);
+        List<EmpVO> empList = inquiryService.selectEmpList(currentPage, rowPerPage, searchEmp);
         
-        int lastPage = inquiryService.selectEmpCount() / rowPerPage;
-        if(lastPage % rowPerPage != 0) {
+        int lastPage = inquiryService.selectEmpCount(searchEmp) / rowPerPage;
+        if(inquiryService.selectEmpCount(searchEmp) % rowPerPage != 0) {
             lastPage++;
         }
         System.out.println("lastPage : " + lastPage);
+        System.out.println("currentPage : " + currentPage);
         
         model.addAttribute("empList", empList);
         model.addAttribute("currentPage", currentPage);
@@ -61,7 +60,11 @@ public class InquiryController {
         return "inquiry/empList";
     }
     
-    // 그룹 조회
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 19.
+     * Description : 그룹 조회
+     */
     // 페이징 기능 적용
     @GetMapping("/teamList")
     public String teamList(Model model,
