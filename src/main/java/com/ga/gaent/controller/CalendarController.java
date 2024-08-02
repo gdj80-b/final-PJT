@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ga.gaent.service.CalendarService;
+import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.CalendarVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,13 +24,25 @@ public class CalendarController {
     @Autowired
     CalendarService calendarService;
     
-    // 기본 페이지 표시
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 캘린더 기본 페이지 표시
+     */
     @RequestMapping
     public String viewCalendar(Model model) {
         
-        // 일정타입 조회
+        /*
+         * @author : 김형호
+         * @since : 2024. 07. 23.
+         * Description : 일정타입 조회
+         */
         List<Map<String, Object>> eventType = calendarService.selectEventType();
-        // 일정분류 조회
+        /*
+         * @author : 김형호
+         * @since : 2024. 07. 23.
+         * Description : 일정분류 조회
+         */
         List<Map<String, Object>> eventTarget = calendarService.selectEventTarget();
         
         model.addAttribute("eventType", eventType);
@@ -38,7 +51,11 @@ public class CalendarController {
         return "calendar/calendar";
     }
     
-    // 일정등록 폼
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정등록 폼
+     */
     @GetMapping("/addEvent")
     public String addEventForm(Model model) {
         
@@ -51,10 +68,16 @@ public class CalendarController {
         return "calendar/addEvent";
     }
     
-    // 일정등록 액션
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정등록 액션
+     */
     @PostMapping("/addEvent")
     public String addEventAction(CalendarVO calendar) {
         
+        log.debug(TeamColor.BLUE_BG + "calStartDate: " + calendar.getCalStartDate() + TeamColor.RESET);
+        log.debug(TeamColor.GREEN_BG + "calEndDate: " + calendar.getCalEndDate() + TeamColor.RESET);
         calendar.formatDate(calendar.getCalStartDate(), calendar.getCalEndDate());
         
         int addEvent = calendarService.insertEvent(calendar);
@@ -66,8 +89,11 @@ public class CalendarController {
         }
     }
     
-    // 일정조회
-    // ajax 데이터 전송 URL
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정조회
+     */
     @GetMapping("/event")
     public @ResponseBody List<Map<String, Object>> getEventList(
             @RequestParam(required = false) String empCode,
@@ -98,7 +124,11 @@ public class CalendarController {
         
     }
     
-    // 일정상세
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정상세
+     */
     @GetMapping("/eventOne")
     public String getEventOne(Model model, int calNum) {
         
@@ -108,7 +138,11 @@ public class CalendarController {
         return "calendar/eventOne";
     }
     
-    // 일정삭제
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 14.
+     * Description : 일정삭제
+     */
     @GetMapping("/removeEvent")
     public String removeEvent(int calNum) {
         
@@ -120,7 +154,11 @@ public class CalendarController {
         }
     }
     
-    // 일정수정 폼
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 15.
+     * Description : 일정수정 폼
+     */
     @GetMapping("/modifyEvent")
     public String modifyEvent(Model model, int calNum) {
         
@@ -134,7 +172,11 @@ public class CalendarController {
         return "calendar/modifyEvent";
     }
     
-    // 일정수정 액션
+    /*
+     * @author : 김형호
+     * @since : 2024. 07. 15.
+     * Description : 일정수정 액션
+     */
     @PostMapping("/modifyEvent")
     public String modifyEvent(CalendarVO calendar) {
         

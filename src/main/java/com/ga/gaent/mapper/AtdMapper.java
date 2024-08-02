@@ -1,6 +1,7 @@
 package com.ga.gaent.mapper;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import com.ga.gaent.dto.AtdDTO;
 import com.ga.gaent.vo.AtdVO;
@@ -8,21 +9,60 @@ import com.ga.gaent.vo.AtdVO;
 @Mapper
 public interface AtdMapper {
     
-    // 출최근 확인
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 14. 
+     * Description : 개인 출퇴근 여부 조회
+     */
     AtdDTO checkAtdStatus(String empCode);
     
-    // 출근등록
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 출근 등록
+     */
     int atdIn(String empCode);
-    // 퇴근등록
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 퇴근 등록
+     */
     int atdOut(String empCode);
     
-    // 출퇴근이력
-    List<AtdDTO> selectAtdHistory(String empCode);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 15. 
+     * Description : 개인 출퇴근이력조히
+     */
+    List<AtdDTO> selectAtdHistory(Map<String, Object>m);
     
-    // 일간 근무시간
-    Integer dailyWorkMinutes(String empCode);
-    // 주간 근무시간
-    Integer weeklyWorkMinutes(String empCode);
-    // 월간 근무시간
-    Integer monthlyWorkMinutes(String empCode);
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 22. 
+     * Description : 일간 근무시간 조회
+     */
+    Map<String,Object >selectWorkMinutes(String empCode);
+       
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 29
+     * Description : 월별 출근,지각,조퇴,결근 횟수 조회
+     */
+    Map<String, Object>selectAtdStatusCount(Map<String, Object>m);
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 29.
+     * Description : 출근 자동등록
+     */
+    int autoRegisterAtd();
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 30.
+     * Description : 자동 퇴근입력
+     */
+    int autoGetOffWork();
 }
