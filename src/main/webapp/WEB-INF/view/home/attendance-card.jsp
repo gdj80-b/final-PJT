@@ -24,9 +24,9 @@
                             <label>퇴근시간 :</label>
                             <span id="checkOutTime" class="attendance-time-gray"></span>
                         </div>
-                        <div class="d-flex flex-column align-items-start mt-3">
+                        <div class="d-flex flex-column align-items-center mt-3">
                             <div>
-                                <label>주간 누적 근무시간 :</label>
+                                <label>주간 누적 근무시간</label>
                             </div>
                             <div>
                                 <span id="weeklyWorkTime" class="attendance-time-gray"></span>

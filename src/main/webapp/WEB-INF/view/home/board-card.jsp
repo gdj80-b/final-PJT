@@ -62,42 +62,36 @@
             getNoticeCnt();
             
             // 현재 페이지
-            $('#boardNowPage').html('<a class="page-link">' + page + '</a>');
+            updatePageBoard(page);
             
             // 이전 버튼
             $('#boardPrevBtn').click(function() {
-                page = page - 1;
-                updatePage(page);
-                getNoticeCnt(page);
-                $('#boardNowPage').html('<a class="page-link">' + page + '</a>')
+                if(page > firstPage) {
+                    page--;
+                    updatePage(page);
+                }
             });
             
             // 다음 버튼
             $('#boardNextBtn').click(function() {
-                page = page + 1;
-                updatePage(page);
-                getNoticeCnt(page);
-                $('#boardNowPage').html('<a class="page-link">' + page + '</a>')
+                if(page < totalPage) {
+                    page++;
+                    updatePage(page);
+                }
             });
         });
         
         function updatePage(newPage) {
-            if(newPage === firstPage) {
-                $('#boardPrev').addClass('disabled');
-            } else {
-                $('#boardPrev').removeClass('disabled');
-            }
-            
-            if(newPage === totalPage) {
-                $('#boardNext').addClass('disabled');
-                return;
-            } else {
-                $('#boardNext').removeClass('disabled');
-            }
-            
             page = newPage;
-            getHomeNotice(page);
-            getNoticeCnt(page);
+            getHomeNotice(newPage);
+            getNoticeCnt(newPage);
+            updatePageBoard(newPage);
+        }
+        
+        function updatePageBoard(page) {
+            $('#boardNowPage').html('<a class="page-link">' + page + '</a>');
+            $('#boardPrevBtn').toggleClass('disabled', page <= firstPage);
+            $('#boardNextBtn').toggleClass('disabled', page >= totalPage);
         }
         
         function getHomeNotice(page) {
@@ -105,7 +99,7 @@
                 url: '/gaent/home/notice?currentPage=' + page,
                 type: 'GET',
                 success: function(data) {
-                    // console.log(data);
+                    console.log(data);
                     const tableBody = $('#noticeTableBody');
                     tableBody.empty(); // 기존 데이터를 지웁니다.
                     
@@ -143,7 +137,7 @@
                 type: 'GET',
                 data: page,
                 success: function(data) {
-                    // console.log(data);
+                    console.log(data);
                     totalPage = data.totalPage;
                 },
                 error: function(e) {
