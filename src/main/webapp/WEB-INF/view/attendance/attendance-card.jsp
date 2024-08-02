@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/attendance-card.css" />
     </head>
     <body>
-        <div class="attendance-card">
-            <div class="card attd text-center">
+        <div class="attendance-card-in-subsidebar">
+            <div class="card text-center">
                 <div class="card-body d-flex flex-column align-items-center">
                     <div class="card-header">
                         <h4 class="card-title">출퇴근관리</h4>
@@ -16,17 +16,17 @@
                         <div id="time" class="card-text time-display"></div>
                     </div>
                     <div class="details text-start d-flex flex-column w-100">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-around">
                             <label>출근시간 :</label>
                             <span id="checkInTime" class="attendance-time-gray"></span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-around">
                             <label>퇴근시간 :</label>
                             <span id="checkOutTime" class="attendance-time-gray"></span>
                         </div>
-                        <div class="d-flex flex-column align-items-start mt-3">
+                        <div class="d-flex flex-column align-items-center mt-3">
                             <div>
-                                <label>주간 누적 근무시간 :</label>
+                                <label>주간 누적 근무시간</label>
                             </div>
                             <div>
                                 <span id="weeklyWorkTime" class="attendance-time-gray"></span>
@@ -37,23 +37,6 @@
                 <div class="mt-2 mb-4">
                     <button id="checkInBtn" class="btn btn-outline-primary btn-sm me-3">출근하기</button>
                     <button id="checkOutBtn" class="btn btn-outline-danger btn-sm">퇴근하기</button>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmationModalLabel"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        현재시간은 '<span id="currentTime"></span>' 입니다. <span id="actionText"></span>하시겠습니까?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-seÍcondary" data-bs-dismiss="modal">취소</button>
-                        <button type="button" class="btn btn-primary" id="confirmActionBtn">확인</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -105,7 +88,6 @@
                     dataType : 'json', // 데이터 타입은 JSON
                     success : function(data) {
                         // 요청이 성공하면 실행
-                        // console.log('출퇴근: ', data);
                         $('#weeklyWorkTime').text(data.weeklyWorkTime); // 주간누적근무시간 표시
                         if (data.inTime == null) {
                             // 출근을 아직 안한 상태

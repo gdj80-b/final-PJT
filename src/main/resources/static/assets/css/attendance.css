@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.attd {
+  height: 84vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sunday {
+  color: red;
+}
+
+.todaynal {
+  border: thick;
+  color: purple;
+}
+
+.juchaBtn {
+  margin: 10px;
+}
+
+.juCha-underline {
+  margin: 0px;
+}
+
+.card.collapsed {
+  height: auto;
+}
