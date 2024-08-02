@@ -5,61 +5,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>받은쪽지함</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .inbox-container {
-            margin-top: 20px;
-        }
-        .inbox-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-        .inbox-actions span, .inbox-actions button {
-            margin-right: 15px;
-        }
-        .inbox-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .inbox-table th, .inbox-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        .inbox-table th {
-            background-color: #f9f9f9;
-        }
-        .inbox-table tr:hover {
-            background-color: #f1f1f1;
-        }
-        .checkbox {
-            text-align: center;
-            width: 60px;
-        }
-        .msg-sub-size {
-            width: 140px;
-            text-align: center;
-        }
-        .msg-time-size {
-            width: 200px;
-            text-align: right;
-        }
-        .msg-sh-btn{
-            text-decoration: none;   /* 링크의 기본 밑줄 제거 */
-            padding: 5px 5px;      /* 버튼의 패딩 조정 */
-            color: white;            /* 버튼의 텍스트 색상 */
-            border-radius: 5px;      /* 버튼의 모서리 둥글게 */
-            display: inline-block;   /* 버튼이 줄바꿈 없이 나란히 위치하도록 설정 */
-        }
-        
-    </style>
+<meta charset="UTF-8">
+<title>내게쓴쪽지함</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .inbox-container {
+        margin-top: 20px;
+    }
+    .inbox-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .inbox-actions span, .inbox-actions button {
+        margin-right: 15px;
+    }
+    .inbox-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    .inbox-table th, .inbox-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    .inbox-table th {
+        background-color: #f9f9f9;
+    }
+    .inbox-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    .checkbox {
+        text-align: center;
+        width: 60px;
+    }
+    .msg-sub-size {
+        width: 140px;
+        text-align: center;
+    }
+    .msg-time-size {
+        width: 200px;
+        text-align: right;
+    }
+    .msg-sh-btn{
+        text-decoration: none;   /* 링크의 기본 밑줄 제거 */
+        padding: 5px 5px;      /* 버튼의 패딩 조정 */
+        color: white;            /* 버튼의 텍스트 색상 */
+        border-radius: 5px;      /* 버튼의 모서리 둥글게 */
+        display: inline-block;   /* 버튼이 줄바꿈 없이 나란히 위치하도록 설정 */
+    }
+    
+</style>
 </head>
 <body>
     <div id="header-area">
@@ -135,13 +135,10 @@
     <script>
         $(document).ready(function() {
             checkNotReadMsg();
-            
-            
             // 한번에 체크
             $('#selectAll').click(function() {
                 $('input[name="msgNum"]').prop('checked', this.checked);
             });
-            
 			<!-- 삭제버튼-->
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');

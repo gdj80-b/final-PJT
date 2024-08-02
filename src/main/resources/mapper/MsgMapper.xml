@@ -201,8 +201,8 @@
             m.file_name msgFileName,
             f.original_file_name msgOriginalFileName,
             m.msg_content msgContent,            
-            DATE_FORMAT(m.msg_send_time, '%y년 %m월 %d일 %H시%i분') AS sendTime,
-            DATE_FORMAT(m.msg_read_time, '%y년 %m월 %d일 %H시 %i분') AS readTime
+            DATE_FORMAT(m.msg_send_time, '%y/%m/%d %a  %H:%i') AS sendTime,
+            DATE_FORMAT(m.msg_read_time, '%y/%m/%d %a  %H:%i') AS readTime
         FROM 
             msg m 
                 JOIN emp re ON m.msg_receiver = re.emp_code
@@ -241,7 +241,8 @@
         SELECT COUNT(*)
         FROM msg
         WHERE 
-            msg_read_time IS NULL AND 
+            msg_read_time IS NULL AND
+            msg_receive_del_status = 'N' AND 
             msg_receiver = #{empCode}
     </select>
 

@@ -40,31 +40,31 @@
         <ul class="menu-inner py-3">
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgList')}">active</c:if>">
                 <a href="/gaent/msg/0" class="menu-link"> 
-                    <span class="fs-5 mb-2">전체쪽지함</span>
+                    <span class="fs-6 mb-2">전체쪽지함</span>
                 </a>
             </li>
             <!-- 받은쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgReceive')}">active</c:if>">
                 <a href="/gaent/msg/1" class="menu-link"> 
-                    <span class="fs-5 mb-2">받은쪽지함</span>
+                    <span class="fs-6 mb-2">받은쪽지함</span>
                 </a>
             </li>
             <!-- 보낸쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSendList')}">active</c:if>">
                 <a href="/gaent/msg/2" class="menu-link">
-                    <span class="fs-5 mb-2">보낸쪽지함</span>
+                    <span class="fs-6 mb-2">보낸쪽지함</span>
                 </a>
             </li>
             <!-- 내게쓴쪽지함 -->
             <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgSelf')}">active</c:if>">
                 <a href="/gaent/msg/3" class="menu-link">
-                    <span class="fs-5 mb-2">내게쓴쪽지함</span>
+                    <span class="fs-6 mb-2">내게쓴쪽지함</span>
                 </a>
             </li>
             <!-- 휴지통 -->
 	        <li class="menu-item <c:if test="${fn:contains(pageContext.request.requestURI, 'msgBin')}">active</c:if>">
                 <a href="/gaent/msg/4" class="menu-link">                  
-                    <span class="fs-5 mb-2">휴지통</span>
+                    <span class="fs-6 mb-2">휴지통</span>
                 </a>
 	       </li>
         </ul>
@@ -85,7 +85,7 @@
                         <div class="mb-3" id="searchEmpDiv" tabindex="-1">
                             <label for="search" class="form-label"><span class="fs-6">---직원검색---</span></label>
                             <input class="form-control" type="search" name="empName" id="searchEmpCode" autocomplete="off" placeholder="입력해주세요..">
-                            <select id="resultEmpCode" style="display: none;">
+                            <select class="form-control w-25" id="resultEmpCode" style="display: none;">
                                 <option value="">직원선택</option>
                             </select>
                         </div>
@@ -158,9 +158,7 @@
                 alert('받는이를 선택해주세요');
                 return false;
             }
-            
             let formData = new FormData($('#messageForm')[0]);
-            
             $.ajax({
                 url: '/gaent/msg/sendMessage', // 서버에 쪽지를 보낼 URL
                 type: 'POST',
