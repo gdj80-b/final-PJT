@@ -176,7 +176,7 @@ public class MsgController {
         // 뎨이터가 없을시 fail페이지로 이동
         if(msgDetail == null) {
             log.debug(TeamColor.YELLOW + "데이터 없음 " + TeamColor.RESET);
-            return "/msg/msgFail";
+            return "/msg/msg-error";
         }
         
         model.addAttribute("m", msgDetail);
