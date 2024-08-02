@@ -40,15 +40,15 @@ public class EdocController {
         String empCode = getSessionEmpCode.getEmpCode(session);
         
         // 전자결재 페이지에서 보이는 카드(결재하기 -> 결재 대기 문서)
-        List<Map<String, String>> toDoList = edocService.selectToDoInHome(empCode);
+        List<Map<String, String>> toDoList = edocService.selectToDoAtHome(currentPage, rowPerPage, empCode);
         // log.debug(TeamColor.BLUE_BG + "toDoList: " + toDoList + TeamColor.RESET);
         
         // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)
-        List<EdocVO> draftList = edocService.selectDraftInHome(currentPage, rowPerPage, empCode);
+        List<EdocVO> draftList = edocService.selectDraftAtHome(currentPage, rowPerPage, empCode);
         // log.debug(TeamColor.BLUE_BG + "draftList: " + draftList + TeamColor.RESET);
         
         // 전자결재 페이지에서 보이는 리스트(개인문서함 -> 대기 문서)에 대한 페이징
-        Map<String, Object> pagingMap = edocService.getDraftPagingInHome(currentPage, rowPerPage, empCode, 0);
+        Map<String, Object> pagingMap = edocService.getDraftPagingAtHome(currentPage, rowPerPage, empCode, 0);
         // log.debug(TeamColor.BLUE_BG + "pagingMap: " + pagingMap + TeamColor.RESET);
         
         model.addAttribute("toDoList", toDoList);

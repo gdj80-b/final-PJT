@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>전자결재 - GAEnt.</title>
+    <title>쪽지함 - GAEnt.</title>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
   </head>
@@ -17,7 +17,7 @@
       </div>
       <div id="sidebar-area">
         <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
-        <jsp:include page="/WEB-INF/view/edoc/edoc-sub-sidebar.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/view/msg/msg-sub-sidebar.jsp"></jsp:include>
       </div>
       <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="misc-wrapper p-4 d-flex flex-column align-items-center justify-content-center">
@@ -33,4 +33,3 @@
     </div>
   </body>
 </html>
- 
