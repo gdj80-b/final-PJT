@@ -8,10 +8,10 @@
     <meta charset="UTF-8">
     <title>직원조회 - GAEnt.</title>
     <!-- 부트스트랩 JS 및 jQuery (필수) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <!-- 부트스트랩 CSS -->
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     </head>
   <body>
@@ -48,7 +48,6 @@
 		      <c:forEach var="vo" items="${empList}">
 		        <tr>
 		          <td><b><a href="/gaent/inquiry/empDetail/${vo.empCode}">${vo.korName}</a></b></td>
-		          <!-- <td><b><a href="#empModal${vo.empCode}" data-toggle="modal" data-target="#empModal${vo.empCode}">${vo.korName}</a></b></td> -->
 		          <td>${vo.rankName}</td>
 		          <td>${vo.teamName}</td>
 		          <td>${vo.parentTeamName}</td>
@@ -58,51 +57,6 @@
 		      </c:forEach>
 		      </tbody>
 		    </table>
-		    
-		    <!-- 각 행에 대한 모달창 코드는 루프 밖에 위치 -->
-			<c:forEach var="vo" items="${empList}">
-			  <!-- 부서 상세 모달창 시작 -->
-		        <div class="modal fade" id="empModal${vo.empCode}" tabindex="-1" style="display: none;" aria-hidden="true">
-		          <div class="modal-dialog modal-sm" role="document">
-		            <div class="modal-content">
-		              <div class="modal-header">
-		                <h5 class="modal-title" id="exampleModalLabel2">인사상세</h5>
-		                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-		              </div>
-		              <div class="modal-body">
-		                <div class="row">
-		                  <div class="col mb-3">
-		                    <label for="nameSmall" class="form-label">이름</label><br />
-		                    ${vo.korName}
-		                  </div>
-		                </div>
-		                <div class="row g-2">
-		                  <div class="col mb-0">
-		                    <label class="form-label" for="emailSmall">직위</label><br />
-		                    ${vo.rankName}
-		                  </div>
-		                  <div class="col mb-0">
-		                    <label for="dobSmall" class="form-label">소속부서</label><br />
-		                    ${vo.parentTeamName}
-		                  </div>
-		                </div><br />
-		                <div class="row">
-		                  <div class="col mb-3">
-		                    <label for="nameSmall" class="form-label">연락처</label><br />
-		                    ${vo.phone}
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="modal-footer">
-		                <button type="button" class="btn btn-outline-primary">쪽지</button>
-		                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">닫기</button>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		        </c:forEach>
-		        <!--  부서 상세 모달창 끝 -->
-		    
 		    <div class="demo-inline-spacing">
           <!-- Basic Pagination -->
           <nav aria-label="Page navigation">

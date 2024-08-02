@@ -4,7 +4,9 @@ import java.io.File;
 import org.springframework.stereotype.Component;
 import com.ga.gaent.dto.FileReqDTO;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class FileUploadSetting {
     private static String UPLOAD_DIR;
@@ -21,7 +23,7 @@ public class FileUploadSetting {
             String projectDir = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
 
             UPLOAD_DIR = projectDir;
-            // System.out.println("쪽지파일저장위치: " + UPLOAD_DIR);
+            log.debug(TeamColor.PURPLE_BG + "파일저장위치: " + UPLOAD_DIR + TeamColor.RESET);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize UPLOAD_DIR", e);

@@ -66,13 +66,13 @@
     </div>
     <div id="workspace-area" class="subsidebar-from-workspace">
         <div class="card">
-            <h2 class="card-title" style="margin:50px 0px 0px 30px">보낸쪽지함</h2>            
+            <h2 class="card-title" style="margin:50px 0px 0px 30px">보낸쪽지함</h2>
             <div class="card-body inbox-container">            
                 <div class="care-body" style="height:600px; position: relative;">
                     <table class="inbox-table">
                         <thead>
                             <tr>
-                                <th colspan="2"></th>
+                                <th colspan="2">전체 : ${pg.totalRow}개</th>
                                 <th style="padding-left:80px">
                                     <form class="d-flex align-items-center" action="/gaent/msg/2">
                                         <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요..." aria-label="Search" name="searchMsg" style="max-width:80%">
@@ -98,7 +98,7 @@
                             </c:if>
                             <c:forEach var="m" items="${list}">
                                 <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'">
-                                    <td class="checkbox">
+                                    <td onclick="event.stopPropagation()" class="checkbox">
                                         <input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}">
                                     </td>
                                     <td class="msg-sender-size">${m.receiverName}</td>
@@ -163,23 +163,20 @@
                     alert('삭제할 항목을 선택하세요.');
                 }
             });
-
             // 한번에 체크
             $('#selectAll').click(function() {
                 $('input[name="msgNum"]').prop('checked', this.checked);
             });
-
             function checkNotReadMsg() {
                 $.ajax({
-                    url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
-                    type: "GET", // GET 메서드를 사용
-                    dataType: "json", // 반환 데이터 타입은 int
-                    success: function(notReadCnt) { // 요청이 성공하면 실행
-                        // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
+                    url: "/gaent/msg/msgNotReadCnt", 
+                    type: "GET",
+                    dataType: "json", 
+                    success: function(notReadCnt) { 
                         $("#notReadCnt").text(notReadCnt);
                     },
-                    error: function() { // 요청이 실패하면 실행
-                        alert("error"); // 에러 메시지 출력
+                    error: function() { 
+                        alert("error"); 
                     }
                 });
             }
