@@ -48,7 +48,6 @@ public class TeamAtdService {
      */
     public Map<String, Object>getTeamAtdStatusCount(String teamCode,String year,String week){
         
-        log.debug(TeamColor.CYAN + "비상: " + year + week + teamCode + TeamColor.RESET);
         Map<String, Object>m = new HashMap<>();
         m.put("teamCode", teamCode);
         m.put("year", year);
@@ -56,6 +55,25 @@ public class TeamAtdService {
         
         return teamAtdMapper.selectTeamAtdStatusCount(m);
     }
+    
+    
+    /*
+     * @author : 조인환
+     * @since : 2024. 07. 31. 
+     * Description : 주간별 팀 개인 출근 현황 횟수 조회
+     */
+    public List<Map<String, Object>>getPersonalAtdStatus(String teamCode,String year,String week){
+        
+        Map<String, Object>m = new HashMap<>();
+        m.put("teamCode", teamCode);
+        m.put("year", year);
+        m.put("week", week);
+        
+        return teamAtdMapper.selectPersonalAtdStatus(m);
+    }
+    
+    
+    
     
     
     /*

@@ -16,11 +16,11 @@
                         <div id="time" class="card-text time-display"></div>
                     </div>
                     <div class="details text-start d-flex flex-column w-100">
-                        <div class="d-flex align-items-center justify-content-around">
+                        <div class="d-flex align-items-center justify-content-between">
                             <label>출근시간 :</label>
                             <span id="checkInTime" class="attendance-time-gray"></span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-around">
+                        <div class="d-flex align-items-center justify-content-between">
                             <label>퇴근시간 :</label>
                             <span id="checkOutTime" class="attendance-time-gray"></span>
                         </div>
