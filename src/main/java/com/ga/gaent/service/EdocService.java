@@ -40,13 +40,13 @@ public class EdocService {
      * @since : 2024. 07. 17.
      * Description : 결재대기문서 리스트 호출(전자결재 홈)
      */
-    public List<Map<String, String>> selectToDoInHome(String empCode) {
+    public List<Map<String, String>> selectToDoAtHome(int currentPage, int rowPerPage, String empCode) {
         
         Map<String, Object> toDoMap = new HashMap<>();
         
         toDoMap.put("empCode", empCode);
-        toDoMap.put("startRow", 0);
-        toDoMap.put("rowPerPage", 4);
+        toDoMap.put("startRow", (currentPage - 1) * rowPerPage);
+        toDoMap.put("rowPerPage", rowPerPage);
         toDoMap.put("request", 0);
         
         return edocMapper.selectApprList(toDoMap);
@@ -57,7 +57,7 @@ public class EdocService {
      * @since : 2024. 07. 26.
      * Description : 대기문서함 리스트 호출(전자결재 홈)
      */
-    public List<EdocVO> selectDraftInHome(int currentPage, int rowPerPage, String empCode) {
+    public List<EdocVO> selectDraftAtHome(int currentPage, int rowPerPage, String empCode) {
         
         Map<String, Object> draftMap = new HashMap<>();
         
@@ -76,7 +76,7 @@ public class EdocService {
      * @since : 2024. 07. 24.
      * Description : 개인 문서함 -> 결재 올린 문서에 대한 페이징
      */
-    public Map<String, Object> getDraftPagingInHome(int currentPage, int rowPerPage, String empCode, int request) {
+    public Map<String, Object> getDraftPagingAtHome(int currentPage, int rowPerPage, String empCode, int request) {
         
         Map<String, Object> cntMap = new HashMap<>();
         
@@ -103,6 +103,7 @@ public class EdocService {
         
         map.put("empCode", empCode);
         map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("rowPerPage", rowPerPage);
         map.put("request", 0);
         
         return edocMapper.selectApprList(map);
@@ -119,6 +120,7 @@ public class EdocService {
         
         map.put("empCode", empCode);
         map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("rowPerPage", rowPerPage);
         map.put("request", 1);
         
         return edocMapper.selectApprList(map);
@@ -136,6 +138,7 @@ public class EdocService {
         
         map.put("empCode", empCode);
         map.put("startRow", (currentPage - 1) * rowPerPage);
+        map.put("rowPerPage", rowPerPage);
         map.put("request", 2);
         
         return edocMapper.selectApprList(map);
