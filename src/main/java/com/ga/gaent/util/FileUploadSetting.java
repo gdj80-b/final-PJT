@@ -20,7 +20,8 @@ public class FileUploadSetting {
     public void initDIR() {
         try {
 
-            String projectDir = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
+            // String projectDir = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
+            String projectDir = System.getProperty("user.dir") + "/upload/";
 
             UPLOAD_DIR = projectDir;
             log.debug(TeamColor.PURPLE_BG + "파일저장위치: " + UPLOAD_DIR + TeamColor.RESET);
