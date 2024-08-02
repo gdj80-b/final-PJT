@@ -26,16 +26,23 @@
                         <span class="display-6 fw-semibold mb-0">전자결재 홈</span>
                     </div>
                     <div class="edoc-card-area mb-4">
-                        <c:if test="${!empty toDoList}">
-                            <jsp:include page="/WEB-INF/view/edoc/approvalCard.jsp"></jsp:include>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${!empty toDoList}">
+                                <jsp:include page="/WEB-INF/view/edoc/approvalCard.jsp"></jsp:include>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="h-100 d-flex align-items-center justify-content-center">
+                                    <h5>결재 대기 문서가 없습니다.</h5>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="edoc-list-area">
-                        <div class="card mb-3 px-4 py-2">
-                            <h5 class="card-header-edoc">기안 대기 문서</h5>
+                        <div class="card my-3 px-4 py-2">
+                            <h5>기안 대기 문서</h5>
                             <c:choose>
                                 <c:when test="${!empty draftList}">
-                                    <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-between">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -83,7 +90,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="table-responsive home-draft-list text-nowrap d-flex flex-column align-items-center justify-content-center">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-center">
                                         <h5>내 대기 문서가 없습니다.</h5>
                                     </div>
                                 </c:otherwise>
