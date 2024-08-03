@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>받은쪽지함</title>
+    <title>휴지통</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/workspace.css" />
     <style>
         body {
@@ -188,7 +188,6 @@
                     alert('삭제할 항목을 선택하세요.');
                 }
             });
-            
             			<!-- 복구버튼-->
             $('#restoreButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');

@@ -79,7 +79,7 @@
                             <c:forEach var="m" items="${list}">
                                 <tr onclick="location.href='/gaent/msg/msgDetail/${m.msgNum}'" style="background-color: ${m.readTime == null ? 'FFFFFF' : '#F5F5F5'}">
                                     <td onclick="event.stopPropagation();" class="checkbox"><input type="checkbox" class="form-check-input form-check-input-lg" name="msgNum" value="${m.msgNum}"></td>
-                                    <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">나</span>' :
+                                    <td class="msg-state-size">${m.receiver == m.sender ? '<span class="badge bg-label-info fs-6">본인</span>' :
                                          (m.receiver == loginInfo.empCode ? '<span class="badge bg-label-primary fs-6">수신</span>': 
                                          '<span class="badge bg-label-warning fs-6">발신</span>') }
                                     </td>
@@ -104,13 +104,10 @@
     <script>
         $(document).ready(function() {
             checkNotReadMsg();
-            
-            
             // 한번에 체크
             $('#selectAll').click(function() {
                 $('input[name="msgNum"]').prop('checked', this.checked);
             });
-            
 			<!-- 삭제버튼-->
             $('#deleteButton').click(function() {
                 let checkedItems = $('input[name="msgNum"]:checked');
@@ -167,8 +164,6 @@
                                 msgNums: ids
                             },
                             success: function(result) {
-                                //if (result != 0) {
-                                
                                     alert( result + '개가 읽음처리되었습니다');
                                     location.reload();
                             },
@@ -182,19 +177,16 @@
                 }
             });
 
-            
-
             function checkNotReadMsg() {
                 $.ajax({
                     url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
-                    type: "GET", // GET 메서드를 사용
-                    dataType: "json", // 반환 데이터 타입은 int
-                    success: function(notReadCnt) { // 요청이 성공하면 실행
-                        // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
+                    type: "GET", 
+                    dataType: "json",
+                    success: function(notReadCnt) { 
                         $("#notReadCnt").text(notReadCnt);
                     },
-                    error: function() { // 요청이 실패하면 실행
-                        alert("error"); // 에러 메시지 출력
+                    error: function() { 
+                        alert("error"); 
                     }
                 });
             }

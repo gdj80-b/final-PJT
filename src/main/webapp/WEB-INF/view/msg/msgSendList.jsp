@@ -163,23 +163,20 @@
                     alert('삭제할 항목을 선택하세요.');
                 }
             });
-
             // 한번에 체크
             $('#selectAll').click(function() {
                 $('input[name="msgNum"]').prop('checked', this.checked);
             });
-
             function checkNotReadMsg() {
                 $.ajax({
-                    url: "/gaent/msg/msgNotReadCnt", // 데이터를 가져올 URL
-                    type: "GET", // GET 메서드를 사용
-                    dataType: "json", // 반환 데이터 타입은 int
-                    success: function(notReadCnt) { // 요청이 성공하면 실행
-                        // 서버에서 반환된 JSON 데이터에서 값을 읽어와서 msgAlert 요소에 표시
+                    url: "/gaent/msg/msgNotReadCnt", 
+                    type: "GET",
+                    dataType: "json", 
+                    success: function(notReadCnt) { 
                         $("#notReadCnt").text(notReadCnt);
                     },
-                    error: function() { // 요청이 실패하면 실행
-                        alert("error"); // 에러 메시지 출력
+                    error: function() { 
+                        alert("error"); 
                     }
                 });
             }
