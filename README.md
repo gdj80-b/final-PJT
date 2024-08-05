@@ -7,14 +7,14 @@
 # :computer: 개요
 - 2024-06-27 ~ 2024-08-08
 - Spring/MVC 방식을 사용한 전자결재시스템 그룹웨어 구현
-- 2차 팀 프로젝트
+- 2차 파이널 팀 프로젝트
 <br>
 
 # 🛠️ 개발 환경
 - Language : HTML5, CSS3, Java, SQL, JavaScript, Ajax
 - Framework : SpringBoot
 - Library : JSTL, JQuery, Lombok, MyBatis, Maven, BootStrap
-- Open API : FullCalendar, jsTree
+- Open API : FullCalendar, jsTree, TOSS API, Naver News API
 - Database : MariaDB
 - WAS Apache : Tomcat10
 - OS : window10
@@ -70,9 +70,7 @@
   - 그룹코드 중복검사와 관련한 유효성 검사 기능 구현
   - 모달을 통한 부서 및 팀 수정, 삭제 기능 구현
   - 사이드바의 조직도를 통한 그룹 및 직원 상세 페이지 조회 구현
-
 <br>
-
 #### [ 조인환 ]
 - 쪽지함
   - 쪽지 조회(전체,받은,수신,내게쓰기,휴지통)
