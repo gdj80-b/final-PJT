@@ -5,7 +5,7 @@
   <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-3">
-      <li class="menu-item-edoc">
+      <li class="menu-item-scroll">
         <div class="menu-link">
           <span class="display-6 fw-semibold mb-0">전자결재</span>
         </div>
@@ -20,7 +20,7 @@
           <button class="btn btn-primary btn-lg" onclick="location.href='/gaent/edoc'">새 결재 진행</button>
         </div>
       </li>
-      <li class="menu-item-edoc">
+      <li class="menu-item-scroll">
         <h5 class="fs-4 fw-semibold mb-2">결재하기</h5>
         <ul class="menu-item">
           <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/edocAppr/toDo') ? 'active' : '' }">
@@ -34,7 +34,7 @@
           </li>
         </ul>
       </li>
-      <li class="menu-item-edoc">
+      <li class="menu-item-scroll">
         <h5 class="fs-4 fw-semibold mb-2">개인 문서함</h5>
         <ul class="menu-item">
           <li class="menu-item ${fn:contains(pageContext.request.requestURI, '/edocPersonal/wait') ? 'active' : '' }">

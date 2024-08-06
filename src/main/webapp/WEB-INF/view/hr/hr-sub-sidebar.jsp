@@ -6,25 +6,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
 <body>
-    <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav hr-sub-sidebar">
-    <div class="menu-inner-shadow"></div>
-    <ul class="menu-inner pt-3">
-        <li class="menu-item-edoc hr-shadow">
-            <div class="menu-link">
-                <span class="display-6 fw-semibold mb-0">인사관리</span>
+    <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav sub-sidebar">
+        <div class="menu-inner-shadow"></div>
+        <ul class="menu-inner pt-3">
+            <li class="menu-item-scroll menu-shadow">
+                <div class="menu-link">
+                    <span class="display-6 fw-semibold mb-0">인사관리</span>
+                </div>
+                <ul class="menu-item">
+                    <li class="menu-item">
+                        <a href="/gaent/hr" class="menu-link"><span>인사관리 홈</span></a>
+                    </li>
+                </ul>
+            </li>
+            <div class="scroll">
+                <!-- 조직도 시작 -->
+                <div id="orgChart"></div>
+                <!-- 조직도 끝 -->
             </div>
-            <ul class="menu-item">
-                <li class="menu-item">
-                    <a href="/gaent/hr" class="menu-link"><span>인사관리 홈</span></a>
-                </li>
-            </ul>
-        </li>
-        <div class="scroll">
-            <!-- 조직도 시작 -->
-            <div id="orgChart"></div>
-            <!-- 조직도 끝 -->
-        </div>
-    </ul>
+        </ul>
     </aside>
   
     <!-- 조직도 자바스크립트 -->
