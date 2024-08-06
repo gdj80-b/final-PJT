@@ -77,6 +77,10 @@
 /* ---------- 결재선 스타일 종료 ---------- */
 
 /* ---------- 문서 상세보기 결재의견 스타일 시작 ---------- */
+.approval-reason-table {
+  width: 50%;
+}
+
 .approval-reason-table table > tbody > tr > th {
   width: 6rem;
   color: rgba(255, 255, 255, 1) !important;
@@ -90,6 +94,10 @@
   padding: 0.325rem !important;
   padding-left: 0.5rem !important;
   display: flex;
+}
+
+.approval-reason-table .approval-order {
+  width: 2rem;
 }
 /* ---------- 문서 상세보기 결재의견 스타일 종료 ---------- */
 

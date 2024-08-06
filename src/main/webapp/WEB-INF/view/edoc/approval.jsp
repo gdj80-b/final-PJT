@@ -38,8 +38,10 @@
                         </c:choose>
                     </div>
                     <div class="edoc-list-area">
-                        <div class="card my-3 px-4 py-2">
-                            <h5>기안 대기 문서</h5>
+                        <div class="mb-3">
+                            <span class="display-6 fw-semibold mb-0">기안 대기 문서</span>
+                        </div>
+                        <div class="card my-3 px-4 py-3">
                             <c:choose>
                                 <c:when test="${!empty draftList}">
                                     <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between">
