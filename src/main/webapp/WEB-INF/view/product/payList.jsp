@@ -28,19 +28,19 @@
             <div class="card-body">
                 <table class="table table-striped">
                     <tr>
-                        <th>날짜</th>
                         <th>상품이름</th>
                         <th>상품코드</th>
                         <th>가격</th>
                         <th>결재방법</th>
+                        <th>날짜</th>
                     </tr>
                     <c:forEach var="m" items="${list}">            
                         <tr>
-                            <td>${m.payTime}</td>
                             <td>${m.prodName}</td>
                             <td>${m.prodCode}</td>
                             <td>${m.payPrice}원</td>
                             <td>${m.payType}</td>
+                            <td>${m.payTime}</td>
                         </tr>                
                     </c:forEach>
                 </table>

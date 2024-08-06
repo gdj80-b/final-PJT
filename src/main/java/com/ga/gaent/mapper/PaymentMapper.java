@@ -21,7 +21,7 @@ public interface PaymentMapper {
      * @since : 2024. 07. 22.
      * Description : 상품 구매 리스트 조회
      */
-    List<PaymentDTO> selectPaymentList(String empCode);
+    List<PaymentDTO> selectPaymentList(Map<String,Object>m);
 
     /*
      * @author : 조인환

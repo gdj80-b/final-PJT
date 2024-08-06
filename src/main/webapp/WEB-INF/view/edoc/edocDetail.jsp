@@ -151,14 +151,20 @@
                                 </c:when>
                             </c:choose>
                         </div>
-                        <hr />
                         <!-- 결재의견 -->
-                        <div>
-                            <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/approvalReasonDetail.jsp"></jsp:include>
+                        <div class="d-flex justify-content-start mt-3">
+                            <c:choose>
+                                <c:when test="${edocDetail.apprOrder1 == 1 && edocDetail.apprStatus1 != 0}">
+                                    <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/approvalReasonDetail.jsp"></jsp:include>
+                                </c:when>
+                                <c:when test="${edocDetail.apprOrder1 == 2 && edocDetail.apprStatus2 != 0}">
+                                    <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/approvalReasonDetail.jsp"></jsp:include>
+                                </c:when>
+                            </c:choose>
                         </div>
                         <hr />
                         <!-- 버튼 -->
-                        <div class="text-end">
+                        <div class="text-start">
                             <c:if test="${edocDetail.writerEmpCode != loginInfo.empCode && ( edocDetail.edocDoneDate == null || edocDetail.edocDoneDate == '')}">
                                 <button id="approveBtn" class="btn btn-link btn-me" type="button">
                                     <i class="menu-icon bx bx-check-square"></i>결재
