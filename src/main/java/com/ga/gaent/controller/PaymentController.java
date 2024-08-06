@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.ga.gaent.dto.PaymentDTO;
 import com.ga.gaent.service.PaymentService;
+import com.ga.gaent.util.TeamColor;
 import com.ga.gaent.vo.PaymentVO;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/prod")
 public class PaymentController {
@@ -42,9 +45,8 @@ public class PaymentController {
        
         String empCode = getEmpCode(session);
         
-        List<PaymentDTO>list = paymentService.getPaymentList(empCode);
+        List<PaymentDTO>list = paymentService.getPaymentList(empCode,currentPage);
         Map<String, Object> pagingMap = paymentService.getPagingIdx(empCode,currentPage);
-        
         
         model.addAttribute("list", list);
         model.addAttribute("pg", pagingMap);

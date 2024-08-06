@@ -26,3 +26,17 @@
 .card.collapsed {
   height: auto;
 }
+
+/* ---------- 부서근태현황 스타일 시작 ---------- */
+.yoilDay {
+  width: 11rem;
+}
+
+.ckIn {
+  color: #4169E1;
+}
+
+.ckOut {
+  color: #FF69B4;
+}
+/* ---------- 부서근태현황 스타일 종료 ---------- */

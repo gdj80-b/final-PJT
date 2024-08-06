@@ -88,7 +88,7 @@
                                 <th><span>이메일(ID)</span></th>
                                 <td>
                                     <div class="d-flex">
-                                        <input class="form-control form-control-sm" type="text" id="myPageEmpId" name="myPageEmpId"/>
+                                        <input class="form-control form-control-sm" type="text" id="myPageEmpId" name="myPageEmpId" autocomplete="username"/>
                                         <button onclick="idCheck()" type="button" class="btn btn-sm btn-outline-primary ms-2">중복검사</button>
                                     </div>
                                 </td>

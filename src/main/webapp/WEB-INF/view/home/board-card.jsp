@@ -99,7 +99,7 @@
                 url: '/gaent/home/notice?currentPage=' + page,
                 type: 'GET',
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     const tableBody = $('#noticeTableBody');
                     tableBody.empty(); // 기존 데이터를 지웁니다.
                     
@@ -125,7 +125,7 @@
                     });
                 },
                 error: function(e) {
-                    console.log(e);
+                    // console.log(e);
                     alert('공지사항 내용을 불러오는데 실패했습니다.');
                 }
             });
@@ -137,11 +137,11 @@
                 type: 'GET',
                 data: page,
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     totalPage = data.totalPage;
                 },
                 error: function(e) {
-                    console.log(e);
+                    // console.log(e);
                     alert('error');
                 }
             });

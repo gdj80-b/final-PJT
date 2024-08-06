@@ -115,7 +115,7 @@
                         
                         data.slice(0, 5).forEach((el) => {
                             const row = $('<tr>').css('cursor', 'pointer').on('click', function() {
-                                location.href = `/gaent/msg/msgDetail/${el.msgNum}`;
+                                location.href = `/gaent/msg/msgDetail/` + el.msgNum;
                             });
 
                             const senderCell = $('<td>').append(
