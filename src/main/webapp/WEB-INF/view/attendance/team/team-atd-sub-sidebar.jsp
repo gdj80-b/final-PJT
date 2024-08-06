@@ -5,31 +5,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
-<style>
-  .scroll {
-    width: 16rem !important;
-    height: 30rem !important;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-</style>
 <body>
-  <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav">
+  <aside id="layout-menu" class="layout-sub-menu menu-vertical menu bg-sub-menu-theme subside-nav sub-sidebar">
     <div class="menu-inner-shadow"></div>
-    <ul class="menu-inner py-3">
-      <li class="menu-item">
-        <div class="menu-link d-flex flex-column align-items-start">
-          <span class="display-6 fw-semibold mb-0">부서근태현황</span>
-        </div>
-      </li>
-     
-      <li class="menu-item scroll">
+    <ul class="menu-inner pt-3">
+      <li class="menu-item-scroll menu-shadow">
         <div class="menu-link">
-          <!-- 조직도 시작 -->
-          <div id="orgChart"></div>
-          <!-- 조직도 끝 -->
+          <span class="display-6 fw-semibold mb-3">부서근태현황</span>
         </div>
+        <ul class="menu-item">
+          <li class="menu-item">
+            <a href="/gaent/team/atd" class="menu-link"><span>부서근태현황 홈</span></a>
+          </li>
+        </ul>
       </li>
+      <div class="scroll">
+        <!-- 조직도 시작 -->
+        <div id="orgChart"></div>
+        <!-- 조직도 끝 -->
+      </div>
     </ul>
   </aside>
   
