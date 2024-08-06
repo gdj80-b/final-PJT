@@ -82,9 +82,19 @@ public class PaymentService {
       log.debug(TeamColor.YELLOW + "json확인: " + jsonObject +  TeamColor.RESET);
       
       JSONObject easyPay = (JSONObject) jsonObject.get("easyPay");
+
+      String provider = null;
+      
+      if(easyPay!=null) {
+          log.debug(TeamColor.YELLOW + "간편결제: " +  TeamColor.RESET);
+          provider = (String) easyPay.get("provider");
+      }else {
+          log.debug(TeamColor.YELLOW + "카드결제: " +  TeamColor.RESET);
+          provider = (String)jsonObject.get("method");
+      }
       
       
-      String provider = (String) easyPay.get("provider");
+      
      
       Map<String,Object>map = new HashMap<>();
       map.put("prodCode", prodCode);
@@ -104,9 +114,12 @@ public class PaymentService {
      * @since : 2024. 07. 22.
      * Description : 구매이력 조회
      */
-    public List<PaymentDTO>getPaymentList(String empCode){
-        
-        List<PaymentDTO> list = paymentMapper.selectPaymentList(empCode);
+    public List<PaymentDTO>getPaymentList(String empCode, int currentPage){
+        Map<String, Object>m = new HashMap<>();
+        m.put("empCode", empCode);
+        m.put("startRow", (currentPage - 1) * 10); // 10은 rowPerPage
+
+        List<PaymentDTO> list = paymentMapper.selectPaymentList(m);
         
         return list;
     }
