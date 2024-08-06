@@ -157,7 +157,7 @@
                                 <c:when test="${edocDetail.apprOrder1 == 1 && edocDetail.apprStatus1 != 0}">
                                     <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/approvalReasonDetail.jsp"></jsp:include>
                                 </c:when>
-                                <c:when test="${edocDetail.apprOrder1 == 2 && edocDetail.apprStatus2 != 0}">
+                                <c:when test="${edocDetail.apprOrder2 == 2 && edocDetail.apprStatus2 != 0}">
                                     <jsp:include page="/WEB-INF/view/edoc/edoc-form-detail/approvalReasonDetail.jsp"></jsp:include>
                                 </c:when>
                             </c:choose>

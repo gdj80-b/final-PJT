@@ -20,7 +20,7 @@
           <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#articleModal">게시글 작성</button>
         </div>
       </li>
-      <li class="menu-item-edoc">
+      <li class="menu-item-scroll">
         <h5 class="fs-4 fw-semibold mb-2">메뉴</h5>
         <ul class="menu-item">
           <li class="menu-item">

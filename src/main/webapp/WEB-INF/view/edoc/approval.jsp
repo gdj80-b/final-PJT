@@ -44,7 +44,7 @@
                         <div class="card my-3 px-4 py-3">
                             <c:choose>
                                 <c:when test="${!empty draftList}">
-                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-between edoc-home-draft-list">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -92,7 +92,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-center">
+                                    <div class="table-responsive text-nowrap d-flex flex-column align-items-center justify-content-center edoc-home-draft-list">
                                         <h5>내 대기 문서가 없습니다.</h5>
                                     </div>
                                 </c:otherwise>

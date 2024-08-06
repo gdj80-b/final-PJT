@@ -14994,7 +14994,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 
 /* 2024-07-13 전자결재 */
 .menu-item,
-.menu-item-edoc,
+.menu-item-scroll,
 .menu-header,
 .menu-divider,
 .menu-block {
@@ -15100,7 +15100,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 }
 
 /* 2024-07-13 전자결재 */
-.menu-vertical .menu-inner > .menu-item-edoc {
+.menu-vertical .menu-inner > .menu-item-scroll {
   margin: 0.0625rem 0;
   padding: 0.625rem 2rem 0.625rem 2rem;
 }
