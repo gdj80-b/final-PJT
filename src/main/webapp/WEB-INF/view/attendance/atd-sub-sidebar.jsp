@@ -7,7 +7,7 @@
         <div class="menu-inner-shadow"></div>
         <ul class="menu-inner pb-3">
             <jsp:include page="/WEB-INF/view/attendance/attendance-card.jsp"></jsp:include>
-            <li class="menu-item-edoc mt-4">
+            <li class="menu-item-scroll mt-4">
                 <div class="menu-link">
                     <span class="display-6 fw-semibold mb-0">근태관리</span>
                 </div>
