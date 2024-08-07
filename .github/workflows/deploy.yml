@@ -65,7 +65,7 @@ jobs:
           username: ${{ env.LIGHTSAIL_USERNAME }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            sudo mv /home/ubuntu/gaent.war /home/ubuntu/tomcat/apache-tomcat-10.1.24/webapps/
+            mv /home/ubuntu/gaent.war /home/ubuntu/tomcat/apache-tomcat-10.1.24/webapps/
 
       - name: Restart Tomcat
         uses: appleboy/ssh-action@master
