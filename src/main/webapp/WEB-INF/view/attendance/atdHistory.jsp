@@ -18,11 +18,11 @@
             <jsp:include page="/WEB-INF/view/common/sidebar.jsp"></jsp:include>
             <jsp:include page="/WEB-INF/view/attendance/atd-sub-sidebar.jsp"></jsp:include>
         </div>
-            <div id="workspace-area" class="subsidebar-from-workspace ">
-                <div class="" style="height: 50rem; max-height: 800px !important; overflow-y: auto !important; transition: height 0.5s ease;">
+            <div id="workspace-area" class="subsidebar-from-workspace">
+                <div>
                     <h2 class="card-title  mt-2 ms-2 fw-bold">근태내역</h2>
                         <div class="card p-3">
-                            <div style="text-align: center">
+                            <div class="text-center">
                                 <h4>
                                     <a href="/gaent/atd?year=${c.prevYear}&month=${c.prevMonth}">◀</a> ${c.tgYear}년 ${c.tgMonth}월 <a href="/gaent/atd?year=${c.nextYear}&month=${c.nextMonth}">▶</a>
                                 </h4>
@@ -41,12 +41,12 @@
                                     </tr>
                                 </table>
                             </div>
-                             <div class="d-flex justify-content-end">
+                             <div class="d-flex justify-content-end mt-4">
                                 <span class="pe-3" id="attendanceCount"></span>
                                 <span class="pe-3" id="lateCount"></span>
                                 <span class="pe-3" id="earlyLeaveCount"></span>
                                 <span class="pe-3" id="absenceCount"></span>
-                            </div><hr class="m-0" style="  border: 1px solid black">
+                            </div><hr class="m-0" style="border: 1px solid #999999;">
                             <div class="card-body pt-0" style="positions: relative;">
                                 <c:set var="currentWeek" value="1"/>
                                 <c:set var="previousWeek" value="1"/>
