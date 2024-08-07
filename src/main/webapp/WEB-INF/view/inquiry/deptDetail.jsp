@@ -14,17 +14,20 @@
   <!-- 부트스트랩 CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <style>
+  
       .edocForm {
         margin-bottom: 0rem !important;
       }
 
       .typeDraftThTag {
+      	width: 200px;
         color: #fff !important;
         background-color: rgba(105, 108, 255, 0.6) !important;
         padding: 0.1rem !important;
       }
 
       .typeDraftTdTag {
+      	width: 300px;
         background-color: rgba(255, 255, 255, 1) !important;
       }
 

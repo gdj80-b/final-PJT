@@ -56,7 +56,11 @@
                     window.location.href = '/gaent/inquiry/empDetail/' + nodeId;
                 } else {
                     // nodeId 값이 4자리 미만일 경우 기존 경로로 이동
-                    window.location.href = '/gaent/inquiry/deptDetail?teamCode=' + nodeId + "&currentPage=1&rowPerPage=5";
+                    if(nodeId == 10){
+                        window.location.href = '/gaent/inquiry/empList';
+                    }else{                    
+	                    window.location.href = '/gaent/inquiry/deptDetail?teamCode=' + nodeId + "&currentPage=1&rowPerPage=5";
+                    }
                 }
 
                 // 선택된 노드 해제

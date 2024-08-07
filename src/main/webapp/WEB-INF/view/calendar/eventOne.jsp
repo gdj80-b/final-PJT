@@ -40,6 +40,9 @@
 						<c:when test="${vo.calTargetType eq loginInfo.empCode}">
 						    개인
 						</c:when>
+						<c:when test="${vo.calTargetType eq 900}">
+						    아티스트
+						</c:when>
 						<c:when test="${vo.calTargetType eq vo.teamCode}">
 						    ${vo.teamName}
 						</c:when>
