@@ -319,7 +319,6 @@
 
             // 현재 시간에서 9시간 전의 시간을 구한다.
             var adjustedStartDate = new Date(currentDate.getTime() + (9 * 60 * 60 * 1000));
-
             // 시작일 입력 필드에 클릭한 이벤트의 날짜를 설정한다.
             adjustedStartDate.setDate(eventStartDate.getDate()+1);
             adjustedStartDate.setMonth(eventStartDate.getMonth());
