@@ -10,6 +10,10 @@
 - 2차 파이널 팀 프로젝트
 <br>
 
+# :blue_book: 배포 주소
+- http://52.78.123.74/gaent/login
+<br>
+
 # 🛠️ 개발 환경
 - Language : HTML5, CSS3, Java, SQL, JavaScript, Ajax
 - Framework : SpringBoot
